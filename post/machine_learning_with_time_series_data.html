@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/machine_learning_with_time_series_data.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/machine_learning_with_time_series_data.html">
+  <meta property="og:title" content="Time Series Forecasting with Gradient Boosting | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2017-11-14T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2017-11-14T21:13:14-05:00">
+  
+
+  
+
+  <title>Time Series Forecasting with Gradient Boosting | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Time Series Forecasting with Gradient Boosting</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-11-14 21:13:14 -0500 -0500" itemprop="datePublished">
+      Nov 14, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    13 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/machine_learning_with_time_series_data.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/gbm">GBM</a
+    >, 
+    
+    <a href="/categories/forecasting">Forecasting</a
+    >, 
+    
+    <a href="/categories/h2o">H2O</a
+    >, 
+    
+    <a href="/categories/quantile-regression">Quantile Regression</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Time%20Series%20Forecasting%20with%20Gradient%20Boosting&amp;url=%2fpost%2fmachine_learning_with_time_series_data.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fmachine_learning_with_time_series_data.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fmachine_learning_with_time_series_data.html&amp;title=Time%20Series%20Forecasting%20with%20Gradient%20Boosting"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fmachine_learning_with_time_series_data.html&amp;title=Time%20Series%20Forecasting%20with%20Gradient%20Boosting"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Time%20Series%20Forecasting%20with%20Gradient%20Boosting&amp;body=%2fpost%2fmachine_learning_with_time_series_data.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p><img src="images/city_lights.jpg" width="800px" height="800px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>When considering classic prediction problems, some of the following examples come to mind:</p>
+<ul>
+<li><strong>Predicting the content of an image</strong></li>
+<li><strong>Classifying Fraudulent Transactions</strong></li>
+<li><strong>Product recommendations</strong></li>
+<li><strong>Illness diagnostics</strong></li>
+</ul>
+<p>A common assumption underlies all of these prediction scenarios: That the relationship between the inputs and output remain constant over time. For example, the apperance of dogs or cats hasn’t changed in recent history and will likely remain the same for many years to come. Thus, in an image prediction task, a model trained with images of dogs and cats from the year 2016 could perform just as well when fed images from the year 2020, because the apperance of dogs and cats will not vary much from year to year.</p>
+<p>Now let’s think about classic time series prediction problems, with a few examples listed below:</p>
+<ul>
+<li><strong>Daily temperature for the next 10 days</strong></li>
+<li><strong>Monthly unemployment rates for 2018 in the United States</strong></li>
+<li><strong>Daily demand for flights between Portland and New York City in December</strong></li>
+</ul>
+<p>The difference between time series prediction problems and those listed initially is that the relationship between our input and outputs are likely changing over time. That is, we have to account for and anticipate where the thing we’re trying to predict might go in the future. For instance, take the last example – predicting daily bookings for flights from Portland to NYC. Has the number of people flying this route increased or decreased over the past few years? Has there been a change in the overall number of people flying in general? Has the introduction of price-comparison websites shifted the time periods during which people book flights? These forces may change consumption patterns over time, so a portion of our data may no longer reflect the relationship between the inputs and output. While this presents a more challening prediction scenario, all of these forces can be accounted for and modeled. And once they are, a time series prediction problem is no different than any other prediction problem. Let’s make these concepts more concrete by working through an example.</p>
+</div>
+<div id="forecasting-power-consumption" class="section level3">
+<h3>Forecasting Power Consumption</h3>
+<p>Nothing gets me more <em>charged up</em> than forecasting electricity consumption, so the data we’ll use here is a time series of consumption for an anonymized commercial building from 2012. Measurements were recorded for a single year at five minute intervals, so each hour has 12 readings, and each day has 288 readings. Our goal is to train a model on several months of consumption data, and then produce a one-week-ahead forecast for anticipated consumption. Let’s get started by downloading the data and examining the first few rows.</p>
+<pre class="r"><code>libs = c(&#39;data.table&#39;,&#39;h2o&#39;,&#39;forecast&#39;,
+         &#39;lubridate&#39;,&#39;forcats&#39;,
+          &#39;ggforce&#39;, &#39;ggplot2&#39;,
+          &#39;reshape&#39;, &#39;knitr&#39;,
+         &#39;kableExtra&#39;,
+         &#39;dplyr&#39;)
+lapply(libs, require, character.only = TRUE)
+data_source = &#39;https://open-enernoc-data.s3.amazonaws.com/anon/csv/832.csv&#39;
+df_elec = fread(data_source,
+                data.table = FALSE)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+timestamp
+</th>
+<th style="text-align:center;">
+dttm_utc
+</th>
+<th style="text-align:center;">
+value
+</th>
+<th style="text-align:center;">
+estimated
+</th>
+<th style="text-align:center;">
+anomaly
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1325376300
+</td>
+<td style="text-align:center;">
+2012-01-01 00:05:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325376600
+</td>
+<td style="text-align:center;">
+2012-01-01 00:10:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325376900
+</td>
+<td style="text-align:center;">
+2012-01-01 00:15:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325377200
+</td>
+<td style="text-align:center;">
+2012-01-01 00:20:00
+</td>
+<td style="text-align:center;">
+24.1851
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325377500
+</td>
+<td style="text-align:center;">
+2012-01-01 00:25:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325377800
+</td>
+<td style="text-align:center;">
+2012-01-01 00:30:00
+</td>
+<td style="text-align:center;">
+12.0925
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325378100
+</td>
+<td style="text-align:center;">
+2012-01-01 00:35:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325378400
+</td>
+<td style="text-align:center;">
+2012-01-01 00:40:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325378700
+</td>
+<td style="text-align:center;">
+2012-01-01 00:45:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325379000
+</td>
+<td style="text-align:center;">
+2012-01-01 00:50:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325379300
+</td>
+<td style="text-align:center;">
+2012-01-01 00:55:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325379600
+</td>
+<td style="text-align:center;">
+2012-01-01 01:00:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325379900
+</td>
+<td style="text-align:center;">
+2012-01-01 01:05:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325380200
+</td>
+<td style="text-align:center;">
+2012-01-01 01:10:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1325380500
+</td>
+<td style="text-align:center;">
+2012-01-01 01:15:00
+</td>
+<td style="text-align:center;">
+18.1388
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We only need the date-time and electricity values, so we’ll filter several variables and extract the date information from the timestamps.</p>
+<pre class="r"><code>df_elec = df_elec %&gt;% 
+  dplyr::select(-anomaly, -timestamp) %&gt;%
+  dplyr::rename(date_time = dttm_utc) %&gt;%
+         mutate(date_only = as.Date(date_time)) %&gt;% 
+         mutate(month = lubridate::month(date_time, label = TRUE),
+                week = as.factor(lubridate::week(date_time)),
+                hour = lubridate::hour(date_time),
+                day = lubridate::day(date_time))</code></pre>
+<p>To keep things really simple, we’ll model the average reading per hour instead of every five minutes, meaning there will be 24 readings per day instead of 288.</p>
+<pre class="r"><code>df_hourly = df_elec %&gt;% 
+         group_by(date_only, month, hour) %&gt;% 
+         summarise(value = mean(value)) %&gt;% 
+         ungroup() %&gt;% 
+         mutate(hour = ifelse(nchar(as.character(hour)) == 1, 
+                              paste0(&quot;0&quot;, as.character(hour)),
+                              hour)) %&gt;% 
+         mutate(hour = paste(hour, &quot;00&quot;, &quot;00&quot;, sep = &quot;:&quot;)) %&gt;% 
+         mutate(date_time = lubridate::ymd_hms(paste(date_only, hour))) %&gt;% 
+         dplyr::select(date_time, month, value) %&gt;% 
+         mutate(week = as.factor(lubridate::week(date_time)),
+                day = lubridate::day(date_time),
+                hour = lubridate::hour(date_time)
+                ) </code></pre>
+<p>Next we’ll filter the timeframe to only a few months to speed up the eventual training time and break our dataset into <em>training</em> and <em>testing</em> segments. We’ll hold out the last week for testing, which contains a total of 168 observations (24 per day).</p>
+<pre class="r"><code>df_hourly = df_hourly %&gt;% 
+            filter(month %in% c(&#39;Feb&#39;,&#39;Mar&#39;, &#39;Apr&#39;, &#39;May&#39;, &#39;Jun&#39;)) %&gt;% 
+            dplyr::select(-month)
+# daily period (24 hours)
+daily_p = 24
+# weekly period (7 days)
+weekly_p = 7
+# hold out last week of time series for testing
+train_df = df_hourly[1:(nrow(df_hourly) - daily_p * weekly_p),]
+test_df = tail(df_hourly, daily_p * weekly_p)</code></pre>
+<p>Let’s start by creating a high level view of the entire time series and loading up a custom plotting theme.</p>
+<pre class="r"><code>my_plot_theme = function(){
+    font_family = &quot;Helvetica&quot;
+    font_face = &quot;bold&quot;
+    return(theme(
+    axis.text.x = element_text(size = 18, face = font_face, family = font_family),
+    axis.text.y = element_text(size = 18, face = font_face, family = font_family),
+    axis.title.x = element_text(size = 20, face = font_face, family = font_family),
+    axis.title.y = element_text(size = 20, face = font_face, family = font_family),
+    strip.text.y = element_text(size = 18, face = font_face, family = font_family),
+    plot.title = element_text(size = 18, face = font_face, family = font_family),
+    legend.position = &quot;top&quot;,
+    legend.title = element_text(size = 16,
+    face = font_face,
+    family = font_family),
+    legend.text = element_text(size = 14,
+    face = font_face,
+    family = font_family)
+))
+}
+
+bind_rows(train_df %&gt;% 
+            mutate(part = &quot;train&quot;),
+          test_df %&gt;% 
+            mutate(part = &quot;test&quot;)) %&gt;% 
+  dplyr::select(date_time, part, value) %&gt;% 
+  ggplot(aes(x = date_time, y = value, color = part)) + 
+  geom_line() +   
+  facet_zoom(x = date_time %in% c(test_df$date_time)) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  xlab(&quot;Date-Time&quot;) + 
+  ylab(&quot;Value&quot;) + 
+  theme(legend.title=element_blank())</code></pre>
+<p><img src="/post/machine_learning_with_time_series_data_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<p>There is clearly seasonality in the data – and that’s what we’ll focus on next. The measurements are at the hourly level, so a periodicity (or seasonality) of 24 is likely. This makes sense: consumption increases during business hours and decreases afterhours. It’s also possible there is a daily component, in that consumption is higher on week days relative to weekends. However, we have no idea what kind of business we’re working with here (since all the data is anonymized) and can’t make any assumptions about the nature of consumption throughout the week. Rather than assuming these patterns exist, I find it helps to sample some days and plot them out. If there is a pattern amongst the sampled values, then there’s a signal we can leverage to make a forecast. Let’s examine how consumption varies throughout the day and week for a random sample of 100 days.</p>
+<pre class="r"><code>set.seed(123)
+sample_size = 100
+sample_days = train_df %&gt;% 
+  dplyr::select(week, day) %&gt;% 
+  distinct() %&gt;% 
+  sample_n(sample_size) %&gt;% 
+  inner_join(train_df) %&gt;% 
+  mutate(day_of_week = lubridate::wday(date_time, 
+                                       label = TRUE))</code></pre>
+<pre class="r"><code>ggplot(sample_days, aes(x = hour, y = value, color = day_of_week)) + 
+  geom_point() + 
+  geom_jitter()  + 
+  stat_smooth(se = FALSE, size = 2) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  xlab(&quot;Hour&quot;) + 
+  ylab(&quot;Value&quot;) + 
+  facet_grid(day_of_week ~ .) + 
+  theme(legend.position = &quot;none&quot;, 
+  axis.text.y = element_text(size = 13))</code></pre>
+<p><img src="/post/machine_learning_with_time_series_data_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p>There is minimal consumption on Saturday and Sunday, while Monday through Friday has higher levels. Monday through Thursday follow a similar “S” shaped pattern throughout the day. Friday starts out similar to the other week days but trails off in the later hours of day. Accordingly, there appears to be an hourly and weekly seasonality component that we can model. In the following section we’ll go over how to translate these components into features.</p>
+</div>
+<div id="feature-engineering" class="section level3">
+<h3>Feature Engineering</h3>
+<p>Based on the initial exploratory analysis, we’ve identified two seasonal components. We’ll capture this via <code>msts</code>, which is intended for time series data with multiple seasonal periods.</p>
+<pre class="r"><code>data_ts = msts(train_df$value, seasonal.periods = c(daily_p,
+                                                    daily_p * weekly_p))</code></pre>
+<p>We’ll take our <code>msts</code> object and extract the seasonal features via a fourier transformation. Fourier transformations are pretty incredible, and they have lots of real-world applications. In a nutshell, applying a fourier transformation to a time-series (or any signal) is a way of “deconstructing” the series into different parts, each with a unique frequency. If all the parts are added back together, we get the original series. Our goal is to take the fewest number of parts that capture the greatest amount of variation when we add them back together. Let’s visualize what this looks like by examining the forecasted seasonal component for the test week.</p>
+<pre class="r"><code>K = 2
+fourier_train = data.frame(fourier(data_ts, K = c(K, K)))
+fourier_test_fcast &lt;- data.frame(fourier(data_ts, 
+                                         K = c(K, K), 
+                                         h = daily_p * weekly_p))</code></pre>
+<pre class="r"><code>cbind(fourier_test_fcast,
+      data.frame(date_time = test_df$date_time)) %&gt;%
+melt(id.vars = &quot;date_time&quot;) %&gt;%
+ggplot(aes(x = date_time, y = value, color = variable)) +
+  geom_line() +
+  facet_grid(variable ~ .) +
+  theme_bw() +
+  my_plot_theme() + 
+  xlab(&quot;Date&quot;) + 
+  ylab(&quot;Value&quot;) +
+  theme(legend.position = &quot;none&quot;,
+        axis.text.y = element_text(size = 13),
+        strip.text.y = element_text(size = 13))</code></pre>
+<p><img src="/post/machine_learning_with_time_series_data_files/figure-html/unnamed-chunk-13-1.png" width="960" /></p>
+<p>Note how all the features with <em>24</em> capture the hourly component, while those with a <em>168</em> capture the daily component. Note also the continuous nature of the waves. Indeed, one clear advantage of using this approach for modeling seasonality is that it produces <strong>smooth</strong> forecasts. If we look back at the plot of the daily consumption across the week, the hour-to-hour, day-to-day, and week-to-weekend changes are gradual. If we modeled the hour and day features as dummy variables, simply taking the average for each day or hour, then our seasonality would be stepwise and <strong>not smooth</strong>, which would likely produce a sub-optimal forecasts (also <strong>not smooth</strong>).</p>
+<p>Next we’ll extract the <em>trend</em> component from the time series. We want to remove this part, and the reasoning is simple: Our model can’t account for changes that occur over time. Let’s extract the trend, generate a trend-only forecast, and later on we’ll add the trend-only forecast back in.</p>
+<pre class="r"><code>ts_input = ts(data_ts, freq = daily_p * weekly_p)
+
+# deconstruct series into seasonal, trend, and error components
+decomp_ts = stl(ts_input, s.window = &quot;periodic&quot;, robust = TRUE)
+
+# add together the seasonal and error component
+seasonal_error_part = apply(data.frame(decomp_ts$time.series)[,c(1, 3)], 1, sum)
+
+# extract the seasonal component
+seasonal_part = as.vector(decomp_ts$time.series[,1])
+
+# extract the trend component
+trend_part = ts(decomp_ts$time.series[,2])
+
+# generate a forecast for the trend 
+trend_forecast_test = as.vector(forecast(auto.arima(trend_part), 
+                          h = nrow(test_df))$mean)</code></pre>
+<p>Now we’ll work with the <code>seasonal_error_part</code>, which is the sum of our seasonal component and error component. In this section we’ll create a <em>seasonal lag</em>, which is a simple (but effective) way of summarizing recent seasonal variation.</p>
+<pre class="r"><code>seasonal_train = seasonal_part[1:(nrow(train_df) - (weekly_p * daily_p))]
+seasonal_test = tail(seasonal_part, weekly_p * daily_p)
+# build the training set
+train_input = data.frame(value = head(seasonal_error_part, length(seasonal_train)),
+                         fourier_train[1:length(seasonal_train),],
+                         seasonal_lag = seasonal_train
+                         )
+# build the testing set
+test_input = data.frame(value = test_df$value,
+                        fourier_test_fcast,
+                        seasonal_lag = seasonal_test
+                        )</code></pre>
+<p>Our time-series has successfully been translated into the format required for forecasting.</p>
+</div>
+<div id="forecasting-prediction-intervals" class="section level3">
+<h3>Forecasting &amp; Prediction Intervals</h3>
+<p>We’ll use the <code>h2o</code> package to generate forecasts and prediction intervals. A forecast is our best guess for what we believe the future holds. But that’s only one part of the process. The other part – a prediction interval – captures our certainty surrounding that guess. Prediction intervals can be created with a technique called <em>quantile regression</em>. Quantile regression works by differentially weighting errors during the model fitting process. It models the relationship between our inputs and a specific quantile (i.e., percentile) of our output. For example, if the goal is to model the relationship between X and Y at the 90th percentile of Y, 10% of the errors should be positive and 90% negative to minimize our loss function (e.g., MAE, MSE). In this case, we’ll generate forecasts at the following percentiles:</p>
+<ul>
+<li><strong>10%</strong></li>
+<li><strong>50%</strong></li>
+<li><strong>90%</strong></li>
+</ul>
+<p>The 50th percentile is our forecast, while the 10th and 90th percentile will serve as the lower and upper bound of our 80 percent prediction interval. If our prediction interval is functioning properly, then approximately 90% of the errors for the 10th percentile should be positive, while 10% of the errors for 90% percentile should be positive. We can verify this assumption by examining the residuals on the test set. I’ve created a function below to do this in <code>h2o</code>.</p>
+<pre class="r"><code># function to generate quantile regression estimates
+gbm_prediction_interval = function(x_var, y_var, train_input, test_input, quantiles, seed){
+  pred_interval = list()
+  for(q in quantiles){
+  quantile_fit = h2o.gbm(x = x_var,
+                           y = y_var,
+                           training_frame = as.h2o(train_input),
+                           distribution = &quot;quantile&quot;,
+                           quantile_alpha = q,
+                           stopping_rounds = 15,
+                           ntrees = 5000,
+                           seed = seed
+                           )
+    quantile_pred = as.vector(predict(quantile_fit, as.h2o(test_input)))
+    pred_interval[[paste0(&quot;q_&quot;, q)]] = quantile_pred
+  }
+  return(pred_interval)
+}</code></pre>
+<pre class="r"><code>h2o.init()
+# specify 80% prediction interval 
+quantiles = c(0.1,0.5,0.9)
+# set seed for reproduceability
+seed = 123
+y_var = &quot;value&quot;
+x_var = setdiff(names(train_input),y_var)
+detrended_consumption = gbm_prediction_interval(x_var, 
+                                                y_var, 
+                                                train_input,
+                                                test_input, 
+                                                quantiles, 
+                                                seed)
+# add trend forecast back to predictions 
+predicted_consumption = data.frame(lapply(detrended_consumption, 
+                                          function(x) x + trend_forecast_test)) %&gt;% 
+                        mutate(value = test_df$value)</code></pre>
+<p>We now have our final model and predictions. Before considering performance on the test set, I’ll reflect on something that I wondered the first time I went through all of the steps outlined above: Is it worth the time and trouble? What kind of performance would result if we avoided all the lags, transformations, and assorted data wizardry and did something like this:</p>
+<pre class="r"><code>arima_fit = auto.arima(data_ts)
+arima_fcast = forecast(arima_fit, h = nrow(test_df))$mean</code></pre>
+<p>That was two lines. Boom. Done. The ARIMA forecast will serve as our performance benchmark. Keep in mind that ARIMA models the <strong>linear</strong> relationship between inputs and outputs. There are many instances in which capturing higher-order interactions and non-linearities can greatly improve forecasting accuracy, and we’ll determine if this happens to be one of those instances.</p>
+<pre class="r"><code># combine all forecasts here
+perf_df = test_df %&gt;% 
+          mutate(arima_fcast = arima_fcast,
+                 gbm_fcast = predicted_consumption$q_0.5,
+                 lwr = predicted_consumption$q_0.1,
+                 upr = predicted_consumption$q_0.9
+                 ) %&gt;% 
+          dplyr::select(-week, -day, -hour) %&gt;% 
+          dplyr::rename(actual = value) %&gt;% 
+          data.frame()</code></pre>
+<pre class="r"><code>perf_df %&gt;% 
+  melt(&#39;date_time&#39;) %&gt;% 
+  filter(variable %in% c(&quot;actual&quot;, &quot;arima_fcast&quot;, &quot;gbm_fcast&quot;)) %&gt;% 
+  ggplot(aes(x = date_time, y = value, color = variable)) + 
+  geom_line(size = 1) + 
+  theme_bw() + 
+  my_plot_theme() + 
+    xlab(&quot;Date-Time&quot;) + 
+    ylab(&quot;Value&quot;) + 
+  theme(legend.title=element_blank())</code></pre>
+<p><img src="/post/machine_learning_with_time_series_data_files/figure-html/unnamed-chunk-21-1.png" width="960" /></p>
+<p>In this case, the difference between the two methods is remarkable: GBM substantially outperforms the ARIMA model. While the granular nature of the data are particularly suited for this forecasting approach, I’ve found you can <em>boost</em> your accuracy substantially by modeling non-linearities with more advanced machine learning methods. It’s obviously more involved than running a one-liner, and scalability can become an issue when generating many forecasts, but it can pay huge divendends in terms of accuracy.</p>
+<p>So now that we have our initial forecast, let’s examine our prediction interval.</p>
+<pre class="r"><code>perf_df %&gt;% 
+  ggplot(aes(x = date_time, y = actual)) + 
+  geom_ribbon(aes(ymin = lwr,
+                  ymax = upr),
+              fill = &quot;#F8766D&quot;,
+              alpha = 0.7,
+              linetype = 2,
+              size = 2
+              ) + 
+  geom_line(size = 2
+            ) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  xlab(&quot;Date-Time&quot;) + 
+  ylab(&quot;Value&quot;)</code></pre>
+<p><img src="/post/machine_learning_with_time_series_data_files/figure-html/unnamed-chunk-22-1.png" width="960" /></p>
+<p>The black line is the actual consumption values, while the shaded red area is our prediction interval. Overall the interval does a decent job of capturing uncertainty surrounding the forecasts, but let’s verify the distribution of our residuals. Are ~90% of errors above the 10th quantile forecast?</p>
+<pre class="r"><code>print(round(sum(ifelse(perf_df$actual - perf_df$lwr &gt;= 0, 1, 0))/nrow(perf_df) * 100, 1))</code></pre>
+<pre class="r"><code>## 89.3</code></pre>
+<p>Looks good! Almost 90% exactly. What about the upper bound?</p>
+<pre class="r"><code>print(round(sum(ifelse(perf_df$actual - perf_df$upr &gt;= 0, 1, 0))/nrow(perf_df) * 100, 1))</code></pre>
+<pre class="r"><code>## 4.2</code></pre>
+<p>Still reasonably close to 10%. The upper bound is more conservative than it needs to be (i.e., it is too wide in some spots) but it’s not too far from the benchmark. Overall our prediction interval performed well.</p>
+</div>
+<div id="final-remarks" class="section level3">
+<h3>Final Remarks</h3>
+<p>Hopefully this post clarified one the biggest hurdles faced by data scientists and analysts: Getting your data into the right format to make the best forecast possible. If there is one thing to take away from this post, it’s that time series are no different than “regular” machine learning problems. There are a few more pre-processing steps to go through, but in many cases the extra effort can result in more accurate predictions. Happy Forecasting!</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/gbm">GBM</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/forecasting">Forecasting</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/h2o">H2O</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/quantile-regression">Quantile Regression</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/time_series_forecasting_with_gradient_boosting.html">Time Series Forecasting with Gradient Boosting</a></li>
+    
+    <li><a href="/post/time_sries_forecasting_with_gradient_boosting.html">Time Series Forecasting with Gradient Boosting</a></li>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/feature_selection_wine.html">Feature Selection for the Wine Connoisseur</a></li>
+    
+    <li><a href="/post/counterfactual_prediction.html">Establishing Causality with Counterfactual Prediction</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

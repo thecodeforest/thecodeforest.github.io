@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/two_flavors_of_parallel_simulation.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/two_flavors_of_parallel_simulation.html">
+  <meta property="og:title" content="Two Flavors of Parallel Simulation | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2017-09-01T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2017-09-01T21:13:14-05:00">
+  
+
+  
+
+  <title>Two Flavors of Parallel Simulation | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Two Flavors of Parallel Simulation</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-09-01 21:13:14 -0500 -0500" itemprop="datePublished">
+      Sep 1, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/two_flavors_of_parallel_simulation.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/spark">Spark</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/parallel-processing">Parallel Processing</a
+    >, 
+    
+    <a href="/categories/power">Power</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Two%20Flavors%20of%20Parallel%20Simulation&amp;url=%2fpost%2ftwo_flavors_of_parallel_simulation.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftwo_flavors_of_parallel_simulation.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftwo_flavors_of_parallel_simulation.html&amp;title=Two%20Flavors%20of%20Parallel%20Simulation"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftwo_flavors_of_parallel_simulation.html&amp;title=Two%20Flavors%20of%20Parallel%20Simulation"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Two%20Flavors%20of%20Parallel%20Simulation&amp;body=%2fpost%2ftwo_flavors_of_parallel_simulation.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p><img src="images/two_flavors.jpg" width="800px" height="800px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>In a prior <a href="https://thecodeforest.github.io/post/monte_carlo_power_mixed_effects">post</a>, we discussed how to use monte carlo simulation for power analysis. We kept the total number of iterations relatively low to illustrate the process. However, the real value of simulation emerges with many iterations, because the more iterations you run the better idea you get about the thing you are trying to estimate (see <a href="https://en.wikipedia.org/wiki/Law_of_large_numbers">Law of Large Numbers</a>). In the case of estimating the power of an experiment, the more simulated experiments we run the closer we’ll get to the true probability of committing a <em>Type II Error</em>. Simulating the experimental paradigm sequentially is fine but it takes a long time when you increase the number of simulations to, say, 10K or 100K. Any time you come across a task that involves repeated sampling from a distribution – <strong>think parallel</strong>. The results of one simulation do not feed into or depend on the results of another. Thus we can run many simulated experiments at the same time. This is a common theme of any task that is parallelizable, which might be one of the most challenging words to say. In this post I’m going to discuss two seperate ways to implement a power analysis simulation in R. And although we’ll focus only on paralellism in the context of experimental power, the workflow discussed here can be generalized to almost any task that involves repeated sampling.</p>
+</div>
+<div id="parallel-simulations-with-foreach" class="section level3">
+<h3>Parallel Simulations with Foreach</h3>
+<p>Before starting let’s get a high level understanding of the analytical dataset. Researchers conducted a study examining the impact of continued sleep deprivation (defined as receiving only three hours of sleep per night) on reaction time. The study ran for nine days and the researchers found a significant effect for Number of Days. As you can imagine, participants were a lot slower to react on days 8 &amp; 9 relative to days 0 &amp; 1. We want to replicate this effect but don’t have the time to wait nine days for a result. Our question, then, is whether we could still detect an effect of sleep deprivation after only three days. The goal is to achieve at least 80% power, which means that if we replicated the experiment 10 times under the exact same conditions, we would find a significant effect (p &lt; 0.05) in at least eight experiments.</p>
+<p>We’ll use the findings from the prior study over the first three days as our base data set. The process will be modeled with a mixed effects model with a random intercept for each participant. Our fixed effect – the thing we are interested in – is days of sleep deprivation. Let’s load up our libraries and fit the initial model.</p>
+<pre class="r"><code>libs = c(&#39;foreach&#39;, &#39;doParallel&#39;, &#39;lme4&#39;, 
+         &#39;dplyr&#39;, &#39;broom&#39;, &#39;ggplot2&#39;, &#39;knitr&#39;, &#39;janitor&#39;)
+lapply(libs, require, character.only = TRUE)
+sleep_df = lme4::sleepstudy %&gt;% 
+           clean_names() %&gt;% 
+           filter(days &lt;= 3)
+
+fit = lmer(reaction ~ days + (1|subject), data = sleep_df)
+confidence_intervals = confint(fit)</code></pre>
+<p>Let’s examine the estimate and confidence intervals for the influence days on reaction time.</p>
+<pre class="r"><code>print(summary(fit))
+print(confidence_intervals)</code></pre>
+<pre class="r"><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: Reaction ~ Days + (1 | Subject)
+##    Data: sleep_df
+## 
+## REML criterion at convergence: 660.4
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -3.14771 -0.50969 -0.08642  0.48985  2.05082 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Subject  (Intercept) 755.7    27.49   
+##  Residual             379.1    19.47   
+## Number of obs: 72, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  255.392      7.532   33.91
+## Days           7.989      2.052    3.89
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.409
+
+##                  2.5 %    97.5 %
+## .sig01       18.702382  39.73719
+## .sigma       16.152095  23.58800
+## (Intercept) 240.429427 270.35528
+## Days          3.931803  12.04555</code></pre>
+<p>Our model indicates that after accounting for baseline differences in participant reaction time (i.e., our random intercept), each additional day increases reaction time by about 8 seconds (7.989 to be exact). Our confidence interval for this coefficient indicates a significant effect, as the range does not contain zero. However, the range of our estimate is fairly wide. Let’s determine how this uncertainty affects overall experimental power. We’ll make predictions on our base dataset with the model defined above, and then add noise (defined by our residuals from our initial model fit) to simulate the sampling process.</p>
+<pre class="r"><code>model_predictions = predict(fit, sleep_df)
+standard_deviation = sd(fit@resp$y - fit@resp$mu)
+n_simulations = 1000</code></pre>
+<p><code>for</code> loops in R are great for small operations but can be slow for larger operations. Enter <code>foreach</code>. The syntax is a little bit different from your typical <code>for</code> loop. Let’s first see how to implement our power simulation sequentially using <code>foreach</code>. Note that this approach is identical to using a regular <code>for</code> loop.</p>
+<pre class="r"><code>seq_start_time = Sys.time()
+seq_results = foreach(
+                  i = 1:n_simulations,
+                  .combine = &quot;rbind&quot;,
+                  .packages = c(&quot;lme4&quot;, &quot;broom&quot;, &quot;dplyr&quot;)) %do% {
+                  #generate residuals
+                  temporary_residuals = rnorm(nrow(sleep_df), 
+                                              mean = 0, 
+                                              sd = standard_deviation)
+                  #create simulated reaction time
+                  sleep_df$simulated_reaction = model_predictions + temporary_residuals
+                  #refit our model on the simulated data
+                  temp_fit = lmer(simulated_reaction ~ days + (1|subject), 
+                                  data = sleep_df)
+                  #return confidence interval for the Days coefficient
+                  tidy(confint(temp_fit)) %&gt;%
+                  dplyr::rename(coefficients = .rownames,
+                  lower_bound = X2.5..,
+                  upper_bound = X97.5..) %&gt;%
+                  dplyr::filter(coefficients == &#39;days&#39;) %&gt;%
+                  dplyr::select(lower_bound, upper_bound)
+}
+
+seq_end_time = Sys.time()
+seq_run_time = seq_end_time - seq_start_time
+print(paste0(&quot;TOTAL RUN TIME: &quot;, seq_run_time))</code></pre>
+<pre class="r"><code>## [1] &quot;TOTAL RUN TIME: 10.4966700077057&quot;</code></pre>
+<p>Implementing the power simulation sequentially took about 10 minutes on my computer. Let’s compare that to a parallel implementation. All we have to do is change the <code>%do%</code> to <code>%dopar%</code> to shift the execution from sequential to parallel. But first we’ll have to set up a computing cluster.</p>
+<pre class="r"><code># register our cluster
+cl = makeCluster(detectCores())
+registerDoParallel(cl)</code></pre>
+<p>Now that we’ve registered our computing cluster, let’s re-run the above code block but replace <code>%do%</code> with <code>%dopar%</code> and compare the run-time.</p>
+<pre class="r"><code>para_start_time = Sys.time()
+para_results = foreach(
+                 i = 1:n_simulations,
+                 .combine = &quot;rbind&quot;,
+                 .packages = c(&quot;lme4&quot;, &quot;broom&quot;, &quot;dplyr&quot;)) %dopar% {
+                 # generate residuals
+                 temporary_residuals = rnorm(nrow(sleep_df),
+                                             mean = 0,
+                                             sd = standard_deviation)
+                 #create simulated reaction time
+                 sleep_df$simulated_reaction = model_predictions + temporary_residuals
+                 #refit our model on the simulated data
+                 temp_fit = lmer(simulated_reaction ~ days + (1|subject), 
+                                 data = sleep_df)
+                 #return confidence interval for the Days coefficient
+                 tidy(confint(temp_fit)) %&gt;%
+                 dplyr::rename(coefficients = .rownames,
+                 lower_bound = X2.5..,
+                 upper_bound = X97.5..) %&gt;%
+                 dplyr::filter(coefficients == &#39;days&#39;) %&gt;%
+                 dplyr::select(lower_bound, upper_bound)
+}
+
+para_end_time = Sys.time()
+para_run_time = para_end_time - para_start_time
+print(paste0(&quot;TOTAL RUN TIME: &quot;, para_run_time))</code></pre>
+<pre class="r"><code>## [1] &quot;TOTAL RUN TIME: 2.09167686700821&quot;</code></pre>
+<p>So that only took 2.09 minutes, which a substantial reduction in runtime! Let’s check and see how our power calculations panned out. Every instance in which we find a zero in our confidence interval for the Days estimate is a type II error.</p>
+<pre class="r"><code>power_results = para_results %&gt;%
+                mutate(row_index = 1:nrow(para_results)) %&gt;%
+                group_by(row_index) %&gt;%
+                do(result = dplyr::between(0, .$lower_bound, .$upper_bound)) %&gt;%
+                mutate(result = as.integer(unlist(result)))
+print(paste0(&quot;TOTAL POWER: &quot;, (n_simulations - sum(power_results$result))/nrow(power_results) * 100, &quot;%&quot;))</code></pre>
+<pre class="r"><code>## [1] &quot;TOTAL POWER: 98.9%&quot;</code></pre>
+<p>If we ran our experiment under these conditions, we’d detect an effect that we know exists in about 99 of every 100 experiments. So it turns out we can reliably detect an effect with only three days instead of running it for all nine, saving us time and money. Let’s move on to the second approach to parallelism with <code>spark</code>.</p>
+</div>
+<div id="parallel-simulations-with-spark" class="section level3">
+<h3>Parallel Simulations with Spark</h3>
+<p>Spark has recently become one the most popular processing engines for data science. It has several APIs for different programming languages, and R has recently been added to growing list of supported languages. The main benefit of Spark is that it allows for the rapid processing and modeling of data at scale (think lots of data). The main drawback, at the moment, is that it does not support all of the built-in R libraries. This is the primary reason why the section on <code>foreach</code> loops was included, as you might want to speed up an operation that cannot be accessed in Spark.</p>
+<p>Indeed, in this section we’ll use a seperate library, <code>nlme</code>, for mixed-effect modeling. We’ll implement the same process described in the previous section, and compare its run time with <code>foreach</code>. Let’s get started by setting up a “local” spark instance, which means leveraging all of the compute power available on the machine that’s also running our R-script. The real power of Spark is realized in a computing cluster, where the data is spread to and processed by many computers simultaneously. However, we’re going to keep it simple and just run everything on a single machine.</p>
+<pre class="r"><code>library(sparklyr)
+library(nlme)
+## create spark context (sc)
+sc = spark_connect(master = &quot;local&quot;)</code></pre>
+<p>We can verify that Spark is using all of available cores for computation.</p>
+<pre class="r"><code>print(paste0(&quot;N Cores in use: &quot;, sc$config$sparklyr.cores.local))</code></pre>
+<pre class="r"><code>## [1] &quot;N Cores in use: 8&quot;</code></pre>
+<p>Now let’s refit the model above and get an estimate of our standard deviation.</p>
+<pre class="r"><code>fit_nlme = nlme::lme(reaction ~ days, random = ~ 1|subject, sleep_df)
+fit_pred = predict(fit_nlme, sleep_df)
+standard_deviation = sd(sleep_df$reaction - unname(fit_pred))</code></pre>
+<p>Next we are going to make 1000 copies of our dataset and bind them together. We’ll also generate all the errors for each of the iterations as well.</p>
+<pre class="r"><code>n_sim = 1000
+
+sleep_df_sim = data.frame(sapply(sleep_df, 
+                                  rep.int, 
+                                  times = n_sim))
+residual_i = c()
+for(i in 1:n_sim){
+  residual_i = c(residual_i, 
+                          rnorm(nrow(sleep_df), 
+                                mean = 0, 
+                                sd = standard_deviation))
+}
+
+sleep_df_sim$iteration = rep(1:n_sim, 
+                              each = nrow(sleep_df))
+sleep_df_sim$sim_reaction = residual_i + rep(fit_pred, n_sim)</code></pre>
+<p>At this point each study has 72 observations (18 participants with 4 data points each (days 0 - 3). We created 1000 replications of the study, so our total dataset size is now 72000 rows. Each 72 observation “group” is identified by the <code>iteration</code> field. Thus each core should receive approximately 125 iterations with 72 observations per iteration, for a total of ~9000 observations per core (assuming you are also using eight cores). Rarely is data so perfectly balanced, but this should provide an intuition into what’s happening under the hood. Let’s first translate our <code>R DataFrame</code> into a <code>Spark DataFrame</code>.</p>
+<pre class="r"><code>sleep_tbl = copy_to(sc, 
+                    sleep_df_sim, 
+                    &quot;sleep_df_sim&quot;)</code></pre>
+<p>Below we’ll utilize the <code>spark_apply</code> function to implement the power simulation. I frequently use this function in my day-to-day work, as it allows the user to define an arbitrary function and then apply it to the partitioned <code>Spark DataFrame</code>. In this case we are partitioning our DataFrame by the <code>iteration</code> field. We’ll then pull the results back into R with the <code>collect</code> verb and calculate the total number of confidence intervals that contain zero, which indicates a Type II Error.</p>
+<pre class="r"><code>spark_start_time = Sys.time()
+sim_results = spark_apply(sleep_tbl,
+                   function(x) broom::tidy(
+                               nlme::intervals(
+                               nlme::lme(
+                                 sim_reaction ~ days, 
+                                         random = ~ 1|subject, x
+                                        )
+                                              )$fixed
+                                           ),
+                   names = c(&#39;.rownames&#39;, 
+                             &#39;lower&#39;, 
+                             &#39;est.&#39;, 
+                             &#39;upper&#39;),
+                   group_by = &quot;iteration&quot;
+)
+
+sim_ci = sim_results %&gt;% 
+         collect() %&gt;% 
+         data.frame() %&gt;% 
+         filter(.rownames == &#39;days&#39;) %&gt;% 
+         select(iteration, lower, upper) %&gt;% 
+         mutate(lower_bound = ifelse(lower &lt; 0, 1, 0),
+                upper_bound = ifelse(upper &gt; 0, 1, 0)) %&gt;% 
+         mutate(type_ii_err = ifelse(lower_bound + upper_bound &gt; 1, 1, 0))
+spark_end_time = Sys.time()
+spark_run_time = spark_end_time - spark_start_time
+print(paste0(&quot;TOTAL RUN TIME: &quot;, spark_run_time))</code></pre>
+<pre class="r"><code>## [1] &quot;TOTAL RUN TIME: 22.3460450172424&quot;</code></pre>
+<p>In this case, Spark is considerably faster than <code>foreach</code>, with a runtime of only 22.3 seconds! I retried the code above with the <code>nlme</code> mixed effects model just to make sure that the drastic speed up wasn’t due to using a different library (it made almost no difference). Let’s check the power estimate as well.</p>
+<pre class="r"><code>print(paste0(&quot;TOTAL POWER: &quot;, (nrow(sim_ci) - sum(sim_ci$type_ii_err))/nrow(sim_ci) * 100, &quot;%&quot;))</code></pre>
+<pre class="r"><code>## [1] &quot;TOTAL POWER: 98.9%&quot;</code></pre>
+<p>This simulation gave us an identical estimate relative to the <code>foreach</code>.Taken together, the results from both of these simulations indicate that we wouldn’t need the full nine days to show an effect. When you are finished, remember to shut your cluster down with the following command.</p>
+<pre class="r"><code>spark_disconnect(sc)</code></pre>
+<p>I hope this post provides you with better idea of how easy it is to add some parallelism to your R code. Time always seems to be in short supply when you are developing, and waiting around for an answer is a total momentum killer. Taking a bit more time up front to understand whether you can run your code in parallel – and avoiding sequential for loops – will save you a ton of time down the line.</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/spark">Spark</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/parallel-processing">Parallel Processing</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/power">Power</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/monte_carlo_power_mixed_effects.html">Monte Carlo Power Calculations for Mixed Effects Models</a></li>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/feature_selection_wine.html">Feature Selection for the Wine Connoisseur</a></li>
+    
+    <li><a href="/post/counterfactual_prediction.html">Establishing Causality with Counterfactual Prediction</a></li>
+    
+    <li><a href="/post/time_series_outlier_detection.html">Time Series Outlier Detection</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

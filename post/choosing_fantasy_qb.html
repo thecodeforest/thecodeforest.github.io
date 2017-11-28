@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/choosing_fantasy_qb.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/choosing_fantasy_qb.html">
+  <meta property="og:title" content="Choosing a Fantasy Football Quarterback | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2017-09-10T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2017-09-10T21:13:14-05:00">
+  
+
+  
+
+  <title>Choosing a Fantasy Football Quarterback | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Choosing a Fantasy Football Quarterback</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-09-10 21:13:14 -0500 -0500" itemprop="datePublished">
+      Sep 10, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    12 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/choosing_fantasy_qb.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/fantasy-football">Fantasy Football</a
+    >, 
+    
+    <a href="/categories/python">Python</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/beta-distribution">Beta Distribution</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Choosing%20a%20Fantasy%20Football%20Quarterback&amp;url=%2fpost%2fchoosing_fantasy_qb.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fchoosing_fantasy_qb.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fchoosing_fantasy_qb.html&amp;title=Choosing%20a%20Fantasy%20Football%20Quarterback"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fchoosing_fantasy_qb.html&amp;title=Choosing%20a%20Fantasy%20Football%20Quarterback"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Choosing%20a%20Fantasy%20Football%20Quarterback&amp;body=%2fpost%2fchoosing_fantasy_qb.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p><img src="images/mariota.jpg" width="800px" height="800px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>I’ll introduce the idea of using the Beta Distribution to determine your weekly starter in the context of my 2015 Fantasy Football season. At the outset of that season, I drafted two quarterbacks: Joe Flacco and Marcus Mariota (it was a tough draft). Flacco had been in the NFL for a few years, while Mariota was still a rookie yet to play a game. I was also considering a separate rookie, Jameis Winston, who was available to pick up any time during the season off the waiver wire. Throughout the season, I was faced with the following questions:</p>
+<ul>
+<li><strong>Who do I make the starting QB?</strong></li>
+<li><strong>If one QB is performing poorly, when is the right time to make the switch (e.g., Flacco -&gt; Mariota; Flacco -&gt; Winston; Mariota -&gt; Winston)?</strong></li>
+</ul>
+<p>This question is faced by NFL coaches and fantasy owners alike. If your QB has a few bad weeks, should you continue with them into the next week, replace them with the 2nd string QB, or sign a free agent to your team mid-season?</p>
+<p>Before getting into the technical details, let’s first define what “Success” looks like for a Fantasy Football QB. Success can be defined in one word: Consistency. A QB that throws three touchdowns (TDs) every game for the first six games of the season (18 total) is better than a QB who throws five TDs for the first three games and then one TD during the next three games, despite having thrown the same number of TDs. Simply put - you want consistent, reliable performance every week. It doesn’t matter if you win by one point or 50 points – a win is a win. Thus, I evaluate my QB’s performance on the following criteria: A “successful” performance is defined as <strong>3 or more touchdowns AND/OR 300 or more yards</strong> for a given week. Touchdowns and passing yards are the two primary sources of QB fantasy points, and a +3TD|300yard weekly statline should cement a QB amongst that week’s top performers. Failing to meet either of these criteria was defined as an “unsuccessful” performance. Note that this label could also factor in interceptions, pass completions, and fumble, but we’ll keep it simple and just focus on passing yards and passing touchdowns.</p>
+<p>Having defined the evaluation criteria, the data generating process was modeled via the beta distribution. Recall that the beta distribution defines a distribution of probabilities, and we’re interested in the probability of our QB having a “successful” week. There are several years of performance history on Joe Flacco, so we can provide a reasonably informed estimate of his weekly probabilty for achieving success (i.e., our prior). In contrast, there is no NFL game history on Mariota or Winston, so we’ll assign each a uniform or uninformative prior. Our estimate of the “success” parameter for Winston and Mariota will change rapidly as we acquire in-season data, because our posterior is determined entirely from the data. We could create a more informed-–and stronger-–prior by assigning Mariota and Winston the historic first year league average for all rookie QBs entering the NFL but we’ll keep it simple. A uniform prior in this case means that all probabilities from 0-1 are equally likely.</p>
+</div>
+<div id="collecting-qb-data" class="section level3">
+<h3>Collecting QB Data</h3>
+<p>We’ll use the <code>nflgame</code> python package to gather QB data. We’ll pull 2013-2014 weekly performance data for Joe Flacco to calculate our prior, as well as the 2015 data for all three players. During the season we’ll update our priors to determine which QB we should play for a given week. That is, as we acquire results over the season, updates will be made to obtain a better, more reliable estimate of the “success” parameter for each QB.</p>
+<pre class="python"><code>import nflgame
+import pandas as pd
+
+game_years = range(2013, 2016)
+game_weeks = range(1, 17)
+qbs = (&quot;Joe Flacco&quot;, 
+       &quot;Marcus Mariota&quot;,
+       &quot;Jameis Winston&quot;)
+       
+def get_passing_data(year, week, players, qbs):
+    qb_list = list()
+    for p in players.passing():
+        player = &quot; &quot;.join(str(p.player).split(&quot; &quot;)[:2]) 
+        if player in qbs:
+            qb_list.append([year, week, player, p.passing_tds, p.passing_yds])
+    return qb_list
+    
+quarterback_data = pd.DataFrame()
+for year in game_years:
+    print &quot;Retrieving Player Data for {year}&quot;.format(year = year)
+    for week in game_weeks:
+        games = nflgame.games(year, week)
+        players = nflgame.combine_game_stats(games)
+        temp_qb_stats = get_passing_data(year, week, players, qbs)
+        quarterback_data = quarterback_data.append(pd.DataFrame(temp_qb_stats))
+        
+quarterback_data.columns = [&quot;year&quot;, &quot;week&quot;, &quot;player&quot;, &quot;touchdowns&quot;, &quot;passing_yds&quot;]
+quarterback_data.to_csv(&quot;quarterback_data.csv&quot;, index = False)</code></pre>
+<p>Next let’s read the <code>quarterback_data.csv</code> into R, create a plotting function, and examine the first few rows of data.</p>
+<pre class="r"><code>my_plot_theme = function(){
+    font_family = &quot;Helvetica&quot;
+    font_face = &quot;bold&quot;
+    return(theme(
+    axis.text.x = element_text(size = 18, face = font_face, family = font_family),
+    axis.text.y = element_text(size = 18, face = font_face, family = font_family),
+    axis.title.x = element_text(size = 20, face = font_face, family = font_family),
+    axis.title.y = element_text(size = 20, face = font_face, family = font_family),
+    strip.text.y = element_text(size = 18, face = font_face, family = font_family),
+    plot.title = element_text(size = 18, face = font_face, family = font_family),
+    legend.position = &quot;top&quot;,
+    legend.title = element_text(size = 16,
+    face = font_face,
+    family = font_family),
+    legend.text = element_text(size = 14,
+    face = font_face,
+    family = font_family)
+))
+}
+# custom plotting colors
+my_color_theme = c(&quot;#272822&quot;,  &quot;#F92672&quot;,&quot;#66D9EF&quot;,&quot;#A6E22E&quot;, &quot;#A6E22E&quot;, &quot;#F92672&quot;)
+libs = c(&#39;dplyr&#39;, &#39;zeallot&#39;, &#39;janitor&#39;, 
+         &#39;reshape&#39;, &#39;readr&#39;,&#39;artyfarty&#39;,  
+         &#39;knitr&#39;, &#39;ggplot2&#39;, &#39;kableExtra&#39;)
+lapply(libs, require, character.only = TRUE)
+working_dir = &#39;your_wd_here&#39;
+player_data = &#39;quarterback_data.csv&#39;
+# define success metrics
+n_touchdowns = 3
+n_passing_yds = 300
+qb_df = read_csv(file.path(working_dir, player_data)) %&gt;% 
+        mutate(success = ifelse(touchdowns &gt;= n_touchdowns | passing_yds &gt;= n_passing_yds, 
+                                1, 0))</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:410px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:right;">
+week
+</th>
+<th style="text-align:left;">
+player
+</th>
+<th style="text-align:right;">
+touchdowns
+</th>
+<th style="text-align:right;">
+passing_yds
+</th>
+<th style="text-align:right;">
+success
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+362
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+211
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+171
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+347
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+269
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+342
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+215
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+250
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+162
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+273
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+251
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+245
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+222
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2013
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+260
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+345
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+166
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+327
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+235
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+306
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+258
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+195
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+303
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+Joe Flacco
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+169
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We now have all the data to get started.</p>
+</div>
+<div id="modeling-qb-performance-with-the-beta-distribution" class="section level3">
+<h3>Modeling QB Performance with the Beta Distribution</h3>
+<p>The Beta Distribution is used to model processes involving successes/failure, purchase/non-purchase, clicks/non-clicks – basically any process where there are two potential outcomes, and we’re interested in the probability of one of those outcomes occurring. It is defined with two parameters – <em>alpha</em> (the number of successes) and <em>beta</em> (the number of failures). We’ll calculate Flacco’s prior based on the 2013-2014 season performance. He played a total of 30 games during this time, and he threw 3TDs|300yards in eight of those weeks. Accordingly, Flacco’s alpha and beta are 8 and 22, respectively. Mariota and Winston have no history, so their alpha and beta will be 1 and 1.</p>
+<pre class="r"><code># this will hold the data we&#39;ll update
+flacco_prior =  qb_df %&gt;% 
+                filter(player == &#39;Joe Flacco&#39; &amp; year &lt; 2015)
+
+c(flacco_beta, flacco_alpha) %&lt;-% unname(table(flacco_prior$success))
+c(mariota_beta, mariota_alpha) %&lt;-% c(1, 1)
+c(winston_beta, winston_alpha) %&lt;-% c(1, 1)
+# define priors
+players_list = list()
+
+# players_list_reference stores posterior distribution after each week
+players_list_reference = list()
+players_list[[&#39;Joe Flacco&#39;]] = c(flacco_alpha, flacco_beta)
+players_list[[&#39;Marcus Mariota&#39;]] = c(mariota_alpha, mariota_beta)
+players_list[[&#39;Jameis Winston&#39;]] = c(mariota_alpha, mariota_beta)</code></pre>
+<p>Let’s filter the data to the current season and iterate through each week. The alpha or beta parameter is incremented by one, depending on whether the quarterback achieved success for that week, via the <code>update_player_beta</code> function below.</p>
+<pre class="r"><code>update_player_beta = function(players_list, current_week, stat_field){
+    for(temp_player in names(players_list)){
+        player_stats = current_week %&gt;% 
+            filter(player == temp_player) %&gt;% 
+            select(stat_field)
+        if(nrow(player_stats) == 0){
+            next
+        }
+        if(player_stats == 1){
+            players_list[[temp_player]][1] = players_list[[temp_player]][1] + 1
+        } else {
+            players_list[[temp_player]][2] = players_list[[temp_player]][2] + 1
+        } 
+    }
+    return(players_list)
+}</code></pre>
+<p>We’ll also calculate the density for each player’s distribution for every value from 0 - 1. This indicates the likelihood of each player achieving success for a given week. For example, a mean of 0.4 would indicate that there’s a 40 percent chance that, after accounting for historical performance, a QB will throw +3TDs|300yards in the following week. We aren’t considering the uncertainty surrounding the estimate of our mean yet, but we’ll tackle that issue in a second. The <code>format_posterior</code> function below will help transform the data into a format amenable for plotting.</p>
+<pre class="r"><code>format_posterior = function(players_list){
+    posterior = lapply(players_list, function(x) dbeta(seq(0, 
+                                                           1, 
+                                                           by = 0.01), 
+                                                           x[1], 
+                                                           x[2])) %&gt;% 
+        data.frame() %&gt;% 
+        mutate(x = seq(0, 1, by = 0.01)) %&gt;% 
+        select(x, 1:(length(players_list))) %&gt;% 
+        reshape::melt(id.vars = &quot;x&quot;) %&gt;% 
+        dplyr::rename(player = variable,
+                      density = value) %&gt;% 
+        mutate(weeks_elapsed = i)
+    return(posterior)
+}</code></pre>
+<pre class="r"><code>current_season = qb_df %&gt;% 
+  filter(year == 2015) %&gt;% 
+  select(year, week) %&gt;% 
+  distinct()
+
+beta_evolution_df = data.frame(NULL)
+for(i in 1:nrow(current_season)){
+    c(cur_year, cur_week) %&lt;-% current_season[i,]
+    current_week = qb_df %&gt;% 
+                   filter(year == cur_year, 
+                          week == cur_week)
+    
+    players_list = update_player_beta(players_list, 
+                                      current_week, 
+                                      &#39;success&#39;)
+    players_list_reference[[i]] = players_list
+    
+    posterior = format_posterior(players_list)
+    beta_evolution_df = bind_rows(beta_evolution_df, 
+                                  posterior)  
+    
+}
+
+beta_evolution_df = beta_evolution_df %&gt;% 
+                    mutate(player = gsub(&quot;\\.&quot;, &quot; &quot;, player))</code></pre>
+<p>Let’s examine how our estimates for each player change as the season unfolds. I’ve plotted this process by storing the Probability Density Functions (PDFs) following each week (a total of 16 games) during the regular season.</p>
+<pre class="r"><code>ggplot(beta_evolution_df, aes(x, density, color = player)) + 
+  geom_line(size = 2) + 
+  facet_wrap(~weeks_elapsed) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  scale_color_manual(values = c(my_color_theme[1:3])) + 
+  theme(legend.title=element_blank(),
+        axis.text.x = element_text(size = 10)
+        ) + 
+  ylab(&quot;Density&quot;)</code></pre>
+<p><img src="/post/choosing_fantasy_qb_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p>By the end of the season, it looks like Mariota would’ve been the correct choice, even though there is a fair amount of overlap between the distributions. However, knowing this at Week 16 isn’t helpful – the fantasy season is over. Let’s say we started the veteran QB Joe Flacco for Week 1, and Week 2 we decided to use some maths to help us choose between our three QBs. There are two related approaches we could use to address this question:</p>
+<ul>
+<li><strong>Upper Confidence Bound</strong></li>
+<li><strong>Simulation</strong></li>
+</ul>
+<p>I’ll outline both in further detail below.</p>
+</div>
+<div id="decisions-based-on-the-upper-confidence-bound" class="section level3">
+<h3>Decisions based on the Upper Confidence Bound</h3>
+<p>The Upper Confidence Bound algorithm is one way to make decisions in the face of uncertainty, in this case which quarterback to fire up in our lineup each week. The idea is to choose the option with the greatest potential for a favorable outcome, even if our estimate of the probability of that outcome is uncertain (see <a href="http://banditalgs.com/2016/09/18/the-upper-confidence-bound-algorithm/">here</a> for more detail). We’ll calculate a 90% credible interval for our beta parameter each week. A credible interval is like a confidence interval, but it’s interpretation is a bit different and, in my opinion, easier to understand. In the current context, a 90% credible interval is the range of values in which we are 90% certain that the probability of weekly success falls based on the data we have thus far (see <a href="http://www.john-uebersax.com/stat312/17%20Credible%20Intervals%20and%20Confidence%20Intervals.pdf">here</a> for an excellent explanation on the distinction between confidence and credible intervals).</p>
+<p>Taking these concepts together, we’ll choose the QB in Week 2 with the highest upper bound on their credible interval. I’ll also include an additional five weeks to show how the interval evolves as we obtain more information.</p>
+<pre class="r"><code>credible_intervals = data.frame(NULL)
+for(week in 2:length(players_list_reference)){
+  temp_week = players_list_reference[[week]]
+  for(player in names(temp_week)){
+    temp_player = temp_week[[player]]
+    lower_cred_int = qbeta(0.05,temp_player[1], temp_player[2])
+    upper_cred_int = qbeta(0.95,temp_player[1], temp_player[2])
+    alpha = temp_player[1]
+    beta = temp_player[2]
+    credible_intervals = bind_rows(credible_intervals,
+                                   data.frame(player = player,
+                                                week = week,
+                                                lower = lower_cred_int,
+                                                mean = alpha/(alpha + beta),
+                                                upper = upper_cred_int))
+  }
+}</code></pre>
+<pre class="r"><code>ggplot(credible_intervals %&gt;% filter(week &lt; 11), 
+       aes(x = mean, y = player, color = player)) + 
+  geom_point(size = 3) + 
+  geom_errorbarh(aes(xmin = lower,
+                    xmax = upper),
+                 size = 2) + 
+  xlab(&quot;Chance of Achieving +300yds | +3TDs During Week&quot;) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  scale_color_manual(values = c(my_color_theme[1:3])) +
+  facet_grid(week ~.) + 
+  theme(axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        legend.position = &quot;top&quot;,
+        legend.title = element_blank())</code></pre>
+<p><img src="/post/choosing_fantasy_qb_files/figure-html/unnamed-chunk-12-1.png" width="960" /></p>
+<p>Mariota has the largest upper bound for his credible interval, so we should start Mariota during Week 2 and continue starting him as a quarterback until another QB’s upper bound is greater than his. Note also that Flacco’s interval is both narrower and remains relatively unchanged over the six week period. This is because we have a lot more information on Flacco going into the season – that is, our prior is a lot stronger! A few successful or unsuccessful games during the season wont shift Flacco’s interval much. We already have two seasons worth of data indicating that Flacco’s probability of success hovers somewhere around 30% but is likely not higher than 40% or lower than 20%. In contrast, Marriota’s credible interval changes rapidly from one week to the next. By Week 7, Mariota’s interval drifts toward a more reasonable range (0.15 - 0.70), a process known formally as shrinkage.</p>
+<p>The Upper Bound approach is an easy way to choose a QB. But what if we wanted a specific estimate of the probability that one QB was “better” than the other? For that question we’ll turn to simulation.</p>
+</div>
+<div id="decisions-based-on-simulation" class="section level3">
+<h3>Decisions Based on Simulation</h3>
+<p>Let’s keep this simple and compare Flacco vs. Mariota following Week 2. Our goal is to determine the probability that one QB, or, more formally, their beta distribution, is greater/better than the other, according to our criteria for success. We’ll simulate 1000 draws from the posterior distribution of each week via the <code>simulate_weeks</code> function, then compare the number of instances in which Mariota’s sampled beta was greater than Flacco’s.</p>
+<pre class="r"><code>simulate_weeks = function(player_1, player_2, n_simulations, players_list_reference){
+  simulated_outcome = data.frame(NULL)
+  set.seed(123)
+  for(reference_week in 1:length(players_list_reference)){
+      player1_simulation = rbeta(n_simulations,
+            players_list_reference[[reference_week]][player_1][[1]][1],
+            players_list_reference[[reference_week]][player_1][[1]][2])
+
+      player2_simulation = rbeta(n_simulations,
+                                 players_list_reference[[reference_week]][player_2][[1]][1],
+                                 players_list_reference[[reference_week]][player_2][[1]][2])
+
+      player1_v_player2 = mean(player1_simulation &gt; player2_simulation)
+      simulated_outcome = bind_rows(simulated_outcome,
+                data.frame(weeks_elapsed = reference_week,
+                 player = c(player_1, player_2),
+                 simulations_won = c(player1_v_player2,
+                                     1 - player1_v_player2)
+                ))
+  }
+  return(simulated_outcome)
+}</code></pre>
+<pre class="r"><code>player_1 = &quot;Marcus Mariota&quot;
+player_2 = &quot;Joe Flacco&quot;
+n_simulations = 1000
+simulated_outcome = simulate_weeks(player_1, 
+                                   player_2, 
+                                   n_simulations, 
+                                   players_list_reference)</code></pre>
+<pre class="r"><code>ggplot(simulated_outcome, aes(x = weeks_elapsed, y = simulations_won, 
+                              color = player)) +
+    scale_x_continuous(breaks = seq(0, 20, 5)) + 
+    xlab(&quot;N Weeks Elapsed&quot;) + 
+    ylab(&quot;Simulations Won&quot;) + 
+    geom_point(size = 2) + geom_line(size = 2) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    scale_color_manual(values = c(my_color_theme[c(1, 3)])) +
+    theme(legend.title=element_blank()) + 
+    scale_x_continuous(breaks = seq(1, 16))</code></pre>
+<p><img src="/post/choosing_fantasy_qb_files/figure-html/unnamed-chunk-15-1.png" width="960" /></p>
+<p>From Week 2 there is an ~80% chance that Mariota is the better choice relative to Flacco. By Week 7 there is ~75% chance, and by Week 12 there is a ~79% chance. If someone asked you at the end of the season who was the better quarterback, you could say with about 75% certainty that Mariota was better than Flacco, according to the criteria defined here.</p>
+</div>
+<div id="key-takeaways" class="section level3">
+<h3>Key Takeaways</h3>
+<p>As mentioned above, this system has worked well for me over the past few seasons. It does have some obvious shortcomings, namely that it doesn’t account for the strength of an opposing defense, health of receivers, recent performance, or the Over/Under for the game – all factors that should be considered when selecting a weekly QB. However, this approach provides an objective way to quantify the potential of a QB to deliver a solid weekly performance.</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/fantasy-football">Fantasy Football</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/python">Python</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/beta-distribution">Beta Distribution</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
+    
+    <li><a href="/post/two_flavors_of_parallel_simulation.html">Two Flavors of Parallel Simulation</a></li>
+    
+    <li><a href="/post/feature_selection_wine.html">Feature Selection for the Wine Connoisseur</a></li>
+    
+    <li><a href="/post/counterfactual_prediction.html">Establishing Causality with Counterfactual Prediction</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

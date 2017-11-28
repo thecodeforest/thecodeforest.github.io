@@ -1,0 +1,3056 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/combine_analysis.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/combine_analysis.html">
+  <meta property="og:title" content="Combine Analysis | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2017-10-28T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2017-10-28T21:13:14-05:00">
+  
+
+  
+
+  <title>Combine Analysis | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Combine Analysis</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-10-28 21:13:14 -0500 -0500" itemprop="datePublished">
+      Oct 28, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    17 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/combine_analysis.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/fantasy-football">Fantasy Football</a
+    >, 
+    
+    <a href="/categories/python">Python</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Combine%20Analysis&amp;url=%2fpost%2fcombine_analysis.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcombine_analysis.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcombine_analysis.html&amp;title=Combine%20Analysis"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcombine_analysis.html&amp;title=Combine%20Analysis"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Combine%20Analysis&amp;body=%2fpost%2fcombine_analysis.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p><img src="images/running_man.jpg" width="800px" height="800px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>I’m not the first person to investigate the relationship between combine stats/physical attributes and player performance (see <a href="http://harvardsportsanalysis.org/2015/04/predicting-the-nfl-draft-using-seven-numbers-mock-draft-using-the-combine/%5D">here</a>). However, prior analyses have focused on performance over a longer period of time, such as the first three years in the league. This makes sense from the perspective of an NFL team, as rookies are typically signed for longer than a one year contract. In contrast, most fantasy football leagues operate like one year contracts; you draft a new team at the beginning of each year. Thus, in the case of NFL rookies, I’m interested exclusively in first year NFL performance.</p>
+</div>
+<div id="nfl-combine-performance" class="section level3">
+<h3>NFL Combine Performance</h3>
+<p>The NFL combine is like the SAT or ACT except for football, with more lifting and less clothing. It’s a chance for NFL teams to see how fast and strong NFL hopefuls are in a controlled environment. During the combine players typically complete the following events:</p>
+<ul>
+<li><strong>40 yard dash</strong></li>
+<li><strong>Number of reps of 225lbs on the bench press (my number is 0)</strong></li>
+<li><strong>How high someone can jump (vertical leap)</strong> <strong>How far someone can jump (broad jump)</strong></li>
+<li><strong>Basically run back and forth between two lines as fast as possible (shuttle)</strong></li>
+<li><strong>Again more running between cones (3cone)</strong></li>
+</ul>
+<p>In addition to these drills, height and weight are also measured. This data gives NFL team’s a holistic perspective to evaluate players. Despite a number of findings indicating the limited utility of this information translating into actual performance in the NFL, the difference between a 4.4 second and 4.6 second 40 yard dash can mean big differences in draft position.</p>
+</div>
+<div id="draft-position" class="section level3">
+<h3>Draft Position</h3>
+<p>Most rookies in the NFL enter a team through the draft. A player’s draft position is a reasonable proxy for their perceived value. If a rookie is believed to be a game-changer, then they’ll have a low draft position; if they have some skills but need a little more work, then they’ll have a higher draft position. Indeed, rookie pay is directly correlated with draft position, such that players drafted in earlier rounds are paid more money than those drafted later. Thus draft position should relate to first-year performance, otherwise teams would just choose players at random, hoping to land the next Tom Brady or Julio Jones based on the phases of moon or their horoscopes.</p>
+</div>
+<div id="first-year-performance" class="section level3">
+<h3>First Year Performance</h3>
+<p>I adopted a common scoring system from most standard fantasy football leagues when quantifying first year performance:</p>
+<ul>
+<li><strong>Touchdowns: 5 points</strong></li>
+<li><strong>Every 10 receiving yards: 1 point</strong></li>
+<li><strong>Every 10 rushing yards: 1 point</strong></li>
+<li><strong>Every fumble: -2 points</strong></li>
+</ul>
+<p>For example, let’s say you draft a running back and he scores five touchdowns, rushes for 500 yards, and fumballs the ball twice during his rookie season. The points for this player would be (5 * 5) + (500 * 0.1) + (2 * -2) = 71 points. Additionally, 50 rushing or receiving yards is considered equalivant to 1 touchdown.</p>
+</div>
+<div id="collecting-combine-and-draft-data" class="section level3">
+<h3>Collecting Combine and Draft Data</h3>
+<p>The first thing we’ll do is pull combine results and draft position data for all rookies in the NFL from 2011-2016. The <code>rvest</code> package will do the heavy lifting.</p>
+<pre class="r"><code>libs = c(&#39;rvest&#39;, &#39;dplyr&#39;, &#39;janitor&#39;,
+         &#39;GGally&#39;, &#39;zeallot&#39;, &#39;mgcv&#39;,
+          &#39;knitr&#39;, &#39;kableExtra&#39;, &#39;readr&#39;)
+lapply(libs, require, character.only = TRUE)
+years = seq(2011, 2016)
+combine_data = data.frame(NULL)
+draft_position_data = data.frame(NULL)</code></pre>
+<pre class="r"><code>for(y in years){
+  print(paste0(&quot;COLLECTING DATA FROM &quot;, y))
+  combine_url = paste0(&#39;http://nflcombineresults.com/nflcombinedata.php?year=&#39;,
+              y,
+             &#39;&amp;pos=&amp;college=&#39;)
+
+ # collect combine data
+  yearly_combine_data = combine_url %&gt;%
+        read_html() %&gt;%
+        html_nodes(xpath = &#39;//*[@id=&quot;datatable&quot;]/table&#39;) %&gt;%
+        html_table(fill = TRUE, header = TRUE) %&gt;%
+        as.data.frame()
+
+  combine_data = bind_rows(combine_data,
+                           yearly_combine_data)
+
+  draft_position_url = paste0(&#39;http://www.drafthistory.com/index.php/years/&#39;,
+                              y)
+  # collect draft position data
+  yearly_draft_data = draft_position_url %&gt;%
+       read_html() %&gt;%
+       html_nodes(xpath = &#39;//*[@id=&quot;main&quot;]/table[1]&#39;) %&gt;%
+       html_table(fill = TRUE, header = TRUE) %&gt;%
+       as.data.frame()
+
+  names(yearly_draft_data) = yearly_draft_data[1,]
+  yearly_draft_data[2:nrow(yearly_draft_data),]
+  yearly_draft_data$year = y
+  draft_position_data = bind_rows(draft_position_data,
+                                  yearly_draft_data)
+
+}</code></pre>
+<p>Next we’ll do a bit of data munging and then join the draft and combine data together.</p>
+<pre class="r"><code>draft_position_data_clean = draft_position_data %&gt;%
+                      filter(Player != &#39;Player&#39;) %&gt;%
+                      clean_names() %&gt;%
+                      select(-pick, -round, -college, -position) %&gt;%
+                      dplyr::rename(nfl_team = team,
+                                    pick = player)
+
+combine_data_clean = combine_data %&gt;%
+               clean_names() %&gt;%
+               select(-na, -na_1)
+
+# filter only players that are Running Backs &amp; Wide Receivers
+combine_draft_join = left_join(combine_data_clean, 
+                               draft_position_data_clean) %&gt;% 
+                      filter(pos %in% c(&#39;RB&#39;, &#39;WR&#39;))</code></pre>
+And let’s have a look at the first few rows of data.
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:410px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+college
+</th>
+<th style="text-align:left;">
+pos
+</th>
+<th style="text-align:right;">
+height_in
+</th>
+<th style="text-align:right;">
+weight_lbs
+</th>
+<th style="text-align:right;">
+wonderlic
+</th>
+<th style="text-align:right;">
+x40_yard
+</th>
+<th style="text-align:right;">
+bench_press
+</th>
+<th style="text-align:right;">
+vert_leap_in
+</th>
+<th style="text-align:right;">
+broad_jump_in
+</th>
+<th style="text-align:right;">
+shuttle
+</th>
+<th style="text-align:right;">
+x3cone
+</th>
+<th style="text-align:right;">
+pick
+</th>
+<th style="text-align:left;">
+nfl_team
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Darvin Adams
+</td>
+<td style="text-align:left;">
+Auburn
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+74.13
+</td>
+<td style="text-align:right;">
+190
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.56
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Anthony Allen
+</td>
+<td style="text-align:left;">
+Georgia Tech
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+72.75
+</td>
+<td style="text-align:right;">
+228
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.56
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+41.5
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+4.06
+</td>
+<td style="text-align:right;">
+6.79
+</td>
+<td style="text-align:right;">
+225
+</td>
+<td style="text-align:left;">
+Ravens
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Armando Allen
+</td>
+<td style="text-align:left;">
+Notre Dame
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+68.25
+</td>
+<td style="text-align:right;">
+199
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.52
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Matt Asiata
+</td>
+<td style="text-align:left;">
+Utah
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+71.00
+</td>
+<td style="text-align:right;">
+229
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.77
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+30.0
+</td>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+4.37
+</td>
+<td style="text-align:right;">
+7.09
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Jon Baldwin
+</td>
+<td style="text-align:left;">
+Pittsburgh
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+76.38
+</td>
+<td style="text-align:right;">
+228
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+4.49
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+42.0
+</td>
+<td style="text-align:right;">
+129
+</td>
+<td style="text-align:right;">
+4.34
+</td>
+<td style="text-align:right;">
+7.07
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:left;">
+Chiefs
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Damien Berry
+</td>
+<td style="text-align:left;">
+Miami (FL)
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+70.25
+</td>
+<td style="text-align:right;">
+211
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.58
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+4.12
+</td>
+<td style="text-align:right;">
+7.00
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Armon Binns
+</td>
+<td style="text-align:left;">
+Cincinnati
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+75.00
+</td>
+<td style="text-align:right;">
+209
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.50
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+31.5
+</td>
+<td style="text-align:right;">
+118
+</td>
+<td style="text-align:right;">
+4.31
+</td>
+<td style="text-align:right;">
+6.86
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Allen Bradford
+</td>
+<td style="text-align:left;">
+Southern California
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+70.88
+</td>
+<td style="text-align:right;">
+242
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.53
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+29.0
+</td>
+<td style="text-align:right;">
+113
+</td>
+<td style="text-align:right;">
+4.39
+</td>
+<td style="text-align:right;">
+6.97
+</td>
+<td style="text-align:right;">
+187
+</td>
+<td style="text-align:left;">
+Buccaneers
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+DeAndre Brown
+</td>
+<td style="text-align:left;">
+Southern Mississippi
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+77.63
+</td>
+<td style="text-align:right;">
+233
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.59
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+29.0
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+4.33
+</td>
+<td style="text-align:right;">
+6.93
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Vincent Brown
+</td>
+<td style="text-align:left;">
+San Diego State
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+71.25
+</td>
+<td style="text-align:right;">
+187
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.68
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+121
+</td>
+<td style="text-align:right;">
+4.25
+</td>
+<td style="text-align:right;">
+6.64
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:left;">
+Chargers
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Stephen Burton
+</td>
+<td style="text-align:left;">
+West Texas A&amp;M
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+73.38
+</td>
+<td style="text-align:right;">
+221
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.50
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+34.5
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+4.31
+</td>
+<td style="text-align:right;">
+7.04
+</td>
+<td style="text-align:right;">
+236
+</td>
+<td style="text-align:left;">
+Vikings
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Delone Carter
+</td>
+<td style="text-align:left;">
+Syracuse
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+68.63
+</td>
+<td style="text-align:right;">
+222
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.54
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+37.0
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+4.07
+</td>
+<td style="text-align:right;">
+6.92
+</td>
+<td style="text-align:right;">
+119
+</td>
+<td style="text-align:left;">
+Colts
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+John Clay
+</td>
+<td style="text-align:left;">
+Wisconsin
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+72.50
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.83
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+29.0
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Randall Cobb
+</td>
+<td style="text-align:left;">
+Kentucky
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+70.25
+</td>
+<td style="text-align:right;">
+191
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.46
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+115
+</td>
+<td style="text-align:right;">
+4.34
+</td>
+<td style="text-align:right;">
+7.08
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:left;">
+Packers
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Graig Cooper
+</td>
+<td style="text-align:left;">
+Miami (FL)
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+70.00
+</td>
+<td style="text-align:right;">
+205
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.60
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:right;">
+4.03
+</td>
+<td style="text-align:right;">
+6.66
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Mark Dell
+</td>
+<td style="text-align:left;">
+Michigan State
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+72.25
+</td>
+<td style="text-align:right;">
+193
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.54
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Noel Devine
+</td>
+<td style="text-align:left;">
+West Virginia
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+67.50
+</td>
+<td style="text-align:right;">
+179
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.34
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Tandon Doss
+</td>
+<td style="text-align:left;">
+Indiana
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+74.00
+</td>
+<td style="text-align:right;">
+201
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.56
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+123
+</td>
+<td style="text-align:left;">
+Ravens
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Shaun Draughn
+</td>
+<td style="text-align:left;">
+North Carolina
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+70.88
+</td>
+<td style="text-align:right;">
+213
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.73
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+34.0
+</td>
+<td style="text-align:right;">
+118
+</td>
+<td style="text-align:right;">
+4.20
+</td>
+<td style="text-align:right;">
+7.15
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Darren Evans
+</td>
+<td style="text-align:left;">
+Virginia Tech
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+72.00
+</td>
+<td style="text-align:right;">
+227
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.56
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+35.0
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+4.46
+</td>
+<td style="text-align:right;">
+6.96
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Mario Fannin
+</td>
+<td style="text-align:left;">
+Auburn
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+70.38
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.37
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+37.5
+</td>
+<td style="text-align:right;">
+115
+</td>
+<td style="text-align:right;">
+4.21
+</td>
+<td style="text-align:right;">
+6.99
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Edmond Gates
+</td>
+<td style="text-align:left;">
+Abilene Christian (TX)
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+71.75
+</td>
+<td style="text-align:right;">
+192
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.31
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+40.0
+</td>
+<td style="text-align:right;">
+131
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:left;">
+Dolphins
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+A.J. Green
+</td>
+<td style="text-align:left;">
+Georgia
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+75.63
+</td>
+<td style="text-align:right;">
+211
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+4.48
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+34.5
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:right;">
+4.21
+</td>
+<td style="text-align:right;">
+6.91
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Bengals
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Alex Green
+</td>
+<td style="text-align:left;">
+Hawaii
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+72.25
+</td>
+<td style="text-align:right;">
+225
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.45
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+34.0
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:right;">
+4.15
+</td>
+<td style="text-align:right;">
+6.91
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:left;">
+Packers
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Tori Gurley
+</td>
+<td style="text-align:left;">
+South Carolina
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+76.13
+</td>
+<td style="text-align:right;">
+216
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4.53
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+118
+</td>
+<td style="text-align:right;">
+4.25
+</td>
+<td style="text-align:right;">
+7.05
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Overall looks good. One thing you’ll notice is that a lot of the players who participated in the combine don’t have a draft pick, which means that they were never drafted by a team. While there are many examples of undrafted players going on to have stellar rookie careers, these guys don’t show up much during the fantasy draft process. Thus any player without a draft pick is considered in the following analyses.</p>
+</div>
+<div id="collecting-rookie-performance-data" class="section level3">
+<h3>Collecting Rookie Performance Data</h3>
+<p>Next we’ll collect the outcome variable – how many points each player scored during their rookie season. For that we’ll enlist the service of the <code>nflgame</code> python package. We’ll write out the players and their rookie years to the <code>rookies.csv</code> file, pull that data into python, collect the first year stats, and then pull the output back into R.</p>
+<pre class="r"><code>input_file_name = &quot;rookie_names_years.csv&quot;
+python_script_name = &quot;collect_rookie_stats.py&quot;
+output_file_name = &quot;year_1_rookie_stats.csv&quot;
+combine_draft_join %&gt;% 
+  select(year, name) %&gt;% 
+  write.csv(input_file_name, 
+            row.names = FALSE)
+
+exe_pyscript_command = paste0(&quot;//anaconda/bin/python &quot;,
+                              python_script_name,
+                              &quot; &quot;,
+                              &quot;&#39;&quot;, input_file_name, &quot;&#39;&quot;,
+                              &quot; &quot;,
+                              &quot;&#39;&quot;, output_file_name, &quot;&#39;&quot;
+                              
+                              )
+print(exe_pyscript_command)</code></pre>
+<p>We’ll execute the <code>collect_rookie_stats.py</code> script from within R, then read the <code>rookie_stats.csv</code> file back into R.</p>
+<pre class="r"><code>system(exe_pyscript_command)</code></pre>
+<pre class="python"><code>import sys
+import pandas as pd
+import nflgame
+from pandasql import *
+
+def collect_rushing_stats(year, week, players):
+    rushing_stats = list()
+    for p in players.rushing():
+        rushing_stats.append([year,
+                              week,
+                              &quot; &quot;.join(str(p.player).split(&quot; &quot;)[:2]), 
+                              p.rushing_tds, 
+                              p.rushing_yds,
+                              p.fumbles_lost])
+    rushing_df = pd.DataFrame(rushing_stats)
+    rushing_df.columns = [&#39;year&#39;, 
+                            &#39;week&#39;,
+                            &#39;name&#39;,
+                            &#39;rushing_tds&#39;,
+                            &#39;rushing_yds&#39;,
+                            &#39;rushing_fb&#39;]
+    return(rushing_df)
+
+def convert_rushing_pts(td_pts, rushing_pts, fb_pts):
+    return(pysqldf(&quot;&quot;&quot;
+        SELECT year, 
+               name, 
+               td_pts + rushing_pts + fb_pts AS total_pts 
+        FROM 
+            (SELECT year, 
+                    name, 
+                    SUM(rushing_tds) * {td_pts} AS td_pts, 
+                    SUM(rushing_yds) * {rushing_pts} AS rushing_pts,
+                    SUM(rushing_fb) * {fb_pts} AS fb_pts
+            FROM rb_df_temp
+            GROUP BY year, name)
+        NATURAL JOIN 
+        rookie_df
+        &quot;&quot;&quot;.format(td_pts = td_pts,
+                   rushing_pts = rushing_pts,
+                   fb_pts = fb_pts
+                    )))
+
+def collect_receiving_stats(year, week, players):
+    receiving_stats = list()
+
+    for p in players.receiving():
+        receiving_stats.append([year,
+                                week,
+                                &quot; &quot;.join(str(p.player).split(&quot; &quot;)[:2]), 
+                                p.receiving_tds, 
+                                p.receiving_yds,
+                                p.fumbles_lost])
+    receiving_df = pd.DataFrame(receiving_stats)
+    receiving_df.columns = [&#39;year&#39;, 
+                        &#39;week&#39;,
+                        &#39;name&#39;,
+                        &#39;receiving_tds&#39;,
+                        &#39;receiving_yds&#39;,
+                        &#39;receiving_fb&#39;]
+    return(receiving_df)
+
+def convert_receiving_pts(td_pts, receiving_pts, fb_pts):
+    return(pysqldf(&quot;&quot;&quot;
+        SELECT year, 
+               name, 
+               td_pts + receiving_pts + fb_pts AS total_pts 
+        FROM 
+            (SELECT year, 
+                    name, 
+                    SUM(receiving_tds) * {td_pts} AS td_pts, 
+                    SUM(receiving_yds) * {receiving_pts} AS receiving_pts,
+                    SUM(receiving_fb) * {fb_pts} AS fb_pts
+            FROM wr_df_temp
+            GROUP BY year, name)
+        NATURAL JOIN 
+        rookie_df
+        &quot;&quot;&quot;.format(td_pts = td_pts,
+                   receiving_pts = receiving_pts,
+                   fb_pts = fb_pts
+                    )))
+                    
+
+def main(input_file_path, output_file_path):
+    # define scoring scheme, years, &amp; weeks here 
+    td_pts = 5
+    receiving_pts = rushing_pts = 0.1
+    fb_pts = -2
+    game_years = range(2011, 2017)
+    game_weeks = range(1, 17) 
+    # input file 
+    global rookie_df
+    rookie_df = pd.read_csv(input_file_path)
+    # store stats for each year in player_stats_df
+    global player_stats_df    
+    player_stats_df = pd.DataFrame()
+    for year in game_years:
+        print(&quot;Processing Game Data From {year}&quot;.format(year = year))
+        temp_df = rookie_df[rookie_df[&#39;year&#39;] == year]
+        global rb_df_temp 
+        rb_df_temp = pd.DataFrame()
+        global wr_df_temp
+        wr_df_temp = pd.DataFrame()
+        for week in game_weeks:
+            games = nflgame.games(year, week)
+            players = nflgame.combine_game_stats(games)
+
+            rb_df_temp = rb_df_temp.append(collect_rushing_stats(year, 
+                                                                 week, 
+                                                                 players))
+            wr_df_temp = wr_df_temp.append(collect_receiving_stats(year, 
+                                                                   week, 
+                                                                   players))
+        print &#39;calculating running back points&#39;
+        player_stats_df = player_stats_df.append(convert_rushing_pts(td_pts,
+                                                                 rushing_pts,
+                                                                 fb_pts,
+                                                                 ))
+        print &#39;calculating wide receiver points&#39;
+        player_stats_df = player_stats_df.append(convert_receiving_pts(td_pts,
+                                                                   receiving_pts,
+                                                                   fb_pts
+                                                                   ))
+
+    # aggregate rookies that have both receiving and running stats
+    stats_final_df = pysqldf(&quot;&quot;&quot;
+                             SELECT year, name, SUM(total_pts) as total_pts
+                             FROM player_stats_df
+                             GROUP BY year, name
+                             &quot;&quot;&quot;)
+
+    stats_final_df.to_csv(output_file_path, index = False)
+
+if __name__ == &quot;__main__&quot;:
+    pysqldf = lambda q: sqldf(q, globals())
+    main(sys.argv[1], sys.argv[2])
+</code></pre>
+<p>Below we’ll read the output from the <code>collect_rookie_stats.py</code> script back into R and examine the top 10 rows. We’ll also apply a few filters. First, all non-draft picks are eliminated from consideration. We want to control for draft pick, given that our central question is whether we can explain variation in first year performance from information other than draft pick. Second, all rookies with less than 10 points (an arbitrary cutoff) during their rookie season are eliminated. This is to remove some of the noise that is unrelated to performance (e.g., low points due to injury and not poor performance).</p>
+<pre class="r"><code>rookie_stats = read_csv(file.path(working_directory, output_file_name)) %&gt;% 
+                      inner_join(combine_draft_join) %&gt;% 
+                      filter(pos %in% c(&quot;WR&quot;, &quot;RB&quot;) &amp; 
+                             is.na(pick) == FALSE &amp; 
+                             total_pts &gt;= 10) %&gt;% 
+                      mutate(pick = as.numeric(pick),
+                             pos = as.factor(pos)) %&gt;% 
+                      select(year, name, pos, pick,
+                             height_in, weight_lbs, x40_yard,
+                             bench_press, vert_leap_in, total_pts
+                             ) %&gt;% 
+                      data.frame()</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:410px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+pos
+</th>
+<th style="text-align:right;">
+pick
+</th>
+<th style="text-align:right;">
+height_in
+</th>
+<th style="text-align:right;">
+weight_lbs
+</th>
+<th style="text-align:right;">
+x40_yard
+</th>
+<th style="text-align:right;">
+bench_press
+</th>
+<th style="text-align:right;">
+vert_leap_in
+</th>
+<th style="text-align:right;">
+total_pts
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+A.J. Green
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+75.63
+</td>
+<td style="text-align:right;">
+211
+</td>
+<td style="text-align:right;">
+4.48
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+34.5
+</td>
+<td style="text-align:right;">
+143.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Austin Pettis
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+74.63
+</td>
+<td style="text-align:right;">
+209
+</td>
+<td style="text-align:right;">
+4.56
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+25.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Daniel Thomas
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;">
+72.25
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+4.63
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+62.3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Delone Carter
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+119
+</td>
+<td style="text-align:right;">
+68.63
+</td>
+<td style="text-align:right;">
+222
+</td>
+<td style="text-align:right;">
+4.54
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+37.0
+</td>
+<td style="text-align:right;">
+42.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Denarius Moore
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+148
+</td>
+<td style="text-align:right;">
+71.63
+</td>
+<td style="text-align:right;">
+194
+</td>
+<td style="text-align:right;">
+4.43
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+36.0
+</td>
+<td style="text-align:right;">
+87.5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Evan Royster
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+177
+</td>
+<td style="text-align:right;">
+71.63
+</td>
+<td style="text-align:right;">
+212
+</td>
+<td style="text-align:right;">
+4.65
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+34.0
+</td>
+<td style="text-align:right;">
+23.9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Greg Little
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+74.50
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;">
+4.51
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+40.5
+</td>
+<td style="text-align:right;">
+82.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Greg Salas
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+112
+</td>
+<td style="text-align:right;">
+73.13
+</td>
+<td style="text-align:right;">
+210
+</td>
+<td style="text-align:right;">
+4.53
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+37.0
+</td>
+<td style="text-align:right;">
+25.2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Jacquizz Rodgers
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+145
+</td>
+<td style="text-align:right;">
+65.88
+</td>
+<td style="text-align:right;">
+196
+</td>
+<td style="text-align:right;">
+4.59
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+33.0
+</td>
+<td style="text-align:right;">
+41.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Jeremy Kerley
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+153
+</td>
+<td style="text-align:right;">
+69.50
+</td>
+<td style="text-align:right;">
+189
+</td>
+<td style="text-align:right;">
+4.56
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+34.5
+</td>
+<td style="text-align:right;">
+26.5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Jon Baldwin
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+76.38
+</td>
+<td style="text-align:right;">
+228
+</td>
+<td style="text-align:right;">
+4.49
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+42.0
+</td>
+<td style="text-align:right;">
+27.7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Julio Jones
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+74.75
+</td>
+<td style="text-align:right;">
+220
+</td>
+<td style="text-align:right;">
+4.34
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+38.5
+</td>
+<td style="text-align:right;">
+121.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Kendall Hunter
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+115
+</td>
+<td style="text-align:right;">
+67.25
+</td>
+<td style="text-align:right;">
+199
+</td>
+<td style="text-align:right;">
+4.46
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+35.0
+</td>
+<td style="text-align:right;">
+68.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Leonard Hankerson
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+73.50
+</td>
+<td style="text-align:right;">
+209
+</td>
+<td style="text-align:right;">
+4.40
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+36.0
+</td>
+<td style="text-align:right;">
+16.3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Mark Ingram
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+69.13
+</td>
+<td style="text-align:right;">
+215
+</td>
+<td style="text-align:right;">
+4.62
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+31.5
+</td>
+<td style="text-align:right;">
+75.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Randall Cobb
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+70.25
+</td>
+<td style="text-align:right;">
+191
+</td>
+<td style="text-align:right;">
+4.46
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+35.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Roy Helu
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+71.50
+</td>
+<td style="text-align:right;">
+219
+</td>
+<td style="text-align:right;">
+4.40
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+36.5
+</td>
+<td style="text-align:right;">
+98.6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Shane Vereen
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+70.25
+</td>
+<td style="text-align:right;">
+210
+</td>
+<td style="text-align:right;">
+4.49
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+34.0
+</td>
+<td style="text-align:right;">
+10.7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Stevan Ridley
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+71.25
+</td>
+<td style="text-align:right;">
+225
+</td>
+<td style="text-align:right;">
+4.65
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+36.0
+</td>
+<td style="text-align:right;">
+42.5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Titus Young
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+71.38
+</td>
+<td style="text-align:right;">
+174
+</td>
+<td style="text-align:right;">
+4.43
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+79.8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Torrey Smith
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+72.88
+</td>
+<td style="text-align:right;">
+204
+</td>
+<td style="text-align:right;">
+4.41
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+41.0
+</td>
+<td style="text-align:right;">
+119.7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2011
+</td>
+<td style="text-align:left;">
+Vincent Brown
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+71.25
+</td>
+<td style="text-align:right;">
+187
+</td>
+<td style="text-align:right;">
+4.68
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+33.5
+</td>
+<td style="text-align:right;">
+42.9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2012
+</td>
+<td style="text-align:left;">
+Alfred Morris
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+173
+</td>
+<td style="text-align:right;">
+69.88
+</td>
+<td style="text-align:right;">
+219
+</td>
+<td style="text-align:right;">
+4.63
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+35.5
+</td>
+<td style="text-align:right;">
+189.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2012
+</td>
+<td style="text-align:left;">
+Alshon Jeffery
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+45
+</td>
+<td style="text-align:right;">
+74.88
+</td>
+<td style="text-align:right;">
+216
+</td>
+<td style="text-align:right;">
+4.48
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+44.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2012
+</td>
+<td style="text-align:left;">
+Bernard Pierce
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+84
+</td>
+<td style="text-align:right;">
+72.25
+</td>
+<td style="text-align:right;">
+218
+</td>
+<td style="text-align:right;">
+4.45
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+36.5
+</td>
+<td style="text-align:right;">
+53.6
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We now have all of the necessary data. We’ll visualize the bivariate relationships between our variables, segmented by position (Running Back or Wide Receiver) for a quick quality check.</p>
+<pre class="r"><code>g = ggscatmat(rookie_stats, 
+              columns = 4:dim(rookie_stats)[2], 
+              color = &quot;pos&quot;)
+plot(g)</code></pre>
+<p><img src="/post/combine_analysis_files/figure-html/unnamed-chunk-15-1.png" width="960" /> Everything looks good except for the 40 yard dash field. Most players fall in the 4-6 range except a few. Let’s examine observations with a 40 yard dash time greater than six seconds.</p>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+pos
+</th>
+<th style="text-align:right;">
+pick
+</th>
+<th style="text-align:right;">
+height_in
+</th>
+<th style="text-align:right;">
+weight_lbs
+</th>
+<th style="text-align:right;">
+x40_yard
+</th>
+<th style="text-align:right;">
+bench_press
+</th>
+<th style="text-align:right;">
+vert_leap_in
+</th>
+<th style="text-align:right;">
+total_pts
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+Corey Coleman
+</td>
+<td style="text-align:left;">
+WR
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+70.63
+</td>
+<td style="text-align:right;">
+194
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+40.5
+</td>
+<td style="text-align:right;">
+52.4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+Devontae Booker
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+136
+</td>
+<td style="text-align:right;">
+70.75
+</td>
+<td style="text-align:right;">
+219
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+81.8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+Jonathan Williams
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+156
+</td>
+<td style="text-align:right;">
+70.00
+</td>
+<td style="text-align:right;">
+220
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+11.3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:left;">
+Jordan Howard
+</td>
+<td style="text-align:left;">
+RB
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+71.88
+</td>
+<td style="text-align:right;">
+230
+</td>
+<td style="text-align:right;">
+9.99
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+34.0
+</td>
+<td style="text-align:right;">
+180.6
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>It looks like missing or invalid 40 yard dash times were coded with 9.99. Let’s sub these values with NAs and re-run the plot above.</p>
+<pre class="r"><code>rookie_stats$x40_yard = ifelse(rookie_stats$x40_yard == 9.99, 
+                               NA, 
+                               rookie_stats$x40_yard)
+
+g = ggscatmat(rookie_stats, 
+              columns = 4:dim(rookie_stats)[2], 
+              color = &quot;pos&quot;)
+plot(g)</code></pre>
+<p><img src="/post/combine_analysis_files/figure-html/unnamed-chunk-18-1.png" width="960" /></p>
+<p>Ahh that’s better. Now we’re ready to do some analyses.</p>
+</div>
+<div id="explaining-rookie-performance" class="section level3">
+<h3>Explaining Rookie Performance</h3>
+<p>Based on the scatterplot matrix, draft pick explains a fair amount of variability in first-year fantasy points. Teams shell out millions of dollars for rookie players, so it’s not surpising that points and pick number are inversely related, such that lower picks (1, 2, 3) score more fantasy points during their first season than higher picks. The other variable that exhibits a relationship with points is weight, which is moderated by position. Running Backs (RBs) appear to benefit more from having a few extra pounds relative to Wide Receivers (WRs). Being able to punch the ball in from the 1-yard line means more touchdowns. Having a more robust build might translate into fewer injuries and missed games. And being heavier would make an RB harder to tackle, which means more running yards. Having extra weight is less beneficial to a WR, as they rely on their speed and agility to create seperation from defenders. Indeed, heavier players run slower 40-yard dash times, and I haven’t seen too many successful WRs in the NFl who were slow. This suggests that given the option between a lighter or heavier RB, go with the big guy.</p>
+<p>Teams do seem to factor the weight of an RB into their draft strategy, as heavier RBs are drafted earlier on. But the question is whether weight is still significant after controlling for draft pick number and accounting for position (WR vs. RB). I’ll apply my two favorite modeling approaches when interpretation is paramount: Linear Model (LM) and General Additive Model (GAM). Pick number is present in both models. The LM features an interaction term to capture the disparate relationship between weight and position. The GAM model has a smoother for both weight and pick number, and position is included as a dummy variable. For those unfamiliar with GAM, it’s a fantastic approach for modeling non-linear relationships while maintaining a highly interpertable model. The one drawback is that it is <em>Additive</em> and thus doesn’t account for interactions (of course you can add interactions terms into the model, but then it’s no longer a GAM). We’ll use <em>LOOCV</em> (leave-one-out-cross-validation) to determine which method of describing the data generating process is most generalizable.</p>
+<pre class="r"><code># function for cross validation
+split_data = function(input_df, pct_train){
+  set.seed(1)
+  data_list = list()
+  random_index = sample(1:nrow(input_df), nrow(input_df))
+  train_index = random_index[1:(floor(nrow(input_df) * pct_train))]
+  data_list[[&#39;train_df&#39;]] = input_df[train_index,]
+  data_list[[&#39;test_df&#39;]] = input_df[setdiff(random_index, train_index)  ,]
+  return(data_list)
+}
+
+input_df = rookie_stats
+pct_train = 0.8
+fdata = split_data(input_df, pct_train)
+
+row_index = sample(1:nrow(fdata$train_df), nrow(fdata$train_df))
+
+# empty vectors to store prediction errors during LOOCV
+lm_pred = c()
+gam_pred = c()
+
+for(i in row_index){
+  # training data
+  temp_train = fdata$train_df[setdiff(row_index, i),]
+  
+  # validation datum
+  temp_validation = fdata$train_df[i,]  
+  
+  # linear model
+  temp_fit_lm = lm(total_pts ~ weight_lbs * pos + pick, 
+                   data = temp_train)
+  
+  # GAM model
+  temp_fit_gam = mgcv::gam(total_pts ~ s(weight_lbs) + s(pick) + pos,
+                                     data = temp_train)
+  # linear model prediction
+  lm_pred = c(lm_pred,
+               predict(temp_fit_lm, temp_validation))
+  # GAM model prediction
+  gam_pred = c(gam_pred,
+               predict(temp_fit_gam, temp_validation))
+
+}</code></pre>
+<p>Let’s consider two different measures of performance.</p>
+<pre class="r"><code>r_squared = function(actual, predicted){
+  return(1 - (sum((actual-predicted )^2)/sum((actual-mean(actual))^2)))
+} 
+
+mdn_abs_error = function(actual, predicted){
+  return(median(abs(actual-predicted)))
+}
+
+val_actual = fdata$train_df$total_pts[row_index]
+
+val_perf = data.frame(model = c(&quot;LM&quot;, &quot;GAM&quot;),
+                      # calculate r-squared
+                      r_squared = c(r_squared(val_actual,lm_pred),
+                                    r_squared(val_actual,gam_pred)),
+                      # calculate MAE
+                      median_abs_err = c(mdn_abs_error(val_actual, lm_pred),
+                                         mdn_abs_error(val_actual, gam_pred))) %&gt;% 
+                      mutate_if(is.numeric, round, 2)
+print(val_perf)               </code></pre>
+<pre class="r"><code>##     model   r_squared    median_abs_err
+## 1    LM        0.17         26.15
+## 2   GAM        0.17         27.08</code></pre>
+<p>The LM performed similiarly to the GAM, so we’ll use the simpler, LM model on the entire training set and examine the coefficients.</p>
+<pre class="r"><code>train_fit = lm(total_pts ~ weight_lbs * pos + pick, 
+                   data = fdata$train_df)
+summary(train_fit)</code></pre>
+<pre class="r"><code>## Call:
+## lm(formula = total_pts ~ weight_lbs * pos + pick, data = fdata$train_df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -70.946 -27.584  -9.839  17.944 157.722 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      -176.63257  101.66213  -1.737  0.08490 .  
+## weight_lbs          1.31363    0.46120   2.848  0.00518 ** 
+## posWR             235.87977  119.20973   1.979  0.05016 .  
+## pick               -0.31399    0.07396  -4.245 4.35e-05 ***
+## weight_lbs:posWR   -1.21318    0.56198  -2.159  0.03288 *  
+## ---
+## Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+## 
+## Residual standard error: 43.19 on 119 degrees of freedom
+## Multiple R-squared:  0.2424, Adjusted R-squared:  0.217 
+## F-statistic:  9.52 on 4 and 119 DF,  p-value: 1.033e-06</code></pre>
+<p>Interestingly, even after controlling for pick number, the interaction term is still significant. Intepreting interactions terms can be tricky, and I’ve found it helpful to just plug in a range of numbers for the variable you’re interested in and hold everything else constant to see how the predicted value changes. So that’s what we’ll do here. We’ll hold pick number at the mean, enter “RB” for the position dummy variable, and then generate a sequence between the 5th and 95th percentiles of weight. The slope of our predicted values indicate how many additional points we expect to score during a season for each RB pound.</p>
+<pre class="r"><code># select 5th and 95th percentiles for weight
+# hold pick number and position constant
+
+q5_95 = unname(quantile(fdata$train_df$weight_lbs, c(0.05, 0.95)))
+
+sim_df = data.frame(weight_lbs = seq(q5_95[1], q5_95[2], 1),
+                    pick = mean(fdata$train_df$pick),
+                    pos = &quot;RB&quot;
+                    )
+sim_df$predicted_pts = predict(train_fit, sim_df)
+print(diff(sim_df$predicted_pts)[1])</code></pre>
+<pre class="r"><code>## [1] 1.313628</code></pre>
+<p>As the weight of an RB increases by one pound, we expect the total number of fantasy points scored in a season to increase by ~1.3. Thus if you had two RBs drafted around the same position, but one weighed 30lbs more than the other, you would expect 39 more points from the heavier RB. Over a 16 game season, that difference translates to 2.4 more points per game, which could be the difference between making or missing the playoffs.</p>
+<p>90 percent of weight values fall between 180 and 230, so I’d feel comfortable generalizing these findings to all RBs within this range. The data is pretty sparse outside of this range, so the relationships in the model would likely breakdown. Indeed, I’m fairly certain a 320lb RB would not score more points than a 220lb RB; there is some point where weight likely has a negative effect on performance, but we wont see that in the data, because a 320lb RB won’t ever see the field.</p>
+<p>While these findings are interesting, it’s not clear how helpful the model is in terms of informing our draft strategy. To answer that question, we’ll determine how the model performs on the hold-out set.</p>
+<pre class="r"><code>r_sq_test = round(r_squared(fdata$test_df$total_pts, 
+                            predict(train_fit, fdata$test_df)), 
+                  1)
+median_abs_err = round(mdn_abs_error(fdata$test_df$total_pts, 
+                                        predict(train_fit, fdata$test_df)), 
+                       2)
+print(paste0(&quot;TEST R-SQUARED: &quot;, r_sq_test))
+print(paste0(&quot;TEST MAE: &quot;, median_abs_err))</code></pre>
+<pre class="r"><code>## [1] &quot;TEST R-SQUARED: 0.3&quot;
+## [1] &quot;TEST MAE: 31.7&quot;</code></pre>
+<p>We can explain approximately 30 percent of the variance in the test set, and the median absolute error is around 30. The fact that performance on the test set is comparable with the validation set indicates good generalizability of our model. However, there is a lot of variance left to explain! If we wanted to improve these predictions, there are a number of other variables to consider, including:</p>
+<ul>
+<li><strong>Injury</strong></li>
+<li><strong>Strength of Offensive Line</strong></li>
+<li><strong>Presence of skilled existing running back</strong></li>
+<li><strong>Ratio of pass to run plays in the prior season</strong></li>
+</ul>
+<p>These inputs have an impact on how many points a fantasy RB will score. But if we want to keep it simple, the key takeaway is this: When it’s fantasy draft time and you’re debating between a few rookie RBs drafted around the same spot, go with the big guy. It just might be difference between fantasy glory or facing the receiving end of one of these…</p>
+<p><img src="combine_analysis_image/brick_tamlin.png" width="500px" height="500px" /></p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/fantasy-football">Fantasy Football</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/python">Python</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
+    
+    <li><a href="/post/two_flavors_of_parallel_simulation.html">Two Flavors of Parallel Simulation</a></li>
+    
+    <li><a href="/post/feature_selection_wine.html">Feature Selection for the Wine Connoisseur</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

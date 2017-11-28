@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/time_series_outlier_detection.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/time_series_outlier_detection.html">
+  <meta property="og:title" content="Time Series Outlier Detection | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2017-07-28T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2017-07-28T21:13:14-05:00">
+  
+
+  
+
+  <title>Time Series Outlier Detection | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Time Series Outlier Detection</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-07-28 21:13:14 -0500 -0500" itemprop="datePublished">
+      Jul 28, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/time_series_outlier_detection.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/time-series">Time Series</a
+    >, 
+    
+    <a href="/categories/outlier-detection">Outlier Detection</a
+    >, 
+    
+    <a href="/categories/forecasting">Forecasting</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Time%20Series%20Outlier%20Detection&amp;url=%2fpost%2ftime_series_outlier_detection.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftime_series_outlier_detection.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftime_series_outlier_detection.html&amp;title=Time%20Series%20Outlier%20Detection"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftime_series_outlier_detection.html&amp;title=Time%20Series%20Outlier%20Detection"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Time%20Series%20Outlier%20Detection&amp;body=%2fpost%2ftime_series_outlier_detection.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>While there are several definitions for an outlier, I generally think of an outlier as the following: An unexpected event that is unlikely to happen again. For example, website traffic drops precipitously because of a server fire, or insurance claims spike because of an unprecedented, 500-year weather event. These events are random occurences that (we hope) do not occur a regular cadence. Yet if you were attempting to predict future website traffic or understand the seasonal patterns of insurance claims, the aforementioned events may greatly impact our forecasting accuracy. Thus there are two main reasons for conducting an outlier analysis prior to generating a forecast:</p>
+<ul>
+<li><strong>Outliers can bias forecasts</strong></li>
+<li><strong>Outliers can inflate estimated variance and produce prediction intervals that are too wide</strong></li>
+</ul>
+<p>This post discusses the use of seasonal-decomposition to isolate errors that cannot be explained as a function of trend or seasonality. We’ll also discuss two simple, commonly used approaches for identifying outliers, followed by a brief overview of how to replace outliers with more sensible values. Finally, we’ll test how including or excluding outliers affects the accuracy of our forecasts as well as the width of our prediction intervals. These questions will be explored within the context of monthly milk production from 1962-1975, where the value for each month represents the pounds of milk produced per cow (Riveting stuff, right?).</p>
+</div>
+<div id="section" class="section level3">
+<h3></h3>
+<p>The data for this post is located <a href="https://datamarket.com/data/set/22ox/monthly-milk-production-pounds-per-cow-jan-62-dec-75#!ds=22ox&amp;display=line">here</a>. Let’s load up the required libraries, bring the data into R, do a bit of cleaning, and then have a quick look at the data.</p>
+<pre class="r"><code>libs = c(&#39;dplyr&#39;, &#39;artyfarty&#39;, &#39;ggplot2&#39;,
+         &#39;forecast&#39;, &#39;reshape&#39;,&#39;readr&#39;,
+         &#39;reshape&#39;)
+lapply(libs, require, character.only = TRUE)
+working_directory = &quot;path_to_file&quot;
+file_name = &quot;monthly-milk-production-pounds-p.csv&quot;
+milk_df = read_csv(file.path(working_directory, file_name))
+names(milk_df) = c(&#39;month&#39;, &#39;milk_production&#39;)
+milk_df = milk_df %&gt;% 
+          mutate(month = as.Date(paste(month, &quot;01&quot;, sep = &quot;-&quot;),
+                                 format = &quot;%Y-%m-%d&quot;))</code></pre>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+month
+</th>
+<th style="text-align:right;">
+milk_production
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1962-01-01
+</td>
+<td style="text-align:right;">
+589
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1962-02-01
+</td>
+<td style="text-align:right;">
+561
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1962-03-01
+</td>
+<td style="text-align:right;">
+640
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1962-04-01
+</td>
+<td style="text-align:right;">
+656
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1962-05-01
+</td>
+<td style="text-align:right;">
+727
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1962-06-01
+</td>
+<td style="text-align:right;">
+697
+</td>
+</tr>
+</tbody>
+</table>
+<p>Now that we have our time series dataframe, let’s introduce six outliers into our time series. I picked these data points and their values at random.</p>
+<pre class="r"><code>milk_df$milk_production[30] = milk_df$milk_production[30] + 70
+milk_df$milk_production[55] = milk_df$milk_production[55] - 60
+milk_df$milk_production[99] = milk_df$milk_production[99] - 220
+milk_df$milk_production[100] = milk_df$milk_production[100] + 100
+milk_df$milk_production[152] = milk_df$milk_production[152] + 40
+milk_df$milk_production[153] = milk_df$milk_production[153] - 70
+
+outlier_milk_df = milk_df[c(30, 55, 99, 100, 152, 153),]</code></pre>
+<p>Let’s examine what our time series. The pink points are the outliers we just introduced.</p>
+<pre class="r"><code>ggplot(milk_df, aes(x = month, y = milk_production)) +
+    geom_point(size = 2, color = color_values[1]) + 
+    geom_line(size = 2, color = color_values[1]) +
+    theme_bw() + 
+    my_plot_theme() + 
+    theme(legend.title = element_blank()) + 
+    xlab(&quot;Date&quot;) + ylab(&quot;Milk Production&quot;) + 
+    geom_point(data = outlier_milk_df, colour = color_values[2], size = 8)</code></pre>
+<p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
+<p>Let’s break our time series into three seperate components: Seasonal, Trend, and Remainder. The <code>seasonal</code> and <code>trend</code> are structural parts of the time series that we can explain, while the <code>remainder</code> is everything that’s left over that we cannot explain. This is portion of the time series we’ll focus on when looking for anamoulous data points.</p>
+<pre class="r"><code>decomp_ts = stl(ts(milk_df$milk_production, frequency = 12), 
+                s.window = &quot;periodic&quot;,
+                robust = TRUE
+                )
+ts_decomposition = data.frame(decomp_ts$time.series) %&gt;%
+                   melt() %&gt;%
+                   mutate(month = rep(milk_df$month, 3)) %&gt;%
+                   dplyr::rename(component = variable)</code></pre>
+<pre class="r"><code>ggplot(ts_decomposition, aes(x = month, y = value, fill = component)) + 
+    geom_bar(stat = &quot;identity&quot;) + 
+    facet_grid(component~ ., scales = &quot;free&quot;) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    scale_fill_manual(values = c(color_values[1:3])) +
+    theme(legend.title = element_blank()) +
+    ylab(&quot;&quot;) + xlab(&quot;Date&quot;)</code></pre>
+<p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<p>Based on this break out, there is one clear anomaly (the -200 point). The other five aren’t as salient but we know they are there. Let’s try out our two approaches: The first is the +- 3 standard deviation rule. Any residual that is +- 3 SDs is considered an anomaly. If our residuals are normally distributed, then by chance alone 27 of every 10000 points should fall outside of these boundaries. Thus it is possible (but unlikely) when you detect a residual of this magnitude or greater. The second method leverages the Interquartile Range (or IQR). The IQR is the difference between the value at the 75th and 25th percentiles of your residuals. You then multiply the range by some constant (often 1.5). Any values outside of this range are considered an anomaly.</p>
+<p>I don’t want to bury the lede here, so I’ll just come right out and say it: The +-3 SD rule is not the approach you want to use. In the real world, which can admittedly be a scary place, forecasting is done at scale. You’ll be generating lots and lots of forecasts, so many that you wont be able to verify the assumptions or examine the residuals for each one (very scary). Thus it is imperative to use methods for outlier detection that are robust. What does this mean? In short, a measure that quantifies “outlierness” must be immune to the effects of outliers. Hang on…I’m confused. I’ll visualize what this means below.</p>
+</div>
+<div id="sd-approach" class="section level3">
+<h3>+- 3 SD Approach</h3>
+<pre class="r"><code>remainder = ts_decomposition %&gt;% 
+            filter(component == &#39;remainder&#39;)
+sd_remainder = sd(remainder$value) 
+anomaly_boundary = c(-sd_remainder * 3, 
+                      sd_remainder * 3)
+remainder_sd = remainder %&gt;% 
+               mutate(is_anomaly = ifelse(value &gt; anomaly_boundary[2] | 
+                             value &lt; anomaly_boundary[1], &quot;yes&quot;, &quot;no&quot;))</code></pre>
+<pre class="r"><code>ggplot(remainder_sd, aes(x = value, fill = is_anomaly)) +  geom_histogram(aes(y=..density..),
+    bins = 30,
+    colour=&quot;black&quot;) +
+    theme_bw() + 
+    my_plot_theme() +
+    geom_vline(xintercept = anomaly_boundary[1], size = 2, linetype = &quot;dotted&quot;,
+    color = color_values[1]) + 
+    geom_vline(xintercept = anomaly_boundary[2], size = 2, linetype = &quot;dotted&quot;,
+    color = color_values[1]) + 
+    xlab(&quot;Remainder&quot;) + 
+    scale_fill_manual(values = c(color_values[1],color_values[2]))</code></pre>
+<p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>This method identified four of the six outliers It missed the other two because the one really big outlier (-220) inflated our standard deviation, making the other two, smaller outliers undetectable. Let’s see how the IQR approach performed.</p>
+</div>
+<div id="iqr-approach" class="section level3">
+<h3>IQR Approach</h3>
+<pre class="r"><code>spread = 1.5
+pct_50 = unname(quantile(remainder$value, 0.5))
+iqr = diff(unname(quantile(remainder$value, c(0.25, 0.75))))
+lb = unname(quantile(remainder$value, 0.25)) - (spread * iqr)
+ub = unname(quantile(remainder$value, 0.75)) + (spread * iqr)
+remainder_iqr = remainder %&gt;% 
+                mutate(is_anomaly = ifelse(value &gt; ub | value &lt; lb, &quot;yes&quot;, &quot;no&quot;))</code></pre>
+<pre class="r"><code>ggplot(remainder_iqr, aes(x = component, y = value)) + 
+    geom_boxplot() + 
+    geom_point(size = 4, aes(color = is_anomaly,
+    fill = is_anomaly)) +
+    theme_bw() + 
+    my_plot_theme() + 
+    xlab(&quot;&quot;) + ylab(&quot;Remainder&quot;) + 
+    theme(axis.text.x = element_blank()) + 
+    scale_color_manual(values = c(color_values[1],color_values[2]))</code></pre>
+<p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>The IQR method detected all 6 of the synthetic outliers in addition to two non-outliers. However, does any of this matter? Data cleaning steps are a means to an end. We address outliers in our data so we (presumably) get better forecasts and more accurate prediction intervals. Let’s compare the forecasting accuracy between three methods:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Do Nothing (just leave outliers in there and make a forecast)</strong></li>
+<li><strong>+- 3 SDs</strong></li>
+<li><strong>+- 1.5 Interquartile Range</strong></li>
+</ol>
+<p>Methods 2 and 3 use linear interpolation to replace the outliers. Let’s create our validation dataset below.</p>
+<pre class="r"><code>anom_index_sd = which(match(remainder_sd$is_anomaly, &quot;yes&quot;) %in% c(1))
+anom_index_iqr = which(match(remainder_iqr$is_anomaly, &quot;yes&quot;) %in% c(1))
+sd_df = milk_df
+iqr_df = milk_df
+sd_df$milk_production[anom_index_sd] = NA
+iqr_df$milk_production[anom_index_iqr] = NA
+n_holdout = 12 # number of months in the validation set
+validation_set = milk_df$milk_production[(nrow(sd_df) - n_holdout + 1):nrow(sd_df)]</code></pre>
+<p>And then create three seperate forecasts via the <code>auto.arima</code> function. The <code>na.interp</code> function is used to replace the <strong>NA</strong> values with an interpolated (i.e., non-anomalous) value.</p>
+<pre class="r"><code>sd_ts = na.interp(ts(sd_df$milk_production[1:(nrow(sd_df) - n_holdout)],
+                     frequency = 12))
+sd_forecast = forecast(auto.arima(sd_ts), h = n_holdout)
+iqr_ts = na.interp(ts(iqr_df$milk_production[1:(nrow(iqr_df) - n_holdout)],
+                      frequency = 12))
+iqr_forecast = forecast(auto.arima(iqr_ts), h = n_holdout)
+none_ts = ts(sd_df$milk_production[1:(nrow(sd_df) - n_holdout)],
+                      frequency = 12)
+none_forecast = forecast(auto.arima(none_ts), h = n_holdout)</code></pre>
+<p>Next let’s compare the accuracy of the forecasts between the three approaches on our validation set.</p>
+<pre class="r"><code>forecast_df = data.frame(anom_method = c(rep(&quot;IQR&quot;, n_holdout),
+                                         rep(&quot;SD&quot;, n_holdout),
+                                         rep(&quot;None&quot;, n_holdout)),
+                         forecasted_amt = c(iqr_forecast$mean,
+                                            sd_forecast$mean,
+                                            none_forecast$mean),
+                         actual_amt = rep(validation_set, 3)) %&gt;% 
+              mutate(residual_squared = (actual_amt - forecasted_amt)^2) %&gt;% 
+              group_by(anom_method) %&gt;% 
+              summarise(mse = mean(residual_squared)) %&gt;% 
+              mutate(anom_method = factor(anom_method)) %&gt;% 
+              mutate(anom_method = fct_reorder(anom_method, 
+                                               mse, 
+                                               .desc = FALSE))</code></pre>
+<pre class="r"><code>ggplot(forecast_df, aes(x = anom_method, y = round(mse, 0),
+    fill = anom_method, label = as.character(round(mse, 0)))) + 
+    geom_bar(stat = &quot;identity&quot;) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    scale_fill_manual(values = color_values[1:length(unique(forecast_df$anom_method))]) + 
+    xlab(&quot;Outlier Replacement Method&quot;) + ylab(&quot;Mean Square Error&quot;) + 
+    theme(legend.position = &quot;none&quot;) + 
+    geom_label(label.size = 1, size = 10, color = &quot;white&quot;)</code></pre>
+<p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-16-1.png" width="960" /></p>
+<p>Replacing the outliers via the IQR method produced the most accurate 12-month ahead forecast. Now let’s examine the prediction intervals of each method, specifically the range as well as the coverage rate.</p>
+<pre class="r"><code>pi_df = data.frame(anom_method = c(rep(&quot;IQR&quot;, n_holdout),
+                                   rep(&quot;SD&quot;, n_holdout),
+                                   rep(&quot;None&quot;, n_holdout)),
+                   upper_bound = c(iqr_forecast$upper[,2],
+                                   sd_forecast$upper[,2],
+                                   none_forecast$upper[,2]),
+                   lower_bound = c(iqr_forecast$lower[,2],
+                                   sd_forecast$lower[,2],
+                                   none_forecast$lower[,2]),
+                   actual_amt = rep(validation_set, 3)) %&gt;% 
+        mutate(pi_range = upper_bound - lower_bound) %&gt;% 
+        mutate(actual_in_pi_range = as.integer(actual_amt &lt; upper_bound &amp; actual_amt &gt; lower_bound))</code></pre>
+<pre class="r"><code>ggplot(pi_df, aes(x = anom_method, y = pi_range, color = anom_method)) + 
+    geom_boxplot() + 
+    theme_bw() + 
+    my_plot_theme() + 
+    scale_color_manual(values = c(color_values[1:3])) + 
+    xlab(&quot;Outlier Replacement Method&quot;) + ylab(&quot;Prediction Interval Range&quot;) + 
+    theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>The median PI range is the narrowest for the IQR and the widest when we don’t replace any of the outliers. Finally let’s consider the coverage rate, which is how often the actual value fell within the monthly prediction interval.</p>
+<pre class="r"><code>coverage_df = pi_df %&gt;% 
+              group_by(anom_method) %&gt;% 
+              summarise(coverage_rate = round(sum(actual_in_pi_range)/12 * 100, 1))</code></pre>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+anom_method
+</th>
+<th style="text-align:right;">
+coverage_rate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+IQR
+</td>
+<td style="text-align:right;">
+100.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+None
+</td>
+<td style="text-align:right;">
+83.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SD
+</td>
+<td style="text-align:right;">
+91.7
+</td>
+</tr>
+</tbody>
+</table>
+<p>The IQR and None approaches provided 100% coverage, while the SD method missed one month, yielding a coverage rate of ~92%.</p>
+<p>Taken together, the IQR method provided the most accurate forecasts and prediction intervals. While this is only one example, it is interesting to note that using the SD method actually reduced our forecasting accuracy and coverage rate below what would’ve happened had we not taken any steps to remedy our outliers prior to fitting a model. This really illustrates the value of using a robust method for anomaly detection.</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/time-series">Time Series</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/outlier-detection">Outlier Detection</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/forecasting">Forecasting</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/early_trend_detection.html">Early Trend Detection</a></li>
+    
+    <li><a href="/post/monte_carlo_power_mixed_effects.html">Monte Carlo Power Calculations for Mixed Effects Models</a></li>
+    
+    <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
+    
+    <li><a href="/post/prediction_intervals.html">Is that Home Price Negotiable?</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

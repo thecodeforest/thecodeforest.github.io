@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/counterfactual_prediction.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/counterfactual_prediction.html">
+  <meta property="og:title" content="Establishing Causality with Counterfactual Prediction | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2017-08-05T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2017-08-05T21:13:14-05:00">
+  
+
+  
+
+  <title>Establishing Causality with Counterfactual Prediction | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Establishing Causality with Counterfactual Prediction</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-08-05 21:13:14 -0500 -0500" itemprop="datePublished">
+      Aug 5, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    11 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/counterfactual_prediction.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/counterfactual-prediction">Counterfactual Prediction</a
+    >, 
+    
+    <a href="/categories/forecasting">Forecasting</a
+    >, 
+    
+    <a href="/categories/experimentation">Experimentation</a
+    >, 
+    
+    <a href="/categories/causal-impact">Causal Impact</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Establishing%20Causality%20with%20Counterfactual%20Prediction&amp;url=%2fpost%2fcounterfactual_prediction.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcounterfactual_prediction.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcounterfactual_prediction.html&amp;title=Establishing%20Causality%20with%20Counterfactual%20Prediction"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcounterfactual_prediction.html&amp;title=Establishing%20Causality%20with%20Counterfactual%20Prediction"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Establishing%20Causality%20with%20Counterfactual%20Prediction&amp;body=%2fpost%2fcounterfactual_prediction.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p><img src="images/australia.gif" width="800px" height="800px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>Businesses have several “levers” they can pull to boost sales. For example, a series of advertisements might be shown in a city or region with the hopes of increasing sales for the advertised product. Ideally the cost associated with the advertisement would be outstripped by the expected increase in sales, visits, conversion, or whatever KPI (key performance indicator) the business hopes to drive. But how do you capture the ROI of the advertisement? In a parallel universe, where all experiments are possible, we would create two copies of the same city, run the advertisement in one of them, track our metric of interest over the same time period, and then compare the difference between the two cities. All potential confounding variables, such as differences in seasonal variation, viewership rates, or buying preference, would be controlled. Thus, any difference (lift) in our KPI could be attributed to the intervention.</p>
+</div>
+<div id="souvenir-sales-australia-and-wacky-inflatable-tube-men" class="section level3">
+<h3>Souvenir Sales, Australia, and Wacky Inflatable Tube Men</h3>
+<p>We can’t clone cities, but there is a way to statistically emulate the above situation. This post provides a general overview of how to generate a <strong>counterfactual prediction</strong>, which is a way to quantify what would’ve happened had we never run the advertisement, event, or intervention.</p>
+<p>Incremental Sales, ROI, KPIs, Lift – these terms are somewhat abstract. Australia, Souvenirs, Wacky- Inflatable-Tube-Men (WITM for short) – that all seems pretty straight-forward. So imagine you run a souvenir shop near the beach in Australia and you’re looking for ways to attract additional foot traffic and (hopefully) increase sales. You decide to purchase this guy below, hoping it will draw attention to your store, increase foot traffic, and produce more souvenir sales.</p>
+<p><img src="counterfactual_prediction_images/wacky_inflatable_man.jpg" width="800px" height="800px" /></p>
+<p>Being a savvy business owner, you’re interested in the effect of your new WITM on sales. Does having this form of advertisement drive sales beyond what would’ve happened in the absence of any WITM? You look to the other six souvenir shops in separate parts of town to answer this question. The other souvenir shops will serve as a control group because they don’t have a WITM. Additionally, the other shops are located far enough away from your shop so there is no way for their sales to be affected by your WITM (this is a critical assumption that in real-world contexts should be verified). After accounting for base-line differences in sales between your shop and the control shops, you build a forecast – or counterfactual prediction – premised on what would’ve happened in your shop had the WITM intervention never taken place. This prediction will then serve as the baseline from which to compare what happened to sales.</p>
+<p>In short, you (the shop owner) are faced with two tasks:</p>
+<ul>
+<li><strong>Identifying which of control shop(s) are most like your shop</strong></li>
+<li><strong>Generating the counterfactual prediction</strong></li>
+</ul>
+<p>I’ll go through each of these steps at a high level, just to give you a general idea of logic underlying the process. For an excellent, more in-depth explanation of the technical details check out this <a href="http://multithreaded.stitchfix.com/blog/2016/01/13/market-watch/">post</a> by the author of the <code>MarketMatching</code> package, which we will leverage to address both tasks.</p>
+</div>
+<div id="creating-the-synthetic-data-set" class="section level3">
+<h3>Creating the Synthetic Data Set</h3>
+<p>Let’s first download the dataset and load up the required libraries. You can find the dataset here.</p>
+<pre class="r"><code>libs = c(&quot;devtools&quot;, &quot;CausalImpact&quot;, &quot;forecast&quot;,
+         &quot;data.table&quot;, &quot;kableExtra&quot;,&quot;dplyr&quot;, 
+         &quot;forcats&quot;, &quot;MarketMatching&quot;, &quot;knitr&quot;, 
+         &quot;ggplot2&quot;, &quot;ggforce&quot;)
+lapply(libs, require, character.only = TRUE)
+# Uncomment if you dont have the package installed 
+#devtools::install_github(&quot;klarsen1/MarketMatching&quot;, build_vignettes=TRUE)
+starting_date = as.Date(&quot;1987-01-01&quot;)
+souvenir = fread(&quot;https://robjhyndman.com/tsdldata/data/fancy.dat&quot;,
+                 data.table = FALSE) %&gt;% 
+           rename(sales = V1) %&gt;% 
+           mutate(date = seq(starting_date, by = &quot;month&quot;, length.out = n()))</code></pre>
+<p>The dataset is total monthly souvenir sales for your shop, starting in January of 1987 and running through December of 1993. Let’s take a high level glance at our time series to see if we need to clean it up.</p>
+<pre class="r"><code>my_plot_theme = function(){
+    font_family = &quot;Helvetica&quot;
+    font_face = &quot;bold&quot;
+    return(theme(
+    axis.text.x = element_text(size = 18, face = font_face, family = font_family),
+    axis.text.y = element_text(size = 18, face = font_face, family = font_family),
+    axis.title.x = element_text(size = 20, face = font_face, family = font_family),
+    axis.title.y = element_text(size = 20, face = font_face, family = font_family),
+    strip.text.y = element_text(size = 18, face = font_face, family = font_family),
+    plot.title = element_text(size = 18, face = font_face, family = font_family),
+    legend.position = &quot;top&quot;,
+    legend.title = element_text(size = 16,
+    face = font_face,
+    family = font_family),
+    legend.text = element_text(size = 14,
+    face = font_face,
+    family = font_family)
+))
+}
+
+ggplot(souvenir, aes(x = date, y = sales)) + geom_point(size = 2) + 
+                                             geom_line(size = 2) + 
+  theme_bw() + 
+  my_plot_theme()</code></pre>
+<p><img src="/post/counterfactual_prediction_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
+<p>Notice that the seasonal changes become more volatile across time, particularly in the past couple years. The forecasting model we’ll be using is additive and thus cannot account for a multiplicative time series, so we’ll need to log-transform sales before we build a model.</p>
+<pre class="r"><code>souvenir_ts = ts(log(souvenir$sales),
+                 frequency = 12,
+                 start = c(1987, 1))</code></pre>
+<p>Now the seasonal fluctuations are roughly constant across time and can be described with an additive model. Next we’ll generate a 6-month ahead forecast. To simulate the positive effect that the WITM intervention had on sales during the 6-month intervention period, we’ll sample from a normal distribution where the mean is 5% of the forecasted value and the standard deviation is defined by the residuals of the fitted model. Using the residuals from the fitted model will result in a smaller standard deviation than using a holdout set, but to keep things simple we’ll estimate uncertainty based on model residuals.</p>
+<pre class="r"><code>set.seed(123)
+# define length of intervention
+trial_period_months = 6
+# define simulated effect size as a percentage (e.g., a 5% lift above what is expected each month)
+effect_size = 0.05
+arima_fit = auto.arima(souvenir_ts)
+simulated_intervention = forecast(arima_fit, trial_period_months)$mean
+# create simulated effect 
+simulated_intervention = sapply(simulated_intervention, function(x) x + rnorm(1, 
+                                                     mean = (x * effect_size),
+                                                     sd = sd(arima_fit$residuals)))
+
+monthly_log_sales = c(souvenir_ts, simulated_intervention)
+
+study_dates = seq(max(souvenir$date), 
+                  by = &quot;month&quot;, 
+                  length.out = (trial_period_months + 1))
+
+study_dates = study_dates[2:length(study_dates)]
+intervention_start = study_dates[1]
+
+souvenir_sim = data.frame(measurement_date = c(souvenir$date, study_dates),
+                          sales = c(souvenir_ts, simulated_intervention),
+                          store = &quot;1&quot;) %&gt;% 
+                mutate(time_period = ifelse(measurement_date &gt;= intervention_start, 
+                                            &quot;post-intervention&quot;,
+                                            &quot;pre-intervention&quot;))</code></pre>
+<p>Let’s plot the results to get a better idea of when each of the events is happening.</p>
+<pre class="r"><code>ggplot(souvenir_sim, aes(x = measurement_date, 
+                         y = sales,
+                         color = time_period
+                         )) + 
+  geom_point(size = 2) + geom_line(size = 2) +
+  theme_bw() +
+  my_plot_theme() + ylab(&quot;Log Sales&quot;) + xlab(&quot;Date&quot;) + 
+  facet_zoom(x = measurement_date %in% as.Date(souvenir_sim %&gt;%
+                                      filter(time_period == &quot;post-intervention&quot;) %&gt;%
+                                      pull(measurement_date))) + 
+  theme(legend.title=element_blank())</code></pre>
+<p><img src="/post/counterfactual_prediction_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<p>The blue region is the time before the intervention, while the red region is the time during the intervention. It’s hard to determine if the level (mean) has increased for the last six months of our time series. The uptick could be due to seasonal variation or where the trend of the series was naturally going (Obviously, we know this to be false). We want to rule these explanations out. To do so, we’ll make a counterfactual prediction based on the other control shops. We’ll use the original time series as a basis to create six other time series. Three will be the original time series with an added Gaussian error term while the other three will be random walks. All six will serve as initial candidates for our control shops. Let’s generate the time series for our comparison shops.</p>
+<pre class="r"><code>set.seed(123)
+comparison_df = data.frame(NULL)
+similiar_stores = c(&quot;2&quot;, &quot;3&quot;, &quot;4&quot;)
+# generate time series for similar stores
+for(i in 1:length(similiar_stores)){
+  temp_ts = souvenir_ts
+  
+  # add a bit of random noise
+  temp_ts = data.frame(sales = temp_ts + rnorm(length(temp_ts), 
+                                               0, 
+                                               (sd(temp_ts) * 0.25)))
+  
+  # fit a arima model to the simulated sales data
+  temp_fit = auto.arima(ts(temp_ts$sales, frequency = 12, 
+                           start = c(1987, 1)))
+  
+  # generate forecast
+  forecasted_values = data.frame(forecast(temp_fit, h = trial_period_months))$Point.Forecast
+  
+  temp_ts = data.frame(sales = c(temp_ts$sales, forecasted_values),
+                       store = similiar_stores[i])
+  
+  comparison_df = bind_rows(comparison_df, temp_ts)
+}
+# generate time series for random stores
+random_stores = c(&quot;5&quot;, &quot;6&quot;, &quot;7&quot;)
+
+for(r in random_stores){
+  temp_random = data.frame(sales = rnorm((length(souvenir_ts) + trial_period_months), 
+                                         mean = mean(souvenir_ts), 
+                                         sd = sd(souvenir_ts)),
+                           store = r
+  )
+  comparison_df = rbind(comparison_df, temp_random)
+}
+
+comparison_df = comparison_df %&gt;% 
+                mutate(measurement_date = rep(seq(starting_date,
+                                    by = &quot;month&quot;,
+                                    length.out = nrow(souvenir_sim)
+                                    ),
+                                length(unique(comparison_df$store)))
+                       ) %&gt;% 
+                bind_rows(souvenir_sim %&gt;% 
+                          dplyr::select(-time_period))</code></pre>
+<p>We now have all of time series in a neat dataframe. Let’s visualize what that looks like.</p>
+<pre class="r"><code>ggplot(comparison_df, aes(x = as.Date(measurement_date), 
+                          y = sales, 
+                          color = store)) + geom_point() + geom_line() +
+  facet_wrap(~store, ncol = 1) + 
+  theme_bw() + 
+  my_plot_theme() + ylab(&quot;Log Sales&quot;) + 
+  xlab(&quot;Date&quot;) + 
+  theme(strip.text.x = element_text(size = 14, face = &quot;bold&quot;),
+        axis.text.y = element_blank(),
+        legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/counterfactual_prediction_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p>Store 1 is our store, while Stores 2-7 are the potential control stores.To make inferences about the effect of our intervention, we want to identify a separate store(s) with similar sales history to serve as the control store(s). We’ll keep it simple here and only use a single store, but you could use any number of stores as a control. I’ll discuss in the next section how we go about defining and identifying similarity.</p>
+</div>
+<div id="selecting-a-control-time-series-with-dynamic-time-warping" class="section level3">
+<h3>Selecting a Control Time Series with Dynamic Time Warping</h3>
+<p>We’ll implement a technique known as Dynamic Time Warping. It sounds like something you’d hear in a Steven Hawking TED talk, but it’s just a way to measure the similarity between two sequences. A common approach for measuring the similarity between sequences is to take the squared or absolute difference between them at the same period and then sum up the results. The main drawback with this approach is that it fails to account for seasonal changes that might be shifted or delayed but still occur in the same order. It’s like if two people said the same sentence but one person said it much slower than the other. The order and content of the utterance is the same but the cadence is different. This is where Dynamic Time Warping shines. It stretches or compresses (within some constraints) one time series to make it as similar as possible to the other. An individual’s speech cadence wouldn’t affect our ability to determine the similarity between two separate utterances.</p>
+<p>In the current context, we aren’t concerned with leading or lagging seasonality, as a random error was added to each value in the absence of any forward or backward shifts. However, this can be an issue when dealing with phenomena that are impacted by, say, weather. For example, imagine you sell a seasonal product like ice cream. Ice cream sales go up when the weather gets hot, and perhaps it warms up in some parts of the same region before others. This is a case when you might see the exact same sales patterns but some emerge a few months before or after others. Therefore, it is important to use a matching method that can account for these shifts when comparing the similarity of two time-series.</p>
+<p>We’ll leverage the <code>MarketMatching</code> package to select our control time series. The selection process is done via DTW.</p>
+<pre class="r"><code>start = min(comparison_df$measurement_date)
+end = unique(comparison_df$measurement_date)[(length(unique(comparison_df$measurement_date)) - 
+                                                                                       trial_period_months)]
+most_similar_store = MarketMatching::best_matches(data = comparison_df,
+                             id_variable = &quot;store&quot;,
+                             date_variable = &quot;measurement_date&quot;,
+                             matching_variable = &quot;sales&quot;,
+                             warping_limit = 3,
+                             matches = 1,
+                             start_match_period = start,
+                             end_match_period = end
+                             )</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:310px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+store
+</th>
+<th style="text-align:center;">
+BestControl
+</th>
+<th style="text-align:center;">
+RelativeDistance
+</th>
+<th style="text-align:center;">
+Correlation
+</th>
+<th style="text-align:center;">
+Length
+</th>
+<th style="text-align:center;">
+rank
+</th>
+<th style="text-align:center;">
+MatchingStartDate
+</th>
+<th style="text-align:center;">
+MatchingEndDate
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+0.0236473
+</td>
+<td style="text-align:center;">
+0.9748766
+</td>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1987-01-01
+</td>
+<td style="text-align:center;">
+1993-12-01
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.0236340
+</td>
+<td style="text-align:center;">
+0.9748766
+</td>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1987-01-01
+</td>
+<td style="text-align:center;">
+1993-12-01
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.0241987
+</td>
+<td style="text-align:center;">
+0.9675762
+</td>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1987-01-01
+</td>
+<td style="text-align:center;">
+1993-12-01
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.0242539
+</td>
+<td style="text-align:center;">
+0.9747157
+</td>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1987-01-01
+</td>
+<td style="text-align:center;">
+1993-12-01
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+0.0868463
+</td>
+<td style="text-align:center;">
+0.0142677
+</td>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1987-01-01
+</td>
+<td style="text-align:center;">
+1993-12-01
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+0.0856863
+</td>
+<td style="text-align:center;">
+0.0625024
+</td>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1987-01-01
+</td>
+<td style="text-align:center;">
+1993-12-01
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+0.0845866
+</td>
+<td style="text-align:center;">
+0.0625024
+</td>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1987-01-01
+</td>
+<td style="text-align:center;">
+1993-12-01
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>That was too easy! This table indicates that the pre-intervention sales for Store Number 2 are the most similar to those in Store Number 1. Thus, we’ll use Store 2 to generate our counterfactual prediction.</p>
+</div>
+<div id="generating-counterfactual-predictions" class="section level3">
+<h3>Generating Counterfactual Predictions</h3>
+<p>This is the inference part – namely, can we infer that our intervention impacted sales?</p>
+<pre class="r"><code>results = MarketMatching::inference(matched_markets = most_similar_store,
+                                     test_market = &quot;1&quot;,
+                                     end_post_period = max(comparison_df$measurement_date)
+                                    )</code></pre>
+<pre class="r"><code>## ------------- Inputs -------------
+## Test Market: 1
+## Control Market 1: 2
+## Market ID: store
+## Date Variable: measurement_date
+## Matching (pre) Period Start Date: 1987-01-01
+## Matching (pre) Period End Date: 1993-12-01
+## Post Period Start Date: 1994-01-01
+## Post Period End Date: 1994-06-01
+## Matching Metric: sales
+## Local Level Prior SD: 0.01
+## Posterior Intervals Tail Area: 95%
+##
+## 
+## ------------- Model Stats -------------
+## Matching (pre) Period MAPE: 1.47%
+## Beta 1 [2]: 0.9239
+## DW: 1.93
+##
+##
+## ------------- Effect Analysis -------------
+## Absolute Effect: 2.62 [1.29, 3.99]
+## Relative Effect: 4.41% [2.17%, 6.73%]
+## Probability of a causal impact: 99.8996%</code></pre>
+<p>Let’s breakdown the <strong>Effect Analysis</strong> portion of the output. The <strong>Absolute Effect</strong> indicates a lift of 2.62 in sales over the 6-month intervention period. Given that we’re working with logged units, this isn’t very helpful without transforming it first. The <strong>Relative Effect</strong>, in contrast, provides a standardized view. Recall that we simulated a 5% lift, and in this case we observed an estimated lift of 4.41%. Finally, the Probability of a causal impact indicates that the likelihood of observing this effect by chance is extremely low (e.g., 100 - 99.8). We can see what was just described above in visual format below.</p>
+<pre class="r"><code>plot(results$PlotActualVersusExpected)</code></pre>
+<p><img src="/post/counterfactual_prediction_files/figure-html/unnamed-chunk-16-1.png" width="960" /></p>
+<p>This drives home that our intervention had a clear effect – and we should promote the WITM to store manager for the excellent work in driving up sales. Hopefully this post gave you a better idea of how to quantify the impact of an intervention. The ability to run a true randomized control study in the real-world is often too expensive or simply not possible. In many cases creating a statistical control group is the best (and cheapest) option available. For more information about the forecasting methodology used produce counterfactual predictions, check out the <a href="https://cran.r-project.org/web/packages/bsts/bsts.pdf">bsts</a> and (CausalImpact)[<a href="https://google.github.io/CausalImpact/CausalImpact.html" class="uri">https://google.github.io/CausalImpact/CausalImpact.html</a>] packages. Happy experimenting!</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/counterfactual-prediction">Counterfactual Prediction</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/forecasting">Forecasting</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/experimentation">Experimentation</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/causal-impact">Causal Impact</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/time_series_outlier_detection.html">Time Series Outlier Detection</a></li>
+    
+    <li><a href="/post/early_trend_detection.html">Early Trend Detection</a></li>
+    
+    <li><a href="/post/monte_carlo_power_mixed_effects.html">Monte Carlo Power Calculations for Mixed Effects Models</a></li>
+    
+    <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
+    
+    <li><a href="/post/prediction_intervals.html">Is that Home Price Negotiable?</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

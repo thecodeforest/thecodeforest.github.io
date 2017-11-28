@@ -1,0 +1,2292 @@
+"year","name","college","pos","height_in","weight_lbs","wonderlic","x40_yard","bench_press","vert_leap_in","broad_jump_in","shuttle","x3cone"
+2011,"Sam Acho","Texas","OLB",73.63,262,NA,4.67,23,33.5,112,4.32,6.69
+2011,"Darvin Adams","Auburn","WR",74.13,190,NA,4.56,NA,NA,NA,9.99,9.99
+2011,"Olufemi Ajiboye","South Carolina","DT",73.38,297,NA,5.31,23,24,91,4.71,7.72
+2011,"Anthony Allen","Georgia Tech","RB",72.75,228,NA,4.56,24,41.5,120,4.06,6.79
+2011,"Armando Allen","Notre Dame","RB",68.25,199,NA,4.52,23,NA,NA,9.99,9.99
+2011,"Cortez Allen","Citadel (SC)","CB",73.25,197,NA,4.5,18,35.5,129,4.01,6.76
+2011,"Prince Amukamara","Nebraska","CB",72,206,NA,4.38,15,38,128,4.08,6.97
+2011,"David Arkin","Missouri State","OG",76.75,300,NA,5.31,25,29,103,4.63,7.6
+2011,"Matt Asiata","Utah","RB",71,229,NA,4.77,22,30,104,4.37,7.09
+2011,"Marvin Austin","North Carolina","DT",73.63,309,NA,4.84,38,30.5,112,4.4,7.33
+2011,"Akeem Ayers","UCLA","OLB",74.5,254,NA,4.81,18,31,116,4.28,7.49
+2011,"Allen Bailey","Miami (FL)","DE",75,285,NA,4.71,27,36.5,117,4.56,7.43
+2011,"Brandon Bair","Oregon","DE",77.88,276,NA,4.92,26,28,114,4.37,7.07
+2011,"Jon Baldwin","Pittsburgh","WR",76.38,228,14,4.49,20,42,129,4.34,7.07
+2011,"Christian Ballard","Iowa","DE",75.75,283,NA,4.75,NA,31.5,111,4.51,7.54
+2011,"Joseph Barksdale","Louisiana State","OT",76.75,325,NA,5.31,29,29,103,4.75,8.27
+2011,"Ryan Bartholomew","Syracuse","C",73.13,302,NA,4.93,34,26.5,92,4.62,7.62
+2011,"Jeremy Beal","Oklahoma","ILB",74.25,262,NA,5.14,22,28.5,106,4.46,7.2
+2011,"Nick Bellore","Central Michigan","ILB",73,245,NA,4.84,23,32.5,109,4,6.98
+2011,"Damien Berry","Miami (FL)","RB",70.25,211,NA,4.58,23,33.5,120,4.12,7
+2011,"Armon Binns","Cincinnati","WR",75,209,NA,4.5,13,31.5,118,4.31,6.86
+2011,"Ahmad Black","Florida","SS",69.5,184,NA,4.7,18,35.5,119,4.2,6.85
+2011,"Clint Boling","Georgia","OG",76.63,308,NA,5.28,28,31,102,4.64,7.66
+2011,"Justin Boren","Ohio State","OG",74.88,309,NA,5.4,28,NA,NA,4.75,7.57
+2011,"DaQuan Bowers","Clemson","DE",75.38,280,NA,4.64,22,NA,NA,9.99,9.99
+2011,"Allen Bradford","Southern California","RB",70.88,242,NA,4.53,28,29,113,4.39,6.97
+2011,"James Brewer","Indiana","OT",78.25,323,NA,5.21,25,26,100,4.81,7.84
+2011,"Niles Brinkley","Wisconsin","CB",69.5,193,NA,4.54,15,33.5,120,9.99,7.23
+2011,"Chykie Brown","Texas","CB",71.25,190,NA,4.49,NA,36.5,120,4,6.5
+2011,"Curtis Brown","Texas","CB",71.63,185,NA,4.51,10,39.5,128,4,6.59
+2011,"DeAndre Brown","Southern Mississippi","WR",77.63,233,NA,4.59,20,29,117,4.33,6.93
+2011,"Jalil Brown","Colorado","CB",72.63,204,NA,4.52,24,35.5,116,4.25,6.85
+2011,"Vincent Brown","San Diego State","WR",71.25,187,NA,4.68,12,33.5,121,4.25,6.64
+2011,"Kendric Burney","North Carolina","CB",69.38,186,NA,4.71,14,32.5,112,9.99,9.99
+2011,"Brandon Burton","Utah","CB",71.63,190,NA,4.5,18,32,118,4.07,6.93
+2011,"Stephen Burton","West Texas A&M","WR",73.38,221,NA,4.5,19,34.5,117,4.31,7.04
+2011,"Mario Butler","Georgia Tech","CB",72.13,182,NA,4.65,NA,30.5,120,4.37,7.09
+2011,"Jordan Cameron","Southern California","TE",77.25,254,NA,4.53,23,37.5,119,4.03,6.82
+2011,"Marcus Cannon","Texas Christian","OT",77,358,NA,5.26,33,30.5,105,4.97,8.07
+2011,"Gabe Carimi","Wisconsin","OT",79,314,NA,5.18,29,31.5,109,9.99,9.99
+2011,"Rashad Carmichael","Virginia Tech","CB",70,192,NA,4.53,13,31,116,4.06,6.69
+2011,"James Carpenter","Alabama","OT",76.38,321,NA,5.22,23,NA,NA,9.99,9.99
+2011,"Bruce Carter","North Carolina","OLB",73.5,241,NA,4.57,25,NA,NA,9.99,9.99
+2011,"Chris Carter","Frenso State (CA)","OLB",73.13,248,NA,4.58,27,36,114,4.34,6.88
+2011,"Delone Carter","Syracuse","RB",68.63,222,NA,4.54,27,37,120,4.07,6.92
+2011,"Quinton Carter","Oklahoma","FS",72.63,208,NA,4.57,23,34.5,121,4.06,7.05
+2011,"Jurrell Casey","Southern California","DT",72.63,300,NA,5.04,26,27.5,101,4.78,7.51
+2011,"Anthony Castonzo","Boston College","OT",79,311,NA,5.21,28,29.5,105,4.4,7.25
+2011,"Shaun Chapas","Georgia","FB",74.13,247,NA,4.87,23,35.5,116,4.4,7.13
+2011,"Chimdi Chekwa","Ohio State","CB",71.75,191,NA,4.38,NA,34.5,126,9.99,9.99
+2011,"Ugo Chinasa","Oklahoma State","DE",76.88,264,NA,4.63,22,28,117,4.39,7.07
+2011,"Charles Clay","Tulsa (OK)","FB",74.88,245,NA,4.69,18,33.5,118,4.15,7.07
+2011,"John Clay","Wisconsin","RB",72.5,230,NA,4.83,NA,29,111,9.99,9.99
+2011,"Adrian Clayborn","Iowa","DE",74.63,281,NA,4.78,NA,33,113,4.13,7.3
+2011,"Randall Cobb","Kentucky","WR",70.25,191,NA,4.46,16,33.5,115,4.34,7.08
+2011,"Ryan Colburn","Frenso State (CA)","QB",74.75,233,NA,5.12,NA,NA,NA,4.28,6.84
+2011,"Chris Conte","California","FS",74.38,197,NA,4.52,18,35.5,127,4.19,7.01
+2011,"Graig Cooper","Miami (FL)","RB",70,205,NA,4.6,18,NA,114,4.03,6.66
+2011,"Vance Cuff","Georgia","CB",70,178,NA,4.53,NA,36,120,4.09,6.91
+2011,"Chris Culliver","South Carolina","FS",72.38,199,NA,4.36,NA,38.5,123,4.08,6.88
+2011,"Andy Dalton","Texas Christian","QB",74,215,29,4.83,NA,29.5,106,4.27,6.93
+2011,"Wayne Daniels","Texas Christian","OLB",72.25,260,NA,5.03,NA,25,106,4.68,7.81
+2011,"Marcell Dareus","Alabama","DT",75.13,319,NA,4.93,24,27,NA,4.62,7.83
+2011,"Josh Davis","Georgia","OT",79.13,313,NA,5.5,NA,24,91,5.07,7.98
+2011,"Mark Dell","Michigan State","WR",72.25,193,NA,4.54,14,NA,NA,9.99,9.99
+2011,"Akeem Dent","Georgia","ILB",73,242,NA,4.78,24,37.5,123,9.99,9.99
+2011,"Noel Devine","West Virginia","RB",67.5,179,NA,4.34,24,NA,NA,9.99,9.99
+2011,"Pat Devlin","Delaware","QB",75.38,225,NA,4.81,NA,33,116,4.32,7.08
+2011,"Demarcus Dobbs","Georgia","DE",74.25,281,NA,4.87,NA,31,107,4.37,7.22
+2011,"Ray Dominguez","Arkansas","OG",76,334,NA,5.45,21,27.5,90,4.9,7.74
+2011,"Tandon Doss","Indiana","WR",74,201,NA,4.56,14,NA,NA,9.99,9.99
+2011,"Ras-I Dowling","Virginia","CB",73.38,198,NA,4.4,19,NA,NA,9.99,9.99
+2011,"Shaun Draughn","North Carolina","RB",70.88,213,NA,4.73,21,34,118,4.2,7.15
+2011,"Kenrick Ellis","Hampton (VA)","DT",76.88,346,NA,5.19,26,NA,NA,9.99,9.99
+2011,"Ricky Elmore","Arizona","DE",76.5,255,NA,4.88,26,31.5,106,4.32,7.25
+2011,"Nathan Enderle","Idaho","QB",76.13,240,NA,5.12,NA,25.5,102,4.46,7.13
+2011,"Darren Evans","Virginia Tech","RB",72,227,NA,4.56,26,35,111,4.46,6.96
+2011,"Nick Fairley","Auburn","DT",75.88,291,NA,4.84,NA,31,113,4.56,7.14
+2011,"Mario Fannin","Auburn","RB",70.38,231,NA,4.37,21,37.5,115,4.21,6.99
+2011,"Mason Foster","Washington","OLB",73.25,245,NA,4.75,22,31,110,4.45,7.14
+2011,"Orlando Franklin","Miami (FL)","OT",77.5,316,NA,5.11,26,28.5,NA,9.99,9.99
+2011,"Sione Fua","Stanford","DT",73.5,308,NA,5.28,30,24,101,4.54,7.54
+2011,"Brandon Fusco","Slippery Rock (PA)","C",76,306,NA,5.18,26,28.5,108,4.43,7.29
+2011,"Blaine Gabbert","Missouri","QB",76.38,234,42,4.61,NA,33.5,120,4.26,6.84
+2011,"Charlie Gantt","Michigan State","TE",76,252,NA,4.85,27,30.5,112,4.4,7.15
+2011,"Edmond Gates","Abilene Christian (TX)","WR",71.75,192,NA,4.31,16,40,131,9.99,9.99
+2011,"Marcus Gilbert","Florida","OT",78.13,330,NA,5.41,30,NA,NA,9.99,9.99
+2011,"Marcus Gilchrist","Clemson","CB",70,195,NA,4.45,26,38.5,119,4.12,6.81
+2011,"DeJon Gomes","Nebraska","SS",71.5,208,NA,4.5,13,31,110,9.99,9.99
+2011,"Cameron Graham","Louisville","TE",75.13,244,NA,5,18,31,105,4.51,7.19
+2011,"Adam Grant","Arizona","OT",78,325,NA,5.54,25,26.5,99,5,8.25
+2011,"John Graves","Virginia Tech","DT",75,286,NA,5.09,29,28.5,114,4.49,7.49
+2011,"A.J. Green","Georgia","WR",75.63,211,10,4.48,18,34.5,126,4.21,6.91
+2011,"Alex Green","Hawaii","RB",72.25,225,NA,4.45,20,34,114,4.15,6.91
+2011,"Virgil Green","Nevada","TE",75.38,249,NA,4.54,23,42.5,130,4.4,6.9
+2011,"Tori Gurley","South Carolina","WR",76.13,216,NA,4.53,15,33.5,118,4.25,7.05
+2011,"Lawrence Guy","Arizona State","DT",76.13,305,NA,4.96,28,29,NA,4.43,7.6
+2011,"Eric Hagg","Nebraska","FS",73.38,209,NA,4.62,18,34.5,121,4.19,6.73
+2011,"Chris Hairston","Clemson","OT",78.13,326,NA,5.38,33,29,96,4.7,7.9
+2011,"Leonard Hankerson","Miami (FL)","WR",73.5,209,NA,4.4,14,36,117,4.21,6.94
+2011,"Daniel Hardy","Idaho","TE",75.75,249,NA,4.77,18,NA,NA,9.99,9.99
+2011,"Jamie Harper","Clemson","RB",71.38,233,NA,4.53,24,36.5,120,4.39,7.16
+2011,"Brandon Harris","Miami (FL)","CB",69.5,191,NA,4.46,13,35.5,113,4.12,6.77
+2011,"Dwayne Harris","East Carolina (NC)","WR",70.38,203,NA,4.53,10,34,111,4.21,6.77
+2011,"Roy Helu","Nebraska","RB",71.5,219,NA,4.4,11,36.5,119,4.01,6.67
+2011,"Ricky Henry","Nebraska","OG",74.75,308,NA,5.68,20,24,90,4.68,7.98
+2011,"Sandon Herzlich","Boston College","OLB",76,244,NA,4.91,29,32.5,112,4.46,7.32
+2011,"Cameron Heyward","Ohio State","DE",76.63,294,NA,4.92,NA,30,NA,9.99,9.99
+2011,"Will Hill","Florida","FS",72.75,202,NA,4.64,NA,31,123,4.19,9.99
+2011,"Jermale Hines","Ohio State","FS",73.13,219,NA,4.61,19,31,NA,4.21,6.9
+2011,"Kyle Hix","Texas","OT",78.88,319,NA,5.44,24,32,104,4.78,7.77
+2011,"Brandon Hogan","West Virginia","CB",70.25,192,NA,4.43,19,NA,NA,9.99,9.99
+2011,"Doug Hogue","Syracuse","OLB",74.5,235,NA,4.62,18,36,121,4.57,7.09
+2011,"Andre Holmes","Hillsdale (MI)","WR",76.38,210,NA,4.51,11,35,130,4.31,6.69
+2011,"Ross Homan","Ohio State","OLB",72.75,240,NA,4.66,32,35.5,111,4.34,7.21
+2011,"Davon House","New Mexico State","CB",72.5,200,NA,4.44,14,33.5,109,4.12,6.65
+2011,"Rob Housler","Florida Atlantic","TE",77.38,248,NA,4.46,22,37,117,4.21,6.9
+2011,"Justin Houston","Georgia","OLB",74.88,270,NA,4.62,30,36.5,125,4.37,6.95
+2011,"Rodney Hudson","Florida State","C",74.38,299,NA,5.27,27,25.5,95,4.96,8.03
+2011,"Kevin Hughes","Southeast Louisiana","OT",75.63,302,NA,5.31,22,29.5,95,4.97,8.29
+2011,"Jeremiha Hunter","Iowa","OLB",72.5,239,NA,4.77,20,31.5,116,9.99,9.99
+2011,"Kendall Hunter","Oklahoma State","RB",67.25,199,NA,4.46,24,35,122,4.21,6.74
+2011,"Zach Hurd","Connecticut","OG",78.75,316,NA,5.28,NA,28,101,4.77,7.73
+2011,"Maurice Hurt","Florida","OG",74.63,318,NA,5.34,18,NA,NA,9.99,9.99
+2011,"Henry Hynoski","Pittsburgh","FB",72.38,257,NA,5.06,24,30.5,111,9.99,9.99
+2011,"Mark Ingram","Alabama","RB",69.13,215,NA,4.62,21,31.5,113,4.62,7.13
+2011,"Andrew Jackson","Frenso State (CA)","OG",77,299,NA,5.27,25,28,98,4.65,7.55
+2011,"Jaiquawn Jarrett","Temple","FS",71.88,198,NA,4.62,14,30,113,4.14,6.95
+2011,"Lestar Jean","Florida Atlantic","WR",75,215,NA,4.61,14,37.5,113,4.43,7.45
+2011,"Jarvis Jenkins","Clemson","DT",76,310,NA,5.03,17,26.5,98,4.83,7.42
+2011,"Jerrel Jernigan","Troy (AL)","WR",68.88,185,NA,4.46,11,37.5,117,4.25,7.07
+2011,"Carl Johnson","Florida","OG",77,361,NA,5.4,25,25.5,96,5.03,9.99
+2011,"Jeron Johnson","Boise State","SS",70.25,212,NA,4.51,23,NA,NA,9.99,9.99
+2011,"Jerrod Johnson","Texas A&M","QB",77.13,251,NA,4.75,NA,29,119,4.31,7.28
+2011,"Ronald Johnson","Southern California","WR",71.25,199,NA,4.46,16,NA,NA,9.99,9.99
+2011,"Greg Jones","Michigan State","ILB",72.13,242,NA,4.75,21,31.5,117,4.27,7.21
+2011,"Julio Jones","Alabama","WR",74.75,220,NA,4.34,17,38.5,135,4.25,6.66
+2011,"Taiwan Jones","Eastern Washington","RB",71.63,194,NA,4.53,13,32,115,4.33,7.25
+2011,"Cameron Jordan","California","DE",76.13,287,NA,4.74,25,31,117,4.37,7.07
+2011,"Colin Kaepernick","Nevada","QB",76.63,233,NA,4.53,NA,32.5,115,4.18,6.85
+2011,"Jason Kelce","Cincinnati","C",74.63,280,NA,4.89,NA,30.5,110,4.14,7.22
+2011,"Lance Kendricks","Wisconsin","TE",74.88,243,NA,4.65,25,34.5,122,4.15,6.94
+2011,"Shiloh Keo","Idaho","SS",71.25,219,NA,4.74,24,32.5,110,3.9,6.55
+2011,"Jeremy Kerley","Texas Christian","WR",69.5,189,NA,4.56,16,34.5,120,9.99,9.99
+2011,"Patrick Kerrigan","Purdue","DE",75.88,267,NA,4.67,31,33.5,122,4.39,7.18
+2011,"Daniel Kilgore","Appalachian State (NC)","OG",75.25,308,NA,5.28,23,32.5,105,4.68,7.59
+2011,"Jarriel King","South Carolina","OT",77,317,NA,5.03,23,30,114,4.77,7.6
+2011,"Karl Klug","Iowa","DE",75,275,NA,4.79,22,NA,NA,9.99,9.99
+2011,"Joe Lefeged","Rutgers","SS",71.63,210,NA,4.42,18,36.5,122,4.13,6.82
+2011,"Mark LeGree","Appalachian State (NC)","FS",71.5,210,NA,4.49,21,31,116,4.09,6.9
+2011,"Orie Lemon","Oklahoma State","ILB",72.75,242,NA,4.87,27,30,113,4.4,7.45
+2011,"Mikel Leshoure","Illinois","RB",71.63,227,NA,4.56,21,38,122,4.4,6.82
+2011,"Lazarius Levingston","Louisiana State","DE",75.5,292,NA,4.93,NA,29.5,104,4.62,7.29
+2011,"Dion Lewis","Pittsburgh","RB",66.63,193,NA,4.56,17,34.5,112,4.18,6.9
+2011,"Alex Linnenkohl","Oregon State","C",73.75,304,NA,5.36,24,26.5,89,4.62,7.67
+2011,"Greg Little","North Carolina","WR",74.5,231,NA,4.51,27,40.5,129,4.21,6.8
+2011,"Corey Liuget","Illinois","DT",74.13,298,NA,4.97,27,27.5,102,4.68,7.48
+2011,"Greg Lloyd","Connecticut","ILB",73.13,246,NA,4.8,22,32,109,4.46,7.17
+2011,"Derrick Locke","Kentucky","RB",68.25,188,NA,4.37,16,37.5,118,4.15,6.98
+2011,"Jake Locker","Washington","QB",74.5,231,20,4.51,NA,35,115,4.12,6.77
+2011,"Ricardo Lockette","Fort Valley State (GA)","WR",74.13,211,NA,4.34,NA,35.5,127,4.19,7.15
+2011,"DeMarcus Love","Arkansas","OT",76.38,315,NA,5.18,27,26.5,97,4.84,7.84
+2011,"Scott Lutrus","Connecticut","OLB",74.38,241,NA,4.68,NA,38,121,4.09,6.89
+2011,"Jeff Maehl","Oregon","WR",72.88,190,NA,4.56,NA,33.5,115,3.94,6.42
+2011,"Ryan Mallett","Arkansas","QB",78.75,253,26,5.24,NA,24,103,9.99,9.99
+2011,"Owen Marecic","Stanford","FB",72.5,248,NA,4.87,22,28.5,102,4.56,7.1
+2011,"Curtis Marsh","Utah State","CB",72.5,197,NA,4.42,12,37.5,123,4.07,6.87
+2011,"Casey Matthews","Oregon","ILB",72.88,231,NA,4.78,13,NA,NA,9.99,9.99
+2011,"Cliff Matthews","South Carolina","DE",75.5,257,NA,4.81,17,32,112,4.37,7.21
+2011,"Byron Maxwell","Clemson","CB",72.25,202,NA,4.43,24,33,124,9.99,9.99
+2011,"Colin McCarthy","Miami (FL)","ILB",73.38,238,NA,4.59,23,36.5,119,4.2,6.93
+2011,"Terrell McClain","South Florida","DT",73.63,297,NA,4.98,29,28,104,4.56,7.48
+2011,"DeAndre McDaniel","Clemson","SS",72.13,217,NA,4.63,NA,35,116,9.99,9.99
+2011,"Greg McElroy","Alabama","QB",73.88,220,43,4.84,NA,33,107,4.45,7.11
+2011,"Andrew McGee","Oklahoma State","CB",71.25,195,NA,4.71,NA,34,117,9.99,9.99
+2011,"Pernell McPhee","Mississippi State","DE",74.63,278,NA,4.91,20,28.5,107,4.59,7.13
+2011,"Bruce Miller","Central Florida","OLB",73.38,254,NA,4.81,35,31,113,4.34,7.05
+2011,"Von Miller","Texas A&M","OLB",74.63,246,NA,4.42,21,37,126,4.06,6.7
+2011,"Dontay Moch","Nevada","OLB",73.38,248,NA,4.4,21,42,128,4.38,7.09
+2011,"John Moffitt","Wisconsin","OG",76.25,319,NA,5.51,23,30.5,102,4.53,7.79
+2011,"Michael Mohamed","California","ILB",75,239,NA,4.65,21,32,115,4,6.7
+2011,"Denarius Moore","Tennessee","WR",71.63,194,NA,4.43,13,36,118,4.15,6.78
+2011,"Rahim Moore","UCLA","FS",71.75,202,NA,4.58,11,35,115,3.96,6.98
+2011,"Adrian Moten","Maryland","OLB",73.63,228,NA,4.53,18,31,114,4.21,7.05
+2011,"Jonas Mouton","Michigan","OLB",73,239,NA,4.84,NA,31.5,115,4.34,7.08
+2011,"Orenthal Murdock","Fort Hays State (KS)","WR",70.5,197,NA,4.53,15,34.5,116,4.37,9.99
+2011,"DeMarco Murray","Oklahoma","RB",71.63,213,NA,4.37,21,34.5,130,4.18,7.28
+2011,"Chris Neild","West Virginia","DT",73.75,319,NA,5.06,30,29,106,4.46,7.56
+2011,"Drake Nevis","Louisiana State","DT",72.63,294,NA,5.06,31,30.5,112,4.65,7.71
+2011,"Cam Newton","Auburn","QB",77,248,21,4.56,NA,35,126,4.18,6.92
+2011,"Derek Newton","Arkansas State","OT",76.88,311,NA,5,24,25.5,100,5,7.76
+2011,"Kris O'Dowd","Southern California","C",76.13,304,NA,5.12,31,32.5,105,4.59,7.67
+2011,"Schuylar Oordt","Northern Iowa","TE",77.75,261,NA,4.63,18,36,119,4.25,6.83
+2011,"Cheta Ozougwu","Rice (TX)","DE",73.63,247,NA,4.84,26,34.5,119,4.31,7.06
+2011,"Stephen Paea","Oregon State","DT",73.25,303,NA,4.98,49,NA,NA,9.99,9.99
+2011,"Martin Parker","Richmond (VA)","DT",74.13,303,NA,4.95,22,29,104,4.57,7.56
+2011,"Johnny Patrick","Louisville","CB",70.63,191,NA,4.59,13,32,110,4.16,9.99
+2011,"Niles Paul","Nebraska","WR",72.88,224,NA,4.45,24,34.5,117,4.14,6.9
+2011,"Michael Person","Montana State","OG",76.5,299,NA,5.07,21,28,108,4.5,7.44
+2011,"Patrick Peterson","Louisiana State","CB",72.25,219,NA,4.31,15,38,126,4.07,6.58
+2011,"Austin Pettis","Boise State","WR",74.63,209,NA,4.56,14,33.5,120,3.88,6.68
+2011,"Zach Pianalto","North Carolina","TE",75.25,256,NA,4.78,22,32,108,4.41,6.85
+2011,"Kealoha Pilares","Hawaii","WR",69.88,199,NA,4.56,19,NA,NA,9.99,9.99
+2011,"Jason Pinkston","Pittsburgh","OT",75.38,317,NA,5.39,NA,26.5,98,4.91,7.88
+2011,"Christian Ponder","Florida State","QB",74,229,35,4.63,NA,34,116,4.09,6.85
+2011,"Josh Portis","California (PA)","QB",74.88,211,NA,4.59,NA,40,126,4.12,6.84
+2011,"Mike Pouncey","Florida","OG",77,303,NA,5.12,NA,25,96,4.64,7.66
+2011,"Jerrell Powe","Mississippi","DT",73.75,335,NA,5.25,27,25,93,5.06,8.17
+2011,"Bilal Powell","Louisville","RB",70.5,207,NA,4.52,18,NA,NA,9.99,9.99
+2011,"Robert Quinn","North Carolina","DE",76,265,NA,4.62,22,34,116,4.4,7.13
+2011,"Will Rackley","Lehigh (PA)","OG",75.25,309,NA,5.27,29,23.5,NA,4.94,7.91
+2011,"Brooks Reed","Arizona","OLB",74.5,263,NA,4.65,30,30.5,113,4.28,7.11
+2011,"D'Aundre Reed","Arizona","DE",75.88,261,NA,4.84,30,35.5,119,4.32,7.24
+2011,"Jah Reid","Central Florida","OT",79.13,327,NA,5.32,28,29.5,111,4.65,7.73
+2011,"Allen Reisner","Iowa","TE",74.25,248,NA,4.9,14,28,108,4.59,7.31
+2011,"Stevan Ridley","Louisiana State","RB",71.25,225,NA,4.65,18,36,118,4.21,6.78
+2011,"Aldrick Robinson","Southern Methodist (TX)","WR",69.63,184,NA,4.35,17,40,126,4.09,6.65
+2011,"Jacquizz Rodgers","Oregon State","RB",65.88,196,NA,4.59,NA,33,113,4.26,7.31
+2011,"Justin Rogers","Richmond (VA)","CB",70.5,180,NA,4.45,14,33,114,4.2,7.21
+2011,"Brian Rolle","Ohio State","OLB",69.63,229,NA,4.53,28,33,115,4.26,6.89
+2011,"Evan Royster","Penn State","RB",71.63,212,NA,4.65,20,34,113,4.18,7.07
+2011,"Chris Rucker","Michigan State","CB",72.5,195,NA,4.55,10,NA,NA,9.99,9.99
+2011,"Kevin Rutland","Missouri","CB",71.63,190,NA,4.58,12,35.5,115,4.15,6.92
+2011,"Brandon Saine","Ohio State","RB",71.25,220,NA,4.4,22,34.5,113,4.25,6.98
+2011,"Greg Salas","Hawaii","WR",73.13,210,NA,4.53,15,37,120,4.1,6.65
+2011,"DeMarco Sampson","San Diego State","WR",74,204,NA,4.69,14,NA,NA,9.99,9.99
+2011,"Jock Sanders","West Virginia","WR",66.13,181,NA,4.5,19,34.5,121,4.13,6.78
+2011,"Robert Sands","West Virginia","FS",76.38,217,NA,4.53,12,35,124,4.06,7.03
+2011,"Dane Sanzenbacher","Ohio State","WR",71.38,182,NA,4.56,NA,33.5,118,3.97,6.46
+2011,"Tyler Sash","Iowa","SS",72,211,NA,4.62,11,33,108,4.27,6.9
+2011,"Weslye Saunders","South Carolina","TE",77.13,270,NA,4.82,19,33.5,116,9.99,9.99
+2011,"Stephen Schilling","Michigan","OG",76.25,308,NA,5.18,30,25.5,98,4.62,7.73
+2011,"Da'Rel Scott","Maryland","RB",71,211,NA,4.4,19,34,117,4.2,7.15
+2011,"Da'Norris Searcy","North Carolina","SS",70.63,223,NA,4.55,27,33,120,4.09,6.87
+2011,"Jabaal Sheard","Pittsburgh","DE",74.88,264,NA,4.68,NA,31,115,9.99,9.99
+2011,"Kelvin Sheppard","Louisiana State","ILB",73.88,250,NA,4.64,22,33.5,110,4.28,9.99
+2011,"Anthony Sherman","Connecticut","FB",70,242,NA,4.74,32,32.5,111,4.41,7.23
+2011,"Richard Sherman","Stanford","CB",74.63,195,NA,4.54,16,38,125,4.33,6.82
+2011,"Derek Sherrod","Mississippi State","OT",77.38,321,NA,5.18,23,28,97,4.63,7.43
+2011,"Cecil Shorts","Mount Union (OH)","WR",71.75,205,NA,4.5,21,34.5,114,4.07,6.5
+2011,"Tupaimoefitpo Siliga","Utah","DT",73.75,305,NA,5.04,29,29,NA,4.75,7.7
+2011,"David Sims","Iowa State","SS",69.25,200,NA,4.5,24,37.5,120,4.28,9.99
+2011,"Buster Skrine","Tennessee-Chattanooga","CB",69.5,186,NA,4.37,20,37,122,3.9,6.44
+2011,"Aldon Smith","Missouri","DE",76.25,263,NA,4.74,20,34,118,4.5,7.19
+2011,"Darryl Smith","Appalachian State (NC)","OLB",70.63,239,NA,4.75,20,31,104,4.45,7.35
+2011,"Jimmy Smith","Colorado","CB",74.25,211,NA,4.42,24,36,123,4.06,6.93
+2011,"Lee Smith","Marshall (WV)","TE",77.75,266,NA,4.94,25,29,108,4.28,7.16
+2011,"Torrey Smith","Maryland","WR",72.88,204,NA,4.41,19,41,126,4.13,6.72
+2011,"Tyron Smith","Southern California","OT",77,307,NA,5.08,29,NA,NA,9.99,9.99
+2011,"Willie Smith","East Carolina (NC)","OT",77.38,310,NA,5.4,NA,30.5,106,4.83,7.95
+2011,"Nate Solder","Colorado","OT",80.25,319,NA,4.96,21,32,110,4.34,7.44
+2011,"Owen Spencer","North Carolina State","WR",73.88,195,NA,4.51,6,37.5,125,4.18,6.86
+2011,"Ricky Stanzi","Iowa","QB",76.38,223,30,4.87,NA,32.5,110,4.43,6.95
+2011,"Luke Stocker","Tennessee","TE",76.75,258,NA,4.68,27,33,115,4.4,7.03
+2011,"Quan Sturdivant","North Carolina","ILB",73,241,NA,4.63,21,34,115,4.5,9.99
+2011,"Jerrard Tarrant","Georgia Tech","FS",72.38,204,NA,4.57,14,33,116,4.21,6.92
+2011,"Vai Taua","Nevada","RB",69.5,213,NA,4.65,20,34.5,112,4.18,6.89
+2011,"Adrian Taylor","Oklahoma","DT",75.38,311,NA,4.96,34,NA,NA,9.99,9.99
+2011,"Phil Taylor","Baylor","DT",75.25,334,NA,5.09,31,29.5,100,4.77,7.75
+2011,"Tyrod Taylor","Virginia Tech","QB",72.75,217,NA,4.47,NA,37.5,126,4.09,6.78
+2011,"Zane Taylor","Utah","C",74.5,309,NA,5.52,33,25.5,104,4.77,8.15
+2011,"Daniel Thomas","Kansas State","RB",72.25,230,NA,4.63,21,NA,NA,9.99,9.99
+2011,"James Thomas","West Virginia","OLB",73,241,NA,4.65,23,30.5,114,4.28,7.23
+2011,"Josh Thomas","Buffalo","CB",70.25,191,NA,4.46,13,38.5,126,4.15,6.99
+2011,"Julius Thomas","Portland State (OR)","TE",76.63,246,NA,4.64,16,35.5,111,4.31,6.96
+2011,"Brandyn Thompson","Boise State","CB",69.25,189,NA,4.5,13,33.5,114,4.12,6.66
+2011,"Isaiah Thompson","Houston","OG",75.38,300,NA,6,23,25,82,5.56,9.04
+2011,"Cedric Thornton","Southern Arkansas","DT",75.13,309,NA,5.25,23,27,101,4.71,7.7
+2011,"Jordan Todman","Connecticut","RB",68.88,203,NA,4.4,25,38,126,4.18,7.24
+2011,"Terrance Toliver","Louisiana State","WR",75.5,212,NA,4.52,NA,32,122,4.03,6.48
+2011,"Scott Tolzien","Wisconsin","QB",74,212,NA,4.92,NA,29.5,116,4.12,6.84
+2011,"Devon Torrence","Ohio State","CB",71.63,199,NA,4.68,NA,33,111,4.09,6.95
+2011,"Jeff Van Camp","Florida Atlantic","QB",77,218,NA,4.83,NA,31,114,4.16,6.87
+2011,"Demarcus Van Dyke","Miami (FL)","CB",72.75,176,NA,4.25,5,33.5,NA,4.09,6.97
+2011,"Julian Vandervelde","Iowa","OG",73.88,301,NA,5.12,23,31,104,4.59,7.46
+2011,"Shane Vereen","California","RB",70.25,210,NA,4.49,31,34,115,4.28,6.95
+2011,"Danny Watkins","Baylor","OG",75.38,310,NA,5.36,29,26,92,4.62,7.61
+2011,"Justin Watt","Wisconsin","DE",77.38,290,NA,4.81,34,37,120,4.21,6.88
+2011,"Ryan Whalen","Stanford","WR",73.13,202,NA,4.53,18,38.5,123,4.09,6.67
+2011,"Chris White","Mississippi State","ILB",74.75,240,NA,4.68,17,34,115,4.25,6.95
+2011,"Johnny White","North Carolina","RB",69.88,209,NA,4.5,NA,32.5,117,4.31,7.07
+2011,"Markus White","Florida State","DE",75.5,266,NA,4.86,14,32.5,117,4.51,7.25
+2011,"Colby Whitlock","Texas Tech","DT",74.13,302,NA,5.27,25,30.5,105,4.75,7.73
+2011,"Muhammad Wilkerson","Temple","DT",76.13,315,NA,4.96,27,26,106,4.59,7.31
+2011,"Aaron Williams","Texas","CB",71.88,204,NA,4.55,18,37.5,127,4.07,6.72
+2011,"D.J. Williams","Arkansas","TE",74,245,NA,4.59,20,33.5,111,4.51,7.29
+2011,"Ian Williams","Notre Dame","DT",73,319,NA,5.21,31,28.5,98,4.78,9.99
+2011,"Keith Williams","Nebraska","OG",76,318,NA,5.28,23,24.5,93,5.03,8.42
+2011,"Marshall Williams","Wake Forest","WR",72.75,188,NA,4.56,9,35.5,123,4.09,6.61
+2011,"Nate Williams","Washington","SS",73,211,NA,4.68,17,30.5,114,4.15,6.98
+2011,"Ryan Williams","Virginia Tech","RB",69,212,NA,4.59,19,40,123,4.18,6.96
+2011,"Zach Williams","Washington State","C",75,309,NA,5.18,28,30,103,4.62,7.54
+2011,"Lawrence Wilson","Connecticut","OLB",72.88,229,NA,4.71,24,32.5,113,4.5,7.23
+2011,"Martez Wilson","Illinois","ILB",76,250,NA,4.42,23,36,124,4.28,7.04
+2011,"Ryan Winterswyk","Boise State","DE",76,268,NA,4.96,18,30,111,4.37,7.01
+2011,"Stefen Wisniewski","Penn State","C",75,313,NA,5.29,30,28.5,100,4.63,7.51
+2011,"Kenneth Wright","Mississippi State","OLB",75,246,NA,4.75,20,32,120,4.46,7.26
+2011,"Shareece Wright","Southern California","CB",71,185,NA,4.41,16,34.5,113,9.99,9.99
+2011,"Taylor Yates","North Carolina","QB",75,219,NA,5.06,NA,29.5,104,4.12,6.96
+2011,"Jimmy Young","Texas Christian","WR",73,204,NA,4.5,19,37,115,4.18,7.08
+2011,"Titus Young","Boise State","WR",71.38,174,NA,4.43,NA,NA,123,9.99,9.99
+2011,"Lee Ziemba","Auburn","OT",78,317,NA,5.5,20,29,95,4.65,7.74
+NA,"","","",NA,NA,NA,NA,NA,NA,NA,NA,NA
+2012,"Emmanuel Acho","Texas","OLB",73.63,238,NA,4.64,24,35.5,118,9.99,9.99
+2012,"Joe Adams","Arkansas","WR",70.63,179,NA,4.51,NA,36,123,9.99,7.09
+2012,"Mike Adams","Ohio State","OT",79.25,323,NA,5.28,19,28.5,100,4.95,7.94
+2012,"Chas Alecxih","Pittsburgh","DT",75.75,296,NA,5.31,19,25.5,99,4.62,7.74
+2012,"Frank Alexander","Oklahoma","DE",75.75,270,NA,4.82,NA,NA,NA,9.99,9.99
+2012,"Antonio Allen","South Carolina","SS",73.5,210,NA,4.58,17,34,118,4.25,7.02
+2012,"Dwayne Allen","Clemson","TE",75.13,255,NA,4.85,27,32,110,4.37,7.12
+2012,"Jeff Allen","Illinois","OT",75.88,307,NA,5.17,26,27.5,102,4.9,8.01
+2012,"Justin Anderson","Georgia","OT",76.38,335,NA,5.24,32,27,101,4.99,8.04
+2012,"Bryan Anger","California","P",75.63,208,NA,4.86,NA,NA,NA,9.99,9.99
+2012,"Mark Asper","Oregon","OG",78.38,319,NA,5.33,23,NA,NA,9.99,9.99
+2012,"Edwin Baker","Michigan State","RB",68,204,NA,4.44,20,35,111,4.31,7.27
+2012,"Ryan Baker","Louisiana State","OLB",71.38,232,NA,4.8,30,34,113,4.35,7.21
+2012,"Mike Ball","Nevada","RB",68.5,206,NA,4.54,21,36,112,4.23,7.1
+2012,"Vick Ballard","Mississippi State","RB",70.25,219,NA,4.59,23,33,115,4.19,7.03
+2012,"Mark Barron","Alabama","SS",73,213,NA,4.56,NA,NA,NA,9.99,9.99
+2012,"Kelvin Beachum","Southern Methodist (TX)","OG",74.88,303,NA,5.38,19,28.5,101,4.8,7.79
+2012,"Tim Benford","Tennessee Tech","WR",71.25,205,NA,4.51,15,NA,NA,9.99,9.99
+2012,"Travis Benjamin","Miami (FL)","WR",69.88,172,NA,4.31,14,38,119,9.99,9.99
+2012,"Dwight Bentley","Louisiana-Lafayette","CB",70,182,NA,4.42,13,31.5,114,4.5,6.99
+2012,"Jake Bequette","Arkansas","DE",76.63,274,NA,4.75,NA,34,113,4.07,6.9
+2012,"Tony Bergstrom","Utah","OT",77.38,313,NA,5.19,32,29.5,101,4.84,7.95
+2012,"Justin Bethel","Presbyterian (SC)","FS",71.63,200,NA,4.52,19,39.5,131,4.3,6.79
+2012,"Justin Blackmon","Oklahoma State","WR",72.88,207,NA,4.48,14,NA,NA,9.99,9.99
+2012,"Philip Blake","Baylor","C",74.75,311,NA,5.17,22,29.5,105,4.65,7.86
+2012,"Robert Blanton","Notre Dame","CB",72.75,208,NA,4.66,12,34,116,3.97,6.71
+2012,"Jamie Blatnick","Oklahoma State","DE",75.13,263,NA,4.81,28,32.5,112,4.2,7.22
+2012,"Brandon Bolden","Mississippi","RB",70.88,222,NA,4.55,21,38,119,4.44,6.96
+2012,"Omar Bolden","Arizona State","CB",70.38,202,NA,4.54,24,NA,NA,9.99,9.99
+2012,"Brandon Boykin","Georgia","CB",69.5,182,NA,4.44,NA,NA,NA,9.99,9.99
+2012,"Jarrett Boykin","Virginia Tech","WR",73.75,217,NA,4.62,11,36,123,4.28,7.12
+2012,"Nigel Bradham","Florida State","OLB",73.88,241,NA,4.56,24,37,121,4.37,7.18
+2012,"Andre Branch","Clemson","DE",76.25,259,NA,4.67,19,32.5,120,4.25,7.19
+2012,"LaVon Brazill","Ohio","WR",70.63,192,NA,4.43,11,32.5,NA,9.99,9.99
+2012,"Michael Brewster","Ohio State","C",76.13,312,NA,5.22,29,25,96,4.6,7.73
+2012,"Michael Brockers","Louisiana State","DT",77,322,NA,5.31,NA,26.5,105,4.81,7.46
+2012,"Brandon Brooks","Miami (OH)","OG",77,346,NA,4.99,NA,NA,NA,9.99,9.99
+2012,"Ron Brooks","Louisiana State","CB",70,190,NA,4.37,12,38,120,9.99,9.99
+2012,"Charles Brown","North Carolina","CB",69,202,NA,4.53,18,35.5,114,4.06,6.94
+2012,"James Brown","Troy (AL)","OG",75.5,306,NA,5.19,24,25.5,102,4.78,7.7
+2012,"Zach Brown","North Carolina","OLB",73.25,244,NA,4.44,NA,33.5,116,9.99,9.99
+2012,"Ryan Broyles","Oklahoma","WR",70.13,192,NA,4.57,21,NA,NA,9.99,9.99
+2012,"Vontaze Burfict","Arizona State","ILB",73.38,248,NA,5,NA,30,104,9.99,9.99
+2012,"Miles Burris","San Diego State","OLB",74.13,246,NA,4.73,31,37.5,121,9.99,9.99
+2012,"Tank Carder","Texas Christian","ILB",74.38,236,NA,4.58,19,34.5,121,4.18,6.89
+2012,"Sean Cattouse","California","SS",74.13,211,NA,4.74,NA,34,114,4.15,6.99
+2012,"Josh Chapman","Alabama","DT",72.63,316,NA,5.02,NA,NA,NA,9.99,9.99
+2012,"Orson Charles","Georgia","TE",74.5,251,NA,4.83,35,NA,NA,9.99,9.99
+2012,"Greg Childs","Arkansas","WR",75.13,219,NA,4.52,19,36.5,125,9.99,9.99
+2012,"Morris Claiborne","Louisiana State","CB",71.13,188,4,4.5,NA,34.5,118,4.12,7.01
+2012,"Danny Coale","Virginia Tech","WR",71.88,201,NA,4.42,12,35,115,4.15,6.69
+2012,"Audie Cole","North Carolina State","ILB",76.13,246,NA,4.76,15,35,114,4.29,6.96
+2012,"B.J. Coleman","Tennessee-Chattanooga","QB",75,233,NA,4.95,NA,NA,109,4.38,7.07
+2012,"Tom Compton","South Dakota","OT",76.88,314,NA,5.01,20,30,108,4.6,7.59
+2012,"Josh Cooper","Oklahoma State","WR",70.63,190,NA,4.65,11,NA,NA,9.99,9.99
+2012,"Quinton Coples","North Carolina","DE",77.75,284,NA,4.69,25,31.5,109,4.78,7.57
+2012,"Paul Cornick","North Dakota State","OT",77.5,310,NA,5.3,25,NA,NA,9.99,9.99
+2012,"Aaron Corp","Richmond (VA)","QB",75.5,215,NA,4.61,NA,31.5,106,4.3,7.03
+2012,"Kirk Cousins","Michigan State","QB",74.63,214,33,4.84,NA,28.5,109,4.5,7.05
+2012,"Fletcher Cox","Mississippi State","DT",76,298,NA,4.77,30,26,103,4.53,7.07
+2012,"Jack Crawford","Penn State","DE",76.88,274,NA,4.74,NA,33,116,4.25,7.15
+2012,"Tyrone Crawford","Boise State","DE",76.25,275,NA,4.82,28,33,113,4.44,7.09
+2012,"Lennon Creer","Louisiana Tech","RB",71.38,219,NA,4.67,21,33.5,110,4.4,7.26
+2012,"Jared Crick","Nebraska","DE",76.25,279,NA,4.91,NA,31,104,4.4,7.47
+2012,"Juron Criner","Arizona","WR",74.5,224,NA,4.66,17,38,117,4.3,7.15
+2012,"John Cullen","Utah","OT",76.5,297,NA,5.28,23,27,102,4.59,7.58
+2012,"B.J. Cunningham","Michigan State","WR",73.38,211,NA,4.52,12,31.5,116,9.99,7.1
+2012,"Vinny Curry","Marshall (WV)","DE",75.13,266,NA,4.87,NA,32,110,4.4,6.9
+2012,"Mike Daniels","Iowa","DT",72.5,291,NA,4.84,NA,NA,NA,9.99,9.99
+2012,"Andrew Datko","Florida State","OT",78,315,NA,5.19,NA,29.5,100,4.54,7.71
+2012,"Lavonte David","Nebraska","OLB",72.63,233,NA,4.57,19,36.5,119,4.22,7.28
+2012,"Austin Davis","Southern Mississippi","QB",73.63,219,NA,4.69,NA,31,109,4.11,6.73
+2012,"Demario Davis","Arkansas State","OLB",74,235,NA,4.49,32,38.5,124,4.28,7.19
+2012,"David DeCastro","Stanford","OG",76.88,316,NA,5.32,34,29.5,98,4.56,7.3
+2012,"Alfonzo Dennard","Nebraska","CB",70,204,NA,4.48,NA,37,121,9.99,9.99
+2012,"Taylor Dever","Notre Dame","OT",77.38,298,NA,5.4,18,28,100,4.9,7.49
+2012,"Drake Dunsmore","Northwestern","FB",74.13,241,NA,4.63,21,35.5,117,4.03,6.73
+2012,"Patrick Edwards","Houston","WR",69.25,172,NA,4.58,NA,NA,NA,9.99,9.99
+2012,"Michael Egnew","Missouri","TE",77.13,252,NA,4.52,21,36,131,4.32,7.03
+2012,"Rhett Ellison","Southern California","TE",76.88,251,NA,4.78,NA,31.5,109,9.99,9.99
+2012,"Bradie Ewing","Wisconsin","FB",71.75,239,NA,4.73,14,36.5,120,4.16,7.14
+2012,"Hebron Fangupo","Brigham Young","DT",72.75,323,NA,5.12,36,31.5,99,4.62,7.94
+2012,"Antonio Fenelus","Wisconsin","CB",67.88,190,NA,4.57,20,32,109,4.2,6.8
+2012,"Coby Fleener","Stanford","TE",78,247,NA,4.52,27,NA,NA,9.99,9.99
+2012,"Darius Fleming","Notre Dame","OLB",73.63,245,NA,4.71,27,33.5,114,4.28,7.03
+2012,"Jamell Fleming","Oklahoma","CB",70.63,206,NA,4.43,23,34,125,3.97,6.71
+2012,"Michael Floyd","Notre Dame","WR",74.63,220,NA,4.4,16,36.5,122,9.99,9.99
+2012,"Nick Foles","Arizona","QB",77,243,29,5.03,NA,30.5,112,9.99,9.99
+2012,"Chase Ford","Miami (FL)","TE",79,255,NA,4.78,NA,NA,NA,9.99,9.99
+2012,"Marcus Forston","Miami (FL)","DT",73.25,301,NA,5.05,35,28,105,4.79,7.64
+2012,"Justin Francis","Rutgers","DE",74,268,NA,4.9,23,32,109,4.35,7.05
+2012,"Terrence Frederick","Texas A&M","CB",70.13,187,NA,4.44,16,35,121,4.03,6.59
+2012,"Tim Fugger","Vanderbilt","DE",75,248,NA,4.64,NA,NA,NA,9.99,9.99
+2012,"Jeff Fuller","Texas A&M","WR",76.13,223,NA,4.58,17,NA,NA,9.99,9.99
+2012,"Chris Galippo","Southern California","ILB",73.5,241,NA,4.73,19,29.5,107,4.1,6.9
+2012,"Terrance Ganaway","Baylor","RB",71.5,239,NA,4.61,NA,37.5,119,4.25,7.15
+2012,"Garth Gerhart","Arizona State","C",73.25,305,NA,5.38,25,30.5,96,4.65,7.63
+2012,"Adam Gettis","Iowa","OG",74.38,293,NA,4.9,NA,31.5,112,4.65,7.99
+2012,"Stephon Gilmore","South Carolina","CB",72.5,190,NA,4.38,15,36,123,3.94,6.61
+2012,"Chris Givens","Wake Forest","WR",71.13,198,NA,4.35,19,33.5,118,4.23,6.97
+2012,"Cordy Glenn","Georgia","OT",77.75,345,NA,5.08,31,23.5,93,5,8.13
+2012,"Najee Goode","West Virginia","ILB",72.13,244,NA,4.55,NA,35.5,117,9.99,9.99
+2012,"T.J. Graham","North Carolina State","WR",71.38,188,NA,4.34,8,33.5,120,4.18,6.77
+2012,"Cyrus Gray","Texas A&M","RB",70.38,206,NA,4.4,21,32.5,114,9.99,7.17
+2012,"Jonas Gray","Notre Dame","RB",69.75,223,NA,4.58,20,NA,NA,9.99,9.99
+2012,"Ladarius Green","Louisiana-Lafayette","TE",77.75,238,NA,4.45,16,34.5,124,4.47,7.12
+2012,"Robert Griffin","Baylor","QB",74.38,223,24,4.33,NA,39,120,9.99,9.99
+2012,"Winston Guy","Kentucky","SS",72.88,218,NA,4.62,NA,NA,NA,9.99,9.99
+2012,"Trevor Guyton","California","DE",74.63,285,NA,5.01,NA,31,105,4.53,7.45
+2012,"Dominique Hamilton","Missouri","DT",76.75,313,NA,5.45,31,NA,NA,4.78,7.82
+2012,"Jewel Hampton","Southern Illinois","RB",68.63,218,NA,4.56,26,NA,NA,9.99,9.99
+2012,"Darius Hanks","Alabama","WR",71.63,184,NA,4.52,11,34,117,9.99,9.99
+2012,"James Hanna","Oklahoma","TE",75.75,252,NA,4.43,24,36,122,4.11,6.76
+2012,"Tyler Hansen","Colorado","QB",73,218,NA,4.85,NA,NA,NA,9.99,9.99
+2012,"Cory Harkey","UCLA","TE",76,260,NA,5.06,13,26.5,109,4.69,7.4
+2012,"Chandler Harnish","Northern Illinois","QB",73.63,219,NA,4.68,NA,32.5,112,4.15,6.78
+2012,"Cliff Harris","Oregon","CB",71.13,175,NA,4.61,14,36,118,4.19,6.79
+2012,"DaJohn Harris","Southern California","DT",75.38,306,NA,5.16,NA,NA,NA,9.99,9.99
+2012,"Jacory Harris","Miami (FL)","QB",75,203,NA,4.65,NA,37,113,4.4,7.1
+2012,"Josh Harris","Auburn","C",73,252,NA,4.82,15,NA,NA,9.99,9.99
+2012,"Mike Harris","Florida State","CB",70.25,188,NA,4.52,NA,36,117,4.07,6.81
+2012,"Casey Hayward","Vanderbilt","CB",71.38,192,NA,4.47,19,34,119,3.9,6.76
+2012,"Junior Hemingway","Michigan","WR",72.88,225,NA,4.48,21,35.5,124,3.98,6.59
+2012,"Dan Herron","Ohio State","RB",69.75,213,NA,4.57,22,35,117,4.04,6.97
+2012,"Akiem Hicks","Regina (Canada)","DT",76.63,318,NA,5.21,26,31.5,108,4.86,7.75
+2012,"Dont'a Hightower","Alabama","ILB",74.25,265,NA,4.62,NA,32,NA,9.99,9.99
+2012,"Stephen Hill","Georgia Tech","WR",76,215,NA,4.28,14,39.5,133,4.48,6.88
+2012,"Ronnie Hillman","San Diego State","RB",68.75,200,NA,4.42,17,37,NA,9.99,9.99
+2012,"T.Y. Hilton","Florida International","WR",69.5,183,NA,4.37,NA,NA,NA,9.99,9.99
+2012,"Lamar Holmes","Southern Mississippi","OT",77.38,323,NA,5.29,22,27,104,4.8,7.74
+2012,"Jayron Hosley","Virginia Tech","CB",70,178,NA,4.38,11,NA,NA,9.99,9.99
+2012,"Jaye Howard","Florida","DT",75,301,NA,4.78,24,27.5,106,4.47,7.32
+2012,"Delano Howell","Stanford","SS",70.88,210,NA,4.61,21,33,120,4.15,6.97
+2012,"John Hughes","Cincinnati","DT",74.5,309,NA,5.32,28,NA,NA,9.99,9.99
+2012,"Emil Igwenagu","Massachusetts","FB",73.25,249,NA,4.7,19,34.5,121,4.4,7.32
+2012,"Duke Ihenacho","San Jose State","SS",72.13,213,NA,4.67,20,35,122,4.22,6.78
+2012,"George Iloka","Boise State","FS",75.63,225,NA,4.6,20,34.5,124,4.03,7.03
+2012,"Melvin Ingram","South Carolina","OLB",73.5,264,NA,4.69,28,34.5,109,4.18,6.83
+2012,"Bruce Irvin","West Virginia","OLB",75,245,NA,4.41,23,33.5,123,4.03,6.7
+2012,"Asa Jackson","Cal Poly","CB",70,191,NA,4.48,19,34.5,118,4.03,6.97
+2012,"Janzen Jackson","McNeese State (LA)","FS",71.5,188,NA,4.6,9,36.5,125,4.15,6.9
+2012,"Jerrell Jackson","Missouri","WR",72.25,196,NA,4.5,22,41,127,4.11,6.82
+2012,"Malik Jackson","Tennessee","DE",76.75,284,NA,4.85,25,28,105,4.41,7.38
+2012,"LaMichael James","Oregon","RB",68,194,NA,4.35,15,35,123,4.12,6.88
+2012,"Jamaar Jarrett","Arizona State","DE",76.75,265,NA,4.96,21,30,114,4.34,9.99
+2012,"Jordan Jefferson","Louisiana State","QB",76.13,223,NA,4.58,14,36.5,116,4.06,6.81
+2012,"Alshon Jeffery","South Carolina","WR",74.88,216,NA,4.48,NA,NA,NA,9.99,9.99
+2012,"A.J. Jenkins","Illinois","WR",72.25,190,NA,4.37,12,38.5,124,9.99,9.99
+2012,"Janoris Jenkins","North Alabama","CB",70,193,NA,4.41,NA,33.5,121,4.13,6.95
+2012,"Cam Johnson","Virginia","DE",75.5,268,NA,4.75,NA,35,105,4.38,7.2
+2012,"James-Michael Johnson","Nevada","ILB",73.13,241,NA,4.6,23,37,124,4.37,7.34
+2012,"Leonard Johnson","Iowa State","CB",69.88,196,NA,4.62,15,32,120,4.15,6.96
+2012,"Rishaw Johnson","California (PA)","OG",75.38,313,NA,5.12,22,31.5,108,4.53,7.87
+2012,"Steven Johnson","Kansas","OLB",72.5,239,NA,4.71,16,36,113,4.38,7.32
+2012,"Trumaine Johnson","Montana","CB",73.88,204,NA,4.5,19,35.5,122,4.15,7.2
+2012,"Ben Jones","Georgia","C",74.63,303,NA,5.35,29,30.5,105,4.74,7.95
+2012,"Chandler Jones","Syracuse","DE",77.38,266,NA,4.77,22,35,120,4.38,7.07
+2012,"Dwight Jones","North Carolina","WR",75.25,230,NA,4.51,14,33,109,9.99,9.99
+2012,"Jeremy Jones","Wayne State (MI)","CB",69.5,197,NA,4.56,20,31.5,116,4.18,7.14
+2012,"Marcel Jones","Nebraska","OT",78.13,320,NA,5.57,13,27.5,95,5.12,8.03
+2012,"Marvin Jones","California","WR",73.88,199,NA,4.46,22,33,112,4.11,6.81
+2012,"Coryell Judie","Texas A&M","CB",71.75,194,NA,4.45,NA,37,126,4.25,7.33
+2012,"Josh Kaddu","Oregon","OLB",75.13,239,NA,4.67,20,34,119,9.99,9.99
+2012,"Matt Kalil","Southern California","OT",78.63,306,NA,4.96,30,27,NA,4.65,7.33
+2012,"Jermaine Kearse","Washington","WR",72.88,209,NA,4.5,14,34,119,4.12,7.03
+2012,"Case Keenum","Houston","QB",72.63,208,NA,4.72,NA,32.5,103,9.99,9.99
+2012,"Senio Kelemete","Washington","OG",75.63,307,NA,5.39,21,25,101,4.58,7.77
+2012,"Mychal Kendricks","California","ILB",71.13,239,NA,4.44,24,39.5,127,4.19,9.99
+2012,"Dre Kirkpatrick","Alabama","CB",73.63,186,NA,4.5,NA,35,120,9.99,9.99
+2012,"Peter Konz","Wisconsin","C",77,314,NA,5.16,18,NA,NA,9.99,9.99
+2012,"Luke Kuechly","Boston College","ILB",75.25,242,NA,4.58,27,38,123,4.12,6.92
+2012,"Markus Kuhn","North Carolina State","DT",76.75,299,NA,4.87,28,34.5,112,4.41,7.43
+2012,"Jeremy Lane","Northwestern State (LA)","CB",73,190,NA,4.52,NA,NA,NA,9.99,9.99
+2012,"Ronald Leary","Memphis","OG",74.88,315,NA,5.23,30,29,104,4.91,7.87
+2012,"Josh LeRibeus","Southern Methodist (TX)","OG",75.25,312,NA,5.31,29,26,96,4.65,7.64
+2012,"Ronnell Lewis","Oklahoma","OLB",73.75,253,NA,4.65,36,31,112,4.4,7.09
+2012,"Travis Lewis","Oklahoma","OLB",73.38,246,NA,4.83,22,36,122,9.99,9.99
+2012,"Ryan Lindley","San Diego State","QB",75.75,229,35,4.86,NA,29.5,108,4.45,7.52
+2012,"Brandon Lindsey","Pittsburgh","OLB",73.63,254,NA,4.85,23,33,117,4.28,7.36
+2012,"Kentrell Lockett","Mississippi","DE",77,243,NA,4.99,NA,NA,NA,9.99,9.99
+2012,"Shawn Loiseau","Merrimack (MA)","ILB",72.5,244,NA,4.74,19,32.5,109,9.99,9.99
+2012,"Joe Looney","Wake Forest","OG",75.25,309,NA,5.02,26,NA,NA,9.99,9.99
+2012,"Andrew Luck","Stanford","QB",76,234,37,4.59,NA,36,124,4.28,6.8
+2012,"D'Anton Lynn","Penn State","CB",71.88,206,NA,4.71,17,31.5,111,9.99,9.99
+2012,"Terrell Manning","North Carolina State","OLB",74.13,237,NA,4.71,22,32.5,114,4.43,7.18
+2012,"Brandon Marshall","Nevada","OLB",73.38,242,NA,4.72,28,30.5,108,4.09,7.05
+2012,"Doug Martin","Boise State","RB",69.25,223,NA,4.46,28,36,120,4.16,6.79
+2012,"Jonathan Martin","Stanford","OT",77.38,312,NA,5.35,NA,NA,NA,9.99,9.99
+2012,"Keshawn Martin","Michigan State","WR",71.5,188,NA,4.42,13,39.5,122,4.13,6.85
+2012,"Markelle Martin","Oklahoma State","FS",72.75,207,NA,4.47,19,NA,NA,9.99,9.99
+2012,"Mike Martin","Michigan","DT",73.38,306,NA,4.8,36,33.5,113,4.25,7.19
+2012,"Jonathan Massaquoi","Troy (AL)","OLB",74.13,264,NA,4.81,20,33.5,120,4.53,7.38
+2012,"Bobby Massie","Mississippi","OT",78.13,316,NA,5.18,22,27.5,103,4.95,7.7
+2012,"Rishard Matthews","Nevada","WR",72.38,217,NA,4.54,20,36,NA,4.19,6.88
+2012,"Marquis Maze","Alabama","WR",68.13,186,NA,4.51,NA,33.5,112,9.99,9.99
+2012,"Matt McCants","Alabama-Birmingham","OT",77.88,308,NA,5.4,17,25.5,97,9.99,9.99
+2012,"Antoine McClain","Clemson","OG",77.5,329,NA,5.48,19,27,91,4.82,8.13
+2012,"Shea McClellin","Boise State","OLB",75.38,260,NA,4.62,19,31.5,118,4.33,7.07
+2012,"Kelcie McCray","Arkansas State","SS",73.75,202,NA,4.48,12,30.5,122,4.29,7
+2012,"Jerron McMillian","Maine","SS",71.13,203,NA,4.47,17,36.5,120,4.22,6.69
+2012,"Marvin McNutt","Iowa","WR",74.75,216,NA,4.48,NA,37,122,4.07,7.15
+2012,"Caleb McSurdy","Montana","ILB",73.25,245,NA,4.82,26,30,110,4.28,7.26
+2012,"Vaughn Meatoga","Hawaii","DT",73.13,294,NA,4.93,27,30,108,4.21,7.1
+2012,"Davin Meggett","Maryland","RB",68.25,211,NA,4.5,23,35,118,4.32,7.14
+2012,"DeQuan Menzie","Alabama","CB",70.75,202,NA,4.65,NA,33,116,9.99,9.99
+2012,"Whitney Mercilus","Illinois","DE",75.63,261,NA,4.68,27,32,118,4.53,7.17
+2012,"Lamar Miller","Miami (FL)","RB",70.75,212,NA,4.34,NA,33,NA,9.99,9.99
+2012,"Ryan Miller","Colorado","OG",79.25,321,NA,5.16,32,28,100,4.78,7.72
+2012,"Chase Minnifield","Virginia","CB",70.38,183,NA,4.65,7,NA,NA,9.99,9.99
+2012,"Charles Mitchell","Mississippi State","SS",70.75,202,NA,4.56,19,37,127,4.22,6.93
+2012,"David Molk","Michigan","C",72.88,298,NA,5.18,41,NA,NA,9.99,9.99
+2012,"Kashif Moore","Connecticut","WR",69,180,NA,4.36,19,43.5,126,4.05,6.82
+2012,"Kellen Moore","Boise State","QB",72,197,26,4.82,NA,27,99,4.56,7.41
+2012,"Rennie Moore","Clemson","DT",75,268,NA,5,21,30.5,109,4.53,9.99
+2012,"Alfred Morris","Florida Atlantic","RB",69.88,219,NA,4.63,16,35.5,117,4.19,7.01
+2012,"Brandon Mosley","Auburn","OT",77.63,314,NA,5.14,30,27,103,4.78,7.43
+2012,"Derek Moye","Penn State","WR",76.25,209,NA,4.46,10,33.5,115,4.23,9.99
+2012,"Tyler Nielsen","Iowa","OLB",75.38,238,NA,4.63,21,NA,NA,4.31,7.27
+2012,"Lucas Nix","Pittsburgh","OG",77.25,317,NA,5.36,NA,29.5,102,4.9,7.81
+2012,"Josh Norman","Coastal Carolina (SC)","CB",72.25,197,NA,4.61,14,33,124,4.23,7.09
+2012,"Josh Oglesby","Wisconsin","OT",79.25,338,NA,5.75,22,28.5,NA,9.99,9.99
+2012,"Kelechi Osemele","Iowa State","OT",77.5,333,NA,5.22,32,26.5,104,4.87,7.91
+2012,"Brock Osweiler","Arizona State","QB",78.88,242,25,4.83,NA,NA,NA,9.99,9.99
+2012,"Chris Owusu","Stanford","WR",72.13,196,NA,4.31,19,40.5,129,4.11,6.85
+2012,"Eric Page","Toledo","WR",68.88,186,NA,4.5,15,30,112,3.98,6.95
+2012,"Donte Paige-Moss","North Carolina","DE",75.38,268,NA,4.67,26,NA,NA,9.99,9.99
+2012,"David Paulson","Oregon","TE",75.25,246,NA,4.79,21,32,110,4.4,7.18
+2012,"Isaiah Pead","Cincinnati","RB",70.13,197,NA,4.39,NA,33,116,4.32,6.95
+2012,"Micah Pellerin","Hampton (VA)","CB",72.38,194,NA,4.52,14,33,116,9.99,9.99
+2012,"Nick Perry","Southern California","DE",74.75,271,NA,4.55,35,38.5,124,4.66,7.25
+2012,"DeAngelo Peterson","Louisiana State","TE",75,243,NA,4.69,18,36,121,9.99,7.19
+2012,"Bernard Pierce","Temple","RB",72.25,218,NA,4.45,17,36.5,123,4.28,7.07
+2012,"Eddie Pleasant","Oregon","SS",70.13,211,NA,4.53,22,33.5,116,4.28,7.12
+2012,"Dontari Poe","Memphis","DT",75.5,346,NA,4.89,44,29.5,105,4.56,7.9
+2012,"Chris Polk","Washington","RB",70.5,215,NA,4.52,NA,31.5,111,4.21,7.13
+2012,"Tauren Poole","Tennessee","RB",70,205,NA,4.48,24,34,118,4.19,7.36
+2012,"DeVier Posey","Ohio State","WR",73.63,211,NA,4.39,14,36.5,123,4.15,7.03
+2012,"Nate Potter","Boise State","OT",77.88,303,NA,5.26,22,28.5,100,4.67,7.49
+2012,"Chaz Powell","Penn State","CB",72.38,203,NA,4.42,17,33,121,4.16,6.84
+2012,"Tydreke Powell","North Carolina","DT",74.25,311,NA,5.28,29,28.5,99,4.62,7.31
+2012,"Shaun Prater","Iowa","CB",70.13,190,NA,4.52,14,NA,NA,9.99,9.99
+2012,"DeAndre Presley","Appalachian State (NC)","CB",69.88,185,NA,4.53,8,32,114,4.28,7.19
+2012,"Nick Provo","Syracuse","TE",75.25,237,NA,4.78,NA,NA,NA,9.99,9.99
+2012,"Cyhl Quarles","Wake Forest","SS",73.5,213,NA,4.54,19,32.5,119,4.32,7.21
+2012,"Brian Quick","Appalachian State (NC)","WR",75.5,220,NA,4.5,15,34,119,4.23,7.1
+2012,"Chris Rainey","Florida","RB",68.38,180,NA,4.36,16,36.5,120,3.93,6.5
+2012,"Kheeston Randall","Texas","DT",76.63,293,NA,5,28,34,111,4.84,7.49
+2012,"Rueben Randle","Louisiana State","WR",74.88,210,NA,4.55,15,31,121,4.36,6.99
+2012,"Antwuan Reed","Pittsburgh","CB",69.75,188,NA,4.58,14,36.5,124,4.2,9.99
+2012,"Riley Reiff","Iowa","OT",77.75,313,NA,5.16,23,26.5,98,4.75,7.87
+2012,"Beau Reliford","Florida State","TE",77,256,NA,4.84,NA,NA,NA,9.99,9.99
+2012,"Kendall Reyes","Connecticut","DT",76.13,299,NA,4.82,36,34.5,113,4.53,7.43
+2012,"Matt Reynolds","Brigham Young","OT",76.5,302,NA,5.27,25,NA,NA,9.99,9.99
+2012,"Daryl Richardson","Abilene Christian (TX)","RB",70,192,NA,4.47,NA,NA,NA,9.99,9.99
+2012,"Sean Richardson","Vanderbilt","SS",74.5,216,NA,4.43,22,38.5,128,4.44,7.01
+2012,"Trent Richardson","Alabama","RB",69.25,228,NA,4.49,NA,NA,NA,9.99,9.99
+2012,"Travian Robertson","South Carolina","DT",76.13,302,NA,5.12,30,26,102,9.99,9.99
+2012,"Gerell Robinson","Arizona State","WR",75.13,227,NA,4.54,NA,35.5,113,4.15,9.99
+2012,"Josh Robinson","Central Florida","CB",70.13,199,NA,4.29,17,38.5,133,3.97,6.55
+2012,"Keenan Robinson","Texas","ILB",75,242,NA,4.72,27,35.5,120,9.99,9.99
+2012,"Trenton Robinson","Michigan State","FS",69.75,195,NA,4.46,15,35,125,4.15,9.99
+2012,"James Rodgers","Oregon State","WR",66.75,184,NA,4.61,19,37,115,4.23,9.99
+2012,"Evan Rodriguez","Temple","FB",74,239,NA,4.53,18,36,119,4.28,6.94
+2012,"Brett Roy","Nevada","DT",74.88,275,NA,5,32,30.5,108,4.62,7.31
+2012,"Zebrie Sanders","Florida State","OT",77.63,320,NA,5.33,28,27,100,4.99,8.15
+2012,"Mohamed Sanu","Rutgers","WR",73.5,211,NA,4.62,19,36,126,4.22,6.88
+2012,"Quentin Saulsberry","Mississippi State","C",74,304,NA,5.28,26,22,90,4.99,8.19
+2012,"Mitchell Schwartz","California","OT",77.38,318,NA,5.38,23,26.5,89,4.87,7.86
+2012,"Darrell Scott","South Florida","RB",72.13,231,NA,4.68,NA,31.5,NA,9.99,9.99
+2012,"Coty Sensabaugh","Clemson","CB",71.25,189,NA,4.33,15,37,122,4.06,6.6
+2012,"Derrick Shelby","Utah","DE",74.88,266,NA,4.87,26,35.5,116,4.5,7.09
+2012,"Amini Silatolu","Midwestern State (TX)","OG",75.63,311,NA,5.33,28,31.5,107,4.87,7.95
+2012,"Harrison Smith","Notre Dame","SS",73.88,213,NA,4.54,19,34,122,4.12,6.63
+2012,"Jacquies Smith","Missouri","DE",74.63,253,NA,4.75,21,31.5,110,4.31,7.25
+2012,"Michael Smith","Utah State","RB",69,207,NA,4.36,NA,NA,NA,9.99,9.99
+2012,"Scott Solomon","Rice (TX)","DE",75,262,NA,4.88,34,35,124,4.25,7.17
+2012,"Sean Spence","Miami (FL)","OLB",71.38,231,NA,4.66,12,33.5,119,4.28,7.46
+2012,"Ryan Steed","Furman (SC)","CB",70.5,195,NA,4.64,12,34,121,4.22,6.94
+2012,"Donald Stephenson","Oklahoma","OT",77.5,312,NA,4.94,19,35.5,114,4.78,7.52
+2012,"Devon Still","Penn State","DT",76.88,303,NA,5.01,26,29.5,NA,9.99,9.99
+2012,"Tommy Streeter","Miami (FL)","WR",76.88,219,NA,4.37,17,33,125,9.99,7.08
+2012,"Nathan Stupar","Penn State","OLB",73.63,241,NA,4.65,21,31,116,4.28,6.84
+2012,"J.R. Sweezy","North Carolina State","DT",76.75,298,NA,4.97,21,36,113,4.41,7.4
+2012,"Alameda Ta'amu","Washington","DT",74.5,348,NA,5.3,35,26,103,9.99,9.99
+2012,"Ryan Tannehill","Texas A&M","QB",75.88,221,34,4.65,NA,NA,NA,9.99,9.99
+2012,"Brandon Taylor","Louisiana State","SS",71.25,209,NA,4.52,NA,33.5,118,4.37,7.32
+2012,"Darron Thomas","Oregon","QB",74.63,220,NA,4.77,14,36,121,4.28,7.17
+2012,"Johnny Thomas","Oklahoma State","SS",70.38,206,NA,4.57,20,35.5,123,4.25,7.01
+2012,"Phillip Thomas","Syracuse","FS",70.63,198,NA,4.68,14,33,122,9.99,9.99
+2012,"Brandon Thompson","Clemson","DT",74,314,NA,5.2,35,31,100,4.71,7.97
+2012,"Christian Thompson","South Carolina State","FS",73,211,NA,4.42,18,31.5,122,4.13,7.33
+2012,"Andrew Tiller","Syracuse","OG",76.38,324,NA,5.44,16,23,85,4.8,7.92
+2012,"Nick Toon","Wisconsin","WR",73.88,215,NA,4.49,18,37.5,NA,9.99,9.99
+2012,"Danny Trevathan","Kentucky","OLB",72.25,237,NA,4.75,18,31.5,111,9.99,9.99
+2012,"Johnnie Troutman","Penn State","OG",75.88,325,NA,5.52,31,27.5,NA,5,7.96
+2012,"Christian Tupou","Southern California","DT",74.25,289,NA,5.38,30,24,92,4.87,8.07
+2012,"Robert Turbin","Utah State","RB",70,222,NA,4.42,28,36,122,4.31,7.16
+2012,"Marc Tyler","Southern California","RB",70.63,219,NA,4.7,19,30.5,110,9.99,9.99
+2012,"DeAngelo Tyson","Georgia","DT",74.25,315,NA,5.04,NA,NA,NA,9.99,9.99
+2012,"Courtney Upshaw","Alabama","DE",73.63,272,NA,4.76,22,NA,NA,9.99,9.99
+2012,"Olivier Vernon","Miami (FL)","DE",74.13,261,NA,4.73,31,34.5,122,4.5,7.39
+2012,"Trevin Wade","Arizona","CB",70,192,NA,4.52,18,34.5,116,4,6.87
+2012,"Bobby Wagner","Utah State","OLB",73,241,NA,4.46,NA,NA,NA,9.99,9.99
+2012,"Dustin Waldron","Portland State (OR)","OT",77,305,NA,5.23,29,26,103,4.75,7.93
+2012,"Blair Walsh","Georgia","K",69.25,187,NA,4.96,NA,NA,NA,9.99,9.99
+2012,"Brandon Washington","Miami (FL)","OG",74.88,320,NA,5.14,28,25,101,4.87,8.22
+2012,"Rokevious Watkins","South Carolina","OG",75.75,338,NA,5.29,NA,27,102,4.9,7.87
+2012,"Brandon Weeden","Oklahoma State","QB",75.5,221,27,4.89,NA,NA,NA,9.99,9.99
+2012,"Corey White","Samford (AL)","SS",73,206,NA,4.53,15,37.5,126,4.22,6.72
+2012,"Jordan White","Western Michigan","WR",71.75,208,NA,4.63,14,35,119,4.13,6.84
+2012,"Tahir Whitehead","Temple","OLB",73.25,233,NA,4.62,21,37,124,4.37,7.14
+2012,"Foswhitt Whittaker","Texas","RB",69,193,NA,4.49,20,NA,NA,9.99,9.99
+2012,"Kyle Wilber","Wake Forest","OLB",76,249,NA,4.73,25,33.5,117,4.31,7.11
+2012,"David Wilson","Virginia Tech","RB",70,206,NA,4.38,NA,41,132,4.12,7.09
+2012,"Russell Wilson","Wisconsin","QB",70.63,204,28,4.53,NA,34,118,4.09,6.97
+2012,"Billy Winn","Boise State","DE",76,294,NA,4.86,24,27,107,4.44,7.37
+2012,"Patrick Witt","Yale","QB",76,225,NA,5.08,NA,31.5,101,4.37,7.14
+2012,"Derek Wolfe","Cincinnati","DT",77.13,295,NA,4.93,33,33.5,108,4.44,7.26
+2012,"Jerel Worthy","Michigan State","DT",74,308,NA,5,NA,28.5,107,4.56,7.6
+2012,"Jarius Wright","Arkansas","WR",69.63,182,NA,4.39,11,38,120,4.03,6.93
+2012,"Kendall Wright","Baylor","WR",70.25,196,NA,4.49,NA,38.5,121,4.18,6.93
+2012,"Devon Wylie","Frenso State (CA)","WR",69,187,NA,4.36,17,39,123,9.99,9.99
+2012,"Desmond Wynn","Rutgers","OG",77.5,303,NA,4.98,28,32.5,NA,9.99,9.99
+2012,"Kevin Zeitler","Wisconsin","OG",76,314,NA,5.32,32,29,101,4.61,7.77
+2012,"Greg Zuerlein","Missouri Western","K",73,187,NA,4.86,NA,NA,NA,9.99,9.99
+2012,"Markus Zusevics","Iowa","OT",77,303,NA,5.08,NA,NA,NA,9.99,9.99
+NA,"","","",NA,NA,NA,NA,NA,NA,NA,NA,NA
+2013,"Oday Aboushi","Virginia","OT",77.38,308,NA,5.45,17,23.5,100,4.84,7.92
+2013,"Johnny Adams","Michigan State","CB",70.25,185,NA,4.48,16,NA,NA,9.99,9.99
+2013,"Robert Alford","Southeast Louisiana","CB",70.13,188,NA,4.39,17,40,132,4.23,6.89
+2013,"Zach Allen","North Carolina State","OG",73.75,332,NA,5.43,32,NA,NA,9.99,9.99
+2013,"David Amerson","North Carolina State","CB",73,205,NA,4.44,15,35.5,127,9.99,9.99
+2013,"C.J. Anderson","California","RB",68.13,224,NA,4.6,17,32,119,4.12,7.15
+2013,"Ezekial Ansah","Brigham Young","DE",77.25,271,NA,4.63,21,34.5,118,4.26,7.11
+2013,"Marc Anthony","California","CB",71.38,196,NA,4.63,12,35,118,4.07,6.74
+2013,"Terron Armstead","Arkansas-Pine Bluff","OT",76.75,306,27,4.71,31,34.5,112,4.72,7.62
+2013,"Tavon Austin","West Virginia","WR",68.5,174,7,4.34,14,32,120,4.01,9.99
+2013,"Jeff Baca","UCLA","OG",75.38,302,34,5.03,NA,26.5,NA,4.44,7.26
+2013,"Alvin Bailey","Arkansas","OG",75.13,312,NA,4.95,27,NA,NA,9.99,9.99
+2013,"Stedman Bailey","West Virginia","WR",70.25,193,NA,4.52,11,34.5,117,4.09,6.81
+2013,"David Bakhtiari","Colorado","OT",76.25,299,NA,5.18,28,25.5,101,4.74,7.7
+2013,"Montee Ball","Wisconsin","RB",70.5,214,NA,4.66,15,32,118,4.4,6.88
+2013,"Johnthan Banks","Mississippi State","CB",74,185,NA,4.61,10,34,125,4.27,6.97
+2013,"Chris Barker","Nevada","OG",74.63,305,NA,5.25,29,27.5,99,4.77,8.09
+2013,"Matt Barkley","Southern California","QB",74,230,30,4.91,NA,NA,NA,9.99,9.99
+2013,"Kenjon Barner","Oregon","RB",69.25,196,NA,4.52,20,35.5,122,4.2,6.87
+2013,"T.J. Barnes","Georgia Tech","DT",78.25,369,NA,5.3,25,22,97,4.96,8.26
+2013,"Sam Barrington","South Florida","ILB",72.88,246,NA,4.91,22,32.5,117,9.99,9.99
+2013,"David Bass","Missouri Western","DE",75.88,262,NA,4.84,20,30.5,111,4.33,7.07
+2013,"Steve Beauharnais","Rutgers","ILB",72.88,240,NA,4.84,19,33,118,4.2,6.99
+2013,"Nick Becton","Virginia Tech","OT",77.25,323,NA,5.2,19,29.5,109,4.57,7.77
+2013,"Le'Veon Bell","Michigan State","RB",73.38,230,NA,4.6,24,31.5,118,4.24,6.75
+2013,"Giovani Bernard","North Carolina","RB",68.38,202,25,4.53,19,33.5,122,4.12,6.91
+2013,"Tommy Bohanon","Wake Forest","FB",73,246,NA,4.88,36,35,119,4.42,7.27
+2013,"Travis Bond","North Carolina","OG",77.88,329,NA,5.27,22,22.5,98,4.96,7.85
+2013,"Alan Bonner","Jacksonville State (AL)","WR",70.25,193,NA,4.59,14,33,117,4.15,9.99
+2013,"Zach Boren","Ohio State","FB",71.5,238,NA,5,15,32,109,4.44,7.28
+2013,"Jon Bostic","Florida","ILB",72.88,245,23,4.61,22,32.5,118,4.24,6.99
+2013,"Josh Boyce","Texas Christian","WR",71.13,206,NA,4.38,22,34,131,4.1,6.68
+2013,"Josh Boyd","Mississippi State","DT",74.63,310,NA,5.14,32,26.5,104,4.64,7.16
+2013,"John Boyett","Oregon","FS",69.88,204,NA,4.64,27,NA,NA,9.99,9.99
+2013,"Tyler Bray","Tennessee","QB",78.13,232,24,5.05,NA,NA,100,4.51,7.2
+2013,"Dylan Breeding","Arkansas","P",73.25,213,NA,4.74,11,29,110,9.99,9.99
+2013,"Arthur Brown","Kansas State","OLB",72.38,241,20,4.62,NA,NA,116,9.99,9.99
+2013,"Braden Brown","Brigham Young","OT",77.38,310,NA,5.2,26,28,100,4.7,7.43
+2013,"Armonty Bryant","East Central (OK)","DE",75.88,263,NA,4.86,NA,31.5,118,5,7.32
+2013,"Michael Buchanan","Illinois","DE",77.38,255,NA,4.78,22,33,113,4.44,6.91
+2013,"Rex Burkhead","Nebraska","RB",70.25,214,NA,4.73,21,39,125,4.09,6.85
+2013,"Adrian Bushell","Louisville","CB",69.38,186,NA,4.58,17,33,116,4.25,6.92
+2013,"Colby Cameron","Louisiana Tech","QB",74.13,212,NA,4.78,NA,30.5,112,4.28,6.98
+2013,"Cornellius Carradine","Florida State","DE",76.13,276,NA,4.75,28,NA,NA,9.99,9.99
+2013,"Braxston Cave","Notre Dame","C",75.25,303,NA,5.33,NA,25.5,98,4.71,7.81
+2013,"Emmett Cleary","Boston College","OT",78.88,316,NA,5.21,24,28.5,108,4.7,7.81
+2013,"Jamie Collins","Southern Mississippi","OLB",75.5,250,17,4.64,19,41.5,139,4.32,7.1
+2013,"Sanders Commings","Georgia","CB",72.13,216,22,4.41,NA,34.5,117,4.3,7.1
+2013,"Jonathan Cooper","North Carolina","OG",74.13,311,34,5.07,35,27,108,4.84,7.78
+2013,"Justice Cunningham","South Carolina","TE",74.63,258,NA,4.94,NA,31.5,116,4.45,7.12
+2013,"Johnathan Cyprien","Florida International","SS",72.25,217,NA,4.56,NA,38.5,NA,9.99,9.99
+2013,"Knile Davis","Arkansas","RB",71.38,227,NA,4.37,31,33.5,121,4.38,6.96
+2013,"Marcus Davis","Virginia Tech","WR",75,233,NA,4.56,19,39.5,120,9.99,7.15
+2013,"Will Davis","Utah State","CB",71.25,186,NA,4.51,16,35.5,127,4.02,6.52
+2013,"Everett Dawkins","Florida State","DT",74.13,292,NA,5.06,23,30,103,4.88,7.61
+2013,"Jordan Devey","Memphis","OT",78.63,317,NA,5.25,21,24,98,4.77,7.91
+2013,"Zac Dysert","Miami (OH)","QB",75,227,24,4.81,NA,NA,NA,9.99,9.99
+2013,"Lavar Edwards","Louisiana State","DE",76,277,NA,4.8,NA,33,119,4.51,7.03
+2013,"Mike Edwards","Hawaii","CB",69,189,NA,4.56,14,36,124,4.18,6.94
+2013,"Tyler Eifert","Notre Dame","TE",77.5,250,23,4.68,22,35.5,119,4.32,6.92
+2013,"Matt Elam","Florida","FS",69.88,208,19,4.5,17,35.5,118,9.99,9.99
+2013,"Andre Ellington","Clemson","RB",69.25,199,NA,4.61,NA,34,122,9.99,9.99
+2013,"Zach Ertz","Stanford","TE",77,249,26,4.76,24,30.5,111,4.47,7.08
+2013,"Gavin Escobar","San Diego State","TE",77.88,254,28,4.84,NA,32,114,4.31,7.07
+2013,"Josh Evans","Florida","FS",73.13,207,NA,4.58,NA,34.5,123,4.1,6.64
+2013,"Chris Faulk","Louisiana State","OT",77.5,331,NA,5.08,25,NA,NA,9.99,9.99
+2013,"Joseph Fauria","UCLA","TE",79.38,259,NA,4.82,17,NA,NA,9.99,9.99
+2013,"Eric Fisher","Central Michigan","OT",79.25,306,23,5.05,27,28.5,116,4.44,7.59
+2013,"Sharrif Floyd","Florida","DT",74.63,297,NA,4.92,NA,30,106,4.75,7.4
+2013,"D.J. Fluker","Alabama","OT",76.63,339,NA,5.31,21,NA,NA,9.99,9.99
+2013,"Manase Foketi","West Texas A&M","OT",76.75,318,NA,5.3,25,23.5,102,5.06,8.11
+2013,"Michael Ford","Louisiana State","RB",69.5,210,NA,4.5,25,38.5,130,4.25,6.87
+2013,"Reid Fragel","Ohio State","OT",79.63,308,NA,5.14,33,30,113,4.68,7.62
+2013,"Johnathan Franklin","UCLA","RB",70,205,NA,4.49,18,31.5,115,4.31,6.89
+2013,"Travis Frederick","Wisconsin","C",75.63,312,NA,5.58,21,28.5,97,4.76,7.81
+2013,"Corey Fuller","Virginia Tech","WR",74.25,204,NA,4.43,12,31.5,120,9.99,9.99
+2013,"Matt Furstenburg","Maryland","TE",75.63,242,NA,4.62,18,35.5,115,4.35,7.09
+2013,"Rogers Gaines","Tennessee State","OT",78.25,334,NA,5.24,28,23,NA,5.24,9.99
+2013,"Kwame Geathers","Georgia","DT",77.38,342,NA,5.44,NA,26.5,96,5.27,8.11
+2013,"William Gholston","Michigan State","DE",78.25,281,NA,4.96,23,28.5,110,4.59,7.2
+2013,"Garrett Gilkey","Chadron State (NE)","OG",77.88,318,NA,5.33,28,30,108,4.75,7.65
+2013,"Mike Gillislee","Florida","RB",71.13,208,NA,4.55,15,30.5,119,4.4,7.12
+2013,"Mike Glennon","North Carolina State","QB",79.13,225,26,4.94,NA,26.5,102,4.52,7.49
+2013,"Tyrone Goard","Eastern Kentucky","WR",75.75,205,NA,4.5,10,36,123,4.39,6.9
+2013,"Zaviar Gooden","Missouri","OLB",73.5,234,25,4.47,27,34,131,4.18,6.71
+2013,"Malliciah Goodman","Clemson","DE",75.63,276,NA,4.87,26,31.5,114,9.99,9.99
+2013,"Marquise Goodwin","Texas","WR",68.88,183,NA,4.27,13,NA,132,9.99,9.99
+2013,"Chris Gragg","Arkansas","TE",74.75,244,NA,4.5,18,37.5,125,4.51,7.08
+2013,"Ray Graham","Pittsburgh","RB",69.13,199,NA,4.8,18,32.5,112,4.21,7.17
+2013,"Dwayne Gratz","Connecticut","CB",71.13,201,NA,4.47,22,38,125,4.15,6.7
+2013,"MarQueis Gray","Minnesota","TE",75.25,240,NA,4.73,15,30,111,4.3,7.25
+2013,"Khaseem Greene","Rutgers","OLB",72.75,241,NA,4.71,17,30,116,4.2,7.58
+2013,"Cory Grissom","South Florida","DT",73.38,306,NA,5.31,22,27.5,97,4.81,7.79
+2013,"Cobi Hamilton","Arkansas","WR",73.75,212,NA,4.56,11,29.5,107,4.31,9.99
+2013,"Johnathan Hankins","Ohio State","DT",74.88,320,NA,5.31,NA,26,104,4.61,7.59
+2013,"Chris Harper","Kansas State","WR",72.75,229,33,4.55,20,35.5,116,4.39,6.89
+2013,"D.J. Harper","Boise State","RB",69.13,211,NA,4.52,23,33.5,120,4.35,7.07
+2013,"Montel Harris","Temple","RB",68.25,208,NA,4.68,19,32.5,113,4.18,6.95
+2013,"Mark Harrison","Rutgers","WR",74.88,231,NA,4.46,17,38.5,129,4.33,6.99
+2013,"Tanner Hawkinson","Kansas","OT",77.25,298,NA,5.07,NA,28.5,112,4.51,7.52
+2013,"Terry Hawthorne","Illinois","CB",71.75,195,NA,4.44,13,35.5,116,9.99,9.99
+2013,"Brandon Hepburn","Florida A&M","ILB",74.5,240,NA,4.68,21,32,124,4.55,7.4
+2013,"Eric Herman","Ohio","OG",76.13,320,NA,5.25,36,28,95,5.09,7.99
+2013,"Aaron Hester","UCLA","CB",73.63,198,NA,4.62,NA,29,112,4.33,7.26
+2013,"Jordan Hill","Penn State","DT",73.25,303,NA,5.23,28,22.5,103,4.51,7.49
+2013,"Gerald Hodges","Penn State","OLB",73,243,NA,4.78,22,NA,119,9.99,9.99
+2013,"DeVonte Holloman","South Carolina","OLB",73.38,243,NA,4.76,15,33,113,4.26,7.3
+2013,"DeAndre Hopkins","Clemson","WR",73,214,NA,4.57,15,36,115,4.5,9.99
+2013,"Dustin Hopkins","Florida State","K",74,193,NA,4.74,NA,33.5,116,9.99,9.99
+2013,"Josh Hubner","Arizona State","P",75.63,232,NA,5.06,13,NA,NA,9.99,9.99
+2013,"Montori Hughes","Tennessee-Martin","DT",76,329,NA,5.23,22,26.5,104,4.7,7.85
+2013,"Margus Hunt","Southern Methodist (TX)","DE",80.13,277,NA,4.62,38,34.5,121,4.51,7.07
+2013,"Justin Hunter","Tennessee","WR",76,196,12,4.44,NA,39.5,136,4.33,9.99
+2013,"Micah Hyde","Iowa","CB",71.75,197,NA,4.56,12,33,121,4.2,6.78
+2013,"Luke Ingram","Hawaii","LS",77,258,NA,5.05,24,NA,106,9.99,9.99
+2013,"Mark Jackson","Glenville State (WV)","OG",77.38,328,NA,5.65,20,20.5,91,5.03,8.07
+2013,"Mike James","Miami (FL)","RB",70.5,223,NA,4.53,28,35,115,4.62,9.99
+2013,"Jawan Jamison","Rutgers","RB",67.38,203,NA,4.68,20,29,110,9.99,9.99
+2013,"Stefphon Jefferson","Nevada","RB",70.5,213,NA,4.68,15,31,117,4.44,6.97
+2013,"Tony Jefferson","Oklahoma","FS",70.75,213,NA,4.75,16,NA,NA,9.99,9.99
+2013,"Brandon Jenkins","Florida State","OLB",74.5,251,NA,4.69,18,NA,NA,9.99,9.99
+2013,"Jelani Jenkins","Florida","OLB",72.5,243,NA,4.54,27,NA,NA,9.99,9.99
+2013,"John Jenkins","Georgia","DT",75.63,346,NA,5.21,30,NA,NA,9.99,9.99
+2013,"Luke Joeckel","Texas A&M","OT",78,306,28,5.3,27,28.5,106,4.68,7.4
+2013,"Darius Johnson","Southern Methodist (TX)","WR",69,179,NA,4.6,6,32,109,4.53,9.99
+2013,"Josh Johnson","Purdue","CB",69.38,199,NA,4.65,16,35,114,4.25,6.99
+2013,"Keelan Johnson","Arizona State","SS",71.63,209,NA,4.54,12,36.5,125,4.07,6.77
+2013,"Lane Johnson","Oklahoma","OT",78,303,28,4.72,28,34,118,4.52,7.31
+2013,"Oscar Johnson","Louisiana Tech","OT",77.25,331,NA,5.49,NA,22,88,5.06,8.06
+2013,"T.J. Johnson","South Carolina","C",76.25,310,NA,5.33,32,25.5,96,4.74,7.83
+2013,"Jamaal Johnson-Webb","Alabama A&M","OG",77,313,NA,5.37,17,23,92,4.74,8.12
+2013,"Abry Jones","Georgia","DT",75.38,313,NA,5.06,30,26.5,101,9.99,9.99
+2013,"Chris Jones","Bowling Green (OH)","DT",73.63,302,NA,5.33,30,24.5,106,4.44,7.44
+2013,"Datone Jones","UCLA","DE",75.88,283,NA,4.8,29,31.5,112,4.32,7.32
+2013,"Jarvis Jones","Georgia","OLB",75,241,13,4.74,NA,NA,NA,9.99,9.99
+2013,"Landry Jones","Oklahoma","QB",76.13,225,28,5.11,NA,31,115,4.3,7.12
+2013,"Dion Jordan","Oregon","DE",78.25,248,NA,4.6,NA,32.5,122,4.35,7.02
+2013,"Nick Kasa","Colorado","TE",77.88,269,NA,4.71,22,31.5,113,9.99,9.99
+2013,"Brandon Kaufman","Eastern Washington","WR",77,216,NA,4.67,9,33.5,115,4.44,7.11
+2013,"Travis Kelce","Cincinnati","TE",77,257,22,4.63,NA,NA,NA,9.99,9.99
+2013,"Tavarres King","Georgia","WR",72.25,189,NA,4.47,11,36.5,123,4.33,6.91
+2013,"A.J. Klein","Iowa State","ILB",73.25,250,NA,4.66,20,NA,113,9.99,9.99
+2013,"Collin Klein","Kansas State","QB",76.88,226,NA,4.78,NA,29,111,4.4,7.17
+2013,"Joe Kruger","Utah","DE",78.25,269,NA,4.83,24,34,117,4.46,7.17
+2013,"Edmond Kugbila","Valdosta State (GA)","OG",76.13,317,NA,5.31,23,22.2,105,4.65,7.72
+2013,"Eddie Lacy","Alabama","RB",73,220,17,4.55,NA,NA,NA,9.99,9.99
+2013,"Marcus Lattimore","South Carolina","RB",71,219,18,4.65,NA,NA,NA,9.99,9.99
+2013,"Alec Lemon","Syracuse","WR",73.25,202,NA,4.59,7,32,112,4.29,7.04
+2013,"Corey Lemonier","Auburn","DE",75.38,255,NA,4.6,27,33,119,4.4,7.14
+2013,"Robert Lester","Alabama","SS",73.25,220,NA,4.66,NA,33.5,117,9.99,9.99
+2013,"Zach Line","Southern Methodist (TX)","FB",72.5,232,NA,4.77,26,30.5,111,9.99,9.99
+2013,"Bennie Logan","Louisiana State","DT",73.88,309,NA,5.08,30,25,104,4.67,7.53
+2013,"P.J. Lonergan","Louisiana State","C",75.25,304,NA,5.38,25,NA,NA,9.99,9.99
+2013,"Kyle Long","Oregon","OT",78.13,313,29,4.94,NA,28,107,4.63,7.83
+2013,"John Lotulelei","Nevada Las Vegas","OLB",71.38,233,NA,4.84,25,35.5,117,4.3,6.91
+2013,"Star Lotulelei","Utah","DT",76,320,NA,5.14,NA,NA,NA,9.99,9.99
+2013,"Philip Lutzenkirchen","Auburn","TE",75.25,258,NA,4.94,21,30.5,112,4.35,7.15
+2013,"Joe Madsen","West Virginia","C",75.38,310,NA,5.2,25,25,98,4.83,7.6
+2013,"Lamar Mady","Youngstown State (OH)","OG",74,317,NA,5.48,35,23,95,4.82,8.07
+2013,"Brandon Magee","Arizona State","OLB",71,223,NA,4.74,NA,NA,114,9.99,9.99
+2013,"E.J. Manuel","Florida State","QB",76.63,237,28,4.65,NA,34,118,4.21,7.08
+2013,"Stansly Maponga","Texas Christian","DE",73.88,256,NA,4.78,30,NA,NA,9.99,9.99
+2013,"Luke Marquardt","Azusa Pacific (CA)","OT",80.5,315,NA,5.34,31,NA,NA,9.99,9.99
+2013,"Tyrann Mathieu","Louisiana State","CB",68.75,186,NA,4.5,4,34,117,4.14,6.87
+2013,"Michael Mauti","Penn State","OLB",73.88,243,NA,4.83,28,NA,NA,9.99,9.99
+2013,"Miguel Maysonet","Stony Brook (NY)","RB",69,209,NA,4.54,20,NA,NA,4.43,7.21
+2013,"Onterio McCalebb","Auburn","RB",70.25,168,NA,4.34,NA,34,121,9.99,9.99
+2013,"Demetrius McCray","Appalachian State (NC)","CB",72.88,187,NA,4.54,4,36,126,4.32,7.17
+2013,"T.J. McDonald","Southern California","FS",74.5,219,NA,4.59,19,40,131,4.2,6.89
+2013,"Vance McDonald","Rice (TX)","TE",76.13,267,30,4.69,31,33.5,119,4.53,7.08
+2013,"Bradley McDougald","Kansas","FS",72.25,215,NA,4.74,19,34.5,122,4.44,7.07
+2013,"Leon McFadden","San Diego State","CB",69.63,193,NA,4.54,10,34.5,119,4.27,6.81
+2013,"Brandon McGee","Miami (FL)","CB",71,193,NA,4.4,14,33.5,119,4.18,6.71
+2013,"Aaron Mellette","Elon (NC)","WR",74.38,217,NA,4.54,9,33.5,123,4.41,7.11
+2013,"Christine Michael","Texas A&M","RB",70,220,11,4.54,27,43,125,4.02,6.69
+2013,"Rontez Miles","California (PA)","FS",71.63,203,NA,4.62,NA,36.5,123,4.27,6.97
+2013,"Stephane Milhim","Massachusetts","OT",75.75,314,NA,5.23,NA,28.5,104,4.87,9.99
+2013,"Dee Milliner","Alabama","CB",71.88,201,NA,4.37,NA,36,122,4.32,6.95
+2013,"Jordan Mills","Louisiana Tech","OT",77,316,NA,5.37,20,28.5,101,4.88,8.1
+2013,"Barkevious Mingo","Louisiana State","OLB",76.25,241,NA,4.58,NA,37,128,4.39,6.84
+2013,"Kevin Minter","Louisiana State","ILB",71.75,246,NA,4.81,25,33,119,9.99,9.99
+2013,"T.J. Moe","Missouri","WR",71.5,204,NA,4.74,26,36,120,3.96,6.53
+2013,"Sam Montgomery","Louisiana State","DE",75.25,262,24,4.81,NA,34.5,114,4.51,7.18
+2013,"Nick Moody","Florida State","OLB",73,236,NA,4.71,17,NA,118,9.99,9.99
+2013,"Damontre Moore","Texas A&M","DE",76.5,250,18,4.95,12,35.5,122,9.99,9.99
+2013,"Sio Moore","Connecticut","OLB",72.75,245,NA,4.65,29,38,127,4.31,7.49
+2013,"Zeke Motta","Notre Dame","FS",74.25,213,NA,4.83,11,35.5,126,4.16,6.75
+2013,"Ryan Nassib","Syracuse","QB",74.13,227,41,5.06,NA,28.5,105,4.53,7.34
+2013,"Alec Ogletree","Georgia","OLB",74.5,242,16,4.7,20,33.5,122,4.39,7.16
+2013,"Alex Okafor","Texas","DE",76.5,264,NA,4.78,21,NA,NA,9.99,9.99
+2013,"Vinston Painter","Virginia Tech","OT",76.25,306,NA,4.95,32,30.5,97,4.56,7.71
+2013,"Chris Pantale","Boston College","TE",77.13,254,NA,4.99,17,33.5,110,4.5,7.48
+2013,"Cordarrelle Patterson","Tennessee","WR",73.88,216,11,4.42,NA,37,128,9.99,9.99
+2013,"Quinton Patton","Louisiana Tech","WR",72,204,NA,4.53,8,33,118,4.01,6.91
+2013,"Sean Porter","Texas A&M","OLB",73.25,229,NA,4.75,22,35,119,9.99,9.99
+2013,"Keith Pough","Howard (DC)","OLB",73.75,239,NA,4.9,17,33,118,4.47,7.28
+2013,"Ty Powell","Harding (AR)","OLB",74.13,249,NA,4.64,28,37,122,4.4,6.98
+2013,"Jordan Poyer","Oregon State","CB",71.88,191,NA,4.54,8,30.5,118,4.18,6.87
+2013,"Lonnie Pryor","Florida State","FB",71.38,227,NA,4.7,17,30,114,4.55,7.28
+2013,"Justin Pugh","Syracuse","OG",76.5,307,NA,5.14,NA,28.5,103,4.63,7.45
+2013,"David Quessenberry","San Jose State","OT",76.88,302,NA,5.08,25,29.5,112,4.45,7.49
+2013,"Bacarri Rambo","Georgia","FS",72.5,211,20,4.56,17,NA,NA,9.99,9.99
+2013,"Joseph Randle","Oklahoma State","RB",72,204,NA,4.63,NA,35,123,9.99,9.99
+2013,"Kevin Reddick","North Carolina","ILB",73.38,243,NA,4.72,23,NA,113,9.99,9.99
+2013,"Jordan Reed","Florida","TE",74.5,236,NA,4.72,16,NA,NA,9.99,9.99
+2013,"Eric Reid","Louisiana State","FS",73.25,213,29,4.53,17,40.5,134,4.22,6.99
+2013,"Greg Reid","Valdosta State (GA)","CB",68.25,190,NA,4.46,10,NA,NA,9.99,9.99
+2013,"Xavier Rhodes","Florida State","CB",73.5,210,NA,4.43,14,40.5,132,9.99,9.99
+2013,"Sheldon Richardson","Missouri","DT",74.5,294,9,5.02,30,32,116,9.99,9.99
+2013,"Theo Riddick","Notre Dame","RB",70.13,201,NA,4.68,NA,32,118,9.99,9.99
+2013,"Mychal Rivera","Tennessee","TE",75.25,242,NA,4.81,17,31,112,4.43,7.17
+2013,"Nickell Robey","Southern California","CB",67.25,169,NA,4.53,10,37.5,127,4.09,6.74
+2013,"Denard Robinson","Michigan","WR",70.5,199,NA,4.43,NA,36.5,123,4.22,7.09
+2013,"DaRick Rogers","Tennessee Tech","WR",74.5,217,NA,4.52,10,39.5,132,4.06,6.71
+2013,"Robbie Rouse","Frenso State (CA)","RB",65.75,190,NA,4.8,15,34,114,4.25,6.97
+2013,"Logan Ryan","Rutgers","CB",71.13,191,NA,4.56,14,32.5,116,4.06,6.69
+2013,"Etienne Sabino","Ohio State","OLB",74,247,NA,4.75,24,NA,114,9.99,9.99
+2013,"Lanear Sampson","Baylor","WR",71.13,204,NA,4.46,20,33.5,119,4.38,7.1
+2013,"Ace Sanders","South Carolina","WR",67,173,NA,4.58,7,32,117,4.37,6.81
+2013,"Brian Schwenke","California","C",75,314,31,4.99,31,26.5,108,4.74,7.31
+2013,"Matt Scott","Arizona","QB",74.13,213,22,4.69,NA,31,118,3.99,6.69
+2013,"Tharold Simon","Louisiana State","CB",74,202,NA,4.51,9,34,128,9.99,9.99
+2013,"Dion Sims","Michigan State","TE",76.88,262,NA,4.75,22,35,112,4.52,7.36
+2013,"Darius Slay","Mississippi State","CB",71.88,192,10,4.36,14,35.5,124,4.21,6.9
+2013,"Geno Smith","West Virginia","QB",74.38,218,24,4.58,NA,33.5,124,9.99,9.99
+2013,"Jared Smith","New Hampshire","DT",75.38,302,NA,5.08,28,32.5,115,4.39,7.2
+2013,"Rodney Smith","Florida State","WR",76.38,225,NA,4.51,NA,34.5,120,4.07,7.03
+2013,"Brad Sorensen","Southern Utah","QB",76.5,229,NA,4.97,NA,29,112,4.55,7.17
+2013,"Ryan Spadola","Lehigh (PA)","WR",73.25,204,NA,4.48,15,33.5,119,4.07,6.72
+2013,"Akeem Spence","Illinois","DT",72.63,307,NA,5.15,37,30,107,4.72,7.82
+2013,"Zac Stacy","Vanderbilt","RB",68.38,216,NA,4.55,27,33,122,4.17,6.7
+2013,"Daimion Stafford","Nebraska","FS",71.63,221,NA,4.69,21,30.5,111,9.99,7.06
+2013,"Matt Stankiewitch","Penn State","C",75,302,NA,5.43,27,24,92,4.96,7.9
+2013,"Jawanza Starling","Southern California","SS",72.75,202,NA,4.64,17,36,122,4.34,6.68
+2013,"Jonathan Stewart","Texas A&M","ILB",75.75,242,NA,4.68,19,31,118,4.53,7.44
+2013,"Kenny Stills","Oklahoma","WR",72.5,194,NA,4.38,16,33.5,124,4.35,9.99
+2013,"Jake Stoneburner","Ohio State","TE",75.38,252,NA,4.65,18,34.5,116,4.27,7.12
+2013,"Dax Swanson","Sam Houston State (TX)","CB",70,186,NA,4.56,15,33,122,9.99,9.99
+2013,"D.J. Swearinger","South Carolina","FS",70.5,208,28,4.67,17,37,124,4.11,6.7
+2013,"Rod Sweeting","Georgia Tech","CB",71.25,189,NA,4.42,11,37,124,9.99,9.99
+2013,"Ryan Swope","Texas A&M","WR",72.13,205,NA,4.34,16,37,125,4.25,6.76
+2013,"Bruce Taylor","Virginia Tech","ILB",73.38,234,NA,5.01,19,30.5,115,4.39,7.21
+2013,"Devin Taylor","South Carolina","DE",79,266,NA,4.72,14,35,128,4.3,6.89
+2013,"Jamar Taylor","Boise State","CB",70.63,192,NA,4.39,22,35,127,4.06,6.82
+2013,"Stepfan Taylor","Stanford","RB",69.13,214,NA,4.76,17,30,110,4.5,7.13
+2013,"Manti Te'o","Notre Dame","ILB",73.25,241,23,4.82,NA,33,113,4.27,7.13
+2013,"Chase Thomas","Stanford","OLB",75.25,244,NA,4.91,18,32,113,4.31,7.17
+2013,"Phillip Thomas","Frenso State (CA)","FS",72.5,208,NA,4.65,14,35,122,9.99,9.99
+2013,"Shamarko Thomas","Syracuse","SS",68.88,213,NA,4.42,28,40.5,133,4.26,9.99
+2013,"Kenbrell Thompkins","Cincinnati","WR",72.63,193,NA,4.54,8,33.5,121,4.21,6.88
+2013,"Chris Thompson","Florida State","RB",67.13,192,NA,4.42,21,NA,NA,9.99,9.99
+2013,"Hugh Thornton","Illinois","OG",75.25,320,NA,5.11,27,NA,NA,4.63,7.45
+2013,"Levine Toilolo","Stanford","TE",80,260,NA,4.86,17,31,113,4.57,7.09
+2013,"J.C. Tretter","Cornell (NY)","OG",75.63,307,NA,5.09,29,29.5,109,4.69,7.48
+2013,"Desmond Trufant","Washington","CB",71.63,190,22,4.38,16,37.5,125,3.85,9.99
+2013,"Matthew Tucker","Texas Christian","RB",72.38,221,NA,4.55,17,35.5,118,9.99,9.99
+2013,"Kenny Vaccaro","Texas","FS",73,214,22,4.63,15,38,121,4.06,6.78
+2013,"James Vandenberg","Iowa","QB",74.75,226,NA,4.92,NA,32,116,4.52,6.95
+2013,"Conner Vernon","Duke","WR",72.25,196,NA,4.68,NA,32.5,125,4.22,6.93
+2013,"Ricky Wagner","Wisconsin","OT",77.88,308,NA,5.17,20,31.5,101,4.91,7.94
+2013,"Larry Warford","Kentucky","OG",75,332,NA,5.58,28,22.5,96,5.1,7.78
+2013,"Chance Warmack","Alabama","OG",74,317,9,5.49,NA,NA,110,9.99,9.99
+2013,"Cornelius Washington","Georgia","DE",76,265,NA,4.55,36,39,128,9.99,9.99
+2013,"Earl Watford","James Madison (VA)","OG",75.38,300,NA,5.06,24,30,107,5,7.77
+2013,"Menelik Watson","Florida State","OT",77.13,310,20,5.29,NA,24.5,103,5.01,8.31
+2013,"Jason Weaver","Southern Mississippi","OT",76.38,313,NA,5.44,23,21,94,5.07,8.23
+2013,"B.W. Webb","William & Mary (VA)","CB",70.25,184,NA,4.51,14,40.5,132,3.84,6.82
+2013,"Kayvon Webster","South Florida","CB",70.5,195,NA,4.41,14,35,125,9.99,9.99
+2013,"Bjoern Werner","Florida State","DE",75.25,266,NA,4.83,25,31,111,4.4,7.3
+2013,"John Wetzel","Boston College","OT",79,315,NA,5.46,22,25,105,4.81,7.9
+2013,"Markus Wheaton","Oregon State","WR",71,189,NA,4.45,20,37,120,4.02,6.8
+2013,"J.J. Wilcox","Georgia Southern","SS",72,213,15,4.57,17,35,124,4.09,7.02
+2013,"Brandon Williams","Missouri Southern","DT",73,335,NA,5.37,38,29.5,102,4.91,8.09
+2013,"Jesse Williams","Alabama","DT",75.38,323,NA,4.94,30,NA,NA,9.99,9.99
+2013,"Kerwynn Williams","Utah State","RB",68.13,196,NA,4.48,17,35,118,4.15,7.15
+2013,"Nathan Williams","Ohio State","OLB",75,241,NA,4.88,24,35,113,4.44,6.99
+2013,"Nicholas Williams","Samford (AL)","DT",76.5,309,NA,4.94,28,33,111,4.65,7.55
+2013,"Shawn Williams","Georgia","SS",71.88,213,22,4.46,25,36,120,4.25,7.01
+2013,"Steve Williams","California","CB",68.88,181,NA,4.42,12,40.5,128,4.1,6.89
+2013,"Sylvester Williams","North Carolina","DT",74.63,313,25,5.03,27,26.5,102,4.8,7.93
+2013,"Terrance Williams","Baylor","WR",74,208,NA,4.52,11,32.5,119,4.32,7.01
+2013,"Tourek Williams","Florida International","DE",75,260,NA,4.92,25,33,112,9.99,9.99
+2013,"Trevardo Williams","Connecticut","OLB",73.25,241,14,4.57,30,38,124,9.99,9.99
+2013,"Braden Wilson","Kansas State","FB",76,251,NA,4.81,22,NA,NA,9.99,9.99
+2013,"Marquess Wilson","Washington State","WR",74.63,194,NA,4.51,7,34.5,122,4.33,6.65
+2013,"Tyler Wilson","Arkansas","QB",74,215,20,4.95,NA,28.5,112,4.39,7.22
+2013,"George Winn","Cincinnati","RB",70.5,218,NA,4.75,22,34.5,119,9.99,9.99
+2013,"Earl Wolff","North Carolina State","SS",71,209,NA,4.44,NA,39,134,4.07,9.99
+2013,"Cierre Wood","Notre Dame","RB",71,213,NA,4.56,16,37.5,124,9.99,9.99
+2013,"Robert Woods","Southern California","WR",73,201,23,4.51,14,33.5,117,4.47,7.15
+2013,"Khalid Wooten","Nevada","CB",71,210,NA,4.53,17,33.5,117,4.18,6.95
+2013,"Tom Wort","Oklahoma","ILB",73,235,NA,4.78,21,31.5,111,4.51,7.41
+2013,"Blidi Wreh-Wilson","Connecticut","CB",73,195,33,4.53,14,36,128,4.12,6.97
+NA,"","","",NA,NA,NA,NA,NA,NA,NA,NA,NA
+2014,"Jared Abbrederis","Wisconsin","WR",73,195,32,4.5,4,30.5,116,4.08,6.8
+2014,"Davante Adams","Frenso State (CA)","WR",72.88,212,NA,4.56,14,39.5,123,4.3,6.82
+2014,"Maurice Alexander","Utah State","SS",73.25,220,NA,4.54,NA,38,123,4.51,7.05
+2014,"Ricardo Allen","Purdue","CB",69.13,187,NA,4.61,13,35.5,116,4.15,9.99
+2014,"Jace Amaro","Texas Tech","TE",77.38,265,NA,4.74,28,33,116,4.3,7.42
+2014,"Antonio Andrews","Western Kentucky","RB",70.13,225,NA,4.82,20,29.5,104,4.49,7.24
+2014,"Dri Archer","Kent State (OH)","WR",67.75,173,NA,4.26,20,38,122,4.06,6.86
+2014,"George Atkinson","Notre Dame","RB",73.38,218,NA,4.48,19,38,128,4.46,7.07
+2014,"Jeremiah Attaochu","Georgia Tech","OLB",75.25,252,NA,9.99,NA,NA,NA,9.99,9.99
+2014,"Dion Bailey","Southern California","FS",71.75,201,NA,4.66,NA,34,112,4.15,6.97
+2014,"Anthony Barr","UCLA","OLB",76.88,255,NA,4.66,15,34.5,117,4.19,6.82
+2014,"Lamin Barrow","Louisiana State","ILB",73.38,237,NA,4.64,22,35,123,4.35,7.24
+2014,"Odell Beckham","Louisiana State","WR",71.25,198,NA,4.43,7,38.5,122,3.94,6.69
+2014,"Deion Belue","Alabama","CB",70.75,182,NA,4.48,11,NA,NA,9.99,9.99
+2014,"Kelvin Benjamin","Florida State","WR",77,240,7,4.61,13,32.5,117,4.39,7.33
+2014,"Bene Benwikere","San Jose State","CB",70.75,195,NA,4.63,10,40.5,122,4.38,6.94
+2014,"Nat Berhe","San Diego State","SS",70.5,193,NA,4.71,15,35.5,116,4.22,7.08
+2014,"Kapri Bibbs","Colorado State","RB",69.38,212,NA,4.67,24,29,104,9.99,9.99
+2014,"Joel Bitonio","Nevada","OT",76.25,302,NA,4.97,22,32,113,4.44,7.37
+2014,"Alfred Blue","Louisiana State","RB",74.38,223,NA,4.63,13,32,121,4.5,7.15
+2014,"Russell Bodine","North Carolina","OG",75.13,310,NA,5.18,42,29,109,4.66,8.26
+2014,"Conor Boffeli","Iowa","OG",76.13,298,NA,5.3,21,25,101,4.61,7.44
+2014,"Chris Borland","Wisconsin","ILB",71.5,248,32,4.83,27,31,113,4.27,7.18
+2014,"Blake Bortles","Central Florida","QB",77,232,28,4.93,NA,32.5,114,4.21,7.08
+2014,"Tre Boston","North Carolina","FS",71.63,204,NA,4.59,18,35,115,4.31,7.04
+2014,"Chris Boyd","Vanderbilt","WR",76,206,NA,4.73,12,NA,NA,9.99,9.99
+2014,"Tajh Boyd","Clemson","QB",72.63,222,NA,4.84,NA,30.5,104,4.23,7.33
+2014,"Carl Bradford","Arizona State","OLB",72.75,250,NA,4.76,23,37.5,122,4.3,7.25
+2014,"Bashaud Breeland","Clemson","CB",71.38,197,NA,4.62,11,34.5,123,4.33,7.04
+2014,"Teddy Bridgewater","Louisville","QB",74.13,214,20,9.99,NA,30,112,4.2,7.17
+2014,"Justin Britt","Missouri","OT",77.88,325,NA,5.19,23,23,99,4.69,8.14
+2014,"Jay Bromley","Syracuse","DT",75.13,306,NA,5.06,26,33.5,104,4.78,7.92
+2014,"Terrence Brooks","Florida State","FS",70.88,198,NA,4.42,10,38,118,9.99,7.35
+2014,"Corey Brown","Ohio State","WR",71.38,178,NA,4.51,NA,33,115,4.22,7.16
+2014,"John Brown","Pittsburg State (KS)","WR",70,179,NA,4.34,NA,36.5,117,4.12,6.91
+2014,"Jonathan Brown","Illinois","OLB",72.38,238,NA,5.03,16,31,108,4.56,7.77
+2014,"Preston Brown","Louisville","ILB",73.25,251,NA,4.86,23,33,115,4.26,6.98
+2014,"Martavis Bryant","Clemson","WR",75.75,211,14,4.42,16,39,123,4.15,7.18
+2014,"Deone Bucannon","Washington State","SS",73,211,NA,4.49,19,36.5,124,4.26,6.96
+2014,"Max Bullough","Michigan State","ILB",75.5,249,NA,4.78,30,31,111,4.3,7.22
+2014,"Isaiah Burse","Frenso State (CA)","WR",70.38,188,NA,4.58,16,31,114,3.94,6.74
+2014,"Trey Burton","Florida","WR",74.13,224,NA,4.62,NA,30,111,4.32,7.14
+2014,"Michael Campanaro","Wake Forest","WR",69.38,192,NA,4.46,20,39,122,4.01,6.77
+2014,"KaDeem Carey","Arizona","RB",69.38,207,NA,4.7,19,32.5,114,4.38,7.08
+2014,"Derek Carr","Frenso State (CA)","QB",74.38,214,20,4.69,NA,34.5,110,4.2,9.99
+2014,"Ryan Carrethers","Arkansas State","DT",73.25,337,NA,5.47,32,26,87,4.6,7.89
+2014,"Travis Carrie","Ohio","CB",71.63,206,NA,4.49,17,NA,NA,9.99,9.99
+2014,"Will Clarke","West Virginia","DE",78.13,271,NA,4.77,22,32,111,4.57,7.26
+2014,"HaSean Clinton-Dix","Alabama","FS",73.38,208,NA,4.58,11,33,117,4.16,7.16
+2014,"Jadeveon Clowney","South Carolina","DE",77.25,266,NA,4.53,21,37.5,123,4.43,7.27
+2014,"Ross Cockrell","Duke","CB",72,191,NA,4.56,10,36.5,122,4.32,7.28
+2014,"Brandon Coleman","Rutgers","WR",78,225,NA,4.56,21,32.5,NA,4.51,7.33
+2014,"Deandre Coleman","California","DT",76.75,314,NA,5.12,24,NA,NA,9.99,9.99
+2014,"Brandin Cooks","Oregon State","WR",69.75,189,NA,4.33,16,36,120,3.81,6.76
+2014,"Damian Copeland","Louisville","WR",71,184,NA,4.5,12,40,120,3.9,6.53
+2014,"J.C. Copeland","Louisiana State","FB",71.13,271,NA,4.95,23,28.5,111,4.58,7.68
+2014,"Tim Cornett","Nevada Las Vegas","RB",72.25,209,NA,4.48,NA,34.5,124,4.26,7.01
+2014,"Scott Crichton","Oregon State","DE",74.88,273,NA,4.84,24,31.5,108,4.29,7.19
+2014,"Isaiah Crowell","Alabama State","RB",71,224,NA,4.57,23,38,116,9.99,9.99
+2014,"Chris Davis","Auburn","CB",69.88,202,NA,4.54,15,NA,NA,9.99,9.99
+2014,"Mike Davis","Texas","WR",72,197,NA,4.52,10,34,116,4.18,7
+2014,"Anthony Denham","Utah","WR",76.5,235,NA,4.77,NA,32.5,NA,9.99,9.99
+2014,"Darqueze Dennard","Michigan State","CB",70.88,199,NA,4.52,15,NA,NA,9.99,9.99
+2014,"Pierre Desir","Lindenwood (MO)","CB",73,198,NA,4.59,11,35,133,4.3,6.86
+2014,"Ahmad Dixon","Baylor","SS",72,212,NA,4.64,14,32,111,4.5,7.55
+2014,"Brandon Dixon","Northwest Missouri State","CB",71.5,203,NA,4.41,17,32.5,116,4.27,7.15
+2014,"Aaron Donald","Pittsburgh","DT",72.75,285,NA,4.68,35,32,115,4.39,7.11
+2014,"Jonathan Dowling","Western Kentucky","FS",74.75,190,NA,4.52,8,33.5,116,4.24,7.04
+2014,"Dakota Dozier","Furman (SC)","OG",75.63,313,NA,5.42,23,24,100,4.89,8.14
+2014,"Joe Don Duncan","Dixie State (UT)","TE",74.63,268,NA,4.79,35,NA,NA,9.99,9.99
+2014,"Kony Ealy","Missouri","DE",76,273,NA,4.92,22,31,113,4.45,6.83
+2014,"Dominique Easley","Florida","DT",73.75,288,NA,4.93,26,NA,NA,9.99,9.99
+2014,"Eric Ebron","North Carolina","TE",76.38,250,16,4.6,24,32,120,9.99,9.99
+2014,"Kasim Edebali","Boston College","OLB",74,253,NA,4.79,19,34.5,114,4.35,7.2
+2014,"Kadeem Edwards","Tennessee State","OG",76.25,313,NA,5.25,26,27,99,4.82,7.95
+2014,"Bruce Ellington","South Carolina","WR",69.38,197,NA,4.45,15,39.5,120,3.95,6.69
+2014,"Justin Ellis","Louisiana Tech","DT",73.5,334,NA,5.27,25,28,91,4.75,7.81
+2014,"IK Enemkpali","Louisiana Tech","DE",72.75,261,NA,4.78,28,34,112,4.65,7.67
+2014,"Quincy Enunwa","Nebraska","WR",74,225,NA,4.41,19,NA,NA,9.99,9.99
+2014,"Mike Evans","Texas A&M","WR",76.75,231,25,4.53,12,37,NA,4.26,7.08
+2014,"Shaquelle Evans","UCLA","WR",73.25,213,NA,4.51,13,34.5,122,4.21,7.07
+2014,"Antone Exum","Virginia Tech","CB",71.63,213,NA,4.59,17,35,116,4.13,7.05
+2014,"David Fales","San Jose State","QB",73.63,212,NA,4.99,NA,28,102,4.5,7.55
+2014,"Matt Feiler","Bloomsburg","OT",77.88,330,NA,5.37,36,26.5,102,4.86,8.13
+2014,"Ego Ferguson","Louisiana State","DT",74.88,315,NA,4.98,24,NA,NA,9.99,9.99
+2014,"C.J. Fiedorowicz","Iowa","TE",77.5,265,NA,4.76,25,31.5,115,4.26,7.1
+2014,"Tim Flanders","Sam Houston State (TX)","RB",68.63,207,NA,4.75,20,32,112,9.99,7.07
+2014,"Cameron Fleming","Stanford","OT",76.88,323,NA,5.28,26,23.5,97,5,8.24
+2014,"David Fluellen","Toledo","RB",71.13,224,NA,4.72,NA,36.5,120,9.99,6.9
+2014,"Dee Ford","Auburn","DE",74.13,252,NA,9.99,NA,NA,NA,9.99,9.99
+2014,"Khairi Fortt","California","OLB",74.25,248,NA,4.7,30,36,120,9.99,9.99
+2014,"Bennie Fowler","Michigan State","WR",73.25,217,NA,4.52,NA,36,125,4.18,7.06
+2014,"Austin Franklin","New Mexico State","WR",70.63,189,NA,4.56,7,36,123,4.33,7.07
+2014,"Devonta Freeman","Florida State","RB",68.25,206,NA,4.58,NA,31.5,116,4.26,7.11
+2014,"Kyle Fuller","Virginia Tech","CB",71.75,190,NA,4.49,12,38.5,127,4.19,6.9
+2014,"Zach Fulton","Tennessee","OG",76.63,316,NA,5.16,25,24.5,98,5.16,7.87
+2014,"Tyler Gaffney","Stanford","RB",71.5,220,NA,4.49,NA,36.5,115,4.18,6.78
+2014,"E.J. Gaines","Missouri","CB",69.63,190,NA,4.44,15,NA,NA,9.99,9.99
+2014,"Phillip Gaines","Rice (TX)","CB",72.38,193,NA,4.38,11,36.5,122,4.04,6.62
+2014,"Jeremy Gallon","Michigan","WR",67.5,185,NA,4.49,15,NA,NA,9.99,9.99
+2014,"Jimmy Garoppolo","Eastern Illinois","QB",74.25,226,24,4.97,NA,30.5,110,4.26,7.04
+2014,"James Gayle","Virginia Tech","DE",75.75,259,NA,4.7,26,37,122,4.27,7.19
+2014,"Jeremiah George","Iowa State","ILB",71.25,234,NA,4.91,28,33,115,9.99,9.99
+2014,"Justin Gilbert","Oklahoma State","CB",72.13,202,NA,4.37,20,35.5,125,9.99,6.92
+2014,"Crockett Gillmore","Colorado State","TE",77.88,260,NA,4.89,NA,33.5,120,4.44,7.42
+2014,"Demetri Goodson","Baylor","CB",71,194,NA,4.52,11,37,123,4.34,6.8
+2014,"Ryan Grant","Tulane (LA)","WR",72.38,199,NA,4.64,8,35.5,117,4.11,6.68
+2014,"Xavier Grimble","Southern California","TE",76.25,257,NA,4.76,NA,26.1,112,9.99,9.99
+2014,"Ryan Groy","Wisconsin","OG",76.63,316,NA,5.19,26,26.5,108,4.47,7.49
+2014,"RaShede Hageman","Minnesota","DT",77.88,310,13,5.02,32,35.5,113,4.5,7.87
+2014,"Andre Hal","Vanderbilt","CB",70.38,188,NA,4.5,15,35.5,117,4.27,7.14
+2014,"Jon Halapio","Florida","OG",75.5,323,NA,5.34,NA,21.5,99,4.83,8.26
+2014,"Victor Hampton","South Carolina","CB",69,197,NA,4.69,20,33.5,116,4.2,7.01
+2014,"Jonotthan Harrison","Florida","C",75.5,304,NA,5.15,27,27,112,4.86,7.97
+2014,"Taylor Hart","Oregon","DE",78.13,281,NA,4.92,21,NA,NA,9.99,9.99
+2014,"Matt Hazel","Coastal Carolina (SC)","WR",73,198,NA,4.5,15,36.5,116,4.2,7.08
+2014,"Marcus Heit","Kansas State","LS",75,258,NA,4.91,NA,29,NA,9.99,9.99
+2014,"Seantrel Henderson","Miami (FL)","OT",79.13,331,NA,5.04,NA,24,93,4.77,8.15
+2014,"Robert Herron","Wyoming","WR",69.13,193,NA,4.48,18,35.5,124,4.27,6.84
+2014,"Ryan Hewitt","Stanford","FB",76.13,246,NA,4.87,NA,33,116,4.35,7.04
+2014,"Jeremy Hill","Louisiana State","RB",72.63,233,NA,4.56,20,29,112,9.99,9.99
+2014,"Anthony Hitchens","Iowa","OLB",72.38,240,NA,4.74,23,31.5,115,4.45,7.15
+2014,"Cody Hoffman","Brigham Young","WR",75.88,223,NA,4.65,13,27.5,108,4.2,6.89
+2014,"Adrian Hubbard","Alabama","OLB",78,257,NA,4.69,NA,38.5,116,9.99,9.99
+2014,"Josh Huff","Oregon","WR",71.25,206,NA,4.51,14,35.5,115,9.99,9.99
+2014,"Marqueston Huff","Wyoming","FS",71.13,196,NA,4.49,15,35.5,116,4.19,7.26
+2014,"Allen Hurns","Miami (FL)","WR",73.25,198,NA,4.55,14,31,120,4.5,7.23
+2014,"Carlos Hyde","Ohio State","RB",71.88,230,9,4.62,19,34.5,113,9.99,9.99
+2014,"Kerry Hyder","Texas Tech","DT",74.5,290,NA,5.1,20,29.5,108,4.33,7.23
+2014,"Gabe Ikard","Oklahoma","C",75.63,304,NA,5.13,22,26,102,4.37,7.3
+2014,"Bennett Jackson","Notre Dame","CB",71.88,195,NA,4.51,13,38,127,4,6.75
+2014,"Gabe Jackson","Mississippi State","OG",75.25,336,NA,5.34,30,29,108,4.78,8.25
+2014,"Nic Jacobs","McNeese State (LA)","TE",76.75,269,NA,4.89,15,NA,NA,9.99,9.99
+2014,"JaWuan James","Tennessee","OT",78,311,NA,5.34,22,29,102,4.56,7.42
+2014,"Kendall James","Maine","CB",70.5,180,NA,4.44,9,39,NA,4.19,6.81
+2014,"Jeff Janis","Saginaw Valley State (MI)","WR",74.88,219,NA,4.42,20,37.5,123,3.98,6.64
+2014,"Stanley Jean-Baptiste","Nebraska","CB",74.63,218,NA,4.61,13,41.5,127,4.33,9.99
+2014,"Jackson Jeffcoat","Texas","DE",75,247,NA,4.63,18,36,123,4.18,6.97
+2014,"Marcel Jensen","Frenso State (CA)","TE",77.75,259,NA,4.85,24,35,114,4.6,7.38
+2014,"Timmy Jernigan","Florida State","DT",73.63,299,NA,5.06,27,29.5,101,4.83,9.99
+2014,"Anthony Johnson","Louisiana State","DT",74.5,308,NA,5.24,20,24.5,101,4.83,7.93
+2014,"Dontae Johnson","North Carolina State","FS",74.13,200,NA,4.45,12,38.5,123,4.24,6.82
+2014,"Storm Johnson","Central Florida","RB",71.63,209,NA,4.6,16,35.5,116,9.99,9.99
+2014,"Wesley Johnson","Vanderbilt","OT",77.38,297,NA,5.11,26,29,111,4.64,7.4
+2014,"Christian Jones","Florida State","ILB",75.13,240,NA,4.74,NA,33.5,114,9.99,9.99
+2014,"DaQuan Jones","Penn State","DT",75.75,322,NA,5.35,25,27.5,100,4.78,7.73
+2014,"Howard Jones","Shepherd (WV)","OLB",74.5,235,NA,4.6,21,40.5,123,4.41,7.16
+2014,"TJ Jones","Notre Dame","WR",71.63,188,NA,4.48,NA,33,117,4.27,6.82
+2014,"Reggie Jordan","Missouri Western","FB",74.88,240,NA,4.77,24,30,115,4.3,7.22
+2014,"Henry Josey","Missouri","RB",68.13,194,NA,4.43,20,34.5,116,4.13,7.07
+2014,"Lamarcus Joyner","Florida State","CB",68,184,NA,4.55,14,37.5,123,4.4,7.26
+2014,"Devon Kennard","Southern California","OLB",75,249,NA,4.7,23,30,112,4.32,7.25
+2014,"Zack Kerr","Delaware","DT",73.38,326,NA,5.08,28,28.5,99,4.71,7.93
+2014,"Christian Kirksey","Iowa","OLB",73.75,233,NA,4.72,16,32,122,9.99,9.99
+2014,"Cyrus Kouandjio","Alabama","OT",78.75,322,NA,5.59,21,27.5,96,4.84,7.71
+2014,"Kenny Ladler","Vanderbilt","FS",72.13,207,NA,4.7,24,36.5,126,9.99,9.99
+2014,"Jarvis Landry","Louisiana State","WR",71.5,205,NA,4.65,12,28.5,110,9.99,9.99
+2014,"Tyler Larsen","Utah State","C",75.63,313,NA,5.17,36,23.5,101,4.7,8.22
+2014,"Cody Latimer","Indiana","WR",74.5,215,NA,4.52,23,NA,NA,9.99,9.99
+2014,"Demarcus Lawrence","Boise State","DE",74.88,251,NA,4.8,20,34.5,112,4.31,7.46
+2014,"Nevin Lawson","Utah State","CB",69.5,190,NA,4.48,16,33,120,4.4,7.12
+2014,"Marqise Lee","Southern California","WR",71.75,192,NA,4.52,NA,38,126,4.01,9.99
+2014,"Charles Leno","Boise State","OT",75.88,303,NA,5.21,21,29,108,4.4,7.57
+2014,"A.C. Leonard","Tennessee State","TE",74.38,252,NA,4.5,20,34,127,9.99,9.99
+2014,"Taylor Lewan","Michigan","OT",79.13,309,NA,4.87,29,30.5,116,4.49,7.39
+2014,"Isaiah Lewis","Michigan State","SS",69.88,211,NA,4.6,15,36.5,122,4.47,7.05
+2014,"Brandon Linder","Miami (FL)","OG",77.63,311,NA,5.35,30,26.5,99,9.99,9.99
+2014,"Corey Linsley","Ohio State","C",74.63,296,NA,5.24,36,27,NA,9.99,9.99
+2014,"Boseko Lokombo","Oregon","OLB",74.13,225,NA,4.66,NA,NA,122,4.3,7.15
+2014,"Craig Loston","Louisiana State","SS",72.63,217,NA,4.65,12,32.5,117,4.35,7.15
+2014,"Marcus Lucas","Missouri","WR",75.75,218,NA,4.6,20,36,123,4.25,7.07
+2014,"Colt Lyerla","Oregon","TE",75.88,242,24,4.61,15,39,127,9.99,9.99
+2014,"Aaron Lynch","South Florida","DE",77,249,NA,4.76,18,NA,NA,9.99,9.99
+2014,"Arthur Lynch","Georgia","TE",76.63,258,NA,4.82,28,29.5,115,4.35,7.38
+2014,"Jordan Lynch","Northern Illinois","QB",72.13,217,NA,4.76,NA,29.5,109,4.2,6.55
+2014,"Khalil Mack","Buffalo","OLB",74.63,251,NA,4.65,23,40,127,4.18,7.08
+2014,"Cody Mandell","Alabama","P",74.5,216,NA,4.89,NA,27,NA,9.99,9.99
+2014,"Eathyn Manumaleuna","Brigham Young","DT",74.25,296,NA,5.16,29,28,100,4.61,7.78
+2014,"Johnny Manziel","Texas A&M","QB",71.75,207,32,4.68,NA,31.5,112,4.03,6.75
+2014,"Cassius Marsh","UCLA","DE",76,252,NA,4.89,14,32,108,4.25,7.08
+2014,"Kareem Martin","North Carolina","DE",77.88,272,NA,4.72,22,35.5,128,4.33,7.2
+2014,"Marcus Martin","Southern California","C",75.38,320,NA,5.38,23,NA,NA,9.99,9.99
+2014,"Zack Martin","Notre Dame","OT",76.25,308,NA,5.22,29,28,104,4.59,7.65
+2014,"Tre Mason","Auburn","RB",68.5,207,NA,4.5,NA,38.5,125,4.15,9.99
+2014,"Jeff Mathews","Cornell (NY)","QB",75.75,223,NA,5.26,NA,25.5,104,4.36,7.14
+2014,"Jake Matthews","Texas A&M","OT",77.5,308,NA,5.07,24,30.5,104,4.47,7.34
+2014,"Jordan Matthews","Vanderbilt","WR",75.13,212,29,4.46,21,35.5,120,4.18,6.95
+2014,"Josh Mauro","Stanford","DE",77.88,271,NA,5.21,21,32,115,4.51,7.43
+2014,"A.J. McCarron","Alabama","QB",75.25,220,NA,4.94,NA,28,99,4.34,9.99
+2014,"Daniel McCullers","Tennessee","DT",78.75,352,NA,5.18,27,20.5,104,9.99,9.99
+2014,"Keith McGill","Utah","CB",75.38,211,NA,4.51,NA,39,128,4.18,7.29
+2014,"Jerick McKinnon","Georgia Southern","RB",68.88,209,NA,4.41,32,40.5,132,4.12,6.83
+2014,"Zach Mettenberger","Louisiana State","QB",76.88,224,NA,9.99,NA,NA,NA,9.99,9.99
+2014,"Jack Mewhort","Ohio State","OT",78,309,NA,5.37,28,26,100,4.64,7.79
+2014,"Tevin Mims","South Florida","DE",76,260,NA,4.95,17,27.5,116,9.99,9.99
+2014,"Terrance Mitchell","Oregon","CB",71.13,192,NA,4.63,NA,34,116,4,6.57
+2014,"Donte Moncrief","Mississippi","WR",74.38,221,NA,4.4,13,39.5,132,4.3,7.02
+2014,"Zach Moore","Concordia - St Paul (MN)","DE",77.5,269,NA,4.84,23,33.5,123,4.46,7.41
+2014,"James Morris","Iowa","ILB",72.88,241,NA,4.8,18,34.5,116,4.36,6.94
+2014,"Stephen Morris","Miami (FL)","QB",73.88,213,NA,4.63,NA,30,111,4.49,7.36
+2014,"Morgan Moses","Virginia","OT",78,314,NA,5.35,NA,21.5,104,4.95,7.93
+2014,"C.J. Mosley","Alabama","ILB",74,234,NA,4.65,NA,35,116,4.4,7.3
+2014,"Jake Murphy","Utah","TE",76,249,NA,4.79,24,33,113,4.27,7.18
+2014,"Trent Murphy","Stanford","DE",77.38,250,NA,4.86,19,35.5,116,4.2,6.78
+2014,"Jordan Najvar","Baylor","TE",77.88,256,NA,4.93,18,32.5,111,4.47,7.14
+2014,"Jonathan Newsome","Ball State (IN)","OLB",74.63,247,NA,4.73,21,34,116,4.63,7.31
+2014,"Troy Niklas","Notre Dame","TE",78.5,270,NA,4.84,27,32,113,4.55,7.57
+2014,"Louis Nix","Notre Dame","DT",74,331,NA,5.42,NA,25.5,104,4.94,8.29
+2014,"Kevin Norwood","Alabama","WR",74,198,NA,4.48,8,33,121,4.32,6.68
+2014,"Pat O'Donnell","Miami (FL)","P",76,220,NA,4.64,23,30.5,NA,9.99,9.99
+2014,"Tenny Palepoi","Utah","DT",73.5,298,NA,5.1,31,30.5,111,4.53,7.67
+2014,"Matt Paradis","Boise State","C",74.63,306,NA,5.34,23,26,102,4.46,7.6
+2014,"Matt Patchan","Boston College","OT",78.25,302,NA,4.97,22,33.5,NA,9.99,9.99
+2014,"Mike Pennel","Colorado State-Pueblo","DT",76.25,332,NA,5.23,23,28.5,101,4.84,7.94
+2014,"LaDarius Perkins","Mississippi State","RB",67.38,195,NA,4.46,23,35.5,123,4.3,7.08
+2014,"Kevin Pierre-Louis","Boston College","OLB",72.5,232,NA,4.51,28,39,127,4.02,6.92
+2014,"Ronald Powell","Florida","OLB",75.13,237,NA,4.65,21,35.5,113,9.99,9.99
+2014,"Walter Powell","Murray State (KY)","WR",71.38,189,NA,4.63,10,31.5,120,4.23,6.7
+2014,"Jabari Price","North Carolina","CB",70.63,200,NA,4.45,16,NA,NA,4.3,7.04
+2014,"Calvin Pryor","Louisville","FS",71.13,207,NA,4.58,18,34.5,115,9.99,9.99
+2014,"Loucheiz Purifoy","Florida","CB",71.5,190,NA,4.61,6,35.5,120,9.99,9.99
+2014,"Kelcy Quarles","South Carolina","DT",75.75,297,NA,5.03,27,23.5,101,9.99,9.99
+2014,"Kaleb Ramsey","Boston College","DT",75,293,NA,9.99,36,NA,NA,9.99,9.99
+2014,"Keith Reaser","Florida Atlantic","CB",70.75,189,NA,4.43,22,NA,NA,9.99,9.99
+2014,"Silas Redd","Southern California","RB",69.75,212,NA,4.7,18,37,122,9.99,9.99
+2014,"Tevin Reese","Baylor","WR",70.5,163,NA,4.46,NA,41,132,4.18,6.63
+2014,"Caraun Reid","Princeton","DT",74.13,302,NA,4.91,20,26.5,104,4.58,7.59
+2014,"Trevor Reilly","Utah","OLB",76.75,245,NA,4.67,26,NA,NA,9.99,9.99
+2014,"Bryn Renner","North Carolina","QB",75.25,228,NA,4.87,NA,25.5,108,4.3,7.22
+2014,"Ed Reynolds","Stanford","FS",73,207,NA,4.57,15,32.5,116,9.99,9.99
+2014,"Rashaad Reynolds","Oregon State","CB",69.88,189,NA,4.51,20,37.5,123,4,6.72
+2014,"Antonio Richardson","Tennessee","OT",77.75,336,NA,5.3,36,24.5,NA,9.99,9.99
+2014,"Cyril Richardson","Baylor","OG",76.75,329,NA,5.36,25,25.5,90,4.83,7.7
+2014,"Paul Richardson","Colorado","WR",72.38,175,NA,4.4,NA,38,123,9.99,7.09
+2014,"Weston Richburg","Colorado State","C",75.38,298,NA,5.1,25,25.5,104,4.63,7.93
+2014,"Marcus Roberson","Florida","CB",72.25,191,NA,4.61,8,37.5,120,4.08,6.84
+2014,"Allen Robinson","Penn State","WR",74.63,220,NA,4.6,NA,39,126,4,7
+2014,"Greg Robinson","Auburn","OT",77,332,NA,4.92,32,28.5,112,4.86,7.8
+2014,"Bradley Roby","Ohio State","CB",71.25,194,NA,4.39,17,38.5,123,4.04,9.99
+2014,"Richard Rodgers","California","TE",76,257,NA,4.87,16,31.5,115,4.47,7.23
+2014,"Michael Sam","Missouri","DE",74,261,NA,4.91,17,25.5,113,4.7,7.8
+2014,"Bishop Sankey","Washington","RB",69.5,209,NA,4.49,26,35.5,125,4,6.75
+2014,"Jalen Saunders","Oklahoma","WR",68.88,165,NA,4.44,NA,34,122,9.99,9.99
+2014,"Tom Savage","Pittsburgh","QB",75.88,228,NA,4.97,NA,27,104,4.36,7.33
+2014,"Michael Schofield","Michigan","OT",78.5,301,NA,5.01,NA,24,92,4.57,7.62
+2014,"Lache Seastrunk","Baylor","RB",69.5,201,NA,4.51,15,41.5,134,9.99,9.99
+2014,"Austin Seferian-Jenkins","Washington","TE",77.5,262,NA,4.75,20,NA,NA,9.99,9.99
+2014,"Connor Shaw","South Carolina","QB",72.38,206,NA,4.66,NA,34,115,4.33,7.07
+2014,"Ryan Shazier","Ohio State","OLB",73.13,237,NA,4.58,25,42,128,4.21,6.91
+2014,"Prince Shembo","Notre Dame","OLB",73.38,253,NA,4.71,26,38.5,122,4.31,7.29
+2014,"Charles Sims","West Virginia","RB",72,214,NA,4.48,17,37.5,125,4.3,7.16
+2014,"Yawin Smallwood","Connecticut","ILB",74.25,246,NA,9.99,18,36.5,108,9.99,9.99
+2014,"Chris Smith","Arkansas","DE",73,266,NA,4.71,28,37,121,4.46,7.55
+2014,"Jerome Smith","Syracuse","RB",71.13,220,NA,4.84,14,36,116,4.6,7.53
+2014,"Marcus Smith","Louisville","DE",75.38,251,NA,4.68,23,35,121,4.47,7.48
+2014,"Telvin Smith","Florida State","OLB",75,218,NA,4.52,NA,31.5,117,9.99,9.99
+2014,"Willie Snead","Ball State (IN)","WR",71,195,NA,4.62,11,33.5,112,4.39,7.19
+2014,"Daniel Sorensen","Brigham Young","SS",73.38,205,NA,4.67,13,32,113,3.95,6.47
+2014,"Tyler Starr","South Dakota","OLB",76.13,250,NA,4.95,24,32,115,4.15,6.64
+2014,"Shamar Stephen","Connecticut","DT",76.88,309,NA,5.25,25,30.5,102,9.99,9.99
+2014,"Josh Stewart","Oklahoma State","WR",69.88,178,NA,4.69,11,35,116,4.33,7.1
+2014,"James Stone","Tennessee","C",75.63,306,NA,5.17,22,27.5,104,4.63,8.16
+2014,"Devin Street","Pittsburgh","WR",74.88,198,NA,4.55,NA,37,123,4.01,6.89
+2014,"Xavier Su'a-Filo","UCLA","OG",76.13,307,NA,5.04,25,25,101,4.44,7.6
+2014,"Vinnie Sunseri","Alabama","SS",71.13,210,NA,9.99,18,NA,NA,9.99,9.99
+2014,"Will Sutton","Arizona State","DT",72.5,303,NA,5.36,24,28.5,99,4.82,7.93
+2014,"Travis Swanson","Arkansas","C",77,312,NA,5.28,20,26,93,4.65,7.73
+2014,"Lorenzo Taliaferro","Coastal Carolina (SC)","RB",72.25,229,NA,4.58,18,33,116,4.22,6.88
+2014,"Brandon Thomas","Clemson","OG",75.25,317,NA,5.09,35,29,98,4.83,8.13
+2014,"DeAnthony Thomas","Oregon","RB",68.63,174,NA,4.5,8,32,123,9.99,9.99
+2014,"Jemea Thomas","Georgia Tech","FS",69.25,192,NA,4.55,19,37,124,9.99,9.99
+2014,"Logan Thomas","Virginia Tech","QB",78.13,248,NA,4.61,NA,35.5,116,4.18,7.05
+2014,"Robert Thomas","Arkansas","DT",73.25,327,NA,5.26,32,NA,NA,9.99,9.99
+2014,"Khyri Thornton","Southern Mississippi","DT",74.63,304,NA,5.03,28,29,111,4.76,7.83
+2014,"Jordan Tripp","Montana","OLB",74.75,234,NA,4.67,22,37.5,120,3.96,6.89
+2014,"Stephon Tuitt","Notre Dame","DT",77.5,304,NA,4.92,31,NA,NA,9.99,9.99
+2014,"Billy Turner","North Dakota State","OT",77,315,NA,5.16,25,28,108,4.71,7.92
+2014,"Trai Turner","Louisiana State","OG",74.63,310,NA,4.93,25,27.5,NA,9.99,9.99
+2014,"George Uko","Southern California","DT",74.63,284,NA,4.99,18,29.5,110,9.99,9.99
+2014,"John Urschel","Penn State","OG",75,313,NA,5.31,30,29,101,4.47,7.55
+2014,"Kyle Van Noy","Brigham Young","OLB",75.13,243,NA,4.71,21,32.5,111,4.2,7.22
+2014,"Dustin Vaughan","West Texas A&M","QB",76.88,235,NA,4.95,NA,29,108,4.43,7.25
+2014,"Brock Vereen","Minnesota","SS",71.63,199,NA,4.47,25,34,116,4.07,6.9
+2014,"Jason Verrett","Texas Christian","CB",69.5,189,NA,4.38,NA,39,127,4,6.69
+2014,"Jimmie Ward","Northern Illinois","SS",71,193,NA,4.59,9,NA,NA,9.99,9.99
+2014,"L'Damian Washington","Missouri","WR",75.88,195,NA,4.46,8,32,114,4.35,7.19
+2014,"Todd Washington","Southeast Louisiana","CB",71.38,196,NA,4.57,13,NA,NA,9.99,9.99
+2014,"Jaylen Watkins","Florida","CB",71.5,194,NA,4.41,22,NA,NA,9.99,9.99
+2014,"Sammy Watkins","Clemson","WR",72.75,211,NA,4.43,16,34,125,4.34,6.95
+2014,"Chris Watt","Notre Dame","OG",74.63,310,NA,5.5,29,NA,NA,9.99,9.99
+2014,"Larry Webster","Bloomsburg","DE",78,252,NA,4.58,17,36.5,123,4.44,7.29
+2014,"Keith Wenning","Ball State (IN)","QB",75,218,NA,5,NA,28,99,4.25,7.07
+2014,"Terrance West","Towson (MD)","RB",69.25,225,NA,4.56,16,33.5,120,9.99,9.99
+2014,"Ethan Westbrooks","West Texas A&M","DE",75.5,267,NA,4.9,19,29,110,4.67,7.3
+2014,"Lavelle Westbrooks","Georgia Southern","CB",71,186,NA,4.63,15,36,121,4.27,6.98
+2014,"James White","Wisconsin","RB",69.13,204,NA,4.57,23,32,113,4.2,7.05
+2014,"James Wilder","Florida State","RB",74.63,232,NA,4.86,18,35,121,4.24,6.92
+2014,"Andre Williams","Boston College","RB",71.38,230,NA,4.56,NA,38,128,4.06,7.27
+2014,"Damien Williams","Oklahoma","RB",71,222,NA,4.45,16,35.5,121,4.25,7.37
+2014,"Avery Williamson","Kentucky","ILB",73,246,NA,4.66,25,30.5,120,4.07,7.11
+2014,"Albert Wilson","Georgia State","WR",69,202,NA,4.43,10,37.5,123,4.21,7
+2014,"Kerry Wynn","Richmond (VA)","DE",77,266,NA,4.97,31,34,113,9.99,7.11
+2014,"David Yankey","Stanford","OG",78,315,NA,5.48,22,28.5,102,4.86,7.81
+2014,"Jordan Zumwalt","UCLA","OLB",76,235,NA,4.76,NA,33,115,4.25,6.99
+NA,"","","",NA,NA,NA,NA,NA,NA,NA,NA,NA
+2015,"Ameer Abdullah","Nebraska","RB",68.75,205,NA,4.6,24,42.5,130,3.95,6.79
+2015,"Nelson Agholor","Southern California","WR",72.13,198,NA,4.42,12,NA,NA,9.99,9.99
+2015,"Malcolm Agnew","Southern Illinois","RB",70,202,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Jay Ajayi","Boise State","RB",71.75,221,24,4.57,19,39,121,4.1,7.1
+2015,"Brandon Alexander","Central Florida","FS",74,195,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Kwon Alexander","Louisiana State","OLB",72.75,227,NA,4.55,24,36,121,4.2,7.14
+2015,"Mario Alford","West Virginia","WR",68.5,180,NA,4.43,13,34,121,4.07,6.64
+2015,"Detric Allen","East Carolina (NC)","CB",73,200,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Javorius Allen","Southern California","RB",72.5,221,12,4.53,11,35.5,121,4.28,6.96
+2015,"Jordan Allen","Arizona","DE",77,254,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Quinton Alston","Iowa","ILB",73,232,NA,4.69,NA,NA,NA,9.99,9.99
+2015,"Adrian Amos","Penn State","FS",72.5,218,NA,4.56,NA,35.5,122,4.03,7.09
+2015,"Dres Anderson","Utah","WR",73.13,187,NA,4.53,13,NA,NA,9.99,9.99
+2015,"Henry Anderson","Stanford","DE",78.25,294,36,4.97,NA,30,111,4.19,7.2
+2015,"Rory Anderson","South Carolina","TE",76.63,244,NA,4.73,NA,NA,NA,9.99,9.99
+2015,"Zaire Anderson","Nebraska","OLB",71,224,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"David Andrews","Georgia","C",75,294,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Stephone Anthony","Clemson","ILB",74.63,243,23,4.56,23,37,122,4.03,7.07
+2015,"Chi Chi Ariguzo","Northwestern","OLB",73,234,NA,4.87,NA,NA,NA,9.99,9.99
+2015,"Thurston Armbrister","Miami (FL)","OLB",74,241,NA,4.77,NA,NA,NA,9.99,9.99
+2015,"Arik Armstead","Oregon","DT",79.13,292,26,5.1,24,34,117,4.53,7.57
+2015,"Cameron Artis-Payne","Auburn","RB",69.75,212,NA,4.53,NA,36.5,118,9.99,7.13
+2015,"Kennard Backman","Alabama-Birmingham","TE",75,239,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Quinn Backus","Coastal Carolina (SC)","SS",69,216,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Neiron Ball","Florida","OLB",74.38,236,NA,4.68,22,NA,NA,9.99,9.99
+2015,"Deion Barnes","Penn State","DE",76,260,NA,4.75,NA,NA,NA,9.99,9.99
+2015,"Tavaris Barnes","Clemson","DE",75.75,282,NA,4.8,22,NA,NA,9.99,9.99
+2015,"Austin Barron","Florida State","C",75,293,NA,5.17,NA,NA,NA,9.99,9.99
+2015,"Jermaine Barton","Illinois State","OT",79,315,NA,5.38,NA,NA,NA,9.99,9.99
+2015,"Houston Bates","Louisiana Tech","OLB",73,245,NA,4.77,NA,NA,NA,9.99,9.99
+2015,"Mickey Baucus","Arizona","OT",79,309,NA,5.33,NA,NA,NA,9.99,9.99
+2015,"Will Baumann","North Carolina State","P",77.63,187,NA,5.14,NA,NA,NA,9.99,9.99
+2015,"DeJuan Beard","Washburn (KS)","WR",73,195,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Vic Beasley","Clemson","OLB",75,246,29,4.53,35,41,130,4.15,6.91
+2015,"Ben Beckwith","Mississippi State","OG",76,317,NA,5.24,NA,NA,NA,9.99,9.99
+2015,"Blake Bell","Oklahoma","TE",78.25,252,NA,4.8,14,33,116,4.32,6.85
+2015,"Kenny Bell","Nebraska","WR",73.13,197,NA,4.42,7,41.5,129,4.15,6.66
+2015,"Mitchell Bell","Louisiana Tech","OG",74,348,NA,5.48,NA,NA,NA,9.99,9.99
+2015,"Bill Belton","Penn State","RB",69,204,NA,4.55,NA,NA,NA,9.99,9.99
+2015,"Bryan Bennett","Southeastern Louisiana","QB",74.25,211,NA,4.81,NA,37,125,4.2,7.13
+2015,"Bryon Bennett","Mississippi","DT",74,293,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Michael Bennett","Georgia","WR",74,202,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Mike Bennett","Ohio State","DT",74,293,43,4.96,NA,NA,NA,9.99,9.99
+2015,"Tim Bennett","Indiana","CB",69,186,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Joe Bergeron","Texas A&M-Commerce","RB",73,235,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Seth Betancourt","Boston College","OT",77,300,NA,5.16,NA,NA,NA,9.99,9.99
+2015,"Brennen Beyer","Michigan","OLB",75,256,NA,4.9,NA,NA,NA,9.99,9.99
+2015,"E.J. Bibbs","Iowa State","TE",74,258,NA,4.76,20,NA,NA,9.99,9.99
+2015,"Craig Bills","Brigham Young","SS",73,205,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Angelo Blackson","Auburn","DT",76.38,318,NA,5.02,20,31,101,4.57,7.5
+2015,"Bernard Blake","Colorado State","CB",71,177,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Brian Blechen","Utah","SS",74,216,NA,4.7,NA,NA,NA,9.99,9.99
+2015,"Al Bond","Memphis","OG",75.75,303,NA,5.57,22,23.5,90,4.65,7.9
+2015,"TraMayne Bondurant","Arizona","FS",70,212,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Chris Bonner","Colorado State-Pueblo","QB",78,237,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Detrick Bonner","Virginia Tech","FS",71.75,207,NA,4.56,15,NA,NA,9.99,9.99
+2015,"Anthony Boone","Duke","QB",72.25,231,20,5.03,NA,26.5,100,4.62,7.47
+2015,"Cameron Botticelli","Minnesota","DT",76,292,NA,4.98,NA,NA,NA,9.99,9.99
+2015,"Gerald Bowman","Southern California","SS",73,205,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Brett Boyko","Nevada Las Vegas","OG",78.63,301,NA,5.6,NA,25,103,4.75,7.91
+2015,"Nick Boyle","Delaware","TE",76.5,268,NA,5.04,20,30.5,112,4.23,7.13
+2015,"Brandon Bridge","South Alabama","QB",76.38,229,NA,4.72,NA,33,110,4.37,7.18
+2015,"Kyle Brindza","Notre Dame","K",72.63,236,NA,5.17,14,NA,NA,9.99,9.99
+2015,"Terrance Broadway","Louisiana-Lafayette","QB",73,223,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Cariel Brooks","Adams State (CO)","CB",69,196,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Artez Brown","Arkansas State","CB",73,182,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Da'Ron Brown","Northern Illinois","WR",72.13,205,NA,4.54,17,37,120,4.11,7.04
+2015,"Dominique Brown","Louisville","RB",73.88,234,NA,4.62,17,NA,NA,9.99,9.99
+2015,"Jamon Brown","Louisville","OT",75.63,323,NA,5.44,NA,NA,NA,9.99,9.99
+2015,"Leon Brown","Alabama","OG",78,346,NA,5.67,NA,NA,NA,9.99,9.99
+2015,"Malcolm Brown","Texas","RB",71.38,224,NA,4.62,19,34.5,117,4.15,6.86
+2015,"Malcom Brown","Texas","DT",74.38,319,19,5.05,26,29.5,98,4.59,7.84
+2015,"Trent Brown","Florida","OT",80.5,355,NA,5.29,20,23.5,97,4.78,8.23
+2015,"Serderius Bryant","Mississippi","SS",68,228,NA,4.64,NA,NA,NA,9.99,9.99
+2015,"Quayshawne Buckley","Idaho","DT",74,302,NA,5.26,NA,NA,NA,9.99,9.99
+2015,"Betim Bujari","Rutgers","C",75,298,NA,5.27,NA,NA,NA,9.99,9.99
+2015,"Malcolm Bunche","UCLA","OG",78,320,NA,5.24,NA,NA,NA,9.99,9.99
+2015,"Blair Burns","Wyoming","CB",70,186,NA,4.55,NA,NA,NA,9.99,9.99
+2015,"Clay Burton","Florida","TE",75,248,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Mike Burton","Rutgers","FB",71.25,242,NA,4.74,25,33,115,4.34,7.2
+2015,"Damiere Byrd","South Carolina","WR",69,162,NA,4.39,NA,NA,NA,9.99,9.99
+2015,"Bryce Callahan","Rice (TX)","CB",69,184,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Jesse Callier","Washington","RB",70,202,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Ibraheim Campbell","Northwestern","SS",71.38,208,26,4.59,23,NA,NA,9.99,9.99
+2015,"A.J. Cann","South Carolina","OG",74.75,313,NA,5.18,26,NA,NA,9.99,9.99
+2015,"Nordly Capi","Akron","DE",75,252,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Shane Carden","East Carolina (NC)","QB",73.88,218,25,4.94,NA,29.5,104,4.45,7.17
+2015,"Joe Cardona","Navy","LS",74,242,NA,4.91,30,33,NA,9.99,9.99
+2015,"Alex Carter","Stanford","CB",72.13,196,30,4.51,17,40,121,4.07,7.05
+2015,"DeAndre Carter","Sacramento State (CA)","WR",68,186,NA,4.48,NA,NA,NA,9.99,9.99
+2015,"Sam Carter","Texas Christian","SS",73,216,NA,4.63,NA,NA,NA,9.99,9.99
+2015,"Tevin Carter","Utah","FS",73,215,NA,4.54,19,NA,NA,9.99,9.99
+2015,"James Castleman","Oklahoma State","DT",75,311,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"B.J. Catalon","Texas Christian","RB",67.38,186,NA,4.57,NA,36,114,4.15,6.9
+2015,"Rakeem Cato","Marshall (WV)","QB",71,171,NA,4.7,NA,NA,NA,9.99,9.99
+2015,"Donald Celiscar","Western Michigan","CB",70.88,194,NA,4.62,NA,NA,120,9.99,9.99
+2015,"Tyson Chandler","North Carolina State","OT",78,354,NA,5.42,NA,NA,NA,9.99,9.99
+2015,"Anthony Chickillo","Miami (FL)","DE",75.13,267,NA,4.79,27,34.5,114,4.25,7.17
+2015,"Jawon Chisholm","Akron","RB",73,202,NA,4.63,NA,NA,NA,9.99,9.99
+2015,"Gerald Christian","Louisville","TE",75,244,NA,4.87,28,NA,NA,4.7,7.62
+2015,"Kyle Christy","Florida","P",74.25,202,NA,4.93,NA,NA,NA,9.99,9.99
+2015,"Tyler Cierski","Maryland","FB",71,260,NA,4.74,NA,NA,NA,9.99,9.99
+2015,"Imoan Claiborne","Northwestern State (LA)","CB",70,189,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Ace Clark","Western Carolina","SS",74,217,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Frank Clark","Michigan","DE",74.88,271,NA,4.79,19,38.5,118,4.05,7.08
+2015,"Marquez Clark","Central Oklahoma","WR",70,190,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Blaine Clausell","Mississippi State","OT",78,329,NA,5.37,NA,NA,NA,9.99,9.99
+2015,"Kaelin Clay","Utah","WR",69.63,195,NA,4.51,10,33,113,4.26,6.97
+2015,"Cameron Clear","Texas A&M","OT",77.38,277,NA,4.98,NA,32,108,4.48,7.52
+2015,"T.J. Clemmings","Pittsburgh","OT",76.75,309,NA,5.14,22,32.5,111,4.54,7.68
+2015,"Cameron Clemmons","Western Kentucky","OT",78,300,NA,5.28,NA,NA,NA,9.99,9.99
+2015,"Reshard Cliett","South Florida","OLB",74,221,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Sammie Coates","Auburn","WR",73.38,212,14,4.43,23,41,131,4.06,6.98
+2015,"David Cobb","Minnesota","RB",70.88,229,NA,4.59,17,38.5,121,9.99,9.99
+2015,"Takoby Cofield","Duke","OT",76.25,310,NA,5.19,23,30,101,4.79,8.09
+2015,"Justin Coleman","Tennessee","CB",70.63,185,NA,4.53,20,37.5,124,3.98,6.61
+2015,"Tevin Coleman","Indiana","RB",71.38,206,NA,4.59,22,NA,NA,9.99,9.99
+2015,"Henry Coley","Virginia","ILB",73,239,NA,4.95,NA,NA,NA,9.99,9.99
+2015,"Jalen Collins","Louisiana State","CB",73.5,203,28,4.48,NA,36,124,4.27,6.77
+2015,"La`el Collins","Louisiana State","OT",76.5,305,12,5.12,21,27,108,4.63,7.7
+2015,"Landon Collins","Alabama","SS",72,228,17,4.53,NA,35,120,4.33,7.38
+2015,"Austin Collinsworth","Notre Dame","SS",73,205,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Chris Conley","Georgia","WR",73.88,213,NA,4.35,18,45,139,4.3,7.06
+2015,"Brey Cook","Arkansas","OT",77,317,NA,5.29,NA,NA,NA,9.99,9.99
+2015,"Kenny Cook","Gardner-Webb (NC)","WR",75,215,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Amari Cooper","Alabama","WR",72.88,211,21,4.42,NA,33,120,3.98,6.71
+2015,"Corey Cooper","Nebraska","SS",73,209,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Xavier Cooper","Washington State","DT",74.88,293,NA,4.86,29,29,110,4.37,7.23
+2015,"Christian Covington","Rice (TX)","DT",74.38,289,NA,5.09,NA,NA,NA,9.99,9.99
+2015,"Justin Cox","Mississippi State","CB",72.63,191,NA,4.36,15,38,129,4.07,7.05
+2015,"Corey Crawford","Clemson","DE",77,283,NA,5.01,NA,33,110,4.65,7.64
+2015,"Tony Creecy","North Carolina State","RB",71,215,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Rob Crisp","North Carolina State","OT",78.63,301,NA,5.26,26,32.5,107,4.6,8.07
+2015,"John Crockett","North Dakota State","RB",71.75,217,NA,4.62,15,40,125,4.25,7.15
+2015,"Jamison Crowder","Duke","WR",68.38,185,NA,4.56,10,37,115,4.32,7.17
+2015,"Antwan Crutcher","Ohio","DT",73,297,NA,5.18,NA,NA,NA,9.99,9.99
+2015,"Yannik Cudjoe-Virgil","Maryland","OLB",74.13,248,NA,4.74,25,NA,NA,9.99,9.99
+2015,"Robertson Daniel","Brigham Young","CB",73,198,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"DaVaris Daniels","Notre Dame","WR",73.5,201,NA,4.62,13,37,122,9.99,9.99
+2015,"Ronald Darby","Florida State","CB",70.63,193,17,4.38,12,41.5,129,4.14,6.94
+2015,"Erick Dargan","Oregon","SS",71,217,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Aaron Davis","Colorado State","OLB",71.63,225,NA,4.95,16,29,107,4.37,7.38
+2015,"Andre Davis","South Florida","WR",73,207,NA,4.55,NA,NA,NA,9.99,9.99
+2015,"Carl Davis","Iowa","DT",76.63,320,NA,5.07,NA,33,103,4.47,7.91
+2015,"Devante Davis","Nevada Las Vegas","WR",74.88,220,NA,4.57,16,35.5,115,4.12,7.25
+2015,"Dyshawn Davis","Syracuse","OLB",74,222,NA,4.72,NA,NA,NA,9.99,9.99
+2015,"Geremy Davis","Connecticut","WR",74.38,216,NA,4.58,23,36.5,124,4.18,6.86
+2015,"Kalon Davis","Clemson","OG",77,340,NA,5.46,NA,NA,NA,9.99,9.99
+2015,"Mike Davis","South Carolina","RB",69.13,217,NA,4.61,17,34,116,4.18,7
+2015,"Titus Davis","Central Michigan","WR",72.75,196,NA,4.51,NA,32.5,119,4.28,7.14
+2015,"Tyeler Davison","Frenso State (CA)","DT",73.63,316,NA,5.18,32,33,105,4.46,7.53
+2015,"Lamar Dawson","Southern California","ILB",73,230,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Paul Dawson","Texas Christian","ILB",72.13,235,20,4.93,21,28,109,4.49,9.99
+2015,"Dillon Day","Mississippi State","C",76,305,NA,5.26,NA,NA,NA,9.99,9.99
+2015,"Synjyn Days","Georgia Tech","RB",73,232,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Andre Debose","Florida","WR",73,190,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Ryan Delaire","Towson (MD)","DE",76.13,254,NA,4.97,23,NA,NA,9.99,9.99
+2015,"Trey DePriest","Alabama","ILB",72.38,254,NA,4.92,NA,NA,NA,9.99,9.99
+2015,"A.J. Derby","Arkansas","TE",75.75,255,NA,4.73,15,NA,NA,9.99,9.99
+2015,"Travis Dickson","Louisiana State","TE",75,237,NA,4.74,NA,NA,NA,9.99,9.99
+2015,"Xzavier Dickson","Alabama","OLB",75.5,260,NA,4.74,19,29.5,100,4.53,7.56
+2015,"Miles Dieffenbach","Penn State","OG",75,305,NA,5.29,NA,NA,NA,9.99,9.99
+2015,"Jarrett Dieudonne","Wagner (NY)","FS",73,190,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Quandre Diggs","Texas","CB",69.13,196,NA,4.56,17,35.5,113,4.15,7.22
+2015,"Stefon Diggs","Maryland","WR",72,195,NA,4.46,NA,35,115,4.32,7.03
+2015,"Reese Dismukes","Auburn","C",74.75,296,NA,5.31,23,27.5,107,4.7,8.14
+2015,"Larry Dixon","Army","FB",70,237,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Travell Dixon","Washington","CB",73,198,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Michael Doctor","Oregon State","OLB",71,221,NA,4.64,NA,NA,NA,9.99,9.99
+2015,"Andrew Donnal","Iowa","OT",77.88,313,NA,5.31,17,32,101,4.77,7.84
+2015,"Sean Donnelly","Tulane (LA)","OT",80,317,NA,5.47,NA,NA,NA,9.99,9.99
+2015,"Matt Dooley","Indiana","LS",76,245,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Phillip Dorsett","Miami (FL)","WR",69.75,185,NA,4.33,13,37,122,4.11,6.7
+2015,"Lorenzo Doss","Tulane (LA)","CB",70.38,182,NA,4.5,9,33.5,115,4.26,7.2
+2015,"Jamil Douglas","Arizona State","OG",76,304,NA,5.25,28,29,99,4.75,7.99
+2015,"Ray Drew","Georgia","DE",76,284,NA,4.81,NA,NA,NA,9.99,9.99
+2015,"Kurtis Drummond","Michigan State","FS",72.63,208,NA,4.65,NA,39.5,119,4.33,7.09
+2015,"B.J. Dubose","Louisville","DE",76,284,NA,5.06,26,NA,NA,9.99,9.99
+2015,"Quinton Dunbar","Florida","WR",73,195,NA,4.44,NA,NA,NA,9.99,9.99
+2015,"Chris Dunkley","South Florida","CB",71,182,NA,4.46,NA,NA,NA,9.99,9.99
+2015,"Alvin Dupree","Kentucky","DE",76,269,13,4.56,NA,42,138,9.99,9.99
+2015,"Lemar Durant","Simon Fraser (Canada)","WR",73,231,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Dechane Durante","Northern Illinois","FS",74,194,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Michael Dyer","Louisville","RB",68.5,218,NA,4.58,26,34,120,9.99,9.99
+2015,"Andrew East","Vanderbilt","LS",74,239,NA,4.87,NA,NA,NA,9.99,9.99
+2015,"Nick Easton","Harvard","C",74,307,NA,5.15,NA,NA,NA,9.99,9.99
+2015,"Quinterrius Eatmon","South Florida","OT",77,313,NA,5.37,NA,NA,NA,9.99,9.99
+2015,"Fabbians Ebbele","Arizona","OT",80,311,NA,5.29,NA,NA,NA,9.99,9.99
+2015,"Steve Edmond","Texas","ILB",75,253,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Jahwan Edwards","Ball State (IN)","RB",69.5,220,NA,4.8,16,35.5,117,4.5,7.63
+2015,"Mario Edwards","Florida State","DE",74.63,279,NA,4.84,32,32.5,120,4.55,7.44
+2015,"SaQwan Edwards","New Mexico","CB",73,200,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Ifo Ekpre-Olomu","Oregon","CB",69.13,192,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Kyle Emanuel","North Dakota State","OLB",75.25,255,NA,4.77,27,34,120,4.25,7.1
+2015,"Quinn Epperly","Princeton","QB",73,218,NA,4.89,NA,NA,NA,9.99,9.99
+2015,"Zac Epping","Minnesota","OG",74,318,NA,5.48,NA,NA,NA,9.99,9.99
+2015,"Cameron Erving","Florida State","C",77.5,313,NA,5.15,30,30.5,112,4.63,7.48
+2015,"Durrell Eskridge","Syracuse","FS",74.88,208,NA,4.63,NA,31,117,4.26,7.09
+2015,"Kaleb Eulls","Mississippi State","DT",75,305,NA,5.23,NA,NA,NA,9.99,9.99
+2015,"Randall Evans","Kansas State","CB",73,190,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Antoine Everett","McNeese State (LA)","OG",74,328,NA,5.32,NA,NA,NA,9.99,9.99
+2015,"Deshazor Everett","Texas A&M","CB",71,188,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Tayo Fabuluje","Texas Christian","OG",78.38,353,NA,5.55,NA,29.5,NA,4.77,9.99
+2015,"Cody Fajardo","Nevada","QB",73.5,223,31,4.63,NA,32.5,118,4.1,6.95
+2015,"Maurice Falls","East Carolina (NC)","OLB",75,247,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Ethan Farmer","North Carolina","DT",74,291,NA,5.04,NA,NA,NA,9.99,9.99
+2015,"George Farmer","Southern California","WR",73,220,NA,4.38,NA,NA,NA,9.99,9.99
+2015,"Tom Farniok","Iowa State","C",75,300,NA,5.27,NA,NA,NA,9.99,9.99
+2015,"Cole Farrand","Maryland","ILB",75,244,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Landon Feichter","Purdue","FS",73,192,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Jon Feliciano","Miami (FL)","OG",75.88,323,NA,5.33,NA,26.5,97,4.74,9.99
+2015,"Sam Ficken","Penn State","K",73.5,191,NA,5.06,NA,NA,NA,9.99,9.99
+2015,"B.J. Finney","Kansas State","C",75.75,318,NA,5.25,20,24,99,4.76,9.99
+2015,"Jake Fisher","Oregon","OT",78.13,306,NA,5.01,25,32.5,NA,4.33,7.25
+2015,"Daniel Fitzpatrick","Tennessee State","SS",73,206,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Ereck Flowers","Miami (FL)","OT",78.25,329,NA,5.31,37,NA,NA,9.99,9.99
+2015,"Trey Flowers","Arkansas","DE",74.13,266,NA,4.93,28,36.5,121,4.4,7.34
+2015,"Terell Floyd","Louisville","CB",69,187,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Dante Fowler","Florida","OLB",74.63,261,16,4.6,19,32.5,112,4.32,7.4
+2015,"Jalston Fowler","Alabama","FB",71,254,NA,4.94,23,33.5,114,4.4,7.56
+2015,"Garrett Frye","Georgia Southern","OT",76,288,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Alani Fua","Brigham Young","OLB",76.75,238,NA,4.73,18,34.5,118,4.15,6.83
+2015,"Clay Fuller","Baylor","WR",73,210,NA,4.55,NA,NA,NA,9.99,9.99
+2015,"Devin Funchess","Michigan","WR",76.25,232,NA,4.7,17,38.5,122,9.99,9.99
+2015,"Charles Gaines","Louisville","CB",69.88,180,NA,4.44,NA,34.5,123,4.2,7.07
+2015,"Andy Gallik","Boston College","C",74.38,306,NA,5.5,29,27,96,4.58,7.66
+2015,"Doniel Gambrell","Notre Dame","OT",77,306,NA,5.27,NA,NA,NA,9.99,9.99
+2015,"Jacob Gannon","Iowa State","OT",78,315,NA,5.19,NA,NA,NA,9.99,9.99
+2015,"Max Garcia","Florida","C",76.13,309,NA,5.24,NA,NA,NA,9.99,9.99
+2015,"Devin Gardner","Michigan","WR",76,217,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Charles Garrett","Nevada","CB",71,205,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Keyarris Garrett","Tulsa (OK)","WR",75,206,NA,4.64,14,36.5,128,4.33,7.3
+2015,"Clayton Geathers","Central Florida","SS",73.63,218,NA,4.55,22,37,120,4.27,7.21
+2015,"Laurence Gibson","Virginia Tech","OT",77.75,305,NA,5.04,24,33.5,113,4.56,7.72
+2015,"Reggie Gilbert","Arizona","DE",75,261,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Jacoby Glenn","Central Florida","CB",72,179,NA,4.64,NA,34,123,4.26,6.97
+2015,"Mark Glowinski","West Virginia","OG",76.38,307,NA,5.2,31,29.5,113,4.58,7.56
+2015,"Stephen Godbolt","Webber International (FL)","CB",70,176,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Markus Golden","Missouri","OLB",74.38,260,NA,4.9,NA,NA,NA,9.99,9.99
+2015,"Eddie Goldman","Florida State","DT",75.88,336,NA,5.28,NA,NA,NA,9.99,9.99
+2015,"Senquez Golson","Mississippi","CB",68.63,176,NA,4.46,15,33.5,120,4.2,6.81
+2015,"Antwan Goodley","Baylor","WR",70.25,209,NA,4.44,NA,NA,NA,9.99,9.99
+2015,"Melvin Gordon","Wisconsin","RB",72.63,215,20,4.52,19,35,126,4.07,7.04
+2015,"Jabari Gorman","Florida","FS",70,184,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Jourdon Grandon","Arizona","FS",70,183,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Corey Grant","Auburn","RB",69,201,NA,4.28,NA,NA,NA,9.99,9.99
+2015,"Curtis Grant","Ohio State","ILB",75,240,NA,4.73,NA,NA,NA,9.99,9.99
+2015,"Doran Grant","Ohio State","CB",70.25,200,NA,4.44,21,33,116,4.33,9.99
+2015,"Hroniss Grasu","Oregon","C",75,297,28,5.12,NA,NA,NA,9.99,9.99
+2015,"Garrett Grayson","Colorado State","QB",74.5,213,20,4.84,NA,NA,NA,9.99,9.99
+2015,"Chaz Green","Florida","OT",76.63,314,NA,5.16,21,29.5,106,4.7,8
+2015,"Christian Green","Florida State","WR",73,196,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Dorial Green-Beckham","Missouri","WR",77.13,237,20,4.49,13,33.5,119,4.45,6.89
+2015,"Deontay Greenberry","Houston","WR",75,198,NA,4.64,NA,NA,NA,9.99,9.99
+2015,"Rashad Greene","Florida State","WR",71.38,182,24,4.53,NA,36.5,122,4.12,6.88
+2015,"Randy Gregory","Nebraska","DE",76.88,235,28,4.64,24,36.5,125,9.99,9.99
+2015,"Geneo Grissom","Oklahoma","OLB",75.38,262,NA,4.81,20,37,117,4.38,7.24
+2015,"Prince-Tyson Gulley","Syracuse","RB",68,194,NA,4.63,NA,NA,NA,9.99,9.99
+2015,"Ladarius Gunter","Miami (FL)","CB",73.5,202,NA,4.69,12,33.5,108,4.41,7.18
+2015,"Todd Gurley","Georgia","RB",72.63,222,12,4.52,17,NA,NA,9.99,9.99
+2015,"Steven Gurrola","Arizona","C",74,291,NA,5.27,NA,NA,NA,9.99,9.99
+2015,"Obum Gwacham","Oregon State","DE",77.38,246,NA,4.72,22,36,121,4.28,7.28
+2015,"Chris Hackett","Texas Christian","FS",72.25,195,NA,4.81,NA,32,110,4.2,7.12
+2015,"Jordan Haden","Toledo","FS",71,200,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Bryce Hager","Baylor","ILB",72.75,234,NA,4.6,26,35,117,4.36,7.15
+2015,"Jimmy Hall","Northwestern","OLB",73,228,NA,4.48,NA,NA,NA,9.99,9.99
+2015,"Rannell Hall","Central Florida","WR",72.38,198,NA,4.6,16,41,132,4.15,6.86
+2015,"Justin Halley","Florida International","FS",74,190,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Connor Halliday","Washington State","QB",75,196,31,4.87,NA,NA,NA,9.99,9.99
+2015,"Chad Hamilton","Coastal Carolina (SC)","OG",74,292,NA,5.27,NA,NA,NA,9.99,9.99
+2015,"Justin Hamilton","Louisiana-Lafayette","DT",74,315,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Ray Hamilton","Iowa","TE",76,252,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Connor Hamlett","Oregon State","TE",79,265,NA,4.82,NA,NA,NA,9.99,9.99
+2015,"Kevin Haplea","Florida State","TE",75,247,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Marcus Hardison","Arizona State","DT",75.13,307,NA,4.96,27,NA,NA,9.99,9.99
+2015,"Justin Hardy","East Carolina (NC)","WR",70.25,192,NA,4.56,11,36.5,114,4.21,6.63
+2015,"Eli Harold","Virginia","OLB",75.13,247,NA,4.6,NA,35,123,4.16,7.07
+2015,"Sage Harold","James Madison (VA)","OLB",75,242,NA,4.65,NA,NA,NA,9.99,9.99
+2015,"Chris Harper","California","WR",71,176,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Josh Harper","Frenso State (CA)","WR",72.88,191,NA,4.64,13,32,108,4.36,7.15
+2015,"Rowdy Harper","Houston","OG",78,295,NA,5.29,NA,NA,NA,9.99,9.99
+2015,"Alonzo Harris","Louisiana-Lafayette","RB",73,243,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Anthony Harris","Virginia","SS",72.63,183,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"R.J. Harris","New Hampshire","WR",73,191,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Trevor Harris","Houston","DE",77,233,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Desmond Harrison","Texas","OT",80,318,NA,5.39,NA,NA,NA,9.99,9.99
+2015,"Jarvis Harrison","Texas A&M","OG",76.13,330,NA,5.19,26,29.5,102,4.62,7.51
+2015,"Bobby Hart","Florida State","OG",76.75,329,NA,5.46,NA,NA,NA,9.99,9.99
+2015,"Dee Hart","Colorado State","RB",67.5,199,NA,4.8,NA,33,113,4.38,7.2
+2015,"Terrell Hartsfield","Cincinnati","DE",74,245,NA,4.89,NA,NA,NA,9.99,9.99
+2015,"Nick Harwell","Kansas","WR",71,193,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Tajh Hasson","Nevada Las Vegas","CB",73,198,NA,4.48,NA,NA,NA,9.99,9.99
+2015,"Micah Hatchie","Washington","OT",76,301,NA,5.28,NA,NA,NA,9.99,9.99
+2015,"Rob Havenstein","Wisconsin","OT",79.38,321,NA,5.46,16,28.5,96,4.87,8.28
+2015,"Quentin Hayes","Oklahoma","SS",73,190,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Braylon Heard","Kentucky","RB",69.63,198,NA,4.63,19,30.5,116,4.4,7.19
+2015,"Grant Hedrick","Boise State","QB",73,191,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Ben Heeney","Kansas","ILB",72.25,231,NA,4.59,19,33.5,120,4,6.68
+2015,"Taylor Heinicke","Old Dominion (VA)","QB",73,211,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Brock Hekking","Nevada","OLB",75,250,NA,4.64,NA,NA,NA,9.99,9.99
+2015,"David Helton","Duke","OLB",75,235,NA,4.85,NA,NA,NA,9.99,9.99
+2015,"Greg Henderson","Colorado","CB",71,181,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Matt Hermanson","Montana","FS",73,198,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Amarlo Herrera","Georgia","ILB",72.63,244,NA,4.83,23,32,111,4.27,7.35
+2015,"Warren Herring","Wisconsin","DT",74,287,NA,5.2,NA,NA,NA,9.99,9.99
+2015,"Jeff Heuerman","Ohio State","TE",77.13,254,NA,4.8,26,NA,NA,9.99,9.99
+2015,"Sean Hickey","Syracuse","OT",77.38,309,NA,5.14,35,NA,NA,9.99,9.99
+2015,"Jordan Hicks","Texas","OLB",73.38,236,28,4.68,20,38,124,4.15,6.78
+2015,"Austin Hill","Arizona","WR",74,214,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Joe Hill","Utah State","RB",70,183,NA,4.3,NA,NA,NA,9.99,9.99
+2015,"Keshawn Hill","Sam Houston State (TX)","RB",70,211,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Nick Hill","Michigan State","RB",68,197,NA,4.4,NA,NA,NA,9.99,9.99
+2015,"Troy Hill","Oregon","CB",70,182,NA,4.55,NA,32.5,120,4.21,6.81
+2015,"Kenny Hilliard","Louisiana State","RB",71.63,226,NA,4.83,NA,27,111,4.4,7.17
+2015,"Matt Hoch","Missouri","DT",76,295,NA,5.1,NA,NA,NA,9.99,9.99
+2015,"Zack Hodges","Harvard","OLB",74.5,250,NA,4.68,NA,33.5,125,4.65,9.99
+2015,"Gerod Holliman","Louisville","FS",71.75,218,NA,4.54,17,NA,NA,9.99,9.99
+2015,"Desmond Hollin","Florida State","DT",75,285,NA,4.92,NA,NA,NA,9.99,9.99
+2015,"Gabe Holmes","Purdue","TE",77,256,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"DreQuan Hoskey","Virginia","CB",73,180,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Andrew Hudson","Washington","DE",74,250,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Travis Hughes","North Carolina","OLB",74,225,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Mike Hull","Penn State","OLB",71.88,237,NA,4.68,31,NA,NA,4.15,6.99
+2015,"D.J. Humphries","Florida","OT",77,307,12,5.12,26,31,104,4.64,7.87
+2015,"Brett Hundley","UCLA","QB",75.25,226,26,4.63,NA,36,120,3.98,6.93
+2015,"Akeem Hunt","Purdue","RB",69,189,NA,4.38,NA,NA,NA,9.99,9.99
+2015,"Chucky Hunter","Texas Christian","DT",73,298,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Danielle Hunter","Louisiana State","DE",77.13,252,NA,4.57,25,NA,NA,9.99,9.99
+2015,"Martin Ifedi","Memphis","DE",75.13,275,NA,4.88,16,31,111,4.58,7.39
+2015,"Jeremy Ioane","Boise State","SS",70,192,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Joey Iosefa","Hawaii","FB",71.75,247,NA,5.02,30,31.5,110,4.33,7.24
+2015,"Brandon Ivory","Alabama","DT",75,308,NA,5.38,NA,NA,NA,9.99,9.99
+2015,"Tre Jackson","Florida State","OG",75.75,330,NA,5.52,NA,25,96,9.99,9.99
+2015,"Tank Jakes","Memphis","OLB",70,218,NA,4.82,NA,NA,NA,9.99,9.99
+2015,"Jesse James","Penn State","TE",79,261,NA,4.83,26,37.5,121,4.5,7.53
+2015,"Jordon James","UCLA","RB",68,194,NA,4.43,NA,NA,NA,9.99,9.99
+2015,"Grady Jarrett","Clemson","DT",72.75,304,31,5.06,30,31,112,4.56,7.37
+2015,"Kyshoen Jarrett","Virginia Tech","SS",69.88,200,NA,4.57,21,33,109,4.4,6.95
+2015,"Chris Jasperse","Marshall (WV)","C",75,297,NA,5.38,NA,NA,NA,9.99,9.99
+2015,"Anthony Jefferson","UCLA","SS",72.88,198,NA,4.72,15,33.5,116,4.15,7.18
+2015,"Matt Joeckel","Texas Christian","QB",76,237,NA,4.95,NA,NA,NA,9.99,9.99
+2015,"A.J. Johnson","Tennessee","ILB",74,242,NA,4.79,NA,NA,NA,9.99,9.99
+2015,"Anthony Johnson","West Texas A&M","WR",73,194,NA,4.56,20,24.5,102,4.83,7.93
+2015,"Antonio Johnson","North Texas","OT",77,310,NA,9.99,NA,NA,NA,9.99,9.99
+2015,"David Johnson","Northern Iowa","RB",72.63,224,NA,4.5,25,41.5,127,4.27,6.82
+2015,"Duke Johnson","Miami (FL)","RB",69.13,207,NA,4.54,NA,33.5,121,9.99,9.99
+2015,"Gus Johnson","Stephen F. Austin (TX)","RB",69.63,215,NA,4.7,26,36.5,120,4.13,7.09
+2015,"Isaiah Johnson","Georgia Tech","SS",73,213,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Jabral Johnson","Oregon State","ILB",73,224,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Jeremiah Johnson","Maryland","CB",71,195,NA,4.54,20,35,115,9.99,9.99
+2015,"Kaleb Johnson","Rutgers","OG",76,303,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Kevin Johnson","Wake Forest","CB",72.25,188,17,4.52,NA,41.5,130,3.89,6.79
+2015,"Malcolm Johnson","Mississippi State","FB",73,231,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Vernon Johnson","Texas A&M-Commerce","WR",71,188,NA,4.47,NA,NA,NA,9.99,9.99
+2015,"Will Johnson","Texas State","P",73.88,206,NA,5.02,NA,NA,NA,9.99,9.99
+2015,"Byron Jones","Connecticut","CB",72.63,199,33,4.49,NA,44.5,147,3.94,6.78
+2015,"Chris Jones","Alabama","WR",70.13,182,NA,4.63,8,32.5,119,4.19,6.91
+2015,"DeAndre Jones","Wyoming","CB",73,186,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Matt Jones","Florida","RB",74.38,231,NA,4.61,20,31.5,112,4.2,9.99
+2015,"Taiwan Jones","Michigan State","ILB",74.63,245,NA,4.95,19,32,115,4.33,7.25
+2015,"Tebucky Jones","Fordham (NY)","WR",71,197,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Terrence Jones","Troy (AL)","OG",75,319,NA,5.5,NA,NA,NA,9.99,9.99
+2015,"Tony Jones","Northwestern","WR",71,197,NA,4.42,NA,NA,NA,9.99,9.99
+2015,"Terris Jones-Grigsby","Arizona","RB",67,198,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Hunter Joyer","Florida","FB",71,232,NA,4.73,NA,NA,NA,9.99,9.99
+2015,"Taylor Kelly","Arizona State","QB",74,198,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Eric Kendricks","UCLA","ILB",72.25,232,14,4.61,19,38,124,9.99,9.99
+2015,"Malcome Kennedy","Texas A&M","WR",71,207,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Hau'oli Kikaha","Washington","OLB",74.38,253,29,4.74,NA,NA,NA,9.99,9.99
+2015,"Darius Kilgo","Maryland","DT",76,320,NA,5.34,NA,NA,NA,9.99,9.99
+2015,"Nigel King","Kansas","WR",74,213,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Marvin Kloss","South Florida","K",71,196,NA,4.94,NA,NA,NA,9.99,9.99
+2015,"Daniel Koenig","Oklahoma State","OT",78,300,NA,5.3,NA,NA,NA,9.99,9.99
+2015,"Arie Kouandjio","Alabama","OG",76.75,310,NA,5.43,NA,NA,NA,9.99,9.99
+2015,"Ben Koyack","Notre Dame","TE",76.88,255,NA,4.77,NA,NA,NA,9.99,9.99
+2015,"Tyler Kroft","Rutgers","TE",77.5,246,32,4.69,17,NA,NA,9.99,9.99
+2015,"Jake Kumerow","Wisconsin-Whitewater","WR",77,209,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Josh Lambo","Texas A&M","K",72.25,216,NA,5.16,NA,NA,NA,9.99,9.99
+2015,"Kendall Lamm","Appalachian State (NC)","OT",77,303,NA,5.22,NA,NA,NA,9.99,9.99
+2015,"Marlin Lane","Tennessee","RB",71,210,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Jeremy Langford","Michigan State","RB",71.63,208,NA,4.42,NA,34.5,118,4.32,7.22
+2015,"B.J. Larsen","Utah State","DE",77,271,NA,4.96,NA,NA,NA,9.99,9.99
+2015,"Paul Lasike","Brigham Young","FB",70,257,NA,4.73,NA,NA,NA,9.99,9.99
+2015,"Zach Laskey","Georgia Tech","FB",73,218,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Khari Lee","Bowie State (MD)","TE",76,267,NA,4.85,NA,NA,NA,9.99,9.99
+2015,"Qushaun Lee","Arkansas State","ILB",71,225,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Eric Lefeld","Cincinnati","OT",78,310,NA,5.22,NA,NA,NA,9.99,9.99
+2015,"Cyril Lemon","North Texas","OG",75,317,NA,5.34,NA,NA,NA,9.99,9.99
+2015,"Matt Lengel","Eastern Kentucky","TE",79,265,NA,4.79,NA,NA,NA,9.99,9.99
+2015,"Dallas Lewallen","Wisconsin","OG",78,322,NA,5.32,NA,NA,NA,9.99,9.99
+2015,"Dez Lewis","Central Arkansas","WR",75.75,214,NA,4.58,16,33.5,119,4.28,7.11
+2015,"Jameon Lewis","Mississippi State","WR",68,184,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"RobDonovan Lewis","Louisiana-Monroe","CB",70,188,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"LeVander Liggins","Louisiana Tech","CB",70,191,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Tony Lippett","Michigan State","WR",74.5,192,NA,4.61,10,36,114,4.13,6.92
+2015,"Tyler Lockett","Kansas State","WR",69.88,182,NA,4.4,NA,35.5,121,4.07,6.89
+2015,"Deon Long","Maryland","WR",71.63,192,NA,4.51,12,34,120,4.27,6.98
+2015,"Ty Long","Alabama-Birmingham","K",73,206,NA,4.87,NA,NA,NA,9.99,9.99
+2015,"Kyle Loomis","Portland State (OR)","P",73.63,221,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Tyler Loos","Northern Illinois","OT",77,302,NA,5.35,NA,NA,NA,9.99,9.99
+2015,"Derrick Lott","Tennessee-Chattanooga","DT",76,314,NA,4.99,30,26.5,106,4.44,7.3
+2015,"Jerry Lovelocke","Prairie View A&M","QB",76.5,248,NA,4.99,NA,31.5,113,4.51,7.3
+2015,"John Lowdermilk","Iowa","SS",73,210,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Keanon Lowe","Oregon","WR",69,186,NA,4.46,NA,NA,NA,9.99,9.99
+2015,"Jeff Luc","Cincinnati","ILB",73,263,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Tello Luckett","Harding (AR)","WR",71.75,211,NA,4.65,17,34,118,4.5,7.51
+2015,"Blake Lueders","Stanford","DE",77,260,NA,4.89,NA,NA,NA,9.99,9.99
+2015,"Cameron Lynch","Syracuse","OLB",71,227,NA,4.75,NA,NA,NA,9.99,9.99
+2015,"D.J. Lynch","Bowling Green (OH)","ILB",73,249,NA,4.77,NA,NA,NA,9.99,9.99
+2015,"Caushaud Lyons","Tusculum (TN)","DE",76,285,NA,4.96,NA,NA,NA,9.99,9.99
+2015,"Terrence Magee","Louisiana State","RB",68.5,213,NA,4.57,22,37,115,4.37,7.52
+2015,"Craig Mager","Texas State","CB",71.5,201,NA,4.44,17,38,130,4.07,6.83
+2015,"Devin Mahina","Brigham Young","TE",78,256,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Marcus Mallett","Texas Christian","ILB",73,227,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Derrick Malone","Oregon","OLB",74,220,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Greg Mancz","Toledo","C",76,301,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Cole Manhart","Nebraska-Kearney","OG",75,305,NA,5.38,NA,NA,NA,9.99,9.99
+2015,"Andrew Manley","Eastern Illinois","QB",75,225,NA,4.9,NA,NA,NA,9.99,9.99
+2015,"Sean Mannion","Oregon State","QB",77.63,229,40,5.14,NA,31,105,4.39,7.29
+2015,"Justin Manton","Louisiana-Monroe","K",74.75,196,NA,4.93,NA,NA,NA,9.99,9.99
+2015,"Marcus Mariota","Oregon","QB",75.75,222,NA,4.52,NA,36,121,4.11,6.87
+2015,"Venric Mark","West Texas A&M","RB",67,175,NA,4.38,NA,NA,NA,9.99,9.99
+2015,"Dean Marlowe","James Madison (VA)","FS",73.5,203,NA,4.58,16,33.5,114,4.18,7
+2015,"Ali Marpet","Hobart & William Smith (NY)","OG",75.88,307,33,4.98,30,30.5,108,4.47,7.33
+2015,"Nick Marshall","Auburn","CB",73.5,207,NA,4.54,12,37.5,124,4.15,6.96
+2015,"Gabe Martin","Bowling Green (OH)","OLB",74,234,NA,4.65,NA,NA,NA,9.99,9.99
+2015,"Ronald Martin","Louisiana State","SS",73,217,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Kevonte Martin-Manley","Iowa","WR",73,205,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Hutson Mason","Georgia","QB",74,207,NA,4.79,NA,NA,NA,9.99,9.99
+2015,"Shaquille Mason","Georgia Tech","C",74,310,NA,5.27,NA,NA,NA,9.99,9.99
+2015,"Dior Mathis","Oregon","CB",68,175,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Josue Matias","Florida State","OG",77.5,309,NA,5.52,NA,17.5,84,5.12,8.19
+2015,"Lorenzo Mauldin","Louisville","OLB",75.63,259,NA,4.85,23,32,112,4.58,7.47
+2015,"Vince Mayle","Washington State","WR",74,224,NA,4.67,NA,35.5,117,4.13,6.93
+2015,"David Mayo","Texas State","ILB",73,242,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Joey Mbu","Houston","DT",74.88,313,NA,5.54,NA,22.5,97,5.01,8.2
+2015,"Tre McBride","William & Mary (VA)","WR",72.25,210,NA,4.41,16,38,122,4.08,6.96
+2015,"Bobby McCain","Memphis","CB",69.5,195,NA,4.51,17,36,130,3.82,6.8
+2015,"Ellis McCarthy","UCLA","DT",76.63,338,NA,5.21,24,32,109,5.07,8.16
+2015,"Justin McCay","Kansas","WR",74,210,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Lyle McCombs","Rhode Island","RB",68,171,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Shane McDermott","Miami (FL)","C",76,302,NA,5.21,NA,NA,NA,9.99,9.99
+2015,"Dexter McDonald","Kansas","CB",73,203,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Tevin McDonald","Eastern Washington","FS",71.38,195,NA,4.63,19,33,112,4.26,7.01
+2015,"Mike McFarland","South Florida","TE",77,260,NA,4.82,NA,NA,NA,9.99,9.99
+2015,"Benardrick McKinney","Mississippi State","ILB",76.13,246,14,4.66,16,40.5,121,4.27,7.21
+2015,"Connor McLaurin","South Carolina","FB",71,243,NA,4.85,NA,NA,NA,9.99,9.99
+2015,"Karl Mickelsen","Frenso State (CA)","ILB",73,234,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Brian Mihalik","Boston College","DE",81,288,NA,4.96,NA,NA,NA,9.99,9.99
+2015,"Darrian Miller","Kentucky","OT",76.88,307,NA,5.51,NA,25,97,4.87,7.91
+2015,"John Miller","Louisville","OG",74.5,303,14,5.33,29,27,104,4.75,8.2
+2015,"Matt Miller","Boise State","WR",75,220,NA,4.79,NA,NA,NA,9.99,9.99
+2015,"Patrick Miller","Auburn","OT",79,292,NA,5.18,NA,NA,NA,9.99,9.99
+2015,"Steve Miller","Ohio State","DE",75,255,NA,4.81,NA,NA,NA,9.99,9.99
+2015,"Matt Milton","Louisville","WR",77,205,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Jonathon Mincy","Auburn","CB",70,191,NA,4.55,NA,NA,NA,9.99,9.99
+2015,"Tevin Mitchel","Arkansas","CB",73,183,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Braylon Mitchell","Arkansas","OLB",73,226,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Nick Montana","Tulane (LA)","QB",73,207,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Ty Montgomery","Stanford","WR",71.88,221,NA,4.55,NA,40.5,121,4.21,6.97
+2015,"Corey Moore","Georgia","SS",74,206,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Kendall Moore","Notre Dame","ILB",73,242,NA,4.65,NA,NA,NA,9.99,9.99
+2015,"Tyler Moore","Florida","OG",77,325,NA,5.18,NA,NA,NA,9.99,9.99
+2015,"Max Morgan","Colorado State","ILB",73,231,NA,4.79,NA,NA,NA,9.99,9.99
+2015,"Cory Morrissey","Iowa State","DE",76,260,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Mitch Morse","Missouri","OG",77.38,305,29,5.14,36,31,112,4.5,7.6
+2015,"Raheem Mostert","Purdue","RB",71,190,NA,4.34,NA,NA,NA,9.99,9.99
+2015,"Deiontrez Mount","Louisville","DE",77,243,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Ryan Mueller","Kansas State","DE",74,248,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Keith Mumphery","Michigan State","WR",71.63,215,NA,4.54,NA,32.5,121,4.25,7.07
+2015,"Jimmay Mundine","Kansas","FB",73,237,NA,4.66,NA,NA,NA,9.99,9.99
+2015,"Marcus Murphy","Missouri","RB",68,193,NA,4.61,11,29,109,4.4,9.99
+2015,"Ryan Murphy","Oregon State","FS",73,209,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Tyler Murphy","Boston College","QB",73,210,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Mark Myers","John Carroll (OH)","QB",76,220,NA,4.92,NA,NA,NA,9.99,9.99
+2015,"Robert Myers","Tennessee State","OG",76.75,326,NA,5.44,NA,27.5,94,4.91,8.1
+2015,"Chuka Ndulue","Oklahoma","DT",73,288,NA,4.91,NA,NA,NA,9.99,9.99
+2015,"Quayshawn Nealy","Georgia Tech","ILB",73,237,NA,4.82,NA,NA,NA,9.99,9.99
+2015,"Conner Neighbors","Louisiana State","FB",70,242,NA,4.72,NA,NA,NA,9.99,9.99
+2015,"Chase Nelson","Toledo","OT",80,335,NA,5.26,NA,NA,NA,9.99,9.99
+2015,"DeMarieya Nelson","Arizona State","FB",74,235,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"J.J. Nelson","Alabama-Birmingham","WR",70.25,156,NA,4.28,NA,36,127,4.15,7.02
+2015,"Steven Nelson","Oregon State","CB",70.13,197,NA,4.49,19,34.5,115,4.07,6.88
+2015,"Merrill Noel","Wake Forest","CB",67,174,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Art Norman","North Carolina State","DE",73,252,NA,4.79,NA,NA,NA,9.99,9.99
+2015,"Cheatham Norrils","Toledo","CB",73,195,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"Levi Norwood","Baylor","WR",73,193,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Gary Nova","Rutgers","QB",73,222,NA,4.63,NA,NA,NA,9.99,9.99
+2015,"Rakeem Nunez-Roches","Southern Mississippi","DT",74.25,307,NA,5.02,26,34,114,4.69,7.67
+2015,"Cameron Nwosu","Southern Methodist (TX)","ILB",70,240,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Mark Nzeocha","Wyoming","OLB",74.38,232,NA,4.56,24,NA,NA,9.99,9.99
+2015,"Nick O'Leary","Florida State","TE",75.25,252,NA,4.93,21,30.5,110,4.5,7.4
+2015,"Michael Odiari","Texas State","OLB",73,245,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Owamagbe Odighizuwa","UCLA","DE",75.5,267,NA,4.62,25,39,127,4.19,7.36
+2015,"Cedric Ogbuehi","Texas A&M","OT",77.25,306,23,4.98,23,NA,NA,9.99,9.99
+2015,"C.J. Olaniyan","Penn State","OLB",75,250,NA,4.82,NA,NA,NA,9.99,9.99
+2015,"Efrem Oliphant","Houston","OLB",73,230,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Darragh ONeill","Colorado","P",73,187,NA,4.89,NA,NA,NA,9.99,9.99
+2015,"Michael Orakpo","Texas State","OLB",73,226,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Nate Orchard","Utah","DE",75.25,250,21,4.8,NA,31.5,115,4.43,7.28
+2015,"Leon Orr","Florida","DT",76.88,323,NA,5.16,NA,28,100,4.9,8.26
+2015,"James OShaughnessy","Illinois State","TE",76,245,NA,4.69,NA,NA,NA,9.99,9.99
+2015,"Norkeithus Otis","North Carolina","OLB",74,234,NA,4.73,NA,NA,NA,9.99,9.99
+2015,"LaDarius Owens","Auburn","DE",73,236,NA,4.92,NA,NA,NA,9.99,9.99
+2015,"Reggie Owens","Old Dominion (VA)","CB",73,189,NA,9.99,NA,NA,NA,9.99,9.99
+2015,"Trevor Pardula","Kansas","P",76.38,227,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Brian Parker","Albany (NY)","TE",76,265,NA,4.72,NA,NA,NA,9.99,9.99
+2015,"DeVante Parker","Louisville","WR",74.63,209,15,4.45,17,36.5,125,9.99,9.99
+2015,"Juda Parker","Colorado","DE",74,270,NA,9.99,NA,NA,NA,9.99,9.99
+2015,"Kevin Parks","Virginia","RB",66,201,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Damian Parms","Florida Atlantic","SS",73,206,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"David Parry","Stanford","DT",73.25,308,NA,5.38,34,29,103,9.99,9.99
+2015,"Andrus Peat","Stanford","OT",78.88,313,NA,5.18,NA,31,105,4.62,8.01
+2015,"Breshad Perriman","Central Florida","WR",74,212,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Nick Perry","Alabama","FS",73,205,NA,4.63,35,38.5,124,4.66,7.25
+2015,"Denzel Perryman","Miami (FL)","ILB",70.75,236,17,4.78,27,32,113,9.99,9.99
+2015,"Garry Peters","Clemson","CB",71.75,191,NA,4.61,7,32.5,119,4,6.8
+2015,"Marcus Peters","Washington","CB",71.63,197,13,4.53,17,37.5,121,4.08,7.08
+2015,"David Peterson","San Jose State","C",75,295,NA,5.32,NA,NA,NA,9.99,9.99
+2015,"Bryce Petty","Baylor","QB",74.88,230,31,4.87,NA,34,121,4.13,6.91
+2015,"Andy Phillips","Central Michigan","OG",75,306,NA,5.28,NA,NA,NA,9.99,9.99
+2015,"Jordan Phillips","Oklahoma","DT",77.25,329,NA,5.17,28,30,105,4.68,7.88
+2015,"Shakim Phillips","Boston College","WR",74,206,NA,4.42,NA,NA,NA,9.99,9.99
+2015,"Darius Philon","Arkansas","DT",73.38,298,NA,5,26,31,107,9.99,8
+2015,"Casey Pierce","Kent State (OH)","TE",75,244,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Olsen Pierre","Miami (FL)","DT",75,300,NA,5.23,NA,NA,NA,9.99,9.99
+2015,"Bradley Pinion","Clemson","P",77,229,NA,5.18,NA,NA,NA,9.99,9.99
+2015,"Terrell Pinson","Louisiana Tech","SS",74,210,NA,4.65,NA,NA,NA,9.99,9.99
+2015,"Terrance Plummer","Central Florida","ILB",71,235,NA,4.93,NA,NA,NA,9.99,9.99
+2015,"Kalafitoni Pole","Washington State","DT",73,304,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Terry Poole","San Diego State","OT",76.75,307,NA,5.09,25,31,113,4.66,7.9
+2015,"Elliott Porter","Louisiana State","C",76,298,NA,5.16,NA,NA,NA,9.99,9.99
+2015,"Jeremiah Poutasi","Utah","OG",77.13,335,NA,5.32,26,26.5,95,4.89,8.09
+2015,"Kyle Prater","Northwestern","WR",77,228,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Cody Prewitt","Mississippi","FS",74,208,NA,4.6,11,35,125,4.23,7.12
+2015,"Angelo Pruitt","Connecticut","DE",74,287,NA,4.93,NA,NA,NA,9.99,9.99
+2015,"MyCole Pruitt","Southern Illinois","TE",74.25,251,NA,4.58,17,38,118,4.37,7.25
+2015,"Sonny Puletasi","Wyoming","DE",75,251,NA,4.87,NA,NA,NA,9.99,9.99
+2015,"Hayes Pullard","Southern California","ILB",72.5,240,NA,4.78,19,31,110,4.39,7.07
+2015,"Daniel Quave","Louisiana-Lafayette","OG",75,324,NA,5.43,NA,NA,NA,9.99,9.99
+2015,"Travis Raciti","San Jose State","DT",76,288,NA,5.11,NA,NA,NA,9.99,9.99
+2015,"Damarious Randall","Arizona State","FS",70.88,196,18,4.46,14,38,120,4.07,6.83
+2015,"Jermauria Rasco","Louisiana State","DE",75,259,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Floyd Raven","Texas A&M","FS",73,202,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Thomas Rawls","Central Michigan","RB",69,215,NA,4.65,15,35.5,116,9.99,9.99
+2015,"Shane Ray","Missouri","DE",74.63,245,20,4.65,21,NA,NA,9.99,9.99
+2015,"Cedric Reed","Texas","DE",77.25,269,NA,4.89,22,NA,NA,9.99,9.99
+2015,"Mike Reilly","William & Mary (VA)","DE",76,265,NA,4.82,NA,30.5,109,4.11,6.76
+2015,"Mike Replogle","Indiana","FB",73,245,NA,4.89,NA,NA,NA,9.99,9.99
+2015,"Ben Rhyne","Stanford","P",74,203,NA,4.97,NA,NA,NA,9.99,9.99
+2015,"Addison Richards","Regina (Canada)","WR",76,209,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Jordan Richards","Stanford","SS",70.75,211,NA,4.65,13,32,111,4.22,6.74
+2015,"Bobby Richardson","Indiana","DT",74.63,283,NA,5.16,NA,32.5,106,4.41,7.57
+2015,"LeBrandon Richardson","Bethune-Cookman (FL)","OLB",73,255,NA,4.73,NA,NA,NA,9.99,9.99
+2015,"Nick Richardson","Abilene Christian (TX)","OLB",73,242,NA,4.81,NA,NA,NA,9.99,9.99
+2015,"Shaquille Riddick","West Virginia","DE",78,236,NA,4.82,NA,NA,NA,9.99,9.99
+2015,"Cody Riggs","Notre Dame","CB",69,186,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"Curtis Riley","Frenso State (CA)","CB",73,190,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Aaron Ripkowski","Oklahoma","FB",73,255,NA,4.89,NA,NA,NA,9.99,9.99
+2015,"Ben Riva","Washington","OT",78,313,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Jared Roberts","Colorado State","K",73,210,NA,5.02,NA,NA,NA,9.99,9.99
+2015,"Kyle Roberts","Nevada","OT",77,311,NA,5.27,NA,NA,NA,9.99,9.99
+2015,"Corey Robinson","South Carolina","OT",78.63,324,40,5.33,28,NA,NA,9.99,9.99
+2015,"Edmond Robinson","Newberry (SC)","OLB",74.63,245,NA,4.61,20,37,121,4.38,7.49
+2015,"Jamal Robinson","Louisiana-Lafayette","WR",75,205,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Josh Robinson","Mississippi State","RB",67.88,217,NA,4.7,21,32,113,9.99,9.99
+2015,"Matt Robinson","Maryland","OLB",75,240,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Jake Rodgers","Eastern Washington","OT",77,315,NA,5.24,NA,NA,NA,9.99,9.99
+2015,"Kevin Rodgers","Henderson State (AR)","QB",74,201,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Quinten Rollins","Miami (OH)","CB",71.13,195,NA,4.57,14,36.5,122,4.28,7.1
+2015,"Spencer Roth","Baylor","P",76,227,NA,5.06,NA,NA,NA,9.99,9.99
+2015,"Matt Rotheram","Pittsburgh","OG",77,339,NA,5.53,NA,NA,NA,9.99,9.99
+2015,"James Rouse","Marshall (WV)","DE",77,277,NA,4.89,NA,NA,NA,9.99,9.99
+2015,"Eric Rowe","Utah","CB",72.75,205,23,4.45,19,39,125,3.97,6.7
+2015,"Ezell Ruffin","San Diego State","WR",71.63,218,NA,4.68,17,27.5,110,4.58,7.35
+2015,"Dominic Rufran","Wyoming","WR",73,188,NA,4.55,NA,NA,NA,9.99,9.99
+2015,"Jack Rummells","Northern Iowa","OT",77,300,NA,5.19,NA,NA,NA,9.99,9.99
+2015,"Marcus Rush","Michigan State","OLB",74,243,NA,4.72,NA,NA,NA,9.99,9.99
+2015,"Ryan Russell","Purdue","DE",76.25,269,NA,4.75,25,32.5,119,4.47,7.25
+2015,"Tyreese Russell","Eastern Michigan","TE",75,238,NA,4.77,NA,NA,NA,9.99,9.99
+2015,"Jake Ryan","Michigan","OLB",74.38,240,22,4.65,20,34.5,120,4.2,7.11
+2015,"Mike Sadler","Michigan State","P",71,182,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Garrett Safron","Sacramento State (CA)","QB",73,200,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Junior Salt","Utah","OG",74,331,NA,5.24,NA,NA,NA,9.99,9.99
+2015,"Ty Sambrailo","Colorado State","OT",77.88,311,NA,5.36,23,29,97,4.58,7.54
+2015,"James Sample","Louisville","SS",74.13,209,12,4.56,NA,32.5,123,9.99,7.04
+2015,"Stephon Sanders","Southern Methodist (TX)","OLB",74,251,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Bud Sasser","Missouri","WR",74,210,NA,4.62,NA,NA,NA,9.99,9.99
+2015,"DeAnte Saunders","Tennessee State","CB",69,185,NA,4.5,NA,NA,NA,9.99,9.99
+2015,"Wes Saxton","South Alabama","TE",75.38,248,NA,4.65,NA,36,119,4.49,7.29
+2015,"Brandon Scherff","Iowa","OT",76.63,319,NA,5.05,23,NA,NA,9.99,9.99
+2015,"Ross Scheuerman","Lafayette (PA)","WR",71.88,204,NA,4.62,15,33,121,4.11,7.08
+2015,"Jesse Schmitt","Purdue","LS",74,245,NA,5.12,NA,NA,NA,9.99,9.99
+2015,"Dawon Scott","Miami (OH)","WR",71,194,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Tim Scott","North Carolina","FS",71,189,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Jesse Scroggins","Arizona","QB",75,208,NA,4.79,NA,NA,NA,9.99,9.99
+2015,"Cassius Sendish","Kansas","FS",71,196,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Al-Hajj Shabazz","West Chester (PA)","CB",71,202,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Faysal Shafaat","Tennessee-Chattanooga","TE",75,243,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Josh Shaw","Southern California","CB",72.5,201,NA,4.44,26,37.5,130,4.12,7.01
+2015,"Adam Shead","Oklahoma","OG",75.63,338,NA,5.74,26,NA,NA,9.99,9.99
+2015,"Danny Shelton","Washington","DT",74.13,339,23,5.64,34,30.5,95,4.65,7.99
+2015,"Austin Shepherd","Alabama","OT",76.38,315,NA,5.39,17,29,94,4.7,8.04
+2015,"JaCorey Shepherd","Kansas","CB",70.88,199,NA,4.54,14,NA,NA,9.99,9.99
+2015,"Jaxon Shipley","Texas","WR",73,193,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Max Shortell","Jacksonville State (AL)","QB",77,240,NA,5.04,NA,NA,NA,9.99,9.99
+2015,"Jameill Showers","Texas-El Paso","QB",73,231,NA,4.76,NA,NA,NA,9.99,9.99
+2015,"Tommy Shuler","Marshall (WV)","WR",67,188,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Trevor Siemian","Northwestern","QB",75,210,NA,4.94,NA,NA,NA,9.99,9.99
+2015,"Jean Sifrin","Massachusetts","TE",77.25,245,NA,4.84,NA,33,114,4.6,7.5
+2015,"Ian Silberman","Boston College","OT",77,299,NA,5.17,NA,NA,NA,9.99,9.99
+2015,"Deon Simon","Northwestern State (LA)","DT",76.38,321,NA,5.12,35,29.5,105,4.76,7.92
+2015,"Blake Sims","Alabama","QB",71.5,218,NA,4.57,NA,30.5,115,9.99,9.99
+2015,"Robert Singletary","Texas-San Antonio","DE",74,250,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"DeAndre Smelter","Georgia Tech","WR",74.13,226,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Derron Smith","Frenso State (CA)","FS",70,200,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Devin Smith","Ohio State","WR",72.38,196,NA,4.42,10,39,122,4.15,9.99
+2015,"DJoun Smith","Florida Atlantic","CB",70,187,NA,4.45,18,36,124,4.26,6.96
+2015,"Donovan Smith","Penn State","OT",77.63,338,NA,5.27,26,32,109,4.79,7.95
+2015,"Dreamius Smith","West Virginia","RB",71,217,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Jake Smith","Louisville","C",75,309,NA,5.32,NA,NA,NA,9.99,9.99
+2015,"Preston Smith","Mississippi State","DE",76.88,271,NA,4.74,24,34,121,4.28,7.07
+2015,"Tye Smith","Towson (MD)","CB",72.13,195,NA,4.6,15,36.5,124,3.96,6.97
+2015,"Za'Darius Smith","Kentucky","DE",76.5,274,NA,4.83,23,29,113,4.66,7.42
+2015,"Kristjan Sokoli","Buffalo","DT",77,290,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Martrell Spaight","Arkansas","OLB",71.88,236,NA,4.88,25,35,120,9.99,7.66
+2015,"Quinton Spain","West Virginia","OG",76,332,NA,5.36,NA,NA,NA,9.99,9.99
+2015,"Evan Spencer","Ohio State","WR",74,208,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Neal Sterling","Monmouth (NJ)","WR",75,238,NA,4.63,NA,NA,NA,9.99,9.99
+2015,"Hamani Stevens","Oregon","OG",75,307,NA,5.42,NA,NA,NA,9.99,9.99
+2015,"Tony Steward","Clemson","OLB",73,230,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Cole Stoudt","Clemson","QB",76,218,NA,4.86,NA,NA,NA,9.99,9.99
+2015,"Jaelen Strong","Arizona State","WR",74.38,217,22,4.44,NA,42,123,9.99,9.99
+2015,"Tacoi Sumler","Appalachian State (NC)","WR",68,175,NA,4.42,NA,NA,NA,9.99,9.99
+2015,"J.T. Surratt","South Carolina","DT",73,304,NA,5.19,29,30,106,4.71,7.78
+2015,"Damian Swann","Georgia","CB",72,189,NA,4.5,NA,33,118,9.99,9.99
+2015,"Junior Sylvestre","Toledo","OLB",73,233,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"A.J. Tarpley","Stanford","ILB",73,233,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Jaquiski Tartt","Samford (AL)","SS",73,221,NA,4.53,NA,NA,124,9.99,9.99
+2015,"J.R. Tavai","Southern California","OLB",73.75,249,NA,4.91,20,30.5,112,9.99,9.99
+2015,"Jordan Taylor","Rice (TX)","WR",76,204,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Michael Taylor","Florida","ILB",71,227,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Raymon Taylor","Michigan","CB",70,182,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Thomas Teal","North Carolina State","DT",73,308,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Randall Telfer","Southern California","TE",75.75,250,NA,4.77,20,NA,NA,9.99,9.99
+2015,"Jared Tevis","Arizona","SS",70,195,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Robenson Therezie","Auburn","SS",70,205,NA,4.38,NA,NA,NA,9.99,9.99
+2015,"Cam Thomas","Western Kentucky","CB",73,195,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Pete Thomas","Louisiana-Monroe","QB",77,232,NA,5.06,NA,NA,NA,9.99,9.99
+2015,"Cedric Thompson","Minnesota","FS",71,205,NA,4.47,NA,NA,NA,9.99,9.99
+2015,"Dylan Thompson","South Carolina","QB",74,223,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Shaq Thompson","Washington","OLB",72.13,228,NA,4.64,NA,33.5,117,4.08,6.99
+2015,"Tyrus Thompson","Oklahoma","OT",76.88,324,NA,5.16,29,29,97,4.92,9.99
+2015,"John Timu","Washington","ILB",73,241,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Eric Tomlinson","Texas-El Paso","TE",77.63,263,NA,4.98,19,30.5,110,4.54,7.46
+2015,"Laken Tomlinson","Duke","OG",75,323,23,5.33,25,31.5,103,4.87,8.17
+2015,"Westlee Tonga","Utah","TE",75,240,NA,4.84,NA,NA,NA,9.99,9.99
+2015,"Joe Townsend","Vanderbilt","C",75,308,NA,5.28,NA,NA,NA,9.99,9.99
+2015,"Lynden Trail","Norfolk State (VA)","DE",78.63,269,NA,4.91,24,32.5,117,4.48,7.32
+2015,"Joseph Treadwell","Louisiana-Monroe","OT",77,324,NA,5.65,NA,NA,NA,9.99,9.99
+2015,"Louis Trinca-Pasat","Iowa","DT",73,290,NA,4.96,NA,32,105,4.3,7.4
+2015,"Charles Tuaau","Texas A&M-Commerce","DT",75,327,NA,5.16,NA,NA,NA,9.99,9.99
+2015,"Davis Tull","Tennessee-Chattanooga","OLB",74.38,246,NA,4.59,26,42.5,132,9.99,9.99
+2015,"Will Tye","Stony Brook (NY)","TE",75,260,NA,4.78,NA,NA,NA,9.99,9.99
+2015,"Valerian Ume-Ezeoke","New Mexico State","C",74,305,NA,5.45,NA,NA,NA,9.99,9.99
+2015,"C.J. Uzomah","Auburn","TE",77,262,NA,4.64,NA,NA,NA,9.99,9.99
+2015,"Max Valles","Virginia","OLB",76.63,251,NA,4.83,NA,36.5,121,4.37,7.59
+2015,"Tyler Varga","Yale","FB",70.63,222,28,4.64,23,NA,NA,9.99,9.99
+2015,"James Vaughters","Stanford","OLB",74,258,NA,4.73,NA,NA,NA,9.99,9.99
+2015,"Bill Vavau","Utah State","OG",76,314,NA,5.18,NA,NA,NA,9.99,9.99
+2015,"Zach Vigil","Utah State","ILB",74,236,NA,4.68,NA,NA,NA,9.99,9.99
+2015,"Ray Vinopal","Pittsburgh","FS",70,198,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Brandon Vitabile","Northwestern","C",74,304,NA,5.2,NA,NA,NA,9.99,9.99
+2015,"Brian Vogler","Alabama","TE",78,263,NA,5.02,NA,NA,NA,9.99,9.99
+2015,"Triston Wade","Texas-San Antonio","FS",71,170,NA,9.99,NA,NA,NA,9.99,9.99
+2015,"Zach Wagenmann","Montana","DE",75,247,NA,4.82,14,37.5,109,4.26,7.07
+2015,"Easton Wahlstrom","Arizona State","LS",73,244,NA,4.95,NA,NA,NA,9.99,9.99
+2015,"Nick Waisome","Florida State","CB",69,182,NA,4.48,NA,NA,NA,9.99,9.99
+2015,"Clive Walford","Miami (FL)","TE",76,251,NA,4.79,20,35,120,4.57,7.32
+2015,"Bo Wallace","Mississippi","QB",76,211,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Darren Waller","Georgia Tech","WR",78.13,238,NA,4.46,12,37,125,4.25,7.07
+2015,"Davon Walls","Lincoln (MO)","DT",76,301,NA,9.99,NA,NA,NA,9.99,9.99
+2015,"Leterrius Walton","Central Michigan","DT",76.88,319,NA,5.25,25,27,103,4.78,7.91
+2015,"Lee Ward","Stanford","FB",73,245,NA,4.97,NA,NA,NA,9.99,9.99
+2015,"Terron Ward","Oregon State","RB",67,197,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Tony Washington","Oregon","OLB",76,247,NA,4.99,17,32.5,110,4.31,7.2
+2015,"Robert Waterman","Nevada Las Vegas","C",74,290,NA,5.23,NA,NA,NA,9.99,9.99
+2015,"Jake Waters","Kansas State","QB",73,204,NA,4.85,NA,NA,NA,9.99,9.99
+2015,"Diaheem Watkins","Alabama-Birmingham","DE",75,256,NA,4.94,NA,NA,NA,9.99,9.99
+2015,"Josh Watson","Clemson","DT",76,290,NA,5.08,NA,NA,NA,9.99,9.99
+2015,"Terrell Watson","Azusa Pacific (CA)","RB",73,239,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Daryl Waud","Western Ontario (Canada)","DT",77,294,NA,5.04,NA,NA,NA,9.99,9.99
+2015,"Trae Waynes","Michigan State","CB",72.13,186,20,4.31,19,38,122,4.39,7.06
+2015,"Braylon Webb","Missouri","SS",73,205,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Brandon Wegher","Morningside (IA)","RB",70,214,NA,4.52,NA,NA,NA,9.99,9.99
+2015,"Mark Weisman","Iowa","FB",73,240,NA,4.7,NA,NA,NA,9.99,9.99
+2015,"Matthew Wells","Mississippi State","OLB",73,222,NA,4.45,NA,NA,NA,9.99,9.99
+2015,"DeOndre Wesley","Brigham Young","OT",79,330,NA,5.43,NA,NA,NA,9.99,9.99
+2015,"Jarrod West","Syracuse","WR",74,209,NA,4.53,NA,NA,NA,9.99,9.99
+2015,"Jeffrey Whitaker","Auburn","DT",75,322,NA,5.85,NA,NA,NA,9.99,9.99
+2015,"Darius White","Missouri","WR",75,208,NA,4.56,NA,NA,NA,9.99,9.99
+2015,"DeAndrew White","Alabama","WR",71.5,193,NA,4.44,NA,34.5,118,4.18,6.97
+2015,"Kevin White","Texas Christian","CB",69.13,183,NA,4.63,18,35.5,121,4.14,6.92
+2015,"Kevin White","West Virginia","WR",74.63,215,NA,4.35,23,36.5,123,4.14,6.92
+2015,"Jermaine Whitehead","Auburn","FS",71,197,NA,4.59,15,37,128,4.11,6.95
+2015,"Cody Wichmann","Frenso State (CA)","OG",78,315,NA,5.32,NA,NA,NA,9.99,9.99
+2015,"Brison Williams","South Carolina","SS",71,208,NA,4.57,NA,NA,NA,9.99,9.99
+2015,"Chase Williams","Virginia Tech","ILB",73,231,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Darrell Williams","South Florida","OT",76,301,NA,5.23,NA,NA,NA,9.99,9.99
+2015,"Daryl Williams","Oklahoma","OT",77,327,NA,5.34,27,26,97,5.15,9.99
+2015,"DeShawn Williams","Clemson","DT",73,303,NA,5.07,NA,NA,NA,9.99,9.99
+2015,"Jackie Williams","Central Florida","WR",71,190,NA,4.59,NA,NA,NA,9.99,9.99
+2015,"Jordan Williams","Tennessee","DE",76,287,NA,4.96,NA,NA,NA,9.99,9.99
+2015,"Karlos Williams","Florida State","RB",72.75,230,NA,4.48,16,33.5,117,4.46,7.16
+2015,"Kasen Williams","Washington","WR",74,219,NA,4.54,NA,NA,NA,9.99,9.99
+2015,"Kenny Williams","Texas Tech","RB",69,225,NA,4.58,NA,NA,NA,9.99,9.99
+2015,"Leonard Williams","Southern California","DT",76.63,302,22,4.97,NA,29.5,106,4.53,7.59
+2015,"Maxx Williams","Minnesota","TE",76,249,29,4.78,17,34.5,117,4.37,7.3
+2015,"P.J. Williams","Florida State","CB",72,194,18,4.57,12,40,132,4.28,7.08
+2015,"Ryan Williams","Miami (FL)","QB",76,220,NA,5.06,19,40,123,4.18,6.96
+2015,"Terry Williams","East Carolina (NC)","DT",73,344,NA,5.36,NA,NA,NA,9.99,9.99
+2015,"Trey Williams","Texas A&M","RB",67.5,195,NA,4.49,18,33.5,119,4.12,6.84
+2015,"Tyrell Williams","Western Oregon","WR",75,204,NA,4.43,NA,NA,NA,9.99,9.99
+2015,"Xavier Williams","Northern Iowa","DT",74,325,NA,5.18,NA,NA,NA,9.99,9.99
+2015,"Damien Wilson","Minnesota","ILB",72,245,NA,4.77,22,37,119,4.2,7.21
+2015,"Demetrius Wilson","Arkansas","WR",73,185,NA,4.49,NA,NA,NA,9.99,9.99
+2015,"Julian Wilson","Oklahoma","CB",74,205,NA,4.58,NA,36,125,4.22,6.94
+2015,"Ramik Wilson","Georgia","ILB",74,237,NA,4.77,23,35,111,4.51,9.99
+2015,"Torrian Wilson","Central Florida","OG",74,316,NA,5.28,NA,NA,NA,9.99,9.99
+2015,"Jameis Winston","Florida State","QB",76,231,27,4.97,NA,28.5,103,4.36,7.16
+2015,"Kyle Woestmann","Vanderbilt","OLB",74,253,NA,4.83,NA,NA,NA,9.99,9.99
+2015,"Cam Worthy","East Carolina (NC)","WR",74,211,NA,4.59,12,NA,NA,9.99,9.99
+2015,"J.J. Worton","Central Florida","WR",74,209,NA,4.63,NA,NA,NA,9.99,9.99
+2015,"Gabe Wright","Auburn","DT",75,300,NA,5.07,34,26.5,100,4.56,7.73
+2015,"Dylan Wynn","Oregon State","DE",74,270,NA,4.92,NA,NA,NA,9.99,9.99
+2015,"Shane Wynn","Indiana","WR",66,167,NA,4.38,NA,NA,NA,9.99,9.99
+2015,"T.J. Yeldon","Alabama","RB",73,226,NA,4.61,22,36,117,4.22,7.19
+2015,"Sterling Young","Arkansas State","FS",73,195,NA,4.67,NA,NA,NA,9.99,9.99
+2015,"Konrad Zagzebski","Wisconsin","DE",75,278,NA,4.92,NA,NA,NA,9.99,9.99
+2015,"Zach Zenner","South Dakota State","FB",71,223,35,4.6,25,41,121,4.14,7.08
+2015,"Zach Zwinak","Penn State","FB",73,233,NA,4.64,NA,NA,NA,9.99,9.99
+NA,"","","",NA,NA,NA,NA,NA,NA,NA,NA,NA
+2016,"Mehdi Abdesmad","Boston College","DT",78.25,284,NA,5.1,25,29.5,108,4.62,7.55
+2016,"Jerell Adams","South Carolina","TE",77.13,247,NA,4.64,NA,32.5,117,4.31,7.05
+2016,"Vernon Adams","Oregon","QB",70.88,200,NA,4.83,NA,29.5,114,4.2,6.82
+2016,"Bralon Addison","Oregon","WR",69.25,197,NA,4.66,13,34.5,116,4.14,6.95
+2016,"Dominique Alexander","Oklahoma","ILB",72.25,232,NA,9.99,17,28.5,104,9.99,9.99
+2016,"Mackensie Alexander","Clemson","CB",70.38,190,NA,9.99,11,NA,NA,9.99,9.99
+2016,"Vadal Alexander","Louisiana State","G",77.25,326,NA,5.57,25,24,95,4.9,8.04
+2016,"Brandon Allen","Arkansas","QB",73.38,217,NA,4.84,NA,28,110,4.33,7.06
+2016,"Jack Allen","Michigan State","C",73.25,294,NA,5.29,23,26.5,101,4.73,7.9
+2016,"Geronimo Allison","Illinois","WR",75.25,196,NA,4.67,NA,33,127,4.28,7.4
+2016,"Stephen Anderson","California","TE",74.13,230,NA,9.99,16,38,119,9.99,9.99
+2016,"Eli Apple","Ohio State","CB",72.63,199,NA,4.4,13,NA,NA,9.99,9.99
+2016,"Demarcus Ayers","Houston","WR",69.38,182,NA,4.72,NA,33,123,9.99,9.99
+2016,"Sterling Bailey","Georgia","DE",76,285,NA,5.23,20,30,111,4.73,7.46
+2016,"Peyton Barber","Auburn","RB",70,228,NA,4.64,20,32.5,111,4.21,7
+2016,"Jimmy Bean","Oklahoma State","DE",77,264,NA,9.99,20,NA,NA,9.99,9.99
+2016,"Willie Beavers","Western Michigan","OT",76.63,321,NA,5.28,20,25.5,103,4.71,7.96
+2016,"Vonn Bell","Ohio State","SS",70.75,199,NA,9.99,16,NA,NA,9.99,9.99
+2016,"Caleb Benenoch","UCLA","OT",77.5,311,NA,4.98,NA,28,104,5.11,8.15
+2016,"Andrew Billings","Baylor","DT",72.63,311,NA,5.05,31,27.5,113,4.82,8.05
+2016,"Ronald Blair","Appalachian State (NC)","DE",74.13,284,NA,5.15,32,30,113,4.53,7.95
+2016,"Austin Blythe","Iowa","C",74.13,298,NA,5.36,29,27.5,99,4.53,7.52
+2016,"Briean Boddy-Calhoun","Minnesota","CB",69.5,193,NA,4.47,10,35,123,4.22,7.16
+2016,"Evan Boehm","Missouri","C",74.13,302,NA,5.33,24,28.5,96,4.69,7.52
+2016,"Devante Bond","Oklahoma","OLB",73.13,235,NA,4.7,21,37.5,121,4.36,7.07
+2016,"Devontae Booker","Utah","RB",70.75,219,NA,9.99,22,NA,NA,9.99,9.99
+2016,"Joey Bosa","Ohio State","DE",77.25,269,NA,4.86,24,32,120,4.21,6.89
+2016,"Tyler Boyd","Pittsburgh","WR",73.5,197,NA,4.58,11,34,119,4.35,6.9
+2016,"Trevone Boykin","Texas Christian","QB",72,212,NA,4.77,NA,32,110,4.4,9.99
+2016,"James Bradberry","Samford (AL)","CB",72.75,211,NA,4.5,16,36,124,4.21,6.91
+2016,"Ben Braunecker","Harvard","TE",75.38,250,NA,4.73,20,35.5,121,4.2,6.9
+2016,"Jake Brendel","UCLA","C",76.13,303,NA,5.01,25,28,108,4.27,7.31
+2016,"Jacoby Brissett","North Carolina State","QB",75.75,231,NA,4.94,NA,31,113,4.53,7.17
+2016,"Kentrell Brothers","Missouri","ILB",72.38,245,NA,4.89,19,28.5,110,4.11,6.99
+2016,"Anthony Brown","Purdue","CB",71.25,192,NA,4.33,19,35,115,4.19,7.03
+2016,"Beniquez Brown","Mississippi State","OLB",72.75,229,NA,4.77,18,31,110,4.28,7.07
+2016,"Chris Brown","Notre Dame","WR",74,194,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Lamarcus Brutus","Florida State","FS",71.63,206,NA,4.76,14,33,114,4.33,7.08
+2016,"DeForest Buckner","Oregon","DE",79,291,9,5.05,NA,32,116,4.47,7.51
+2016,"Jonathan Bullard","Florida","DE",75,285,NA,4.93,23,32,116,4.56,7.31
+2016,"Aaron Burbridge","Michigan State","WR",72,206,NA,4.56,20,30.5,115,4.31,7.22
+2016,"Artie Burns","Miami (FL)","CB",71.88,193,NA,4.46,NA,31.5,NA,9.99,9.99
+2016,"Juston Burris","North Carolina State","CB",72.25,212,NA,4.53,19,36.5,122,4.4,7.1
+2016,"Deon Bush","Miami (FL)","FS",72.38,199,NA,4.64,17,36,123,9.99,9.99
+2016,"Vernon Butler","Louisiana Tech","DT",75.63,323,NA,5.33,26,29.5,104,4.76,7.82
+2016,"Devon Cajuste","Stanford","WR",75.75,234,NA,4.62,12,36,123,4.2,6.49
+2016,"Shilique Calhoun","Michigan State","DE",76.38,251,NA,4.82,23,35,115,4.25,6.97
+2016,"Taveze Calhoun","Mississippi State","CB",72.38,192,NA,4.58,14,33.5,NA,9.99,9.99
+2016,"DeVondre Campbell","Minnesota","OLB",75.63,232,NA,4.58,16,34,116,9.99,9.99
+2016,"Maurice Canady","Virginia","CB",73,193,NA,4.49,16,38,124,4.09,7.03
+2016,"Leonte Carroo","Rutgers","WR",71.88,211,NA,4.5,14,35.5,120,9.99,9.99
+2016,"Tra Carson","Texas A&M","RB",71.25,227,NA,9.99,19,NA,NA,9.99,9.99
+2016,"Tevin Carter","Utah","SS",73.25,218,NA,9.99,19,NA,NA,9.99,9.99
+2016,"Jeremy Cash","Duke","SS",72.38,212,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Joseph Cheek","Texas A&M","G",78,295,NA,9.99,20,NA,NA,9.99,9.99
+2016,"Kenny Clark","UCLA","DT",74.63,314,NA,5.06,29,28.5,102,4.62,9.99
+2016,"LeRaven Clark","Texas Tech","OT",77.25,316,NA,5.16,18,NA,NA,9.99,9.99
+2016,"Corey Coleman","Baylor","WR",70.63,194,NA,9.99,17,40.5,129,9.99,9.99
+2016,"Shon Coleman","Auburn","OT",77.5,307,NA,9.99,22,NA,NA,9.99,9.99
+2016,"Alex Collins","Arkansas","RB",70,217,NA,4.59,18,28.5,113,9.99,9.99
+2016,"Maliek Collins","Nebraska","DT",73.88,311,NA,5.03,25,29.5,109,4.52,7.53
+2016,"Jack Conklin","Michigan State","OT",77.75,308,NA,5,25,30,103,4.57,7.63
+2016,"Connor Cook","Michigan State","QB",76,217,NA,4.79,NA,33,113,4.28,7.21
+2016,"Fahn Cooper","Mississippi","OT",76.5,303,NA,5.17,19,25,102,4.89,7.85
+2016,"Pharoh Cooper","South Carolina","WR",71.13,203,NA,9.99,15,31,115,9.99,9.99
+2016,"Marshaun Coprich","Illinois State","RB",68,207,NA,4.47,17,34,112,4.58,7.26
+2016,"Cody Core","Mississippi","WR",74.63,205,NA,4.47,14,31.5,119,9.99,9.99
+2016,"Kamalei Correa","Boise State","DE",74.63,243,NA,4.69,21,33,108,9.99,9.99
+2016,"James Cowser","Southern Utah","DE",75.13,248,NA,4.82,21,31.5,111,4.31,6.8
+2016,"Sua Cravens","Southern California","OLB",72.75,226,NA,9.99,16,27,114,9.99,9.99
+2016,"Ken Crawley","Colorado","CB",72.38,187,NA,4.43,NA,36.5,119,9.99,9.99
+2016,"Joe Dahl","Washington State","G",76.13,304,NA,5.18,28,31,109,4.77,7.64
+2016,"Steven Daniels","Boston College","ILB",71.5,243,NA,4.86,16,32,112,4.54,7.33
+2016,"Sean Davis","Maryland","FS",73,201,NA,4.46,21,37.5,126,3.97,6.64
+2016,"Trevor Davis","California","WR",73.13,188,NA,4.42,11,38.5,124,4.22,6.6
+2016,"Sheldon Day","Notre Dame","DT",72.63,293,NA,5.07,21,30,102,4.5,7.44
+2016,"Taylor Decker","Ohio State","OT",79,310,NA,5.23,20,29,101,4.76,7.7
+2016,"KJ Dillon","West Virginia","SS",72.38,210,NA,4.53,11,NA,121,9.99,9.99
+2016,"Kenneth Dixon","Louisiana Tech","RB",70.13,215,NA,4.56,18,37.5,121,4.28,6.97
+2016,"Josh Doctson","Texas Christian","WR",74,202,NA,4.5,14,41,131,4.08,6.84
+2016,"Kevin Dodd","Clemson","DE",77,277,NA,4.86,NA,NA,NA,9.99,9.99
+2016,"Brandon Doughty","Western Kentucky","QB",74.75,213,NA,5.22,NA,27,103,4.52,7.49
+2016,"Kenyan Drake","Alabama","RB",72.63,210,NA,4.45,10,34.5,123,4.21,7.04
+2016,"Spencer Drango","Baylor","G",77.63,315,NA,5.27,30,27,100,4.66,7.88
+2016,"Jeff Driskel","Louisiana Tech","QB",76,234,NA,4.56,NA,32,122,4.25,7.19
+2016,"Thomas Duarte","UCLA","TE",74.13,231,NA,4.72,12,33.5,118,4.24,6.97
+2016,"Parker Ehinger","Cincinnati","G",78.25,310,NA,5.26,NA,27.5,97,9.99,9.99
+2016,"DeAndre Elliott","Colorado State","CB",72.88,188,NA,4.55,NA,41,125,3.94,6.93
+2016,"Ezekiel Elliott","Ohio State","RB",71.75,225,NA,4.47,NA,32.5,118,9.99,9.99
+2016,"Tyler Ervin","San Jose State","RB",69.88,192,NA,4.41,17,39,130,9.99,9.99
+2016,"Kyler Fackrell","Utah State","OLB",77,245,NA,4.72,15,34.5,121,9.99,9.99
+2016,"Jason Fanaika","Utah","DE",73.75,271,NA,4.92,23,35.5,113,4.39,7.06
+2016,"Travis Feeney","Washington","OLB",75.63,230,NA,4.5,NA,40,130,4.42,7.2
+2016,"Josh Ferguson","Illinois","RB",69.5,198,NA,4.48,21,34.5,120,9.99,9.99
+2016,"Leonard Floyd","Georgia","OLB",77.63,244,NA,4.6,NA,39.5,127,9.99,9.99
+2016,"Josh Forrest","Kentucky","ILB",75.13,249,NA,4.91,11,30.5,118,9.99,9.99
+2016,"D.J. Foster","Arizona State","WR",70.25,193,NA,4.57,14,35.5,117,4.07,6.75
+2016,"Kavon Frazier","Central Michigan","FS",71.88,217,NA,9.99,18,NA,NA,9.99,9.99
+2016,"Kris Frost","Auburn","OLB",74.13,240,NA,4.97,NA,29,113,9.99,9.99
+2016,"Kendall Fuller","Virginia Tech","CB",71.5,187,NA,9.99,15,NA,NA,9.99,9.99
+2016,"Will Fuller","Notre Dame","WR",72.13,186,NA,4.32,10,33.5,126,4.27,6.93
+2016,"Joshua Garnett","Stanford","G",76.38,312,NA,5.32,30,29,99,4.64,7.62
+2016,"Keyarris Garrett","Tulsa (OK)","WR",75.38,220,NA,4.53,14,36.5,128,4.33,7.3
+2016,"Graham Glasgow","Michigan","G",77.88,307,NA,5.13,23,25,106,4.63,7.63
+2016,"Jared Goff","California","QB",76,215,36,4.82,NA,27,110,4.47,7.17
+2016,"B.J. Goodson","Clemson","ILB",72.63,242,NA,4.69,30,34.5,118,4.51,7.05
+2016,"Adam Gotsis","Georgia Tech","DT",76.5,287,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"T.J. Green","Clemson","FS",74.5,209,NA,4.34,13,35.5,129,9.99,9.99
+2016,"Darrell Greene","San Diego State","G",74.75,321,NA,5.2,28,21.5,98,4.98,8.07
+2016,"David Grinnage","North Carolina State","TE",77.25,248,NA,4.9,NA,29.5,106,9.99,9.99
+2016,"Glenn Gronkowski","Kansas State","RB",74.13,239,NA,4.71,17,33,120,4.45,7.1
+2016,"Christian Hackenberg","Penn State","QB",76.38,223,NA,4.78,NA,31,114,4.33,7.04
+2016,"Joe Haeg","North Dakota State","OT",78,304,NA,5.16,NA,27.5,111,4.47,7.47
+2016,"Deiondre Hall","Northern Iowa","CB",73.63,199,NA,4.68,NA,37,127,4.06,7.07
+2016,"Javon Hargrave","South Carolina State","DT",73.38,309,NA,4.93,29,34.5,109,4.7,7.9
+2016,"Vernon Hargreaves","Florida","CB",70.5,204,NA,4.5,15,39,130,3.98,9.99
+2016,"DeVante Harris","Texas A&M","CB",70.63,176,NA,4.56,NA,38.5,124,4.06,6.82
+2016,"Jerald Hawkins","Louisiana State","OT",77.63,305,NA,5.23,23,23.5,100,4.89,8.19
+2016,"Joel Heath","Michigan State","DT",77.25,293,NA,5.02,26,33,113,4.52,7.44
+2016,"Temarrick Hemingway","South Carolina State","TE",76.88,244,NA,4.71,18,30.5,115,4.31,6.88
+2016,"Derrick Henry","Alabama","RB",74.63,247,NA,4.54,22,37,130,4.38,7.2
+2016,"Hunter Henry","Arkansas","TE",76.88,250,NA,9.99,13,NA,NA,9.99,9.99
+2016,"Willie Henry","Michigan","DT",74.75,303,NA,5,28,30.5,110,4.53,7.57
+2016,"Quayvon Hicks","Georgia","RB",72.88,259,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Tyler Higbee","Western Kentucky","TE",77.75,249,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Rashard Higgins","Colorado State","WR",73.38,196,NA,4.64,13,32,116,9.99,9.99
+2016,"Kevin Hogan","Stanford","QB",75.25,218,NA,4.78,NA,32.5,113,4.31,6.9
+2016,"Johnny Holton","Cincinnati","WR",72.63,190,NA,4.54,8,31.5,123,9.99,9.99
+2016,"Austin Hooper","Stanford","TE",75.75,254,NA,4.72,19,33,117,4.32,7
+2016,"DeAndre Houston-Carson","William & Mary (VA)","FS",72.75,201,NA,4.54,13,32.5,115,4.28,7.15
+2016,"Jordan Howard","Indiana","RB",71.88,230,NA,9.99,16,34,122,9.99,9.99
+2016,"Xavien Howard","Baylor","CB",72.13,201,NA,4.58,11,33,122,4.15,7.18
+2016,"Germain Ifedi","Texas A&M","OT",77.75,324,NA,5.27,24,32.5,109,4.75,9.99
+2016,"Matt Ioannidis","Temple","DT",75.5,299,NA,5.03,32,28,108,4.68,7.78
+2016,"Myles Jack","UCLA","OLB",73,245,NA,9.99,19,NA,NA,9.99,9.99
+2016,"Branden Jackson","Texas Tech","DE",75.88,273,NA,5.06,20,31.5,113,4.77,7.4
+2016,"Dominick Jackson","Alabama","OT",77,313,NA,9.99,20,26,97,9.99,9.99
+2016,"William Jackson","Houston","CB",72.38,189,NA,4.37,10,NA,116,9.99,9.99
+2016,"Andy Janovich","Nebraska","RB",73,238,NA,4.81,30,34,119,4.32,7.28
+2016,"Quinton Jefferson","Maryland","DT",75.88,291,NA,4.95,24,29,NA,4.37,7.95
+2016,"Jordan Jenkins","Georgia","OLB",74.63,259,NA,4.8,16,36.5,121,9.99,9.99
+2016,"Austin Johnson","Penn State","DT",76.38,314,NA,5.32,25,26,96,4.75,7.84
+2016,"C.J. Johnson","Mississippi","ILB",73.38,234,NA,4.81,NA,NA,NA,4.52,9.99
+2016,"Devon Johnson","Marshall (WV)","RB",72.5,238,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Tyler Johnstone","Oregon","OT",77.5,301,NA,5.21,24,30.5,104,4.6,7.31
+2016,"Cardale Jones","Ohio State","QB",77,253,NA,4.81,NA,36,NA,9.99,9.99
+2016,"Cayleb Jones","Arizona","WR",74.63,209,NA,4.65,9,33.5,NA,4.14,6.99
+2016,"Chris Jones","Mississippi State","DT",77.75,310,NA,5.03,26,24.5,106,4.62,7.44
+2016,"Cyrus Jones","Alabama","CB",69.88,197,NA,4.49,10,33,116,4.21,6.71
+2016,"Deion Jones","Louisiana State","OLB",72.88,222,NA,4.59,NA,33,120,9.99,9.99
+2016,"Jonathan Jones","Auburn","CB",69.13,186,NA,4.33,19,36,123,4.25,7.25
+2016,"Karl Joseph","West Virginia","SS",69.63,205,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Matt Judon","Grand Valley State (MI)","DE",75,275,NA,4.73,30,35,109,4.52,7.67
+2016,"Ufomba Kamalu","Miami (FL)","DT",77.13,295,NA,5.01,26,25,106,4.58,7.32
+2016,"Nila Kasitati","Oklahoma","G",75.25,317,NA,5.32,12,27.5,107,4.83,8.3
+2016,"Bronson Kaufusi","Brigham Young","DE",78.5,285,NA,4.87,25,30,111,4.25,7.03
+2016,"Jayron Kearse","Clemson","SS",76,216,NA,4.62,16,31.5,124,9.99,7.06
+2016,"Ryan Kelly","Alabama","C",76,311,NA,5.03,26,30,103,4.59,7.58
+2016,"Cody Kessler","Southern California","QB",73.25,220,NA,4.89,NA,29.5,104,4,7.32
+2016,"Miles Killebrew","Southern Utah","SS",73.88,217,NA,4.65,22,38,127,4.18,6.93
+2016,"Derrick Kindred","Texas Christian","SS",70,207,NA,4.5,NA,37.5,123,4.29,7.05
+2016,"Raphael Kirby","Miami (FL)","ILB",72,236,NA,9.99,27,NA,NA,9.99,9.99
+2016,"Denver Kirkland","Arkansas","G",76.5,335,NA,5.55,19,22.5,94,5.06,8.72
+2016,"Nick Kwiatkoski","West Virginia","ILB",74,243,NA,4.73,19,32,120,4.22,7.16
+2016,"Daniel Lasco","California","RB",72.25,209,NA,4.46,23,41.5,135,4.26,7.22
+2016,"Darius Latham","Indiana","DT",76.25,311,NA,5.32,NA,29,100,4.63,7.76
+2016,"Kenny Lawler","California","WR",74.5,203,NA,4.64,NA,31,111,4.2,7.13
+2016,"Nile Lawrence-Stample","Florida State","DT",73,320,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Shaq Lawson","Clemson","DE",74.63,269,NA,4.7,NA,33,120,4.21,7.16
+2016,"Darron Lee","Ohio State","OLB",72.75,232,NA,4.47,17,35.5,133,4.2,7.12
+2016,"Alex Lewis","Nebraska","OT",78,312,NA,5.22,27,29.5,100,4.72,7.94
+2016,"Roger Lewis","Bowling Green (OH)","WR",72.38,201,NA,4.57,8,33.5,116,9.99,9.99
+2016,"Kolby Listenbee","Texas Christian","WR",72,197,NA,4.39,15,35.5,129,9.99,9.99
+2016,"Cory Littleton","Washington","OLB",75.13,238,NA,4.73,NA,29.5,114,4.32,7.11
+2016,"Jordan Lomax","Iowa","FS",69.88,202,NA,4.75,8,36,120,4.15,7.18
+2016,"Steve Longa","Rutgers","OLB",72.63,241,NA,4.78,19,32,116,4.56,7.5
+2016,"Ricardo Louis","Auburn","WR",73.75,215,NA,4.43,18,38,132,9.99,9.99
+2016,"Dean Lowry","Northwestern","DE",77.75,296,NA,4.87,30,32.5,114,4.38,7.26
+2016,"Jordan Lucas","Penn State","SS",71.63,201,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Paxton Lynch","Memphis","QB",78.63,244,NA,4.86,NA,36,118,4.26,7.14
+2016,"Tre Madden","Southern California","RB",72.25,223,NA,9.99,24,NA,NA,9.99,9.99
+2016,"Luther Maddy","Virginia Tech","DT",72,287,NA,9.99,29,NA,NA,9.99,9.99
+2016,"Curt Maggitt","Tennessee","OLB",75.25,247,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Ryan Malleck","Virginia Tech","TE",76.5,247,NA,9.99,18,34.5,121,4.33,7
+2016,"Byron Marshall","Oregon","WR",69.38,201,NA,9.99,17,NA,NA,9.99,9.99
+2016,"Jalin Marshall","Ohio State","WR",70.5,200,NA,4.6,16,37.5,125,4.13,6.8
+2016,"Keith Marshall","Georgia","RB",71.38,219,NA,4.31,25,30.5,NA,9.99,9.99
+2016,"Nick Martin","Notre Dame","C",76.13,299,NA,5.22,28,28,97,4.72,7.57
+2016,"Blake Martinez","Stanford","ILB",73.63,237,NA,4.71,22,28.5,113,4.2,6.98
+2016,"Tyler Marz","Wisconsin","OT",78.75,316,NA,5.54,19,27.5,99,4.97,8.38
+2016,"Tyler Matakevich","Temple","ILB",72,238,NA,4.81,22,31,112,4.5,7.19
+2016,"Chris Mayes","Georgia","DT",75.13,338,NA,5.34,33,23.5,104,5.13,9.99
+2016,"Alex McCalister","Florida","DL",78.13,239,NA,4.8,NA,34.5,128,4,7.01
+2016,"Jake McGee","Florida","TE",77.5,250,NA,9.99,17,NA,NA,9.99,9.99
+2016,"Connor McGovern","Missouri","G",76.25,306,NA,5.11,33,33,109,4.65,7.5
+2016,"Mekale McKay","Cincinnati","WR",75.63,207,NA,4.55,12,35,123,4.63,7.08
+2016,"Cassanova McKinzy","Auburn","ILB",73,248,NA,9.99,21,NA,NA,9.99,9.99
+2016,"Braxton Miller","Ohio State","WR",73.38,201,NA,4.5,17,35,123,4.07,6.65
+2016,"Harlan Miller","Southeastern Louisiana","CB",71.88,182,NA,4.65,6,35.5,118,4.43,7.44
+2016,"Jalen Mills","Louisiana State","FS",72,191,NA,4.61,16,37,123,4,6.86
+2016,"Malcolm Mitchell","Georgia","WR",71.63,198,NA,4.45,15,36,129,4.34,6.94
+2016,"Chris Moore","Cincinnati","WR",73,206,NA,4.53,10,37,130,4.2,6.76
+2016,"David Morgan","Texas-San Antonio","TE",76.13,262,NA,5.02,29,30,115,4.19,6.93
+2016,"Antonio Morrison","Florida","ILB",73,232,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Kyle Murphy","Stanford","OT",78.38,305,NA,9.99,23,NA,NA,9.99,9.99
+2016,"Eric Murray","Minnesota","CB",70.63,199,NA,4.49,15,39.5,124,4.05,7.08
+2016,"Carl Nassib","Penn State","DE",78.88,277,NA,4.84,21,28.5,114,4.37,7.27
+2016,"Keanu Neal","Florida","FS",72,211,NA,4.62,17,38,132,4.38,7.09
+2016,"Stephane Nembot","Colorado","OT",78.75,322,NA,5.39,32,26.5,103,5.15,8.55
+2016,"Giorgio Newberry","Florida State","DE",77.5,285,NA,4.94,20,30,114,4.78,7.53
+2016,"Yannick Ngakoue","Maryland","DE",74,252,NA,4.75,26,34.5,118,4.5,7.35
+2016,"Dadi Nicolas","Virginia Tech","DE",74.88,235,NA,4.74,14,41,116,4.38,7.04
+2016,"Robert Nkemdiche","Mississippi","DT",75.5,294,NA,4.87,28,35,116,9.99,9.99
+2016,"Jared Norris","Utah","ILB",73.25,241,NA,4.8,19,29.5,114,4.52,9.99
+2016,"Marquez North","Tennessee","WR",74.5,223,NA,4.48,17,35,123,4.13,6.9
+2016,"Shawn Oakman","Baylor","DE",79.63,287,NA,4.96,23,32,123,4.56,7.53
+2016,"Victor Ochi","Stony Brook (NY)","DE",73.13,246,NA,4.86,NA,32,119,4.4,7.24
+2016,"Rees Odhiambo","Boise State","G",75.88,314,NA,9.99,23,NA,NA,9.99,9.99
+2016,"Emmanuel Ogbah","Oklahoma State","DE",76.25,273,NA,4.63,20,35.5,121,4.5,7.26
+2016,"Romeo Okwara","Notre Dame","DE",76.63,265,NA,4.9,23,33,120,4.53,7.38
+2016,"Drew Ott","Iowa","DE",76.5,273,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Montese Overton","East Carolina (NC)","OLB",73.75,223,NA,4.61,18,34,123,4.47,7.15
+2016,"Gionni Paul","Utah","ILB",70.13,231,NA,5.05,22,31,113,9.99,9.99
+2016,"Jordan Payton","UCLA","WR",73.13,207,NA,4.47,NA,34.5,121,4.33,7.08
+2016,"Charone Peake","Clemson","WR",74.38,209,NA,4.45,12,35.5,122,4.46,6.96
+2016,"Paul Perkins","UCLA","RB",70.38,208,NA,4.54,19,32,124,9.99,9.99
+2016,"Joshua Perry","Ohio State","OLB",75.75,254,NA,4.68,20,33.5,124,9.99,9.99
+2016,"Kevin Peterson","Oklahoma State","CB",70.38,181,NA,4.58,14,35.5,121,4.31,6.94
+2016,"D.J. Pettway","Alabama","DE",74.13,265,NA,4.99,17,28,108,4.69,7.74
+2016,"Tyvis Powell","Ohio State","FS",74.75,211,NA,4.46,15,34.5,120,4.25,7.03
+2016,"Dak Prescott","Mississippi State","QB",74.25,226,NA,4.79,NA,32.5,116,4.32,7.11
+2016,"C.J. Prosise","Notre Dame","RB",72.5,220,NA,4.48,NA,35.5,121,9.99,9.99
+2016,"Jimmy Pruitt","San Jose State","CB",71.63,198,NA,4.73,19,32,117,9.99,9.99
+2016,"Reggie Ragland","Alabama","ILB",73.25,247,NA,4.72,NA,31.5,116,4.28,9.99
+2016,"Jalen Ramsey","Florida State","FS",73.25,209,NA,4.41,14,41.5,135,4.18,6.94
+2016,"Sheldon Rankins","Louisville","DT",73.13,299,NA,5.03,28,34.5,118,4.59,7.44
+2016,"D.J. Reader","Clemson","DT",74.63,327,NA,5.33,30,29.5,99,4.71,7.9
+2016,"Alex Redmond","UCLA","G",76.75,294,NA,5.3,30,28,111,4.9,7.75
+2016,"Will Redmond","Mississippi State","CB",70.75,182,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Jarran Reed","Alabama","DT",74.88,307,NA,5.21,NA,31,104,4.75,7.77
+2016,"Hassan Ridgeway","Texas","DT",75.38,303,NA,5.02,24,32,113,4.82,8.28
+2016,"Dominique Robertson","West Georgia","OT",76.63,324,NA,5.36,30,28.5,100,4.83,8.42
+2016,"AShawn Robinson","Alabama","DT",75.63,307,NA,5.2,22,26,106,4.74,7.8
+2016,"Demarcus Robinson","Florida","WR",73.38,203,NA,4.59,NA,34.5,123,4.19,6.77
+2016,"Rashard Robinson","Louisiana State","CB",73.5,171,NA,4.49,NA,35.5,121,9.99,9.99
+2016,"Alonzo Russell","Toledo","WR",75.63,206,NA,4.54,12,29.5,112,4.33,7.18
+2016,"KeiVarae Russell","Notre Dame","CB",71.13,192,NA,9.99,17,NA,NA,9.99,9.99
+2016,"Zack Sanchez","Oklahoma","CB",70.88,185,NA,9.99,19,35.5,116,9.99,9.99
+2016,"Beau Sandland","Montana State","TE",76.5,253,NA,4.74,23,35,124,4.33,7.1
+2016,"Joe Schobert","Wisconsin","OLB",73.38,244,NA,4.76,22,33.5,111,4.3,7.11
+2016,"Rashawn Scott","Miami (FL)","WR",72.88,199,NA,9.99,17,32.5,116,9.99,9.99
+2016,"Isaac Seumalo","Oregon State","G",75.88,303,NA,5.19,NA,26,105,4.52,7.4
+2016,"Kevon Seymour","Southern California","CB",71.5,186,NA,4.39,12,35,124,4.18,9.99
+2016,"Hunter Sharp","Utah State","WR",71.5,198,NA,4.58,12,32.5,116,4.19,7.12
+2016,"Tajae Sharpe","Massachusetts","WR",74,194,NA,4.55,11,33.5,114,9.99,9.99
+2016,"Brandon Shell","South Carolina","OT",77.38,324,NA,5.22,22,30.5,112,9.99,9.99
+2016,"Sterling Shepard","Oklahoma","WR",70.25,194,NA,4.48,20,41,123,4.35,7
+2016,"Elijah Shumate","Notre Dame","SS",71,216,NA,4.58,18,33,119,4.51,9.99
+2016,"Devaunte Sigler","Jacksonville State (AL)","DT",75.5,298,NA,5.15,23,25,NA,4.97,7.9
+2016,"Justin Simmons","Boston College","FS",74.38,202,NA,4.61,16,40,126,3.85,6.58
+2016,"LeShaun Sims","Southern Utah","CB",72.5,203,NA,4.53,11,37,120,4.19,7.08
+2016,"Matt Skura","Duke","C",75.38,305,NA,5.39,27,24,103,4.76,7.89
+2016,"Pearce Slater","San Diego State","OT",78.75,329,NA,5.42,17,23,92,5.12,8.36
+2016,"Wendell Smallwood","West Virginia","RB",70.5,208,NA,4.47,14,33.5,120,4.28,6.83
+2016,"Jaylon Smith","Notre Dame","OLB",74,223,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Ryan Smith","North Carolina Central","CB",71,189,NA,4.47,18,36,122,4.09,6.88
+2016,"Terrance Smith","Florida State","OLB",74.88,235,NA,4.77,19,34.5,120,9.99,9.99
+2016,"Noah Spence","Eastern Kentucky","DE",74.5,251,NA,4.8,25,35,121,4.35,7.21
+2016,"Jason Spriggs","Indiana","OT",77.63,301,NA,4.94,31,31.5,115,4.44,7.7
+2016,"Nelson Spruce","Colorado","WR",73.13,206,NA,4.69,12,35,114,4.2,7.09
+2016,"A.J. Stamps","Kentucky","FS",70.88,193,NA,4.79,15,33,115,4.25,7.17
+2016,"Ronnie Stanley","Notre Dame","OT",77.75,312,NA,5.2,NA,28.5,NA,4.9,8.03
+2016,"Joel Stave","Wisconsin","QB",77.25,236,NA,4.8,NA,33.5,115,4.33,7.29
+2016,"Eric Striker","Oklahoma","OLB",71,227,NA,4.8,23,30,116,4.46,7.3
+2016,"Nate Sudfeld","Indiana","QB",78.13,234,NA,9.99,NA,29,105,9.99,9.99
+2016,"Charles Tapper","Oklahoma","DE",74.63,271,NA,4.59,23,34,119,9.99,9.99
+2016,"Kelvin Taylor","Florida","RB",70.25,207,NA,4.6,15,32,113,9.99,9.99
+2016,"John Theus","Georgia","OT",78.5,313,NA,5.22,NA,28,103,4.78,7.9
+2016,"Lawrence Thomas","Michigan State","DE",75.5,286,NA,4.98,NA,35,113,9.99,9.99
+2016,"Michael Thomas","Ohio State","WR",74.75,212,NA,4.57,18,35,126,4.13,6.8
+2016,"Darian Thompson","Boise State","FS",73,208,NA,4.69,12,32.5,118,4.33,7.26
+2016,"Ron Thompson","Syracuse","DE",75,253,NA,4.92,18,NA,NA,4.5,7.46
+2016,"Shadrach Thornton","North Carolina State","RB",71.63,217,NA,4.75,12,31,116,4.21,6.85
+2016,"Joe Thuney","North Carolina State","G",76.63,304,NA,4.95,28,28.5,110,4.54,7.47
+2016,"Cole Toner","Harvard","OT",77.25,306,NA,5.32,22,26,103,4.59,7.88
+2016,"Laquon Treadwell","Mississippi","WR",74,221,NA,9.99,12,33,117,9.99,9.99
+2016,"Sebastian Tretola","Arkansas","G",76.13,314,NA,5.45,22,23.5,90,5.02,7.94
+2016,"Max Tuerk","Southern California","C",77,298,NA,9.99,22,NA,NA,9.99,9.99
+2016,"Laremy Tunsil","Mississippi","OT",77,310,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Landon Turner","North Carolina","G",75.88,330,NA,5.58,30,19,88,9.99,9.99
+2016,"Soma Vainuku","Southern California","RB",71.5,246,NA,4.68,26,32,108,9.99,9.99
+2016,"Halapoulivaati Vaitai","Texas Christian","OT",78,320,NA,5.26,23,29,113,5,8.26
+2016,"Vincent Valentine","Nebraska","DT",75.63,329,NA,5.19,17,29,110,4.59,8.03
+2016,"Nick Vannett","Ohio State","TE",78,257,NA,9.99,17,30.5,111,4.2,7.05
+2016,"Nick Vigil","Utah State","ILB",74.38,239,NA,4.72,NA,31.5,115,4,6.73
+2016,"Dan Vitale","Northwestern","RB",72,239,NA,4.6,30,38.5,123,4.12,7.12
+2016,"Cleveland Wallace","San Jose State","CB",70.75,188,NA,4.68,NA,35.5,123,9.99,9.99
+2016,"Jihad Ward","Illinois","DE",77.13,297,NA,5.11,20,25,111,4.63,7.38
+2016,"Adolphus Washington","Ohio State","DT",75.38,301,16,5.17,21,27,99,4.79,8.06
+2016,"DeAndre Washington","Texas Tech","RB",68.25,204,NA,4.49,24,34.5,116,4.2,7.03
+2016,"Stephen Weatherly","Vanderbilt","OLB",76.38,267,NA,4.61,23,31,117,9.99,9.99
+2016,"Carson Wentz","North Dakota State","QB",77.25,237,29,4.77,NA,30.5,118,4.15,6.86
+2016,"Christian Westerman","Arizona State","G",75.13,298,NA,5.12,34,NA,98,4.71,7.69
+2016,"D.J. White","Georgia Tech","CB",70.88,193,NA,4.49,17,33,132,4.33,7.18
+2016,"Cody Whitehair","Kansas State","G",75,301,NA,5.02,16,25.5,110,4.58,7.32
+2016,"Brandon Wilds","South Carolina","RB",72.75,220,NA,4.54,21,36.5,118,4.33,7.08
+2016,"Brandon Williams","Texas A&M","FS",71.38,197,NA,4.37,18,30.5,118,4.19,6.85
+2016,"Bryce Williams","East Carolina (NC)","TE",77,257,NA,4.94,19,29.5,111,4.53,7.19
+2016,"Duke Williams","Auburn","WR",74.25,229,NA,4.72,14,30,121,4.47,7.43
+2016,"Jonathan Williams","Arkansas","RB",70,220,NA,9.99,16,NA,NA,9.99,9.99
+2016,"DeRunnya Wilson","Mississippi State","WR",76,224,NA,4.85,NA,28,113,9.99,9.99
+2016,"Josh Woodrum","Liberty (VA)","QB",74,231,NA,4.8,NA,31,116,4.31,6.74
+2016,"Antwaun Woods","Southern California","DT",72.13,318,NA,9.99,NA,NA,NA,9.99,9.99
+2016,"Daryl Worley","West Virginia","CB",72.75,204,NA,4.64,14,35.5,123,4.15,6.98
+2016,"Scooby Wright","Arizona","ILB",71,239,NA,4.9,22,31,113,4.47,9.99
+2016,"Connor Wujciak","Boston College","DT",74,291,NA,4.91,22,34.5,117,4.27,7.32
+2016,"Avery Young","Auburn","OT",76,328,NA,5.39,NA,NA,NA,4.91,8.22
+2016,"Tavon Young","Temple","CB",69,183,NA,4.46,9,34.5,118,3.93,6.8
+2016,"Anthony Zettel","Penn State","DE",75,277,NA,4.81,28,30.5,109,4.39,7.63
+NA,"","","",NA,NA,NA,NA,NA,NA,NA,NA,NA

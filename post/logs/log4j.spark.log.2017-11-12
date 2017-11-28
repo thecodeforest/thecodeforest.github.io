@@ -1,0 +1,176 @@
+17/11/12 00:43:15 INFO Executor: Told to re-register on heartbeat
+17/11/12 00:43:15 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 00:43:15 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 00:43:15 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 00:43:15 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 00:43:15 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 00:43:15 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 00:43:15 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 00:43:19 INFO Executor: Told to re-register on heartbeat
+17/11/12 00:43:19 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 00:43:19 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 00:43:19 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 00:43:19 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 00:43:19 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 00:43:19 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 00:43:19 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 00:43:29 INFO Executor: Told to re-register on heartbeat
+17/11/12 00:43:29 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 00:43:29 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 00:43:29 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 00:43:29 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 00:43:29 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 00:43:29 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 00:43:29 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 01:37:24 INFO Executor: Told to re-register on heartbeat
+17/11/12 01:37:24 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 01:37:24 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 01:37:24 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 01:37:24 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 01:37:24 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 01:37:24 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 01:37:24 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 01:37:33 INFO Executor: Told to re-register on heartbeat
+17/11/12 01:37:33 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 01:37:33 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 01:37:33 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 01:37:33 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 01:37:33 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 01:37:33 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 01:37:33 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 02:31:33 INFO Executor: Told to re-register on heartbeat
+17/11/12 02:31:33 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 02:31:33 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:31:33 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:31:33 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 02:31:33 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 02:31:33 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 02:31:33 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 02:31:39 INFO Executor: Told to re-register on heartbeat
+17/11/12 02:31:39 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 02:31:39 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:31:39 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:31:39 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 02:31:39 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 02:31:39 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 02:31:39 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 02:56:48 INFO Executor: Told to re-register on heartbeat
+17/11/12 02:56:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 02:56:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:56:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:56:48 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 02:56:48 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 02:56:48 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 02:56:48 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 02:56:51 INFO Executor: Told to re-register on heartbeat
+17/11/12 02:56:51 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 02:56:51 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:56:51 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 02:56:51 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 02:56:51 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 02:56:51 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 02:56:51 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:03:03 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:03:03 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:03:03 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:03 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:03 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:03:03 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:03:03 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:03:03 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:03:06 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:03:06 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:03:06 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:06 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:06 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:03:06 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:03:06 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:03:06 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:03:16 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:03:16 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:03:16 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:16 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:16 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:03:16 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:03:16 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:03:16 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:03:26 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:03:26 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:03:26 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:26 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:26 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:03:26 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:03:26 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:03:26 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:03:36 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:03:36 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:03:36 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:36 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:36 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:03:36 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:03:36 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:03:36 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:03:46 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:03:46 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:03:46 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:46 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:46 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:03:46 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:03:46 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:03:46 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:03:56 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:03:56 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:03:56 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:56 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:03:56 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:03:56 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:03:56 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:03:56 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:04:06 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:04:06 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:04:06 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:06 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:06 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:04:06 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:04:06 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:04:06 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:04:16 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:04:16 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:04:16 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:16 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:16 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:04:16 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:04:16 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:04:16 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:04:26 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:04:26 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:04:26 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:26 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:26 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:04:26 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:04:26 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:04:26 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:04:36 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:04:36 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:04:36 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:36 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:36 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:04:36 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:04:36 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:04:36 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:04:46 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:04:46 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:04:46 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:46 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:46 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:04:46 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:04:46 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:04:46 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/12 09:04:56 INFO Executor: Told to re-register on heartbeat
+17/11/12 09:04:56 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/12 09:04:56 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:56 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/12 09:04:56 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/12 09:04:56 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/12 09:04:56 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/12 09:04:56 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)

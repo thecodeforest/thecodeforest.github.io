@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/monte_carlo_power_mixed_effects.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/monte_carlo_power_mixed_effects.html">
+  <meta property="og:title" content="Monte Carlo Power Calculations for Mixed Effects Models | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2017-07-28T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2017-07-28T21:13:14-05:00">
+  
+
+  
+
+  <title>Monte Carlo Power Calculations for Mixed Effects Models | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Monte Carlo Power Calculations for Mixed Effects Models</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-07-28 21:13:14 -0500 -0500" itemprop="datePublished">
+      Jul 28, 2017
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/monte_carlo_power_mixed_effects.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/monte-carlo-simulation">Monte Carlo Simulation</a
+    >, 
+    
+    <a href="/categories/power">Power</a
+    >, 
+    
+    <a href="/categories/mixed-effect-modeling">Mixed-Effect Modeling</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Monte%20Carlo%20Power%20Calculations%20for%20Mixed%20Effects%20Models&amp;url=%2fpost%2fmonte_carlo_power_mixed_effects.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fmonte_carlo_power_mixed_effects.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fmonte_carlo_power_mixed_effects.html&amp;title=Monte%20Carlo%20Power%20Calculations%20for%20Mixed%20Effects%20Models"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fmonte_carlo_power_mixed_effects.html&amp;title=Monte%20Carlo%20Power%20Calculations%20for%20Mixed%20Effects%20Models"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Monte%20Carlo%20Power%20Calculations%20for%20Mixed%20Effects%20Models&amp;body=%2fpost%2fmonte_carlo_power_mixed_effects.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p><img src="images/monte-carlo.jpg" width="800px" height="800px" /></p>
+<div id="what-is-power" class="section level3">
+<h3>What is Power?</h3>
+<p><em>Power</em> is the ability to detect an effect, given that one exists. I’ll illustrate this concept with a simple example. Imagine you are conducting a study on the effects of a weight loss pill. One group receives the experimental weight loss pill while the other receives a placebo. For the pill to be marketable, you want to claim an average loss of at least 3lbs. This is our <em>effect size</em>. Estimating an <em>effect size</em> can be a bit tricky; you can use history or simply figure out what size of effect you want to see (in this case a difference of 3lbs). Additionally, we’ll have to specify a standard deviation. This can come from similar, previous studies or a pilot study. To keep things simple, let’s say we reviewed some literature on similiar weight loss studies and observed a standard deviation of 8lbs. We’ll also assume that both groups exhibit the same degree of variance. Now that we’ve established our effect size and standard deviation, we need to know how many people to include in the study. If each participant is paid $100 for completing the 1-month study and we have a budget of $10,000, then our sample size can be at most 100 participants, with 50 randomly assigned to the placebo condition and the remaining 50 assigned to the pill condition. Finally we’ll use the conventional significance level of 0.05 as our <em>alpha</em>. So now we have our pieces required to calculate experimental power:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Effect Size &amp; Standard Deviation</strong></li>
+<li><strong>Sample Size</strong></li>
+<li><strong>Significance Level</strong></li>
+</ol>
+<p>Let’s illustrate how we would implement the above situation–and calculate power–in R. We’ll specify the parameters outlined above and then run a quick power-analysis.</p>
+<pre class="r"><code>libs = c(&#39;broom&#39;, &#39;dplyr&#39;, &#39;ggplot2&#39;,
+         &#39;artyfarty&#39;, &#39;lme4&#39;, &#39;janitor&#39;,
+         &#39;simr&#39;)
+lapply(libs, require, character.only = TRUE)</code></pre>
+<pre class="r"><code>sample_size_per_group = 50
+desired_effect_size = 3
+standard_deviation = 8
+alpha = 0.05
+expected_power = power.t.test(n = sample_size_per_group,
+                              delta = desired_effect_size,
+                              sd = standard_deviation,
+                              sig.level = alpha,
+                              type = &quot;two.sample&quot;,
+                              alternative = &quot;two.sided&quot;)
+print(paste0(&quot;EXPECTED POWER IS: &quot;, round(expected_power$power * 100, 0), &quot;%&quot;))</code></pre>
+<pre class="r"><code>## [1] &quot;EXPECTED POWER IS: 46%&quot;</code></pre>
+<p>We have a 46% chance of actually detecting an effect if we ran a study with these exact parameters – an effect that we know exists! That’s pretty low. What would happen if we increased our budget to $20,000 and doubled the number of participants in each group.</p>
+<pre class="r"><code>sample_size_per_group = 100
+desired_effect_size = 3
+standard_deviation = 8
+alpha = 0.05
+expected_power = power.t.test(n = sample_size_per_group,
+                              delta = desired_effect_size,
+                              sd = standard_deviation,
+                              sig.level = alpha,
+                              type = &quot;two.sample&quot;,
+                              alternative = &quot;two.sided&quot;)
+print(paste0(&quot;EXPECTED POWER IS: &quot;, round(expected_power$power * 100, 0), &quot;%&quot;))</code></pre>
+<pre class="r"><code>## [1] &quot;EXPECTED POWER IS: 75%&quot;</code></pre>
+<p>So our power went up, which makes sense. As we increase our sample size, we become more confident in our ability to estimate the true effect. In the next section I’ll discuss how to obtain these exact results through a simulated experiment.</p>
+</div>
+<div id="simulating-power" class="section level3">
+<h3>Simulating Power</h3>
+<p>If you are like me, I need to know what’s actually going on. The process of calculating power initially seemed a bit mysterious to me. And when things don’t make sense, the best way to understand them is to write some code and go line by line to figure out where the numbers come from. So that’s what we’ll do.</p>
+<p>Imagine we ran 1000 studies with the parameters outlined above. After each study, we conducted an independent-samples t-test, calculated the p-value, and determined whether it was less than our alpha (0.05). In all the cases where the value was greater than 0.05, we commited a <em>type II error</em>, because we know there is a difference between our two groups. Let’s add up this number, subtract it from 1000, and the total is our power.</p>
+<pre class="r"><code>set.seed(123)
+pvalue_vector = c()
+n_iter = 1000
+type_II_error = NULL
+placebo_group_mean = 0
+pill_group_mean = -3
+sample_size_per_group = 100
+
+for(i in 1:n_iter){
+    placebo_group = rnorm(sample_size_per_group, 
+                      mean = placebo_group_mean,
+                      sd = standard_deviation)
+
+    pill_group = rnorm(sample_size_per_group,
+                   mean = pill_group_mean,
+                   sd = standard_deviation)
+
+    temp_dataframe = data.frame(weight_difference = c(pill_group, placebo_group),
+                            group = c(rep(&quot;pill&quot;, sample_size_per_group),
+                                      rep(&quot;placebo&quot;, sample_size_per_group)))
+
+    temp_p_value = tidy(t.test(weight_difference ~ group,
+                               data = temp_dataframe))$p.value
+    if(temp_p_value &lt; 0.05){
+    type_II_error = 0
+    } else {
+    type_II_error = 1
+    }
+    pvalue_vector = c(pvalue_vector, type_II_error)
+}
+print(paste0(&quot;EXPECTED POWER IS: &quot;, round(100 - sum(pvalue_vector)/1000 * 100, 0), &quot;%&quot;))</code></pre>
+<pre class="r"><code>## [1] &quot;EXPECTED POWER IS: 76%&quot;</code></pre>
+<p>Pretty neat! Our 76% estimate is almost identical to the 75% estimate generated from the built-in power calculator. In the next section we’ll extend these ideas to a class of models referred to as <em>Random Effects</em>.</p>
+</div>
+<div id="a-brief-primer-on-random-effects" class="section level3">
+<h3>A Brief Primer on Random Effects</h3>
+<p>Have you ever ran a study where the things you were studying (e.g., people, animals, plants) were part of a hierarchy? For example, students are part of the same classroom; workers are part of the same company; animals live in the same tree; plants grow on the same plot of land. In each of the instances, the things from the same environment will (presumably) be more like one another than the things from different environments. These are typically referred to as <em>nested</em> data, and we want to account for the fact that there is structure to the variability between the things we are studying.</p>
+</div>
+<div id="calculating-power-for-mixed-effects-models" class="section level3">
+<h3>Calculating Power for Mixed Effects Models</h3>
+<p>The study we’ll use to illustrate these concepts comes with the <code>lme4</code> package. Being part of this study sounded pretty terrible, so I hope the participants got some decent compensation. Anyways, here’s the lowdown: 18 truck drivers were limited to three hours of sleep over a period of 10 days. Their reaction times on a series of tests were measured several times a day, and single reaction time measurement was entered for each participant per day. The fixed effect – or the thing we are interested in – was number of days of sleep deprivation. The random effect is the participant. The researchers want to generalize their findings to all people – not just the people included in the study– so differences between participants is of little interest. Thus they want to control for this variability by specifiying a random effect, and ideally get a better idea of how the fixed effect (Number of days of sleep deprivation) impacts reaction time. We’ll keep it simple and use a random effect for the intercept. What this means is that some participants will react faster (slower) than others, regardless of whether they were sleep deprived. We can check the validity of this assumption with a basic boxplot.</p>
+<pre class="r"><code>sleep_df = lme4::sleepstudy %&gt;% 
+           clean_names()
+
+ggplot(sleep_df, aes(x = factor(subject), y = reaction)) + 
+  geom_boxplot(color = pl_colors[1]) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    xlab(&quot;Subject ID&quot;) + ylab(&quot;Reaction Time&quot;)</code></pre>
+<p><img src="/post/monte_carlo_power_mixed_effects_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
+<p>If the median of each of our boxplots were approximately equal, then we could use a fixed effect or simply not including the subject effect at all. But clearly this isn’t the case. Accordingly, here is the form of our model:</p>
+<pre class="r"><code>y_var = &quot;reaction&quot;
+fixed_effect = &quot;days&quot;
+random_effect = &quot;subject&quot;
+model_form = as.formula(paste0(y_var, &quot; ~ &quot;, fixed_effect, &quot; + &quot;, &quot;(1|&quot;, random_effect, &quot;)&quot;))
+print(model_form)</code></pre>
+<pre class="r"><code>## reaction ~ days + (1 | subject)</code></pre>
+<p>Next let’s fit the model to the complete dataset and determine the experimental power based on 100 simulations using the <code>simr</code> package.</p>
+<pre class="r"><code>set.seed(1)
+sleep_fit = lmer(model_form, 
+                 data = sleep_df)
+nsim = 100
+expected_power = powerSim(sleep_fit, nsim = nsim)
+print(expected_power)</code></pre>
+<pre class="r"><code>## Power for predictor &#39;days&#39;, (95% confidence interval):
+##       100.0% (96.38, 100.0)
+## 
+## Test: Kenward Roger (package pbkrtest)
+##       Effect size for days is 10.
+## 
+## Based on 100 simulations, (0 warnings, 0 errors)
+## alpha = 0.05, nrow = 180
+## 
+## Time elapsed: 0 h 0 m 26 s
+## 
+## nb: result might be an observed power calculation</code></pre>
+<p>This indicates that we are all but guaranteed to detect an effect if we run the study with 18 participants for a period of 10 days. The folks who did this study obviously wanted to leave nothing to chance! What if we tried to replicate the study with the same number of participants but for fewer days? How would our power change if we only ran the study for, say, three days? We’ll filter the data to only include days 0-3, and then repeat the power estimate.</p>
+<pre class="r"><code>set.seed(321)
+n_days_max = 3
+min_days_df = sleep_df %&gt;% 
+              filter(days &lt;= n_days_max)
+min_days_fit = lmer(model_form, min_days_df)
+expected_power = powerSim(min_days_fit, nsim = nsim)
+print(expected_power)</code></pre>
+<pre class="r"><code>## Power for predictor &#39;days&#39;, (95% confidence interval):
+##       98.00% (92.96, 99.76)
+## 
+## Test: Kenward Roger (package pbkrtest)
+##       Effect size for days is 4.4.
+## 
+## Based on 100 simulations, (0 warnings, 0 errors)
+## alpha = 0.05, nrow = 72
+## 
+## Time elapsed: 0 h 0 m 18 s
+## 
+## nb: result might be an observed power calculation</code></pre>
+<p>Reducing the number of days from 10 to three had almost no effect on our power, which is estimated to be 98%. Thus, the recommendation here would be to run the study for fewer days. Great! That was easy. Indeed, I was excited after using the <code>simr</code> package because of its ability to fit many different model specifications. The only issue was that I wasn’t entirely clear on the underlying process being used to calculate power. According the tutorial from the authors (see <a href="http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12504/full">here</a>), there are three steps involved in calculating power for mixed effects models via simulation:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Simulate new values for the response variable using the model provided</strong></li>
+<li><strong>Refit the model to the simulated response</strong></li>
+<li><strong>Apply a statistical test to the model</strong></li>
+</ol>
+<p>It was that first part where I wasn’t entirly clear, so I decided to build my own from scratch and compare the results.</p>
+</div>
+<div id="building-a-power-simulator" class="section level3">
+<h3>Building a Power Simulator</h3>
+<p>We established our model above as <code>reaction ~ days + (1|subject)</code>. So what do they mean by “simulate new values for the response variable”? The new values are produced by our model plus error associated with sampling. That second part is thing we are going to simulate. We will assume the residuals are normally distributed, with a mean of zero and a standard deviation of…and a standard deviation of…aww shoot how do we come up with this number? We can initially start with the residuals from our model and use that as the standard deviation. Let’s see if we can produce a result similiar to the 98% estimate observed with the <code>simr</code> package.</p>
+<pre class="r"><code>set.seed(321)
+
+# create empty vector to store Type II errors
+type_II_vec = c()
+# Step 1: make predictions from  model based on the original data
+model_predictions = predict(min_days_fit, min_days_df)
+# Step 2: Calculate  standard deviation based on the residuals from our initial model
+standard_deviation = sd(min_days_fit@resp$y - min_days_fit@resp$mu)
+
+for(i in 1:nsim){
+  # Step 3: Simulate  sampling error
+  temporary_residuals = rnorm(nrow(min_days_df), 
+                              mean = 0, 
+                              sd = standard_deviation)
+  # Step 4: Save simulated response values
+  min_days_df$simulated_reaction = model_predictions + temporary_residuals
+  # Step 5: refit the model with the new, simulated response variable
+  temp_fit = lmer(simulated_reaction ~ days + (1|subject), data = min_days_df)
+  # Step 6: Check to see if confidence interval for the Days coefficient contains zero
+  ci_df = tidy(confint(temp_fit)) %&gt;% 
+              dplyr::rename(coefficients = .rownames,
+              lower_bound = X2.5..,
+              upper_bound = X97.5..) %&gt;% 
+          filter(coefficients == &#39;days&#39;) %&gt;% 
+          dplyr::select(lower_bound, upper_bound)
+  # Step 7: If Confidence interval contains zero, store as 1 (Type II error), else return store zero
+  type_II_vec = c(type_II_vec, 
+                  as.integer(dplyr::between(0, ci_df$lower_bound, ci_df$upper_bound)))
+}
+print(paste0(&quot;EXPECTED POWER IS: &quot;, (nsim - sum(type_II_vec))/nsim * 100, &quot;%&quot;))</code></pre>
+<pre class="r"><code>## [1] &quot;EXPECTED POWER IS: 99%&quot;</code></pre>
+<p>Exactly what we expected. Of our 100 simulations, we commited a <em>type II error</em> in only one instance, which matches closely with the 98% estimate provided from the <code>simr</code> package. If we increased the number of simulations, the power estimates would converge to the same number. However, if you copied this code and ran it in R, you’ll notice that it ran slow. In a separate <a href="">post</a>, I’ll show you how to speed up any simulation by executing the entire process in parallel to run more simulations and get better estimates! Stay tuned!</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/monte-carlo-simulation">Monte Carlo Simulation</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/power">Power</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/mixed-effect-modeling">Mixed-Effect Modeling</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/time_series_outlier_detection.html">Time Series Outlier Detection</a></li>
+    
+    <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
+    
+    <li><a href="/post/early_trend_detection.html">Early Trend Detection</a></li>
+    
+    <li><a href="/post/prediction_intervals.html">Is that Home Price Negotiable?</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

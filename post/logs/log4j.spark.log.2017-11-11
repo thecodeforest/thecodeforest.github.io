@@ -1,0 +1,760 @@
+17/11/11 09:39:30 INFO SparkContext: Running Spark version 2.1.0
+17/11/11 09:39:30 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+17/11/11 09:39:30 INFO SecurityManager: Changing view acls to: mlebo1
+17/11/11 09:39:30 INFO SecurityManager: Changing modify acls to: mlebo1
+17/11/11 09:39:30 INFO SecurityManager: Changing view acls groups to: 
+17/11/11 09:39:30 INFO SecurityManager: Changing modify acls groups to: 
+17/11/11 09:39:30 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(mlebo1); groups with view permissions: Set(); users  with modify permissions: Set(mlebo1); groups with modify permissions: Set()
+17/11/11 09:39:30 INFO Utils: Successfully started service 'sparkDriver' on port 61812.
+17/11/11 09:39:30 INFO SparkEnv: Registering MapOutputTracker
+17/11/11 09:39:30 INFO SparkEnv: Registering BlockManagerMaster
+17/11/11 09:39:30 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+17/11/11 09:39:30 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+17/11/11 09:39:30 INFO DiskBlockManager: Created local directory at /private/var/folders/jt/bk_jpkss4qs5_lgpq69b097079f9_6/T/blockmgr-1ccaee0d-25c3-48e1-9bc2-c26661082c51
+17/11/11 09:39:30 INFO MemoryStore: MemoryStore started with capacity 366.3 MB
+17/11/11 09:39:30 INFO SparkEnv: Registering OutputCommitCoordinator
+17/11/11 09:39:31 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+17/11/11 09:39:31 INFO SparkUI: Bound SparkUI to 127.0.0.1, and started at http://127.0.0.1:4040
+17/11/11 09:39:31 INFO SparkContext: Added JAR file:/Library/Frameworks/R.framework/Versions/3.3/Resources/library/sparklyr/java/sparklyr-2.1-2.11.jar at spark://127.0.0.1:61812/jars/sparklyr-2.1-2.11.jar with timestamp 1510421971195
+17/11/11 09:39:31 INFO Executor: Starting executor ID driver on host localhost
+17/11/11 09:39:31 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 61822.
+17/11/11 09:39:31 INFO NettyBlockTransferService: Server created on 127.0.0.1:61822
+17/11/11 09:39:31 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+17/11/11 09:39:31 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 09:39:31 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:61822 with 366.3 MB RAM, BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 09:39:31 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 09:39:31 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 09:39:32 WARN SparkContext: Using an existing SparkContext; some configuration may not take effect.
+17/11/11 09:39:32 INFO SharedState: Warehouse path is 'file:/Users/mlebo1/Desktop/site/content/post/spark-warehouse'.
+17/11/11 09:39:32 INFO HiveUtils: Initializing HiveMetastoreConnection version 1.2.1 using Spark classes.
+17/11/11 09:39:32 INFO HiveMetaStore: 0: Opening raw store with implemenation class:org.apache.hadoop.hive.metastore.ObjectStore
+17/11/11 09:39:32 INFO ObjectStore: ObjectStore, initialize called
+17/11/11 09:39:32 INFO Persistence: Property hive.metastore.integral.jdo.pushdown unknown - will be ignored
+17/11/11 09:39:32 INFO Persistence: Property datanucleus.cache.level2 unknown - will be ignored
+17/11/11 09:39:33 INFO ObjectStore: Setting MetaStore object pin classes with hive.metastore.cache.pinobjtypes="Table,StorageDescriptor,SerDeInfo,Partition,Database,Type,FieldSchema,Order"
+17/11/11 09:39:34 INFO Datastore: The class "org.apache.hadoop.hive.metastore.model.MFieldSchema" is tagged as "embedded-only" so does not have its own datastore table.
+17/11/11 09:39:34 INFO Datastore: The class "org.apache.hadoop.hive.metastore.model.MOrder" is tagged as "embedded-only" so does not have its own datastore table.
+17/11/11 09:39:35 INFO Datastore: The class "org.apache.hadoop.hive.metastore.model.MFieldSchema" is tagged as "embedded-only" so does not have its own datastore table.
+17/11/11 09:39:35 INFO Datastore: The class "org.apache.hadoop.hive.metastore.model.MOrder" is tagged as "embedded-only" so does not have its own datastore table.
+17/11/11 09:39:35 INFO MetaStoreDirectSql: Using direct SQL, underlying DB is DERBY
+17/11/11 09:39:35 INFO ObjectStore: Initialized ObjectStore
+17/11/11 09:39:35 WARN ObjectStore: Version information not found in metastore. hive.metastore.schema.verification is not enabled so recording the schema version 1.2.0
+17/11/11 09:39:35 WARN ObjectStore: Failed to get database default, returning NoSuchObjectException
+17/11/11 09:39:35 INFO HiveMetaStore: Added admin role in metastore
+17/11/11 09:39:35 INFO HiveMetaStore: Added public role in metastore
+17/11/11 09:39:35 INFO HiveMetaStore: No user is added in admin role, since config is empty
+17/11/11 09:39:35 INFO HiveMetaStore: 0: get_all_databases
+17/11/11 09:39:35 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_all_databases	
+17/11/11 09:39:35 INFO HiveMetaStore: 0: get_functions: db=default pat=*
+17/11/11 09:39:35 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_functions: db=default pat=*	
+17/11/11 09:39:35 INFO Datastore: The class "org.apache.hadoop.hive.metastore.model.MResourceUri" is tagged as "embedded-only" so does not have its own datastore table.
+17/11/11 09:39:35 INFO SessionState: Created local directory: /var/folders/jt/bk_jpkss4qs5_lgpq69b097079f9_6/T/6e0a3bb9-6c2d-4ba5-9cdb-1f6228e2bd97_resources
+17/11/11 09:39:35 INFO SessionState: Created HDFS directory: /tmp/hive/mlebo1/6e0a3bb9-6c2d-4ba5-9cdb-1f6228e2bd97
+17/11/11 09:39:35 INFO SessionState: Created local directory: /var/folders/jt/bk_jpkss4qs5_lgpq69b097079f9_6/T/mlebo1/6e0a3bb9-6c2d-4ba5-9cdb-1f6228e2bd97
+17/11/11 09:39:35 INFO SessionState: Created HDFS directory: /tmp/hive/mlebo1/6e0a3bb9-6c2d-4ba5-9cdb-1f6228e2bd97/_tmp_space.db
+17/11/11 09:39:35 INFO HiveClientImpl: Warehouse location for Hive client (version 1.2.1) is file:/Users/mlebo1/Desktop/site/content/post/spark-warehouse
+17/11/11 09:39:35 INFO HiveMetaStore: 0: get_database: default
+17/11/11 09:39:35 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: default	
+17/11/11 09:39:35 INFO HiveMetaStore: 0: get_database: global_temp
+17/11/11 09:39:35 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: global_temp	
+17/11/11 09:39:35 WARN ObjectStore: Failed to get database global_temp, returning NoSuchObjectException
+17/11/11 09:39:36 INFO SparkSqlParser: Parsing command: SHOW TABLES
+17/11/11 09:39:37 INFO HiveMetaStore: 0: get_database: default
+17/11/11 09:39:37 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: default	
+17/11/11 09:39:37 INFO HiveMetaStore: 0: get_database: default
+17/11/11 09:39:37 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: default	
+17/11/11 09:39:37 INFO HiveMetaStore: 0: get_tables: db=default pat=*
+17/11/11 09:39:37 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_tables: db=default pat=*	
+17/11/11 10:08:19 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:08:19 INFO SparkSqlParser: Parsing command: SHOW TABLES
+17/11/11 10:08:19 INFO HiveMetaStore: 0: get_database: default
+17/11/11 10:08:19 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: default	
+17/11/11 10:08:19 INFO HiveMetaStore: 0: get_database: default
+17/11/11 10:08:19 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: default	
+17/11/11 10:08:19 INFO HiveMetaStore: 0: get_tables: db=default pat=*
+17/11/11 10:08:19 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_tables: db=default pat=*	
+17/11/11 10:08:19 INFO CodeGenerator: Code generated in 205.207782 ms
+17/11/11 10:08:19 INFO SparkContext: Starting job: collect at utils.scala:58
+17/11/11 10:08:19 INFO DAGScheduler: Got job 0 (collect at utils.scala:58) with 1 output partitions
+17/11/11 10:08:19 INFO DAGScheduler: Final stage: ResultStage 0 (collect at utils.scala:58)
+17/11/11 10:08:19 INFO DAGScheduler: Parents of final stage: List()
+17/11/11 10:08:19 INFO DAGScheduler: Missing parents: List()
+17/11/11 10:08:19 INFO DAGScheduler: Submitting ResultStage 0 (MapPartitionsRDD[6] at map at utils.scala:55), which has no missing parents
+17/11/11 10:08:19 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 8.7 KB, free 366.3 MB)
+17/11/11 10:08:19 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 4.6 KB, free 366.3 MB)
+17/11/11 10:08:19 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 127.0.0.1:61822 (size: 4.6 KB, free: 366.3 MB)
+17/11/11 10:08:19 INFO SparkContext: Created broadcast 0 from broadcast at DAGScheduler.scala:996
+17/11/11 10:08:19 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[6] at map at utils.scala:55)
+17/11/11 10:08:19 INFO TaskSchedulerImpl: Adding task set 0.0 with 1 tasks
+17/11/11 10:08:19 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, localhost, executor driver, partition 0, PROCESS_LOCAL, 6041 bytes)
+17/11/11 10:08:19 INFO Executor: Running task 0.0 in stage 0.0 (TID 0)
+17/11/11 10:08:19 INFO Executor: Fetching spark://127.0.0.1:61812/jars/sparklyr-2.1-2.11.jar with timestamp 1510421971195
+17/11/11 10:08:19 INFO TransportClientFactory: Successfully created connection to /127.0.0.1:61812 after 11 ms (0 ms spent in bootstraps)
+17/11/11 10:08:19 INFO Utils: Fetching spark://127.0.0.1:61812/jars/sparklyr-2.1-2.11.jar to /private/var/folders/jt/bk_jpkss4qs5_lgpq69b097079f9_6/T/spark-46a69b8c-d3ed-4bd2-a2fe-afbf08d2a8d7/userFiles-0568d8c1-94d1-4371-83bc-587d44ee9ca3/fetchFileTemp196327294040817366.tmp
+17/11/11 10:08:19 INFO Executor: Adding file:/private/var/folders/jt/bk_jpkss4qs5_lgpq69b097079f9_6/T/spark-46a69b8c-d3ed-4bd2-a2fe-afbf08d2a8d7/userFiles-0568d8c1-94d1-4371-83bc-587d44ee9ca3/sparklyr-2.1-2.11.jar to class loader
+17/11/11 10:08:19 INFO CodeGenerator: Code generated in 14.057762 ms
+17/11/11 10:08:19 INFO CodeGenerator: Code generated in 11.359839 ms
+17/11/11 10:08:19 INFO Executor: Finished task 0.0 in stage 0.0 (TID 0). 1304 bytes result sent to driver
+17/11/11 10:08:19 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 242 ms on localhost (executor driver) (1/1)
+17/11/11 10:08:19 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+17/11/11 10:08:20 INFO DAGScheduler: ResultStage 0 (collect at utils.scala:58) finished in 0.257 s
+17/11/11 10:08:20 INFO DAGScheduler: Job 0 finished: collect at utils.scala:58, took 0.387965 s
+17/11/11 10:08:20 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:08:20 INFO SparkSqlParser: Parsing command: sleep_df_sim
+17/11/11 10:08:20 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:08:20 INFO SparkSqlParser: Parsing command: CACHE TABLE `sleep_df_sim`
+17/11/11 10:08:20 INFO SparkSqlParser: Parsing command: `sleep_df_sim`
+17/11/11 10:08:20 INFO FileSourceStrategy: Pruning directories with: 
+17/11/11 10:08:20 INFO FileSourceStrategy: Post-Scan Filters: 
+17/11/11 10:08:20 INFO FileSourceStrategy: Output Data Schema: struct<reaction: double, days: double, subject: double, iteration: int, simulated_reaction: double ... 3 more fields>
+17/11/11 10:08:20 INFO FileSourceStrategy: Pushed Filters: 
+17/11/11 10:08:20 INFO CodeGenerator: Code generated in 6.580133 ms
+17/11/11 10:08:20 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 291.0 KB, free 366.0 MB)
+17/11/11 10:08:20 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 23.7 KB, free 366.0 MB)
+17/11/11 10:08:20 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 366.3 MB)
+17/11/11 10:08:20 INFO SparkContext: Created broadcast 1 from sql at NativeMethodAccessorImpl.java:0
+17/11/11 10:08:20 INFO FileSourceScanExec: Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+17/11/11 10:08:20 INFO CodeGenerator: Code generated in 9.669998 ms
+17/11/11 10:08:20 INFO CodeGenerator: Code generated in 7.300549 ms
+17/11/11 10:08:20 INFO SparkContext: Starting job: sql at NativeMethodAccessorImpl.java:0
+17/11/11 10:08:20 INFO DAGScheduler: Registering RDD 13 (sql at NativeMethodAccessorImpl.java:0)
+17/11/11 10:08:20 INFO DAGScheduler: Got job 1 (sql at NativeMethodAccessorImpl.java:0) with 1 output partitions
+17/11/11 10:08:20 INFO DAGScheduler: Final stage: ResultStage 2 (sql at NativeMethodAccessorImpl.java:0)
+17/11/11 10:08:20 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 1)
+17/11/11 10:08:20 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 1)
+17/11/11 10:08:20 INFO DAGScheduler: Submitting ShuffleMapStage 1 (MapPartitionsRDD[13] at sql at NativeMethodAccessorImpl.java:0), which has no missing parents
+17/11/11 10:08:20 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 19.4 KB, free 366.0 MB)
+17/11/11 10:08:20 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 9.8 KB, free 366.0 MB)
+17/11/11 10:08:20 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 127.0.0.1:61822 (size: 9.8 KB, free: 366.3 MB)
+17/11/11 10:08:20 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:996
+17/11/11 10:08:20 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 1 (MapPartitionsRDD[13] at sql at NativeMethodAccessorImpl.java:0)
+17/11/11 10:08:20 INFO TaskSchedulerImpl: Adding task set 1.0 with 1 tasks
+17/11/11 10:08:20 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 1, localhost, executor driver, partition 0, PROCESS_LOCAL, 6690 bytes)
+17/11/11 10:08:20 INFO Executor: Running task 0.0 in stage 1.0 (TID 1)
+17/11/11 10:08:20 INFO FileScanRDD: Reading File path: file:///var/folders/jt/bk_jpkss4qs5_lgpq69b097079f9_6/T/RtmpyCt260/spark_serialize_6287e22f685d0b15c72f56834aefcddfc39e4db06ad4f9a5f57c536f2b39b7e9.csv, range: 0-2452300, partition values: [empty row]
+17/11/11 10:08:20 INFO CodeGenerator: Code generated in 7.167651 ms
+17/11/11 10:08:21 INFO ContextCleaner: Cleaned accumulator 54
+17/11/11 10:08:21 INFO MemoryStore: Block rdd_10_0 stored as values in memory (estimated size 2.2 MB, free 363.7 MB)
+17/11/11 10:08:21 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 364.1 MB)
+17/11/11 10:08:21 INFO CodeGenerator: Code generated in 3.35308 ms
+17/11/11 10:08:21 INFO CodeGenerator: Code generated in 13.838382 ms
+17/11/11 10:08:21 INFO Executor: Finished task 0.0 in stage 1.0 (TID 1). 3070 bytes result sent to driver
+17/11/11 10:08:21 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 1) in 470 ms on localhost (executor driver) (1/1)
+17/11/11 10:08:21 INFO TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+17/11/11 10:08:21 INFO DAGScheduler: ShuffleMapStage 1 (sql at NativeMethodAccessorImpl.java:0) finished in 0.471 s
+17/11/11 10:08:21 INFO DAGScheduler: looking for newly runnable stages
+17/11/11 10:08:21 INFO DAGScheduler: running: Set()
+17/11/11 10:08:21 INFO DAGScheduler: waiting: Set(ResultStage 2)
+17/11/11 10:08:21 INFO DAGScheduler: failed: Set()
+17/11/11 10:08:21 INFO DAGScheduler: Submitting ResultStage 2 (MapPartitionsRDD[16] at sql at NativeMethodAccessorImpl.java:0), which has no missing parents
+17/11/11 10:08:21 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 7.0 KB, free 363.7 MB)
+17/11/11 10:08:21 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 3.7 KB, free 363.7 MB)
+17/11/11 10:08:21 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 127.0.0.1:61822 (size: 3.7 KB, free: 364.0 MB)
+17/11/11 10:08:21 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:996
+17/11/11 10:08:21 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 2 (MapPartitionsRDD[16] at sql at NativeMethodAccessorImpl.java:0)
+17/11/11 10:08:21 INFO TaskSchedulerImpl: Adding task set 2.0 with 1 tasks
+17/11/11 10:08:21 INFO TaskSetManager: Starting task 0.0 in stage 2.0 (TID 2, localhost, executor driver, partition 0, ANY, 5953 bytes)
+17/11/11 10:08:21 INFO Executor: Running task 0.0 in stage 2.0 (TID 2)
+17/11/11 10:08:21 INFO ShuffleBlockFetcherIterator: Getting 1 non-empty blocks out of 1 blocks
+17/11/11 10:08:21 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 4 ms
+17/11/11 10:08:21 INFO Executor: Finished task 0.0 in stage 2.0 (TID 2). 2042 bytes result sent to driver
+17/11/11 10:08:21 INFO TaskSetManager: Finished task 0.0 in stage 2.0 (TID 2) in 27 ms on localhost (executor driver) (1/1)
+17/11/11 10:08:21 INFO TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
+17/11/11 10:08:21 INFO DAGScheduler: ResultStage 2 (sql at NativeMethodAccessorImpl.java:0) finished in 0.027 s
+17/11/11 10:08:21 INFO DAGScheduler: Job 1 finished: sql at NativeMethodAccessorImpl.java:0, took 0.550842 s
+17/11/11 10:08:21 INFO CodeGenerator: Code generated in 5.320624 ms
+17/11/11 10:08:21 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:08:21 INFO SparkSqlParser: Parsing command: SELECT count(*) FROM  `sleep_df_sim`
+17/11/11 10:08:21 INFO SparkContext: Starting job: collect at utils.scala:196
+17/11/11 10:08:21 INFO DAGScheduler: Registering RDD 20 (collect at utils.scala:196)
+17/11/11 10:08:21 INFO DAGScheduler: Got job 2 (collect at utils.scala:196) with 1 output partitions
+17/11/11 10:08:21 INFO DAGScheduler: Final stage: ResultStage 4 (collect at utils.scala:196)
+17/11/11 10:08:21 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 3)
+17/11/11 10:08:21 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 3)
+17/11/11 10:08:21 INFO DAGScheduler: Submitting ShuffleMapStage 3 (MapPartitionsRDD[20] at collect at utils.scala:196), which has no missing parents
+17/11/11 10:08:21 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 19.4 KB, free 363.7 MB)
+17/11/11 10:08:21 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 9.8 KB, free 363.7 MB)
+17/11/11 10:08:21 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 127.0.0.1:61822 (size: 9.8 KB, free: 364.0 MB)
+17/11/11 10:08:21 INFO SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:996
+17/11/11 10:08:21 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 3 (MapPartitionsRDD[20] at collect at utils.scala:196)
+17/11/11 10:08:21 INFO TaskSchedulerImpl: Adding task set 3.0 with 1 tasks
+17/11/11 10:08:21 INFO TaskSetManager: Starting task 0.0 in stage 3.0 (TID 3, localhost, executor driver, partition 0, PROCESS_LOCAL, 6682 bytes)
+17/11/11 10:08:21 INFO Executor: Running task 0.0 in stage 3.0 (TID 3)
+17/11/11 10:08:21 INFO BlockManager: Found block rdd_10_0 locally
+17/11/11 10:08:21 INFO Executor: Finished task 0.0 in stage 3.0 (TID 3). 2188 bytes result sent to driver
+17/11/11 10:08:21 INFO TaskSetManager: Finished task 0.0 in stage 3.0 (TID 3) in 11 ms on localhost (executor driver) (1/1)
+17/11/11 10:08:21 INFO TaskSchedulerImpl: Removed TaskSet 3.0, whose tasks have all completed, from pool 
+17/11/11 10:08:21 INFO DAGScheduler: ShuffleMapStage 3 (collect at utils.scala:196) finished in 0.012 s
+17/11/11 10:08:21 INFO DAGScheduler: looking for newly runnable stages
+17/11/11 10:08:21 INFO DAGScheduler: running: Set()
+17/11/11 10:08:21 INFO DAGScheduler: waiting: Set(ResultStage 4)
+17/11/11 10:08:21 INFO DAGScheduler: failed: Set()
+17/11/11 10:08:21 INFO DAGScheduler: Submitting ResultStage 4 (MapPartitionsRDD[23] at collect at utils.scala:196), which has no missing parents
+17/11/11 10:08:21 INFO MemoryStore: Block broadcast_5 stored as values in memory (estimated size 7.0 KB, free 363.7 MB)
+17/11/11 10:08:21 INFO MemoryStore: Block broadcast_5_piece0 stored as bytes in memory (estimated size 3.7 KB, free 363.7 MB)
+17/11/11 10:08:21 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 127.0.0.1:61822 (size: 3.7 KB, free: 364.0 MB)
+17/11/11 10:08:21 INFO SparkContext: Created broadcast 5 from broadcast at DAGScheduler.scala:996
+17/11/11 10:08:21 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 4 (MapPartitionsRDD[23] at collect at utils.scala:196)
+17/11/11 10:08:21 INFO TaskSchedulerImpl: Adding task set 4.0 with 1 tasks
+17/11/11 10:08:21 INFO TaskSetManager: Starting task 0.0 in stage 4.0 (TID 4, localhost, executor driver, partition 0, ANY, 5945 bytes)
+17/11/11 10:08:21 INFO Executor: Running task 0.0 in stage 4.0 (TID 4)
+17/11/11 10:08:21 INFO ShuffleBlockFetcherIterator: Getting 1 non-empty blocks out of 1 blocks
+17/11/11 10:08:21 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 1 ms
+17/11/11 10:08:21 INFO Executor: Finished task 0.0 in stage 4.0 (TID 4). 2042 bytes result sent to driver
+17/11/11 10:08:21 INFO TaskSetManager: Finished task 0.0 in stage 4.0 (TID 4) in 5 ms on localhost (executor driver) (1/1)
+17/11/11 10:08:21 INFO TaskSchedulerImpl: Removed TaskSet 4.0, whose tasks have all completed, from pool 
+17/11/11 10:08:21 INFO DAGScheduler: ResultStage 4 (collect at utils.scala:196) finished in 0.005 s
+17/11/11 10:08:21 INFO DAGScheduler: Job 2 finished: collect at utils.scala:196, took 0.030400 s
+17/11/11 10:08:21 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:08:21 INFO SparkSqlParser: Parsing command: SELECT *
+FROM `sleep_df_sim` AS `zzz1`
+WHERE (0 = 1)
+17/11/11 10:08:21 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:08:21 INFO SparkSqlParser: Parsing command: SHOW TABLES
+17/11/11 10:08:21 INFO HiveMetaStore: 0: get_database: default
+17/11/11 10:08:21 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: default	
+17/11/11 10:08:21 INFO HiveMetaStore: 0: get_database: default
+17/11/11 10:08:21 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_database: default	
+17/11/11 10:08:21 INFO HiveMetaStore: 0: get_tables: db=default pat=*
+17/11/11 10:08:21 INFO audit: ugi=mlebo1	ip=unknown-ip-addr	cmd=get_tables: db=default pat=*	
+17/11/11 10:08:21 INFO CodeGenerator: Code generated in 10.223106 ms
+17/11/11 10:08:58 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:08:58 INFO SparkSqlParser: Parsing command: SELECT *
+FROM `sleep_df_sim`
+17/11/11 10:08:58 INFO BlockManagerInfo: Removed broadcast_0_piece0 on 127.0.0.1:61822 in memory (size: 4.6 KB, free: 364.0 MB)
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 55
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 56
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 57
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 58
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 59
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 60
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 61
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 62
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 63
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 64
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 65
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 66
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned shuffle 0
+17/11/11 10:08:58 INFO BlockManagerInfo: Removed broadcast_2_piece0 on 127.0.0.1:61822 in memory (size: 9.8 KB, free: 364.0 MB)
+17/11/11 10:08:58 INFO BlockManagerInfo: Removed broadcast_3_piece0 on 127.0.0.1:61822 in memory (size: 3.7 KB, free: 364.1 MB)
+17/11/11 10:08:58 INFO BlockManagerInfo: Removed broadcast_4_piece0 on 127.0.0.1:61822 in memory (size: 9.8 KB, free: 364.1 MB)
+17/11/11 10:08:58 INFO BlockManagerInfo: Removed broadcast_5_piece0 on 127.0.0.1:61822 in memory (size: 3.7 KB, free: 364.1 MB)
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 163
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 1
+17/11/11 10:08:58 INFO ContextCleaner: Cleaned accumulator 0
+17/11/11 10:08:58 INFO SparkContext: Starting job: take at NativeMethodAccessorImpl.java:0
+17/11/11 10:08:58 INFO DAGScheduler: Registering RDD 28 (groupBy at applyutils.scala:9)
+17/11/11 10:08:58 INFO DAGScheduler: Got job 3 (take at NativeMethodAccessorImpl.java:0) with 1 output partitions
+17/11/11 10:08:58 INFO DAGScheduler: Final stage: ResultStage 6 (take at NativeMethodAccessorImpl.java:0)
+17/11/11 10:08:58 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 5)
+17/11/11 10:08:58 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 5)
+17/11/11 10:08:58 INFO DAGScheduler: Submitting ShuffleMapStage 5 (MapPartitionsRDD[28] at groupBy at applyutils.scala:9), which has no missing parents
+17/11/11 10:08:58 INFO MemoryStore: Block broadcast_6 stored as values in memory (estimated size 18.8 KB, free 363.8 MB)
+17/11/11 10:08:58 INFO MemoryStore: Block broadcast_6_piece0 stored as bytes in memory (estimated size 9.6 KB, free 363.8 MB)
+17/11/11 10:08:58 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 127.0.0.1:61822 (size: 9.6 KB, free: 364.1 MB)
+17/11/11 10:08:58 INFO SparkContext: Created broadcast 6 from broadcast at DAGScheduler.scala:996
+17/11/11 10:08:58 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 5 (MapPartitionsRDD[28] at groupBy at applyutils.scala:9)
+17/11/11 10:08:58 INFO TaskSchedulerImpl: Adding task set 5.0 with 1 tasks
+17/11/11 10:08:58 INFO TaskSetManager: Starting task 0.0 in stage 5.0 (TID 5, localhost, executor driver, partition 0, PROCESS_LOCAL, 6650 bytes)
+17/11/11 10:08:58 INFO Executor: Running task 0.0 in stage 5.0 (TID 5)
+17/11/11 10:08:58 INFO BlockManager: Found block rdd_10_0 locally
+17/11/11 10:08:58 INFO CodeGenerator: Code generated in 15.735681 ms
+17/11/11 10:08:58 INFO CodeGenerator: Code generated in 6.463349 ms
+17/11/11 10:08:59 INFO Executor: Finished task 0.0 in stage 5.0 (TID 5). 1847 bytes result sent to driver
+17/11/11 10:08:59 INFO TaskSetManager: Finished task 0.0 in stage 5.0 (TID 5) in 545 ms on localhost (executor driver) (1/1)
+17/11/11 10:08:59 INFO TaskSchedulerImpl: Removed TaskSet 5.0, whose tasks have all completed, from pool 
+17/11/11 10:08:59 INFO DAGScheduler: ShuffleMapStage 5 (groupBy at applyutils.scala:9) finished in 0.546 s
+17/11/11 10:08:59 INFO DAGScheduler: looking for newly runnable stages
+17/11/11 10:08:59 INFO DAGScheduler: running: Set()
+17/11/11 10:08:59 INFO DAGScheduler: waiting: Set(ResultStage 6)
+17/11/11 10:08:59 INFO DAGScheduler: failed: Set()
+17/11/11 10:08:59 INFO DAGScheduler: Submitting ResultStage 6 (WorkerRDD[31] at RDD at rdd.scala:18), which has no missing parents
+17/11/11 10:08:59 INFO MemoryStore: Block broadcast_7 stored as values in memory (estimated size 21.7 KB, free 363.7 MB)
+17/11/11 10:08:59 INFO MemoryStore: Block broadcast_7_piece0 stored as bytes in memory (estimated size 10.9 KB, free 363.7 MB)
+17/11/11 10:08:59 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 127.0.0.1:61822 (size: 10.9 KB, free: 364.0 MB)
+17/11/11 10:08:59 INFO SparkContext: Created broadcast 7 from broadcast at DAGScheduler.scala:996
+17/11/11 10:08:59 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 6 (WorkerRDD[31] at RDD at rdd.scala:18)
+17/11/11 10:08:59 INFO TaskSchedulerImpl: Adding task set 6.0 with 1 tasks
+17/11/11 10:08:59 INFO TaskSetManager: Starting task 0.0 in stage 6.0 (TID 6, localhost, executor driver, partition 0, ANY, 5808 bytes)
+17/11/11 10:08:59 INFO Executor: Running task 0.0 in stage 6.0 (TID 6)
+17/11/11 10:08:59 INFO ShuffleBlockFetcherIterator: Getting 1 non-empty blocks out of 1 blocks
+17/11/11 10:08:59 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+17/11/11 10:09:00 INFO BlockManagerInfo: Removed broadcast_6_piece0 on 127.0.0.1:61822 in memory (size: 9.6 KB, free: 364.1 MB)
+17/11/11 10:09:21 INFO MemoryStore: Block rdd_31_0 stored as values in memory (estimated size 397.6 KB, free 363.4 MB)
+17/11/11 10:09:21 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 10:09:21 WARN Executor: 1 block locks were not released by TID = 6:
+[rdd_31_0]
+17/11/11 10:09:21 INFO Executor: Finished task 0.0 in stage 6.0 (TID 6). 3983 bytes result sent to driver
+17/11/11 10:09:21 INFO TaskSetManager: Finished task 0.0 in stage 6.0 (TID 6) in 21911 ms on localhost (executor driver) (1/1)
+17/11/11 10:09:21 INFO TaskSchedulerImpl: Removed TaskSet 6.0, whose tasks have all completed, from pool 
+17/11/11 10:09:21 INFO DAGScheduler: ResultStage 6 (take at NativeMethodAccessorImpl.java:0) finished in 21.911 s
+17/11/11 10:09:21 INFO DAGScheduler: Job 3 finished: take at NativeMethodAccessorImpl.java:0, took 22.471288 s
+17/11/11 10:09:21 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:09:21 INFO SparkSqlParser: Parsing command: sparklyr_tmp_f7c2520dec96
+17/11/11 10:09:21 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:09:21 INFO SparkSqlParser: Parsing command: SELECT *
+FROM `sparklyr_tmp_f7c2520dec96` AS `zzz2`
+WHERE (0 = 1)
+17/11/11 10:09:31 INFO BlockManagerInfo: Removed broadcast_7_piece0 on 127.0.0.1:61822 in memory (size: 10.9 KB, free: 363.7 MB)
+17/11/11 10:09:32 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:09:32 INFO SparkSqlParser: Parsing command: SELECT *
+FROM `sparklyr_tmp_f7c2520dec96`
+17/11/11 10:09:32 INFO SparkContext: Starting job: collect at utils.scala:196
+17/11/11 10:09:32 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 2 is 143 bytes
+17/11/11 10:09:32 INFO DAGScheduler: Got job 4 (collect at utils.scala:196) with 1 output partitions
+17/11/11 10:09:32 INFO DAGScheduler: Final stage: ResultStage 8 (collect at utils.scala:196)
+17/11/11 10:09:32 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 7)
+17/11/11 10:09:32 INFO DAGScheduler: Missing parents: List()
+17/11/11 10:09:32 INFO DAGScheduler: Submitting ResultStage 8 (MapPartitionsRDD[35] at collect at utils.scala:196), which has no missing parents
+17/11/11 10:09:32 INFO MemoryStore: Block broadcast_8 stored as values in memory (estimated size 26.8 KB, free 363.4 MB)
+17/11/11 10:09:32 INFO MemoryStore: Block broadcast_8_piece0 stored as bytes in memory (estimated size 13.1 KB, free 363.4 MB)
+17/11/11 10:09:32 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 127.0.0.1:61822 (size: 13.1 KB, free: 363.7 MB)
+17/11/11 10:09:32 INFO SparkContext: Created broadcast 8 from broadcast at DAGScheduler.scala:996
+17/11/11 10:09:32 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 8 (MapPartitionsRDD[35] at collect at utils.scala:196)
+17/11/11 10:09:32 INFO TaskSchedulerImpl: Adding task set 8.0 with 1 tasks
+17/11/11 10:09:32 INFO TaskSetManager: Starting task 0.0 in stage 8.0 (TID 7, localhost, executor driver, partition 0, PROCESS_LOCAL, 5840 bytes)
+17/11/11 10:09:32 INFO Executor: Running task 0.0 in stage 8.0 (TID 7)
+17/11/11 10:09:32 INFO BlockManager: Found block rdd_31_0 locally
+17/11/11 10:09:32 INFO CodeGenerator: Code generated in 7.484438 ms
+17/11/11 10:09:32 INFO CodeGenerator: Code generated in 30.7386 ms
+17/11/11 10:09:32 INFO Executor: Finished task 0.0 in stage 8.0 (TID 7). 66434 bytes result sent to driver
+17/11/11 10:09:32 INFO TaskSetManager: Finished task 0.0 in stage 8.0 (TID 7) in 65 ms on localhost (executor driver) (1/1)
+17/11/11 10:09:32 INFO TaskSchedulerImpl: Removed TaskSet 8.0, whose tasks have all completed, from pool 
+17/11/11 10:09:32 INFO DAGScheduler: ResultStage 8 (collect at utils.scala:196) finished in 0.065 s
+17/11/11 10:09:32 INFO DAGScheduler: Job 4 finished: collect at utils.scala:196, took 0.074893 s
+17/11/11 10:09:32 INFO CodeGenerator: Code generated in 6.152681 ms
+17/11/11 10:12:06 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:12:06 INFO SparkSqlParser: Parsing command: SELECT *
+FROM `sparklyr_tmp_f7c2520dec96`
+17/11/11 10:12:06 INFO SparkContext: Starting job: collect at utils.scala:196
+17/11/11 10:12:06 INFO DAGScheduler: Got job 5 (collect at utils.scala:196) with 1 output partitions
+17/11/11 10:12:06 INFO DAGScheduler: Final stage: ResultStage 10 (collect at utils.scala:196)
+17/11/11 10:12:06 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 9)
+17/11/11 10:12:06 INFO DAGScheduler: Missing parents: List()
+17/11/11 10:12:06 INFO DAGScheduler: Submitting ResultStage 10 (MapPartitionsRDD[37] at collect at utils.scala:196), which has no missing parents
+17/11/11 10:12:06 INFO MemoryStore: Block broadcast_9 stored as values in memory (estimated size 26.8 KB, free 363.3 MB)
+17/11/11 10:12:06 INFO MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 13.0 KB, free 363.3 MB)
+17/11/11 10:12:06 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 127.0.0.1:61822 (size: 13.0 KB, free: 363.7 MB)
+17/11/11 10:12:06 INFO SparkContext: Created broadcast 9 from broadcast at DAGScheduler.scala:996
+17/11/11 10:12:06 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 10 (MapPartitionsRDD[37] at collect at utils.scala:196)
+17/11/11 10:12:06 INFO TaskSchedulerImpl: Adding task set 10.0 with 1 tasks
+17/11/11 10:12:06 INFO TaskSetManager: Starting task 0.0 in stage 10.0 (TID 8, localhost, executor driver, partition 0, PROCESS_LOCAL, 5840 bytes)
+17/11/11 10:12:06 INFO Executor: Running task 0.0 in stage 10.0 (TID 8)
+17/11/11 10:12:06 INFO BlockManager: Found block rdd_31_0 locally
+17/11/11 10:12:06 INFO Executor: Finished task 0.0 in stage 10.0 (TID 8). 66434 bytes result sent to driver
+17/11/11 10:12:06 INFO TaskSetManager: Finished task 0.0 in stage 10.0 (TID 8) in 16 ms on localhost (executor driver) (1/1)
+17/11/11 10:12:06 INFO TaskSchedulerImpl: Removed TaskSet 10.0, whose tasks have all completed, from pool 
+17/11/11 10:12:06 INFO DAGScheduler: ResultStage 10 (collect at utils.scala:196) finished in 0.016 s
+17/11/11 10:12:06 INFO DAGScheduler: Job 5 finished: collect at utils.scala:196, took 0.022627 s
+17/11/11 10:12:27 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:12:27 INFO SparkSqlParser: Parsing command: SELECT *
+FROM `sparklyr_tmp_f7c2520dec96`
+17/11/11 10:12:27 INFO SparkContext: Starting job: collect at utils.scala:196
+17/11/11 10:12:27 INFO DAGScheduler: Got job 6 (collect at utils.scala:196) with 1 output partitions
+17/11/11 10:12:27 INFO DAGScheduler: Final stage: ResultStage 12 (collect at utils.scala:196)
+17/11/11 10:12:27 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 11)
+17/11/11 10:12:27 INFO DAGScheduler: Missing parents: List()
+17/11/11 10:12:27 INFO DAGScheduler: Submitting ResultStage 12 (MapPartitionsRDD[39] at collect at utils.scala:196), which has no missing parents
+17/11/11 10:12:27 INFO MemoryStore: Block broadcast_10 stored as values in memory (estimated size 26.8 KB, free 363.3 MB)
+17/11/11 10:12:27 INFO MemoryStore: Block broadcast_10_piece0 stored as bytes in memory (estimated size 13.0 KB, free 363.3 MB)
+17/11/11 10:12:27 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 127.0.0.1:61822 (size: 13.0 KB, free: 363.6 MB)
+17/11/11 10:12:27 INFO SparkContext: Created broadcast 10 from broadcast at DAGScheduler.scala:996
+17/11/11 10:12:27 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 12 (MapPartitionsRDD[39] at collect at utils.scala:196)
+17/11/11 10:12:27 INFO TaskSchedulerImpl: Adding task set 12.0 with 1 tasks
+17/11/11 10:12:27 INFO TaskSetManager: Starting task 0.0 in stage 12.0 (TID 9, localhost, executor driver, partition 0, PROCESS_LOCAL, 5840 bytes)
+17/11/11 10:12:27 INFO Executor: Running task 0.0 in stage 12.0 (TID 9)
+17/11/11 10:12:27 INFO BlockManager: Found block rdd_31_0 locally
+17/11/11 10:12:27 INFO Executor: Finished task 0.0 in stage 12.0 (TID 9). 66434 bytes result sent to driver
+17/11/11 10:12:27 INFO TaskSetManager: Finished task 0.0 in stage 12.0 (TID 9) in 14 ms on localhost (executor driver) (1/1)
+17/11/11 10:12:27 INFO TaskSchedulerImpl: Removed TaskSet 12.0, whose tasks have all completed, from pool 
+17/11/11 10:12:27 INFO DAGScheduler: ResultStage 12 (collect at utils.scala:196) finished in 0.014 s
+17/11/11 10:12:27 INFO DAGScheduler: Job 6 finished: collect at utils.scala:196, took 0.020086 s
+17/11/11 10:14:32 WARN SparkSession$Builder: Using an existing SparkSession; some configuration may not take effect.
+17/11/11 10:14:32 INFO SparkSqlParser: Parsing command: SELECT *
+FROM `sparklyr_tmp_f7c2520dec96`
+17/11/11 10:14:32 INFO SparkContext: Starting job: collect at utils.scala:196
+17/11/11 10:14:32 INFO DAGScheduler: Got job 7 (collect at utils.scala:196) with 1 output partitions
+17/11/11 10:14:32 INFO DAGScheduler: Final stage: ResultStage 14 (collect at utils.scala:196)
+17/11/11 10:14:32 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 13)
+17/11/11 10:14:32 INFO DAGScheduler: Missing parents: List()
+17/11/11 10:14:32 INFO DAGScheduler: Submitting ResultStage 14 (MapPartitionsRDD[41] at collect at utils.scala:196), which has no missing parents
+17/11/11 10:14:32 INFO MemoryStore: Block broadcast_11 stored as values in memory (estimated size 26.8 KB, free 363.3 MB)
+17/11/11 10:14:32 INFO MemoryStore: Block broadcast_11_piece0 stored as bytes in memory (estimated size 13.0 KB, free 363.2 MB)
+17/11/11 10:14:32 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 127.0.0.1:61822 (size: 13.0 KB, free: 363.6 MB)
+17/11/11 10:14:32 INFO SparkContext: Created broadcast 11 from broadcast at DAGScheduler.scala:996
+17/11/11 10:14:32 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 14 (MapPartitionsRDD[41] at collect at utils.scala:196)
+17/11/11 10:14:32 INFO TaskSchedulerImpl: Adding task set 14.0 with 1 tasks
+17/11/11 10:14:32 INFO TaskSetManager: Starting task 0.0 in stage 14.0 (TID 10, localhost, executor driver, partition 0, PROCESS_LOCAL, 5840 bytes)
+17/11/11 10:14:32 INFO Executor: Running task 0.0 in stage 14.0 (TID 10)
+17/11/11 10:14:32 INFO BlockManager: Found block rdd_31_0 locally
+17/11/11 10:14:32 INFO Executor: Finished task 0.0 in stage 14.0 (TID 10). 66434 bytes result sent to driver
+17/11/11 10:14:32 INFO TaskSetManager: Finished task 0.0 in stage 14.0 (TID 10) in 18 ms on localhost (executor driver) (1/1)
+17/11/11 10:14:32 INFO TaskSchedulerImpl: Removed TaskSet 14.0, whose tasks have all completed, from pool 
+17/11/11 10:14:32 INFO DAGScheduler: ResultStage 14 (collect at utils.scala:196) finished in 0.018 s
+17/11/11 10:14:32 INFO DAGScheduler: Job 7 finished: collect at utils.scala:196, took 0.024498 s
+17/11/11 10:41:16 INFO BlockManagerInfo: Removed broadcast_8_piece0 on 127.0.0.1:61822 in memory (size: 13.1 KB, free: 363.6 MB)
+17/11/11 10:41:16 INFO BlockManagerInfo: Removed broadcast_11_piece0 on 127.0.0.1:61822 in memory (size: 13.0 KB, free: 363.7 MB)
+17/11/11 10:41:16 INFO BlockManagerInfo: Removed broadcast_10_piece0 on 127.0.0.1:61822 in memory (size: 13.0 KB, free: 363.7 MB)
+17/11/11 10:41:16 INFO BlockManagerInfo: Removed broadcast_9_piece0 on 127.0.0.1:61822 in memory (size: 13.0 KB, free: 363.7 MB)
+17/11/11 18:31:59 WARN HeartbeatReceiver: Removing executor driver with no recent heartbeats: 2146310 ms exceeds timeout 120000 ms
+17/11/11 18:31:59 ERROR TaskSchedulerImpl: Lost executor driver on localhost: Executor heartbeat timed out after 2146310 ms
+17/11/11 18:31:59 INFO DAGScheduler: Executor lost: driver (epoch 3)
+17/11/11 18:31:59 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:31:59 INFO BlockManagerMasterEndpoint: Trying to remove executor driver from BlockManagerMaster.
+17/11/11 18:31:59 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:31:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManagerMasterEndpoint: Removing block manager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:61822 with 366.3 MB RAM, BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManagerMaster: Removed driver successfully in removeExecutor
+17/11/11 18:31:59 WARN SparkContext: Killing executors is only supported in coarse-grained mode
+17/11/11 18:31:59 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:31:59 INFO DAGScheduler: Shuffle files lost for executor: driver (epoch 3)
+17/11/11 18:31:59 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 365.9 MB)
+17/11/11 18:31:59 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:31:59 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 18:31:59 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:31:59 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:31:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:31:59 INFO DAGScheduler: Host added was in lost list earlier: localhost
+17/11/11 18:31:59 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 18:31:59 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:31:59 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 18:31:59 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:31:59 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:31:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:31:59 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:31:59 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 18:31:59 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:31:59 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 18:32:01 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:32:01 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:32:01 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:01 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:01 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:32:01 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 18:32:01 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:32:01 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 18:32:11 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:32:11 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:32:11 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:11 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:11 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:32:11 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 18:32:11 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:32:11 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 18:32:21 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:32:21 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:32:21 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:21 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:21 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:32:21 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 18:32:21 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:32:21 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 18:32:31 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:32:31 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:32:31 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:31 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:32:31 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:32:31 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 18:32:31 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:32:31 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 18:47:40 INFO Executor: Told to re-register on heartbeat
+17/11/11 18:47:40 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 18:47:40 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:47:40 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 18:47:40 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 18:47:40 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 18:47:40 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 18:47:40 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:08:03 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:08:03 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:08:03 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:03 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:03 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:08:03 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:08:03 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:08:03 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:08:05 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:08:05 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:08:05 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:05 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:05 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:08:05 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:08:05 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:08:05 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:08:15 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:08:15 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:08:15 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:15 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:15 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:08:15 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:08:15 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:08:15 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:08:25 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:08:25 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:08:25 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:25 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:25 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:08:25 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:08:25 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:08:25 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:08:35 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:08:35 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:08:35 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:35 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:08:35 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:08:35 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:08:35 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:08:35 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:23:45 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:23:45 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:23:45 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:23:45 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:23:45 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:23:45 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:23:45 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:23:45 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:44:01 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:44:01 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:44:01 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:01 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:01 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:44:01 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:44:01 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:44:01 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:44:10 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:44:10 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:44:10 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:10 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:10 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:44:10 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:44:10 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:44:10 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:44:20 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:44:20 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:44:20 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:20 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:20 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:44:20 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:44:20 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:44:20 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:44:30 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:44:30 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:44:30 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:30 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:44:30 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:44:30 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:44:30 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:44:30 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 19:59:40 INFO Executor: Told to re-register on heartbeat
+17/11/11 19:59:40 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 19:59:40 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:59:40 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 19:59:40 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 19:59:40 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 19:59:40 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 19:59:40 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:19:59 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:19:59 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:19:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:19:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:19:59 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:19:59 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:19:59 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:19:59 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:20:04 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:20:04 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:20:04 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:04 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:04 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:20:04 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:20:04 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:20:04 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:20:14 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:20:14 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:20:14 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:14 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:14 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:20:14 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:20:14 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:20:14 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:20:24 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:20:24 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:20:24 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:24 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:24 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:20:24 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:20:24 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:20:24 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:20:34 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:20:34 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:20:34 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:34 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:20:34 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:20:34 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:20:34 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:20:34 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:35:44 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:35:44 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:35:44 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:35:44 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:35:44 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:35:44 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:35:44 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:35:44 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:56:10 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:56:10 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:56:10 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:10 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:10 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:56:10 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:56:10 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:56:10 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:56:10 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:56:10 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:56:10 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:10 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:10 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:56:10 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:56:10 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:56:10 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:56:19 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:56:19 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:56:19 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:19 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:19 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:56:19 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:56:19 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:56:19 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:56:29 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:56:29 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:56:29 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:29 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:29 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:56:29 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:56:29 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:56:29 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 20:56:39 INFO Executor: Told to re-register on heartbeat
+17/11/11 20:56:39 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 20:56:39 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:39 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 20:56:39 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 20:56:39 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 20:56:39 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 20:56:39 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 21:04:31 INFO Executor: Told to re-register on heartbeat
+17/11/11 21:04:31 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 21:04:31 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:04:31 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:04:31 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 21:04:31 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 21:04:31 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 21:04:31 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 21:04:40 INFO Executor: Told to re-register on heartbeat
+17/11/11 21:04:40 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 21:04:40 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:04:40 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:04:40 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 21:04:40 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 21:04:40 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 21:04:40 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 21:04:50 INFO Executor: Told to re-register on heartbeat
+17/11/11 21:04:50 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 21:04:50 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:04:50 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:04:50 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 21:04:50 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 21:04:50 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 21:04:50 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 21:05:00 INFO Executor: Told to re-register on heartbeat
+17/11/11 21:05:00 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 21:05:00 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:05:00 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:05:00 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 21:05:00 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 21:05:00 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 21:05:00 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 21:20:10 INFO Executor: Told to re-register on heartbeat
+17/11/11 21:20:10 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 21:20:10 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:20:10 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 21:20:10 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 21:20:10 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 21:20:10 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 21:20:10 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 22:00:15 INFO Executor: Told to re-register on heartbeat
+17/11/11 22:00:15 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 22:00:15 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:00:15 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:00:15 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 22:00:15 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 22:00:15 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 22:00:15 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 22:00:19 INFO Executor: Told to re-register on heartbeat
+17/11/11 22:00:19 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 22:00:19 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:00:19 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:00:19 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 22:00:19 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 22:00:19 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 22:00:19 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 22:54:24 INFO Executor: Told to re-register on heartbeat
+17/11/11 22:54:24 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 22:54:24 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:54:24 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:54:24 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 22:54:24 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 22:54:24 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 22:54:24 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 22:54:24 INFO Executor: Told to re-register on heartbeat
+17/11/11 22:54:24 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 22:54:24 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:54:24 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:54:24 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 22:54:24 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 22:54:24 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 22:54:24 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 22:59:48 INFO Executor: Told to re-register on heartbeat
+17/11/11 22:59:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 22:59:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:59:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:59:48 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 22:59:48 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 22:59:48 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 22:59:48 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 22:59:48 INFO Executor: Told to re-register on heartbeat
+17/11/11 22:59:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 22:59:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:59:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:59:48 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 22:59:48 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 22:59:48 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 22:59:48 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 22:59:58 INFO Executor: Told to re-register on heartbeat
+17/11/11 22:59:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 22:59:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:59:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 22:59:58 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 22:59:58 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 22:59:58 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 22:59:58 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 23:49:06 INFO Executor: Told to re-register on heartbeat
+17/11/11 23:49:06 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 23:49:06 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 23:49:06 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 23:49:06 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 23:49:06 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 23:49:06 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 23:49:06 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
+17/11/11 23:49:11 INFO Executor: Told to re-register on heartbeat
+17/11/11 23:49:11 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None) re-registering with master
+17/11/11 23:49:11 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 23:49:11 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 61822, None)
+17/11/11 23:49:11 INFO BlockManager: Reporting 4 blocks to the master.
+17/11/11 23:49:11 INFO BlockManagerInfo: Added rdd_31_0 in memory on 127.0.0.1:61822 (size: 397.6 KB, free: 363.7 MB)
+17/11/11 23:49:11 INFO BlockManagerInfo: Added rdd_10_0 in memory on 127.0.0.1:61822 (size: 2.2 MB, free: 363.7 MB)
+17/11/11 23:49:11 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 127.0.0.1:61822 (size: 23.7 KB, free: 363.7 MB)
