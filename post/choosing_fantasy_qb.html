@@ -162,7 +162,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    12 min read
+    13 min read
   </span>
   
 
@@ -246,14 +246,15 @@
         <p><img src="images/mariota.jpg" width="800px" height="800px" /></p>
 <div id="overview" class="section level3">
 <h3>Overview</h3>
-<p>I’ll introduce the idea of using the Beta Distribution to determine your weekly starter in the context of my 2015 Fantasy Football season. At the outset of that season, I drafted two quarterbacks: Joe Flacco and Marcus Mariota (it was a tough draft). Flacco had been in the NFL for a few years, while Mariota was still a rookie yet to play a game. I was also considering a separate rookie, Jameis Winston, who was available to pick up any time during the season off the waiver wire. Throughout the season, I was faced with the following questions:</p>
+<p>Understanding a new concept is all about connecting it with something you already know. I don’t know much, but I do know Fantasy Football. Thus, when I come across new concepts, I often think to myself, “How can I use this information to beat my friend Steve in Fantasy Football”? This very question was the impetus for putting these words and figures together in a post, which will introduce the idea of using the Beta Distribution to determine your weekly starter. I’ll explain this approach in the context of my 2015 Fantasy Football season.</p>
+<p>At the outset of that season, I drafted two quarterbacks: Joe Flacco and Marcus Mariota (it was a rough draft). Flacco had been in the NFL for a few years, while Mariota was still a rookie yet to play a game. I was also considering a separate rookie, Jameis Winston, who was available to pick up anytime during the season off the waiver wire. Throughout the season, I was faced with the following questions:</p>
 <ul>
 <li><strong>Who do I make the starting QB?</strong></li>
 <li><strong>If one QB is performing poorly, when is the right time to make the switch (e.g., Flacco -&gt; Mariota; Flacco -&gt; Winston; Mariota -&gt; Winston)?</strong></li>
 </ul>
 <p>This question is faced by NFL coaches and fantasy owners alike. If your QB has a few bad weeks, should you continue with them into the next week, replace them with the 2nd string QB, or sign a free agent to your team mid-season?</p>
-<p>Before getting into the technical details, let’s first define what “Success” looks like for a Fantasy Football QB. Success can be defined in one word: Consistency. A QB that throws three touchdowns (TDs) every game for the first six games of the season (18 total) is better than a QB who throws five TDs for the first three games and then one TD during the next three games, despite having thrown the same number of TDs. Simply put - you want consistent, reliable performance every week. It doesn’t matter if you win by one point or 50 points – a win is a win. Thus, I evaluate my QB’s performance on the following criteria: A “successful” performance is defined as <strong>3 or more touchdowns AND/OR 300 or more yards</strong> for a given week. Touchdowns and passing yards are the two primary sources of QB fantasy points, and a +3TD|300yard weekly statline should cement a QB amongst that week’s top performers. Failing to meet either of these criteria was defined as an “unsuccessful” performance. Note that this label could also factor in interceptions, pass completions, and fumble, but we’ll keep it simple and just focus on passing yards and passing touchdowns.</p>
-<p>Having defined the evaluation criteria, the data generating process was modeled via the beta distribution. Recall that the beta distribution defines a distribution of probabilities, and we’re interested in the probability of our QB having a “successful” week. There are several years of performance history on Joe Flacco, so we can provide a reasonably informed estimate of his weekly probabilty for achieving success (i.e., our prior). In contrast, there is no NFL game history on Mariota or Winston, so we’ll assign each a uniform or uninformative prior. Our estimate of the “success” parameter for Winston and Mariota will change rapidly as we acquire in-season data, because our posterior is determined entirely from the data. We could create a more informed-–and stronger-–prior by assigning Mariota and Winston the historic first year league average for all rookie QBs entering the NFL but we’ll keep it simple. A uniform prior in this case means that all probabilities from 0-1 are equally likely.</p>
+<p>Before getting into the technical details, let’s first define what “Success” looks like for a Fantasy Football QB. Success can be defined in one word: Consistency. A QB that throws three touchdowns (TDs) every game for the first six games of the season (18 total) is better than a QB who throws five TDs for the first three games and then one TD during the next three games, despite having thrown the same number of TDs. Simply put - you want consistent, reliable performance every week. It doesn’t matter if you win by one point or 50 points – a win is a win. Thus, I evaluate my QB’s performance on the following criteria: A “Successful” performance is defined as <strong>3 or more touchdowns AND/OR 300 or more yards</strong> for a given week. Touchdowns and passing yards are the two primary sources of QB fantasy points, and a +3TD|300yard weekly statline should cement a QB amongst that week’s top performers. Failing to meet either of these criteria was defined as an “Unsuccessful” performance. Note that this label could also factor in interceptions, pass completions, and fumble, but we’ll keep it simple and just focus on passing yards and passing touchdowns.</p>
+<p>Having defined the evaluation criteria, the data generating process was modeled via the beta distribution. Recall that the beta distribution defines a distribution of probabilities, and we’re interested in the probability of our QB having a Successful week. There are several years of performance history on Joe Flacco, so we can provide a reasonably informed estimate of his weekly probabilty for achieving success (i.e., our prior). In contrast, there is no NFL game history on Mariota or Winston, so we’ll assign each a uniform or uninformative prior. Our estimate of the Success parameter for Winston and Mariota will change rapidly as we acquire in-season data because our posterior is determined entirely from the data. We could create a more informed-–and stronger-–prior by assigning Mariota and Winston the historic first-year league average for all rookie QBs entering the NFL but we’ll keep it simple. A uniform prior means that all probabilities from 0-1 are equally likely.</p>
 </div>
 <div id="collecting-qb-data" class="section level3">
 <h3>Collecting QB Data</h3>
@@ -885,7 +886,7 @@ players_list[[&#39;Jameis Winston&#39;]] = c(mariota_alpha, mariota_beta)</code>
     }
     return(players_list)
 }</code></pre>
-<p>We’ll also calculate the density for each player’s distribution for every value from 0 - 1. This indicates the likelihood of each player achieving success for a given week. For example, a mean of 0.4 would indicate that there’s a 40 percent chance that, after accounting for historical performance, a QB will throw +3TDs|300yards in the following week. We aren’t considering the uncertainty surrounding the estimate of our mean yet, but we’ll tackle that issue in a second. The <code>format_posterior</code> function below will help transform the data into a format amenable for plotting.</p>
+<p>We’ll also calculate the density of each player’s distribution for every value from 0 - 1. This indicates the likelihood of each player achieving success for a given week. For example, a mean of 0.4 would indicate that there’s a 40 percent chance that, after accounting for historical performance, a QB will throw +3TDs|300yards in the following week. We aren’t considering the uncertainty surrounding the estimate of our mean yet, but we’ll tackle that issue in a second. The <code>format_posterior</code> function below will help transform the data into a format amenable to plotting.</p>
 <pre class="r"><code>format_posterior = function(players_list){
     posterior = lapply(players_list, function(x) dbeta(seq(0, 
                                                            1, 
@@ -947,7 +948,7 @@ beta_evolution_df = beta_evolution_df %&gt;%
 </div>
 <div id="decisions-based-on-the-upper-confidence-bound" class="section level3">
 <h3>Decisions based on the Upper Confidence Bound</h3>
-<p>The Upper Confidence Bound algorithm is one way to make decisions in the face of uncertainty, in this case which quarterback to fire up in our lineup each week. The idea is to choose the option with the greatest potential for a favorable outcome, even if our estimate of the probability of that outcome is uncertain (see <a href="http://banditalgs.com/2016/09/18/the-upper-confidence-bound-algorithm/">here</a> for more detail). We’ll calculate a 90% credible interval for our beta parameter each week. A credible interval is like a confidence interval, but it’s interpretation is a bit different and, in my opinion, easier to understand. In the current context, a 90% credible interval is the range of values in which we are 90% certain that the probability of weekly success falls based on the data we have thus far (see <a href="http://www.john-uebersax.com/stat312/17%20Credible%20Intervals%20and%20Confidence%20Intervals.pdf">here</a> for an excellent explanation on the distinction between confidence and credible intervals).</p>
+<p>The Upper Confidence Bound algorithm is one way to make decisions in the face of uncertainty, in this case, which quarterback to fire up in our lineup each week. The idea is to choose the option with the greatest potential for a favorable outcome, even if our estimate of the probability of that outcome is uncertain (see <a href="http://banditalgs.com/2016/09/18/the-upper-confidence-bound-algorithm/">here</a> for more detail). We’ll calculate a 90% credible interval for our beta parameter each week. A credible interval is like a confidence interval, but the interpretation is a bit different and, in my opinion, easier to understand. In the current context, a 90% credible interval is the range of values in which we are 90% certain that the probability of weekly success falls based on the data we have thus far (see <a href="http://www.john-uebersax.com/stat312/17%20Credible%20Intervals%20and%20Confidence%20Intervals.pdf">here</a> for an excellent explanation on the distinction between confidence and credible intervals).</p>
 <p>Taking these concepts together, we’ll choose the QB in Week 2 with the highest upper bound on their credible interval. I’ll also include an additional five weeks to show how the interval evolves as we obtain more information.</p>
 <pre class="r"><code>credible_intervals = data.frame(NULL)
 for(week in 2:length(players_list_reference)){
@@ -983,7 +984,7 @@ for(week in 2:length(players_list_reference)){
         legend.title = element_blank())</code></pre>
 <p><img src="/post/choosing_fantasy_qb_files/figure-html/unnamed-chunk-12-1.png" width="960" /></p>
 <p>Mariota has the largest upper bound for his credible interval, so we should start Mariota during Week 2 and continue starting him as a quarterback until another QB’s upper bound is greater than his. Note also that Flacco’s interval is both narrower and remains relatively unchanged over the six week period. This is because we have a lot more information on Flacco going into the season – that is, our prior is a lot stronger! A few successful or unsuccessful games during the season wont shift Flacco’s interval much. We already have two seasons worth of data indicating that Flacco’s probability of success hovers somewhere around 30% but is likely not higher than 40% or lower than 20%. In contrast, Marriota’s credible interval changes rapidly from one week to the next. By Week 7, Mariota’s interval drifts toward a more reasonable range (0.15 - 0.70), a process known formally as shrinkage.</p>
-<p>The Upper Bound approach is an easy way to choose a QB. But what if we wanted a specific estimate of the probability that one QB was “better” than the other? For that question we’ll turn to simulation.</p>
+<p>The Upper Bound approach is an easy way to choose a QB. But what if we wanted a specific estimate of the probability that one QB was “better” than the other? For that question, we’ll turn to simulation.</p>
 </div>
 <div id="decisions-based-on-simulation" class="section level3">
 <h3>Decisions Based on Simulation</h3>
@@ -1029,7 +1030,7 @@ simulated_outcome = simulate_weeks(player_1,
     theme(legend.title=element_blank()) + 
     scale_x_continuous(breaks = seq(1, 16))</code></pre>
 <p><img src="/post/choosing_fantasy_qb_files/figure-html/unnamed-chunk-15-1.png" width="960" /></p>
-<p>From Week 2 there is an ~80% chance that Mariota is the better choice relative to Flacco. By Week 7 there is ~75% chance, and by Week 12 there is a ~79% chance. If someone asked you at the end of the season who was the better quarterback, you could say with about 75% certainty that Mariota was better than Flacco, according to the criteria defined here.</p>
+<p>From Week 2 there is a ~80% chance that Mariota is the better choice relative to Flacco. By Week 7 there is ~75% chance, and by Week 12 there is a ~79% chance. If someone asked you at the end of the season who was the better quarterback, you could say with about 75% certainty that Mariota was better than Flacco, according to the criteria defined here.</p>
 </div>
 <div id="key-takeaways" class="section level3">
 <h3>Key Takeaways</h3>
@@ -1067,6 +1068,8 @@ simulated_outcome = simulate_weeks(player_1,
   <h3>Related</h3>
   <ul>
     
+    <li><a href="/post/combine_analysis.html">Combine Analysis</a></li>
+    
     <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
     
     <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
@@ -1074,8 +1077,6 @@ simulated_outcome = simulate_weeks(player_1,
     <li><a href="/post/two_flavors_of_parallel_simulation.html">Two Flavors of Parallel Simulation</a></li>
     
     <li><a href="/post/feature_selection_wine.html">Feature Selection for the Wine Connoisseur</a></li>
-    
-    <li><a href="/post/counterfactual_prediction.html">Establishing Causality with Counterfactual Prediction</a></li>
     
   </ul>
 </div>

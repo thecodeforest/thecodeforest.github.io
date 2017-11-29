@@ -246,9 +246,9 @@
         <p><img src="early_trend_detection_images/stock_exchange.jpg" width="800px" height="800px" /></p>
 <div id="overview" class="section level3">
 <h3>Overview</h3>
-<p>Trend detection is way to to anticipate where something will go in the future. The logic underlying the inference is simple: Are there patterns of activity that precede an upward or downward trend? For example, a fashion trend might start in a big city like New York, London, or Paris. The emergence of the trend might then occur at a later date in smaller nearby cities. Thus, if you were charged with anticipating future demand for the trending product, you could use the early signal from the big cities to anticipate demand in the smaller cities. This information could inform everything from design to demand planning (i.e., getting the right amount of product in the right place). This is often referred to as a <strong>leading indicator</strong>.</p>
+<p>Trend detection is way to anticipate where something will go in the future. The logic underlying the inference is simple: Are there patterns of activity that precede an upward or downward trend? For example, a fashion trend might start in a big city like New York, London, or Paris. The emergence of the trend might then occur at a later date in smaller nearby cities. Thus, if you were charged with anticipating future demand for the trending product, you could use the early signal from the big cities to anticipate demand in the smaller cities. This information could inform everything from design to demand planning (i.e., getting the right amount of product in the right place). This is often referred to as a <strong>leading indicator</strong>.</p>
 <p>For this approach to be effective, there has to be a “common way” in which a something trends. Maybe it’s a gradual increase over the first five days, followed by a rapid increase over the next 10 days. Or maybe you just need the first three days to make an accurate prediction of a positive trend when the change in demand is very rapid. There are many ways in which something can trend, but the pattern of demand, tweets, views, purchases, likes, etc. for a positive trend has to be different from a negative or flat trend.</p>
-<p>This post outlines one approach to seperate the signatures associated with different types of trends. We’ll use stock data from Fortune 500 companies as our analytical dataset to predict if a stock’s price will trend positively based on its closing price over the first 30 days in Jan/Feb of 2015? Before jumping into the example, though, I’ll briefly introduce the technique with a smaller dataset.</p>
+<p>This post outlines one approach to separate the signatures associated with different types of trends. We’ll use stock data from Fortune 500 companies as our analytical dataset to predict if a stock’s price will trend positively based on its closing price over the first 30 days in Jan/Feb of 2015? Before jumping into the example, though, I’ll briefly introduce the technique with a smaller dataset.</p>
 </div>
 <div id="non-parametric-trend-detection" class="section level3">
 <h3>Non-Parametric Trend Detection</h3>
@@ -322,7 +322,7 @@ for(temp_trend in unique(trend_patterns$class)){
 trend_patterns_ex = bind_rows(trend_patterns, 
                               trend_patterns_future) %&gt;% 
                               arrange(class, date)</code></pre>
-<p>And finally we’ll set up our plotting function and plot the five positive and five negative trends. Additionally, we’ll look at the first 50 days to see if there is a pattern associated with positive/negative trends. The gray shaded area indicates the point at which we make our prediction regarding where we think the stock will go.</p>
+<p>And finally, we’ll set up our plotting function and plot the five positive and five negative trends. Additionally, we’ll look at the first 50 days to see if there is a pattern associated with positive/negative trends. The gray shaded area indicates the point at which we make our prediction regarding where we think the stock will go.</p>
 <pre class="r"><code>my_plot_theme = function(){
     font_family = &quot;Helvetica&quot;
     font_face = &quot;bold&quot;
@@ -575,10 +575,10 @@ positive_5
 <h3>Predicting Stocks</h3>
 <p>We are trying to answer the following question:</p>
 <ul>
-<li><strong>Is there a pattern of daily closing prices that comes before a ~90 day increase in the price of a stock?</strong></li>
+<li><strong>Is there a pattern of daily closing prices that comes before a ~90-day increase in the price of a stock?</strong></li>
 </ul>
-<p>For example, maybe a small increase in the first 60 days is often followed by a big 60 day upward climb. Or maybe stocks that gradually dip for a period of 60 days are more likely to rebound over the subsequent 60 days. In essence, are there a collection of 60 day patterns that come before an upward trend in a stock’s price? Trying to formalize such patterns with a set of parameters is difficult, given the variety of patterns that could be associated with a positive trend. This is why we are using the approach outlined above and letting the data decide.</p>
-<p>We’ll begin by scraping the names of all Fortune 500 companies from Wikipedia, and then pull the actual closing prices for each compnay via the <code>BatchGetSymbols</code> package. This will take a few minutes.</p>
+<p>For example, maybe a small increase in the first 60 days is often followed by a big 60-day upward climb. Or maybe stocks that gradually dip for a period of 60 days are more likely to rebound over the subsequent 60 days. In essence, are there a collection of 60-day patterns that come before an upward trend in a stock’s price? Trying to formalize such patterns with a set of parameters is difficult, given the variety of patterns that could be associated with a positive trend. This is why we are using the approach outlined above and letting the data decide.</p>
+<p>We’ll begin by scraping the names of all Fortune 500 companies from Wikipedia, and then pull the actual closing prices for each company via the <code>BatchGetSymbols</code> package. This will take a few minutes.</p>
 <pre class="r"><code>url = &quot;https://en.wikipedia.org/wiki/List_of_S%26P_500_companies&quot;
 
 # collect fortunue 500 stock symbols
@@ -750,12 +750,12 @@ stocks_train = stock_price %&gt;%
 </div>
 <div id="defining-a-trend" class="section level3">
 <h3>Defining a Trend</h3>
-<p>We could plot out every time series and label them by hand but aint nobody got time for that. Instead, we’ll use two automated approaches:</p>
+<p>We could plot out every time series and label them by hand but <a href="https://www.youtube.com/watch?v=zGxwbhkDjZM">ain’t nobody got time for that</a>. Instead, we’ll use two automated approaches:</p>
 <ul>
 <li><strong>Linear Regression (LR)</strong></li>
 <li><strong>Mann-Kendall test (MK)</strong></li>
 </ul>
-<p>Labels will be generated based on the trend observed from days 60-120, and will be either <strong>positive</strong>, <strong>negative</strong>, or <strong>neutral</strong>. We are interested in whether the coefficient for this index is significant as well as its overall direction. For example, if a stock exhibits a significant positive trend, then it will be labeled positive; if a stock exhibits random variation, then it will be labeled neutral. LR takes the average slope, while the MK approach takes the median slope. Note that we might be violating the assumption that our data points are uncorrelated with one another. There are ways around this (e.g., block bootstrapping), but for the sake of simplicity we’ll assume an absence of serial correlation. Let’s run both tests and gather the results.</p>
+<p>Labels will be generated based on the trend observed from days 60-120 and will be either <strong>positive</strong>, <strong>negative</strong>, or <strong>neutral</strong>. We are interested in whether the coefficient for this index is significant as well as its overall direction. For example, if a stock exhibits a significant positive trend, then it will be labeled positive; if a stock exhibits random variation, then it will be labeled neutral. LR takes the average slope, while the MK approach takes the median slope. Note that we might be violating the assumption that our data points are uncorrelated with one another. There are ways around this (e.g., block bootstrapping), but for the sake of simplicity, we’ll assume an absence of serial correlation. Let’s run both tests and gather the results.</p>
 <pre class="r"><code># use mann-kendall to determine class 
 mk_class = stocks_train %&gt;% 
               filter(label == &quot;trend_dates&quot;) %&gt;% 
@@ -934,8 +934,8 @@ ggplot(aes(x = ref_date, y = price_close)) +
       ylab(&quot;Closing Price&quot;) + 
       xlab(&quot;Date&quot;)</code></pre>
 <p><img src="/post/early_trend_detection_files/figure-html/unnamed-chunk-17-1.png" width="960" /></p>
-<p>The price for this stock goes up but then trends downward. The LR indicates a positive trend while the MK test indicates a neutral trend. The LR is taking the average, and the average is positive overall, given that the stock showed big gains in June and July. In contrast, the MK tests whether there is a monotonically increasing or decreasing trend over time. It is considering the ratio of positve and negative differences across time. Since we went up and then back down, there will be a similiar number of positive/negative differences, hence the neutral classification.</p>
-<p>Let’s consider a seperate example.</p>
+<p>The price for this stock goes up but then trends downward. The LR indicates a positive trend while the MK test indicates a neutral trend. The LR is taking the average, and the average is positive overall, given that the stock showed big gains in June and July. In contrast, the MK tests whether there is a monotonically increasing or decreasing trend over time. It is considering the ratio of positive and negative differences across time. Since we went up and then back down, there will be a similar number of positive/negative differences, hence the neutral classification.</p>
+<p>Let’s consider a separate example.</p>
 <pre class="r"><code>stocks_train %&gt;% 
 filter(ticker == &#39;NI&#39; &amp; label == &#39;trend_dates&#39;) %&gt;% 
 mutate(ref_date = as.Date(ref_date)) %&gt;% 
@@ -947,15 +947,15 @@ ggplot(aes(x = ref_date, y = price_close)) +
       ylab(&quot;Closing Price&quot;) + 
       xlab(&quot;Date&quot;)</code></pre>
 <p><img src="/post/early_trend_detection_files/figure-html/unnamed-chunk-18-1.png" width="960" /></p>
-<p>This time series produced the exact oppositive pattern: The MK test classified the trend as neutral, while the LR produced a negative classification. The stock trended slightly upward for most of the time-period, and then crashed the last few days in July. Those final few points have a lot of leverage on the coefficient in the linear model, while the MK test is relatively unaffected. In this case I’d say it’s a negatively trending stock, but arguments for either classification could be made.</p>
-<p>Stocks such as these are why we are evaluating two seperate viewpoints. We want to ensure that the trend is somewhat definitive. If there is disagreement amongst the methods, we are going to assign a stock the “neutral” label. In a more formal analytical setting, we would spend more time testing whether this labeling approach is valid. However, for the sake of illustration, we’re going to use a simple, heuristic based approach, such that any classification disagreements amongst the two methods will result in a neutral classification. Let’s update all of the instances where a disagreement occurred, and then filter out all of the neutral cases.</p>
+<p>This time series produced the exact oppositive pattern: The MK test classified the trend as neutral, while the LR produced a negative classification. The stock trended slightly upward for most of the time-period and then crashed the last few days in July. Those final few points have a lot of leverage on the coefficient in the linear model, while the MK test is relatively unaffected. In this case, I’d say it’s a negatively trending stock, but arguments for either classification could be made.</p>
+<p>Stocks such as these are why we are evaluating two separate viewpoints. We want to ensure that the trend is somewhat definitive. If there is disagreement amongst the methods, we are going to assign a stock the “neutral” label. In a more formal analytical setting, we would spend more time testing whether this labeling approach is valid. However, for the sake of illustration, we’re going to use a simple, heuristic-based approach, such that any classification disagreements amongst the two methods will result in a neutral classification. Let’s update all of the instances where a disagreement occurred, and then filter out all of the neutral cases.</p>
 <pre class="r"><code>trend_class = trend_class %&gt;% 
               mutate(trend_class = ifelse(trend_class_mk != trend_class_lm, 
                                          &quot;neutral&quot;,
                                          trend_class_mk)) %&gt;% 
               select(ticker, trend_class) %&gt;% 
               filter(trend_class != &quot;neutral&quot;)</code></pre>
-<p>Finally let’s examine the distribution of our classes.</p>
+<p>Finally, let’s examine the distribution of our classes.</p>
 <pre class="r"><code>print(table(trend_class$trend_class))
 print(&quot;----------------------------------&quot;)
 print(paste0(&quot;PERCENT OF STOCKS POSITIVE: &quot;,
@@ -1059,7 +1059,7 @@ stocks_test = BatchGetSymbols(tickers = test_stocks,
 ## Downloading Data for CVX from yahoo (47|49) - Got it!
 ## Downloading Data for GE from yahoo (48|49) - Good job!
 ## Downloading Data for KO from yahoo (49|49) - Got it!</code></pre>
-<p>Next we’ll union our test and training datasets together. We’ll also change the time-stamps in our testing data set, despite the fact that our training data is from 2015 and our testing data is from 2016.</p>
+<p>Now let’s union our test and training datasets together. We’ll also change the time-stamps in our testing data set, despite the fact that our training data is from 2015 and our testing data is from 2016.</p>
 <pre class="r"><code>stocks_train_match = stocks_train %&gt;% 
   inner_join(trend_class) %&gt;% 
   filter(ref_date %in% input_dates)
@@ -1076,7 +1076,7 @@ matching_df = bind_rows(stocks_train_match,
                         stocks_test_match
                         ) %&gt;% 
               mutate(ref_date = as.Date(ref_date))</code></pre>
-<p>We are going to initially set K to 10. The reason why we’re using such a high number is that some of the test stocks will match with other test stocks. Obviously these wont have labels, so we only want to consider matches with training stocks. This section will take a few minutes to run.</p>
+<p>We are going to initially set K to 10. The reason why we’re using such a high number is that some of the test stocks will match with other test stocks. Obviously, these won’t have labels, so we only want to consider matches with training stocks. This section will take a few minutes to run.</p>
 <pre class="r"><code>max_matches = 10
 best_match_df = best_matches(data = matching_df,
                              id_variable = &quot;ticker&quot;,
@@ -1087,7 +1087,7 @@ best_match_df = best_matches(data = matching_df,
                              matches = max_matches,
                              start_match_period = min(matching_df$ref_date),
                              end_match_period = max(matching_df$ref_date))</code></pre>
-<p>Next we’ll remove any matches that appeared in the test set and filter only to those stocks we are trying to predict.</p>
+<p>Next, we’ll remove any matches that appeared in the test set and filter only to those stocks we are trying to predict.</p>
 <pre class="r"><code>n_matches = 5
 test_matches = best_match_df$BestMatches %&gt;% 
                filter(ticker %in% stocks_test$ticker) %&gt;% 
@@ -1490,7 +1490,7 @@ trend_class_actual = inner_join(mk_class,
 
 print(paste0(&quot;PERCENT OF STOCKS CORRECTLY CLASSIFIED: &quot;,classification_accuracy, &quot;%&quot;))</code></pre>
 <pre><code>## [1] &quot;PERCENT OF STOCKS CORRECTLY CLASSIFIED: 25%&quot;</code></pre>
-<p>An accuracy rate of 30% is no better than chance of we assume an equivalent distribution of positive, negative, and flat trends. However, this approach for evaluating performance doesn’t account for how much of an increase/decrease occured. It also doesn’t provide any insight on the overall percentage of stocks that trended upward or downward. Indeed, many stocks trended positively during this time period, so the overall classification accuracy wasn’t so hot. In short we would’ve missed out on a lot of stocks that did quite well, and here are a few reasons why:</p>
+<p>An accuracy rate of 30% is no better than chance if we assume an equivalent distribution of positive, negative, and flat trends. However, this approach for evaluating performance doesn’t account for how much of an increase/decrease occurred It also doesn’t provide any insight into the overall percentage of stocks that trended upward or downward. Indeed, many stocks trended positively during this time period, so the overall classification accuracy wasn’t so hot. We would’ve missed out on a lot of stocks that did quite well, and here are a few reasons why:</p>
 <ul>
 <li><strong>A time-period of 60 days was too short</strong></li>
 <li><strong>The dynamics that lead to trends in our training set were different than those in our test set</strong></li>
@@ -1498,7 +1498,7 @@ print(paste0(&quot;PERCENT OF STOCKS CORRECTLY CLASSIFIED: &quot;,classification
 <li><strong>K was too high/low</strong></li>
 <li><strong>This approach just doesn’t work with stock data</strong></li>
 </ul>
-<p>Indeed, that last point is crucial. There are some things in life that are really hard to predict, as the number of factors that influence the thing we are trying to predict are too great. This is one advantage of using a non-parametric approach, in that you don’t have to quantify each of the factors with a parameter – you just let the data decide. However, the assumption that past patterns and relationships will persist in the future still holds. In our case, if the patterns that precede a positive trend in the past are different than those in the future, then you can’t use historical data (like we did here) as a basis for predictions. This assumption is hotly contested in the world of economics when it comes to predicting stocks. Some believe there are cyclical patterns that precede a downward or upward trend in price, while others believe that the stock market is simply a random walk – it cannot be predicted. Any forward looking knowledge about where a stock might go is already baked into its current price. I don’t have the answer; if I did, I’d start a hedge fund, make lots of money, then buy my own soft-serve ice cream machine. I’m pretty sure that’s what we’d all do.</p>
+<p>Indeed, that last point is crucial. There are some things in life that are really hard to predict, as the number of factors that influence the thing we are trying to predict are too great. This is one advantage of using a non-parametric approach, in that you don’t have to quantify each of the factors with a parameter – you just let the data decide. However, the assumption that past patterns and relationships will persist in the future still holds. In our case, if the patterns that precede a positive trend in the past are different than those in the future, then you can’t use historical data (like we did here) as a basis for predictions. This assumption is hotly contested in the world of economics when it comes to predicting stocks. Some believe there are cyclical patterns that precede a downward or upward trend in price, while others believe that the stock market is simply a random walk – it cannot be predicted. Any forward-looking knowledge about where a stock might go is already baked into its current price. I don’t have the answer; if I did, I’d start a hedge fund, make lots of money, then buy my own soft-serve ice cream machine. I’m pretty sure that’s what we’d all do.</p>
 <p>Although the method outlined here didn’t perform well in predicting stocks, similar methods have shown promise detecting trends in other areas, such as social media (see <a href="https://snikolov.wordpress.com/2012/11/14/early-detection-of-twitter-trends/">here</a>). I hope you enjoyed reading this post. If you have any suggestions for alternate approaches to trend detection, I’d love to hear!</p>
 </div>
 
@@ -1533,7 +1533,7 @@ print(paste0(&quot;PERCENT OF STOCKS CORRECTLY CLASSIFIED: &quot;,classification
   <h3>Related</h3>
   <ul>
     
-    <li><a href="/post/prediction_intervals.html">Is that Home Price Negotiable?</a></li>
+    <li><a href="/post/is_that_home_price_negotiable.html">Is that Home Price Negotiable?</a></li>
     
   </ul>
 </div>

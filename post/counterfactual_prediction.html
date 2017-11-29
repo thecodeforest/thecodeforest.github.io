@@ -249,20 +249,20 @@
         <p><img src="images/australia.gif" width="800px" height="800px" /></p>
 <div id="overview" class="section level3">
 <h3>Overview</h3>
-<p>Businesses have several “levers” they can pull to boost sales. For example, a series of advertisements might be shown in a city or region with the hopes of increasing sales for the advertised product. Ideally the cost associated with the advertisement would be outstripped by the expected increase in sales, visits, conversion, or whatever KPI (key performance indicator) the business hopes to drive. But how do you capture the ROI of the advertisement? In a parallel universe, where all experiments are possible, we would create two copies of the same city, run the advertisement in one of them, track our metric of interest over the same time period, and then compare the difference between the two cities. All potential confounding variables, such as differences in seasonal variation, viewership rates, or buying preference, would be controlled. Thus, any difference (lift) in our KPI could be attributed to the intervention.</p>
+<p>Businesses have several “levers” they can pull to boost sales. For example, a series of advertisements might be shown in a city or region with the hopes of increasing sales for the advertised product. Ideally, the cost associated with the advertisement would be outstripped by the expected increase in sales, visits, conversion, or whatever KPI (key performance indicator) the business hopes to drive. But how do you capture the ROI of the advertisement? In a parallel universe, where all experiments are possible (and unicorns roam the land), we would create two copies of the same city, run the advertisement in one of them, track our metric of interest over the same time period, and then compare the difference between the two cities. All potential confounding variables, such as differences in seasonal variation, viewership rates, or buying preference, would be controlled. Thus, any difference (lift) in our KPI could be attributed to the intervention.</p>
 </div>
 <div id="souvenir-sales-australia-and-wacky-inflatable-tube-men" class="section level3">
 <h3>Souvenir Sales, Australia, and Wacky Inflatable Tube Men</h3>
 <p>We can’t clone cities, but there is a way to statistically emulate the above situation. This post provides a general overview of how to generate a <strong>counterfactual prediction</strong>, which is a way to quantify what would’ve happened had we never run the advertisement, event, or intervention.</p>
 <p>Incremental Sales, ROI, KPIs, Lift – these terms are somewhat abstract. Australia, Souvenirs, Wacky- Inflatable-Tube-Men (WITM for short) – that all seems pretty straight-forward. So imagine you run a souvenir shop near the beach in Australia and you’re looking for ways to attract additional foot traffic and (hopefully) increase sales. You decide to purchase this guy below, hoping it will draw attention to your store, increase foot traffic, and produce more souvenir sales.</p>
 <p><img src="counterfactual_prediction_images/wacky_inflatable_man.jpg" width="800px" height="800px" /></p>
-<p>Being a savvy business owner, you’re interested in the effect of your new WITM on sales. Does having this form of advertisement drive sales beyond what would’ve happened in the absence of any WITM? You look to the other six souvenir shops in separate parts of town to answer this question. The other souvenir shops will serve as a control group because they don’t have a WITM. Additionally, the other shops are located far enough away from your shop so there is no way for their sales to be affected by your WITM (this is a critical assumption that in real-world contexts should be verified). After accounting for base-line differences in sales between your shop and the control shops, you build a forecast – or counterfactual prediction – premised on what would’ve happened in your shop had the WITM intervention never taken place. This prediction will then serve as the baseline from which to compare what happened to sales.</p>
+<p>Being a savvy business owner, you’re interested in the effect of your new WITM on sales. Does having this form of advertisement drive sales beyond what would’ve happened in the absence of any WITM? You look to the other six souvenir shops in separate parts of town to answer this question. The other souvenir shops will serve as a control group because they don’t have a WITM. Additionally, the other shops are located far enough away from your shop so there is no way for their sales to be affected by your WITM (this is a critical assumption that in real-world contexts should be verified). After accounting for baseline differences in sales between your shop and the control shops, you build a forecast – or counterfactual prediction – premised on what would’ve happened in your shop had the WITM intervention never taken place. This prediction will then serve as the baseline from which to compare what happened to sales.</p>
 <p>In short, you (the shop owner) are faced with two tasks:</p>
 <ul>
 <li><strong>Identifying which of control shop(s) are most like your shop</strong></li>
 <li><strong>Generating the counterfactual prediction</strong></li>
 </ul>
-<p>I’ll go through each of these steps at a high level, just to give you a general idea of logic underlying the process. For an excellent, more in-depth explanation of the technical details check out this <a href="http://multithreaded.stitchfix.com/blog/2016/01/13/market-watch/">post</a> by the author of the <code>MarketMatching</code> package, which we will leverage to address both tasks.</p>
+<p>I’ll go through each of these steps at a high level, just to give you a general idea of the logic underlying the process. For an excellent, more in-depth explanation of the technical details check out this <a href="http://multithreaded.stitchfix.com/blog/2016/01/13/market-watch/">post</a> by the author of the <code>MarketMatching</code> package, which we will leverage to address both tasks.</p>
 </div>
 <div id="creating-the-synthetic-data-set" class="section level3">
 <h3>Creating the Synthetic Data Set</h3>
@@ -279,7 +279,7 @@ souvenir = fread(&quot;https://robjhyndman.com/tsdldata/data/fancy.dat&quot;,
                  data.table = FALSE) %&gt;% 
            rename(sales = V1) %&gt;% 
            mutate(date = seq(starting_date, by = &quot;month&quot;, length.out = n()))</code></pre>
-<p>The dataset is total monthly souvenir sales for your shop, starting in January of 1987 and running through December of 1993. Let’s take a high level glance at our time series to see if we need to clean it up.</p>
+<p>The dataset is total monthly souvenir sales for your shop, starting in January of 1987 and running through December of 1993. Let’s take a high-level glance at our time series to see if we need to clean it up.</p>
 <pre class="r"><code>my_plot_theme = function(){
     font_family = &quot;Helvetica&quot;
     font_face = &quot;bold&quot;
@@ -309,7 +309,7 @@ ggplot(souvenir, aes(x = date, y = sales)) + geom_point(size = 2) +
 <pre class="r"><code>souvenir_ts = ts(log(souvenir$sales),
                  frequency = 12,
                  start = c(1987, 1))</code></pre>
-<p>Now the seasonal fluctuations are roughly constant across time and can be described with an additive model. Next we’ll generate a 6-month ahead forecast. To simulate the positive effect that the WITM intervention had on sales during the 6-month intervention period, we’ll sample from a normal distribution where the mean is 5% of the forecasted value and the standard deviation is defined by the residuals of the fitted model. Using the residuals from the fitted model will result in a smaller standard deviation than using a holdout set, but to keep things simple we’ll estimate uncertainty based on model residuals.</p>
+<p>Now the seasonal fluctuations are roughly constant across time and can be described with an additive model. Next, we’ll generate a 6-month ahead forecast. To simulate the positive effect that the WITM intervention had on sales during the 6-month intervention period, we’ll sample from a normal distribution where the mean is 5% of the forecasted value and the standard deviation is defined by the residuals of the fitted model. Using the residuals from the fitted model will result in a smaller standard deviation than using a holdout set, but to keep things simple we’ll estimate uncertainty based on model residuals.</p>
 <pre class="r"><code>set.seed(123)
 # define length of intervention
 trial_period_months = 6
@@ -676,10 +676,10 @@ MatchingEndDate
 ## Absolute Effect: 2.62 [1.29, 3.99]
 ## Relative Effect: 4.41% [2.17%, 6.73%]
 ## Probability of a causal impact: 99.8996%</code></pre>
-<p>Let’s breakdown the <strong>Effect Analysis</strong> portion of the output. The <strong>Absolute Effect</strong> indicates a lift of 2.62 in sales over the 6-month intervention period. Given that we’re working with logged units, this isn’t very helpful without transforming it first. The <strong>Relative Effect</strong>, in contrast, provides a standardized view. Recall that we simulated a 5% lift, and in this case we observed an estimated lift of 4.41%. Finally, the Probability of a causal impact indicates that the likelihood of observing this effect by chance is extremely low (e.g., 100 - 99.8). We can see what was just described above in visual format below.</p>
+<p>Let’s break down the <strong>Effect Analysis</strong> portion of the output. The <strong>Absolute Effect</strong> indicates a lift of 2.62 in sales over the 6-month intervention period. Given that we’re working with logged units, this isn’t very helpful without transforming it first. The <strong>Relative Effect</strong>, in contrast, provides a standardized view. Recall that we simulated a 5% lift, and in this case, we observed an estimated lift of 4.41%. Finally, the probability of a causal impact indicates that the likelihood of observing this effect by chance is extremely low (e.g., 100 - 99.8). We can see what was just described above in visual format below.</p>
 <pre class="r"><code>plot(results$PlotActualVersusExpected)</code></pre>
 <p><img src="/post/counterfactual_prediction_files/figure-html/unnamed-chunk-16-1.png" width="960" /></p>
-<p>This drives home that our intervention had a clear effect – and we should promote the WITM to store manager for the excellent work in driving up sales. Hopefully this post gave you a better idea of how to quantify the impact of an intervention. The ability to run a true randomized control study in the real-world is often too expensive or simply not possible. In many cases creating a statistical control group is the best (and cheapest) option available. For more information about the forecasting methodology used produce counterfactual predictions, check out the <a href="https://cran.r-project.org/web/packages/bsts/bsts.pdf">bsts</a> and (CausalImpact)[<a href="https://google.github.io/CausalImpact/CausalImpact.html" class="uri">https://google.github.io/CausalImpact/CausalImpact.html</a>] packages. Happy experimenting!</p>
+<p>This drives home that our intervention had a clear effect – and we should promote the WITM to store manager for the excellent work in driving up sales. Hopefully, this post gave you a better idea of how to quantify the impact of an intervention. The ability to run a randomized experiment in the real-world is often too expensive or simply not possible. In many cases creating a statistical control group is the best (and cheapest) option available. For more information about the forecasting methodology used produce counterfactual predictions, check out the <a href="https://cran.r-project.org/web/packages/bsts/bsts.pdf">bsts</a> and (CausalImpact)[<a href="https://google.github.io/CausalImpact/CausalImpact.html" class="uri">https://google.github.io/CausalImpact/CausalImpact.html</a>] packages. Happy experimenting!</p>
 </div>
 
       </div>
@@ -723,7 +723,7 @@ MatchingEndDate
     
     <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
     
-    <li><a href="/post/prediction_intervals.html">Is that Home Price Negotiable?</a></li>
+    <li><a href="/post/is_that_home_price_negotiable.html">Is that Home Price Negotiable?</a></li>
     
   </ul>
 </div>

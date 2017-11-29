@@ -250,17 +250,17 @@
 
       <div class="article-style" itemprop="articleBody">
         <p><img src="forecasting_with_tom_brady_images/hey_tom.jpg" width="800px" height="800px" /></p>
-<p>Imagine it’s January 1st, 2015 and the New England Patriots made the playoffs yet again 😢. You run a Tom Brady Super Fan website and want to ensure you have enough servers to accommodate traffic to your website during the playoffs. Historically, site traffic during January and February increases when the Patriots win playoff games, so you want a forecast for these months to determine how many people will visit your site.</p>
+<p>Imagine it’s January 1st, 2015 and the New England Patriots made the playoffs yet again 😣. You run a Tom Brady Super Fan website and want to ensure you have enough servers to accommodate traffic to your website during the playoffs. Historically, site traffic during January and February increases when the Patriots win playoff games, so you want a forecast for these months to determine how many people will visit your site.</p>
 <p>You also want to quantify the effect of the number of playoff games won on monthly traffic. For example, what happens if the Patriots win two playoff games instead of one? Finally, you want an estimate of the probability of each of these scenarios unfolding–that is, the chances the Patriot’s winning zero, one, two, or all three playoff games. To address each of these questions, you’ll need the following sources of data:</p>
 <ul>
 <li><strong>Month level internet traffic</strong></li>
 <li><strong>Historical game outcomes</strong></li>
 <li><strong>Historical betting lines</strong></li>
 </ul>
-<p>I’ll go through process of collecting each data source and then we’ll generate some forecasts!</p>
+<p>I’ll go through the process of collecting each data source and then we’ll generate some forecasts!</p>
 <div id="collecting-month-level-traffic" class="section level3">
 <h3>Collecting Month Level Traffic</h3>
-<p>Let’s start by loading the required libraries and collecting historical page views. The page-view data comes from Wikipedia, which we assume emulates traffic volume to our website. We’ll first pull the data into R via the <code>wp_trend</code> function, and then aggregate daily page views up to the monthly level.</p>
+<p>Let’s start by loading the required libraries and collecting historical page views. The page-view data comes from Wikipedia, which we assume emulates traffic volume on our website. We’ll first pull the data into R via the <code>wp_trend</code> function, and then aggregate daily page views up to the monthly level.</p>
 <pre class="r"><code>libs = c(&#39;wikipediatrend&#39;, &#39;dplyr&#39;, &#39;data.table&#39;, 
          &#39;rvest&#39;, &#39;forecast&#39;, &#39;lubridate&#39;,
          &#39;janitor&#39;,&#39;knitr&#39;, &#39;ggplot2&#39;, 
@@ -519,7 +519,7 @@ page_views
 </tbody>
 </table>
 </div>
-<p>Looks good! One thing to note is that the <code>max_month_date</code> field is simply the last day for that year-month combination. This field will be used for plotting. Next we’ll pull down some actual game data.</p>
+<p>Looks good! One thing to note is that the <code>max_month_date</code> field is simply the last day for that year-month combination. This field will be used for plotting. Next, we’ll pull down some actual game data.</p>
 </div>
 <div id="collecting-historical-game-data" class="section level3">
 <h3>Collecting Historical Game Data</h3>
@@ -711,7 +711,7 @@ W
 <li><strong>A sum of the playoff games played in Jan/Feb</strong></li>
 <li><strong>A sum of the playoff games won in Jan/Feb</strong></li>
 </ul>
-<p>It’s not clear whether simply playing in a playoff game or winning a game drives traffic, so both features will be created. We’ll then test to determine which corresponds more closely with web traffic.</p>
+<p>It’s not clear whether simply playing in a playoff game or winning a game drives traffic, so both features will be created. We’ll then test to determine which corresponds more closely to web traffic.</p>
 <pre class="r"><code>playoff_data = game_data %&gt;% 
                mutate(date = as.Date(as.character(date), format = &#39;%Y%m%d&#39;),
                       outcome = ifelse(outcome == &quot;W&quot;, 1, 0)) %&gt;% 
@@ -961,7 +961,7 @@ accuracy_df %&gt;%
 </div>
 <div id="collecting-betting-lines" class="section level3">
 <h3>Collecting Betting Lines</h3>
-<p>To help us make an informed decision about the number of games the Patriots will win during the playoffs, we can leverage historical NFL betting lines. If you aren’t familiar with a betting lines, it’s a way for odds-makers to encourage an equal number bets for both teams playing in a game.</p>
+<p>To help us make an informed decision about the number of games the Patriots will win during the playoffs, we can leverage historical NFL betting lines. If you aren’t familiar with the concept of a betting line, it’s a way for odds-makers to encourage an equal number bets for both teams playing in a game.</p>
 <p>We’ll again leverage <code>BeautifulSoup</code> and call the <code>collect_betting_line_data.py</code> script from R.</p>
 <pre class="python"><code>import urllib2
 from bs4 import BeautifulSoup
@@ -1337,7 +1337,7 @@ win_pct
 </tbody>
 </table>
 </div>
-<p>The interpretation is really simple: A team favored by 12 points (-12) has historically won ~81.2% of their games; bump that spread up to 17 points and there has never been a team favored by 17 points that has lost. Let’s see what that looks like starting at a zero-point spread, when both teams are perceived by odds-makers to be an equal match.</p>
+<p>The interpretation is really simple: A team favored by 12 points (-12) has historically won ~81.2% of their games; bump that spread up to 17 points and there has never been a team favored by 17 points that lost. Let’s see what that looks like starting at a zero-point spread when both teams are perceived by odds-makers to be an equal match.</p>
 <pre class="r"><code>betting_lines %&gt;% 
   filter(spread &lt;= 0) %&gt;% 
   mutate(win_pct = substring(as.character(win_pct), 1, 
@@ -1366,7 +1366,7 @@ win_pct
   annotate(&quot;rect&quot;, xmin = 18, xmax = 19, ymin = 82, ymax = 84, fill = color_values[4]) + 
   annotate(&quot;text&quot;, label = &quot;Game 3 Spread&quot;, x = 23, y = 83, size = 8, color = color_values[4])</code></pre>
 <p><img src="/post/forecasting_with_tom_brady_files/figure-html/unnamed-chunk-21-1.png" width="960" /></p>
-<p>We only know the spread for Game 1 because we are generating our forecasts at the beginning of January. The Patriots are favored by seven points, and historically teams favored by this amount win ~73% of games. So I’m feeling at least one win. What about two? Here we are going to make an educated guess. We can assume that each subsequent game will be more challenging for the Patriots, so we’ll make a prediction of a five point favorite. Finally, if the Patriots play in the Superbowl, let’s predict they’ll be a three point favorite. If we assume that the outcome of each playoff game is independent of the prior game (which, barring a major injury to a key player, is a reasonable assumption), we can calculate the probability of each of these scenarios unfolding:</p>
+<p>We only know the spread for Game 1 because we are generating our forecasts at the beginning of January. The Patriots are favored by seven points, and historically teams favored by this amount win ~73% of games. So I’m feeling at least one win. What about two? Here we are going to make an educated guess. We can assume that each subsequent game will be more challenging for the Patriots, so we’ll make a prediction of a five-point favorite. Finally, if the Patriots play in the Superbowl, let’s predict they’ll be a three-point favorite. If we assume that the outcome of each playoff game is independent of the prior game (which, barring a major injury to a key player, is a reasonable assumption), we can calculate the probability of each of these scenarios unfolding:</p>
 <p><img src="forecasting_with_tom_brady_images/win_prob.png" width="800px" height="800px" /> There is about a 50% chance the Patriots will win two playoff games, so let’s pick two as our number. Before proceeding to the end result, I’ll briefly discuss how the forecasts are being generated.</p>
 </div>
 <div id="seasonal-arimax-model" class="section level3">
@@ -1398,12 +1398,12 @@ print(summary(model_fit))</code></pre>
 ## Training set -22993.67 101058.3 61230.45 -26.36236 38.57438 0.6260494 -0.01938565</code></pre>
 <p>The great thing about the <code>auto.arima</code> function is that it does the hard work of identifying the best model specification from our training data. While this is a huge time-saver, it helps to understand how and why certain parameters were selected. If you happen to be a forecasting expert and just want to know how to implement the model, feel free to skip this next section.</p>
 <p>Our model is <code>ARIMA(1,1,1)(0,1,1)[12]</code>. Let’s first focus on the first part <code>ARIMA(1,1,1)</code>.</p>
-<p>ARIMA stands for Auto-Regressive Integrated Moving Average, which is why it is abbreviated. Identifying the Integrated part ARIMA(1, 1, 1) is the first thing we do. It says ‘this is how much you need to difference (Y~t - Y<sub>t-1</sub>) our time series by to make it stationary on the mean. Cool story Hansel. Now in English. Stationary implies that the average (or variance, or any other parameter) of our time series remains constant across time. If we have an upward or downward trend, our mean is not stationary (its changing!), so the model captures how much it is going up or down by each time step, and then subtracts that from each value so it remains flat (or stationary). Indeed, if a time series is stationary, it means that it’s values do not depend on where we are in the time series.</p>
+<p>ARIMA stands for Auto-Regressive Integrated Moving Average, which is why it is abbreviated. Identifying the Integrated part ARIMA(1, 1, 1) is the first thing we do. It says ‘this is how much you need to difference (Y~t - Y<sub>t-1</sub>) our time series by to make it stationary on the mean. Cool story Hansel. Now in English. Stationary implies that the average (or variance, or any other parameter) of our time series remains constant across time. If we have an upward or downward trend, our mean is not stationary (it’s changing!), so the model captures how much it is going up or down by each time step, and then subtracts that from each value so it remains flat (or stationary). Indeed, the values of a stationary time series do not depend on where we are in the time series.</p>
 <p>Next the <strong>Auto-Regressive</strong> or <strong>(AR(1))</strong> part. Auto-regressive roughly translates to ‘regressed on itself’, and implies that we can learn something about Y<sub>t+1</sub> from Y<sub>t</sub>. Said differently, prior values (in this case from 1 prior time-step) are good indicators of subsequent future values, so we capture this with an auto-regressive term.</p>
 <p>Finally the <strong>Moving Average</strong> or <strong>(MA(1))</strong> part. Moving-average is like the AR part, in that we use prior values to inform our prediction of future values, but instead of focusing on the actual values we focus instead on prior errors, specifically our forecasting errors. These errors are computed as we fit the model, and like many things in life, we use our past errors to inform our future predictions.</p>
 <p>Now let’s discuss the second part: <code>(0,1,1)[12]</code>. This is the seasonality portion of our model and can be interpreted similarly to the first part. The model is determining the difference in each month’s number of views across time, so Jan. 2015 - Jan. 2014 - Jan 2013…you get the point. That’s the integrated part. The model also calculates a historical moving average with exponential weighting. The amount of weighting (or smoothing) is determined by the <code>sma1</code> coefficient contained in the above model. Coefficients that are closer to 1 indicate that more months (across history) are being used to determine how much future months will differ from the average of previous months.</p>
 <p>Finally the coefficient for our external regressor – number of post-season games won – has a value of 296550. This coefficient is interpreted just like a linear regression model; for each additional Patriot’s post-season win, we expect ~296K more visits to the website.</p>
-<p>If that all makes sense, let’s test our model on the final data, with our external variable set to two playoff games, and see how our prediction of Tom Brady’s page views compared to what actually happened. In essence, we are saying “The Patriots will make the superbowl but wont win.” It turns out betting against the Patriots in the superbowl can be a bad move, something I’ve experienced firsthand 😕.</p>
+<p>If that all makes sense, let’s test our model on the final data, with our external variable set to two playoff games, and see how our prediction of Tom Brady’s page views compared to what actually happened. In essence, we are saying “The Patriots will make the Superbowl but will not win.” It turns out betting against the Patriots in the Superbowl can be a bad move, something I’ve experienced firsthand 😕.</p>
 <pre class="r"><code>actual_views = page_views %&gt;% 
   filter(part == &#39;test&#39;) %&gt;% 
   pull(page_views)
@@ -1415,7 +1415,7 @@ forecasted_views = forecast(model_fit,
                               xreg = test_xreg)$mean
 print(paste0(&quot;MAPE IS: &quot; , calc_mape(forecasted_views, actual_views), &quot;%&quot;))</code></pre>
 <pre class="r"><code>## MAPE IS: 34.9%</code></pre>
-<p>Our MAPE is ~35%, which is considerably better than the MAPE on our holdout set. However, our prediction of the Patriots only winning two games was wrong. The patriots won three post season games and beat the Seattle Seahawks 28-24 to win the superbowl. So what would’ve happened if the value of our external regressor was correct (i.e., three instead of two)?</p>
+<p>Our MAPE is ~35%, which is considerably better than the MAPE on our holdout set. However, our prediction of the Patriots only winning two games was wrong. The Patriots won three postseason games and beat the Seattle Seahawks 28-24 to win the Superbowl. So what would’ve happened if the value of our external regressor was correct (i.e., three instead of two)?</p>
 <pre class="r"><code>games_won = 3
 test_xreg = c(games_won, games_won)
 forecasted_views = forecast(model_fit,
@@ -1423,8 +1423,8 @@ forecasted_views = forecast(model_fit,
                               xreg = test_xreg)$mean
 print(paste0(&quot;MAPE IS: &quot; , calc_mape(forecasted_views, actual_views), &quot;%&quot;))</code></pre>
 <pre class="r"><code>## MAPE IS: 70.7%</code></pre>
-<p>Hang on a second 💦. The model with the correct number of playoff games won (three) had lower accuracy? Yes, and here’s why: Across the history of our time series, the Patriots never won three playoff games. They had only won zero, one or two games. Therefore, we are extrapolating to values not contained in our data set, which can be a recipe for disaster. If you look at the change in our forecast as we increase the number of playoff games won by one, we expect an additional 296K visitors. We are making the assumption that there is a linear relationship between wins and page views, such that each additional win generates +296K views. This is not the case, and the incorrect assumption is reflected in the accuracy of the resulting forecast.</p>
-<p>Hopefully this post has eliminated some of the mystery around creating forecasts with external regressors. This is common topic of confusion when just starting to implement forecasts in R. However, it is no different than building a regular regression model. Happy forecasting!</p>
+<p>Hang on a second 😣. The model with the correct number of playoff games won (three) had lower accuracy? Yes, and here’s why: Across the history of our time series, the Patriots never won three playoff games. They had only won none, one or two games. Therefore, we are extrapolating to values not contained in our data set, which can be a recipe for disaster. If you look at the change in our forecast as we increase the number of playoff games won by one, we expect an additional 296K visitors. We are making the assumption that there is a linear relationship between wins and page views, such that each additional win generates +296K views. This is not the case, and the incorrect assumption is reflected in the accuracy of the resulting forecast.</p>
+<p>Hopefully, this post has eliminated some of the mystery around creating forecasts with external regressors. This is a common topic of confusion when starting to implement forecasts in R. However, it is no different than building a regular regression model. Happy forecasting!</p>
 </div>
 
       </div>

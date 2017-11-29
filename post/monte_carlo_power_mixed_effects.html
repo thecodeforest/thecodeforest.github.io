@@ -426,7 +426,7 @@ for(i in 1:nsim){
 }
 print(paste0(&quot;EXPECTED POWER IS: &quot;, (nsim - sum(type_II_vec))/nsim * 100, &quot;%&quot;))</code></pre>
 <pre class="r"><code>## [1] &quot;EXPECTED POWER IS: 99%&quot;</code></pre>
-<p>Exactly what we expected. Of our 100 simulations, we commited a <em>type II error</em> in only one instance, which matches closely with the 98% estimate provided from the <code>simr</code> package. If we increased the number of simulations, the power estimates would converge to the same number. However, if you copied this code and ran it in R, you’ll notice that it ran slow. In a separate <a href="">post</a>, I’ll show you how to speed up any simulation by executing the entire process in parallel to run more simulations and get better estimates! Stay tuned!</p>
+<p>Exactly what we expected. Of our 100 simulations, we commited a <em>type II error</em> in only one instance, which matches closely with the 98% estimate provided from the <code>simr</code> package. If we increased the number of simulations, the power estimates would converge to the same number. However, if you copied this code and ran it in R, you’ll notice that it ran slow. In a separate <a href="https://thecodeforest.github.io/post/two_flavors_of_parallel_simulation.html">post</a>, I’ll show you how to speed up any simulation by executing the entire process in parallel to run more simulations and get better estimates! Stay tuned!</p>
 </div>
 
       </div>
@@ -466,7 +466,7 @@ print(paste0(&quot;EXPECTED POWER IS: &quot;, (nsim - sum(type_II_vec))/nsim * 1
     
     <li><a href="/post/early_trend_detection.html">Early Trend Detection</a></li>
     
-    <li><a href="/post/prediction_intervals.html">Is that Home Price Negotiable?</a></li>
+    <li><a href="/post/is_that_home_price_negotiable.html">Is that Home Price Negotiable?</a></li>
     
   </ul>
 </div>

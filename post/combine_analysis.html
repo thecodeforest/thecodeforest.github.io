@@ -71,9 +71,9 @@
   <meta property="og:description" content="">
   <meta property="og:locale" content="en-us">
   
-  <meta property="article:published_time" content="2017-10-28T21:13:14-05:00">
+  <meta property="article:published_time" content="2017-09-04T21:13:14-05:00">
   
-  <meta property="article:modified_time" content="2017-10-28T21:13:14-05:00">
+  <meta property="article:modified_time" content="2017-09-04T21:13:14-05:00">
   
 
   
@@ -154,8 +154,8 @@
 
   <span class="article-date">
     
-    <time datetime="2017-10-28 21:13:14 -0500 -0500" itemprop="datePublished">
-      Oct 28, 2017
+    <time datetime="2017-09-04 21:13:14 -0500 -0500" itemprop="datePublished">
+      Sep 4, 2017
     </time>
   </span>
 
@@ -243,7 +243,8 @@
         <p><img src="images/running_man.jpg" width="800px" height="800px" /></p>
 <div id="overview" class="section level3">
 <h3>Overview</h3>
-<p>I’m not the first person to investigate the relationship between combine stats/physical attributes and player performance (see <a href="http://harvardsportsanalysis.org/2015/04/predicting-the-nfl-draft-using-seven-numbers-mock-draft-using-the-combine/%5D">here</a>). However, prior analyses have focused on performance over a longer period of time, such as the first three years in the league. This makes sense from the perspective of an NFL team, as rookies are typically signed for longer than a one year contract. In contrast, most fantasy football leagues operate like one year contracts; you draft a new team at the beginning of each year. Thus, in the case of NFL rookies, I’m interested exclusively in first year NFL performance.</p>
+<p>A good draft is a big part of doing well in Fantasy Football. Every year, Fantasy Football pundits write droves of articles on “sleeper” picks, or players that aren’t on most people’s draft sheets. Many of these players are untested rookies drafted straight from college. So how do you know differentiate which rookies will remain sleepers from those who will propel your fantasy team to victory? One place to start is the NFL combine.</p>
+<p>Indeed, I’m not the first person to investigate the relationship between combine stats/physical attributes and player performance. NFL teams do it every season, as well as fellow data nerds (see <a href="http://harvardsportsanalysis.org/2015/04/predicting-the-nfl-draft-using-seven-numbers-mock-draft-using-the-combine/%5D">here</a>). However, prior analyses have focused on performance over a longer period of time, such as the first three years in the league. This makes sense from the perspective of an NFL team, as rookies are typically signed for longer than a one-year contract. In contrast, most fantasy football leagues operate like one-year contracts; you draft a new team at the beginning of each year. Thus, in the case of NFL rookies, I’m interested exclusively in first year NFL performance. Can we learn anything from the combine that isn’t already baked into a rookie’s draft position?</p>
 </div>
 <div id="nfl-combine-performance" class="section level3">
 <h3>NFL Combine Performance</h3>
@@ -259,18 +260,18 @@
 </div>
 <div id="draft-position" class="section level3">
 <h3>Draft Position</h3>
-<p>Most rookies in the NFL enter a team through the draft. A player’s draft position is a reasonable proxy for their perceived value. If a rookie is believed to be a game-changer, then they’ll have a low draft position; if they have some skills but need a little more work, then they’ll have a higher draft position. Indeed, rookie pay is directly correlated with draft position, such that players drafted in earlier rounds are paid more money than those drafted later. Thus draft position should relate to first-year performance, otherwise teams would just choose players at random, hoping to land the next Tom Brady or Julio Jones based on the phases of moon or their horoscopes.</p>
+<p>Most rookies in the NFL enter a team through the draft. A player’s draft position is a reasonable proxy for their perceived value. If a rookie is believed to be a game-changer, then they’ll have a low draft position; if they have some skills but need a little more work, then they’ll have a higher draft position. Indeed, rookie pay is directly correlated with draft position, such that players drafted in earlier rounds are paid more money than those drafted later. Thus draft position should relate to first-year performance, otherwise teams would just choose players at random, hoping to land the next Tom Brady or Julio Jones based on the phases of the moon or their horoscopes.</p>
 </div>
 <div id="first-year-performance" class="section level3">
 <h3>First Year Performance</h3>
-<p>I adopted a common scoring system from most standard fantasy football leagues when quantifying first year performance:</p>
+<p>I adopted a common scoring system from most standard fantasy football leagues when quantifying first-year performance:</p>
 <ul>
 <li><strong>Touchdowns: 5 points</strong></li>
 <li><strong>Every 10 receiving yards: 1 point</strong></li>
 <li><strong>Every 10 rushing yards: 1 point</strong></li>
 <li><strong>Every fumble: -2 points</strong></li>
 </ul>
-<p>For example, let’s say you draft a running back and he scores five touchdowns, rushes for 500 yards, and fumballs the ball twice during his rookie season. The points for this player would be (5 * 5) + (500 * 0.1) + (2 * -2) = 71 points. Additionally, 50 rushing or receiving yards is considered equalivant to 1 touchdown.</p>
+<p>For example, let’s say you draft a running back and he scores five touchdowns, rushes for 500 yards, and fumbles the ball twice during his rookie season. The points for this player would be (5 * 5) + (500 * 0.1) + (2 * -2) = 71 points. Additionally, 50 rushing or receiving yards is considered equivalent to one touchdown.</p>
 </div>
 <div id="collecting-combine-and-draft-data" class="section level3">
 <h3>Collecting Combine and Draft Data</h3>
@@ -314,7 +315,7 @@ draft_position_data = data.frame(NULL)</code></pre>
                                   yearly_draft_data)
 
 }</code></pre>
-<p>Next we’ll do a bit of data munging and then join the draft and combine data together.</p>
+<p>Next, we’ll do a bit of data munging and then join the draft and combine data together.</p>
 <pre class="r"><code>draft_position_data_clean = draft_position_data %&gt;%
                       filter(Player != &#39;Player&#39;) %&gt;%
                       clean_names() %&gt;%
@@ -1565,7 +1566,7 @@ NA
 </div>
 <div id="collecting-rookie-performance-data" class="section level3">
 <h3>Collecting Rookie Performance Data</h3>
-<p>Next we’ll collect the outcome variable – how many points each player scored during their rookie season. For that we’ll enlist the service of the <code>nflgame</code> python package. We’ll write out the players and their rookie years to the <code>rookies.csv</code> file, pull that data into python, collect the first year stats, and then pull the output back into R.</p>
+<p>Next, we’ll collect the outcome variable – how many points each player scored during their rookie season - and enlist the service of the <code>nflgame</code> python package. We’ll write out the players and their rookie years to the <code>rookies.csv</code> file, pull that data into python, collect the first year stats, and then pull the output back into R.</p>
 <pre class="r"><code>input_file_name = &quot;rookie_names_years.csv&quot;
 python_script_name = &quot;collect_rookie_stats.py&quot;
 output_file_name = &quot;year_1_rookie_stats.csv&quot;
@@ -1722,7 +1723,7 @@ if __name__ == &quot;__main__&quot;:
     pysqldf = lambda q: sqldf(q, globals())
     main(sys.argv[1], sys.argv[2])
 </code></pre>
-<p>Below we’ll read the output from the <code>collect_rookie_stats.py</code> script back into R and examine the top 10 rows. We’ll also apply a few filters. First, all non-draft picks are eliminated from consideration. We want to control for draft pick, given that our central question is whether we can explain variation in first year performance from information other than draft pick. Second, all rookies with less than 10 points (an arbitrary cutoff) during their rookie season are eliminated. This is to remove some of the noise that is unrelated to performance (e.g., low points due to injury and not poor performance).</p>
+<p>Below we’ll read the output from the <code>collect_rookie_stats.py</code> script back into R and examine the top 10 rows. We’ll also apply a few filters. First, all non-draft picks are eliminated from consideration. We want to control for draft pick, given that our central question is whether we can explain variation in first-year performance from information other than draft pick. Second, all rookies with less than 10 points (an arbitrary cutoff) during their rookie season are eliminated. This is to remove some of the noise that is unrelated to performance (e.g., low points due to injury and not poor performance).</p>
 <pre class="r"><code>rookie_stats = read_csv(file.path(working_directory, output_file_name)) %&gt;% 
                       inner_join(combine_draft_join) %&gt;% 
                       filter(pos %in% c(&quot;WR&quot;, &quot;RB&quot;) &amp; 
@@ -2763,8 +2764,8 @@ plot(g)</code></pre>
 </div>
 <div id="explaining-rookie-performance" class="section level3">
 <h3>Explaining Rookie Performance</h3>
-<p>Based on the scatterplot matrix, draft pick explains a fair amount of variability in first-year fantasy points. Teams shell out millions of dollars for rookie players, so it’s not surpising that points and pick number are inversely related, such that lower picks (1, 2, 3) score more fantasy points during their first season than higher picks. The other variable that exhibits a relationship with points is weight, which is moderated by position. Running Backs (RBs) appear to benefit more from having a few extra pounds relative to Wide Receivers (WRs). Being able to punch the ball in from the 1-yard line means more touchdowns. Having a more robust build might translate into fewer injuries and missed games. And being heavier would make an RB harder to tackle, which means more running yards. Having extra weight is less beneficial to a WR, as they rely on their speed and agility to create seperation from defenders. Indeed, heavier players run slower 40-yard dash times, and I haven’t seen too many successful WRs in the NFl who were slow. This suggests that given the option between a lighter or heavier RB, go with the big guy.</p>
-<p>Teams do seem to factor the weight of an RB into their draft strategy, as heavier RBs are drafted earlier on. But the question is whether weight is still significant after controlling for draft pick number and accounting for position (WR vs. RB). I’ll apply my two favorite modeling approaches when interpretation is paramount: Linear Model (LM) and General Additive Model (GAM). Pick number is present in both models. The LM features an interaction term to capture the disparate relationship between weight and position. The GAM model has a smoother for both weight and pick number, and position is included as a dummy variable. For those unfamiliar with GAM, it’s a fantastic approach for modeling non-linear relationships while maintaining a highly interpertable model. The one drawback is that it is <em>Additive</em> and thus doesn’t account for interactions (of course you can add interactions terms into the model, but then it’s no longer a GAM). We’ll use <em>LOOCV</em> (leave-one-out-cross-validation) to determine which method of describing the data generating process is most generalizable.</p>
+<p>Based on the scatterplot matrix, draft pick explains a fair amount of variability in first-year fantasy points. Teams shell out millions of dollars for rookie players, so it’s not surprising that points and pick number are inversely related, such that lower picks (1, 2, 3) score more fantasy points during their first season than higher picks. The other variable that exhibits a relationship with points is weight, which is moderated by position. Running Backs (RBs) appear to benefit more from having a few extra pounds relative to Wide Receivers (WRs). Being able to punch the ball in from the 1-yard line means more touchdowns. Having a more robust build might translate into fewer injuries and missed games. And being heavier would make an RB harder to tackle, which means more running yards. Having extra weight is less beneficial to a WR, as they rely on their speed and agility to create separation from defenders. Indeed, heavier players run slower 40-yard dash times, and I haven’t seen too many successful WRs in the NFL who were slow. This suggests that given the option between a lighter or heavier RB, go with the big guy.</p>
+<p>Teams do seem to factor the weight of an RB into their draft strategy, as heavier RBs are drafted earlier on. But the question is whether weight is still significant after controlling for draft pick number and accounting for position (WR vs. RB). I’ll apply my two favorite modeling approaches when interpretation is paramount: Linear Model (LM) and General Additive Model (GAM). Pick number is present in both models. The LM features an interaction term to capture the disparate relationship between weight and position. The GAM model has a smoother for both weight and pick-number, and position is included as a dummy variable. For those unfamiliar with GAM, it’s a fantastic approach for modeling non-linear relationships while maintaining a highly interpretable model. The one drawback is that it is <em>Additive</em> and thus doesn’t account for interactions (of course you can add interactions terms into the model, but then it’s no longer a GAM). We’ll use <em>LOOCV</em> (leave-one-out-cross-validation) to determine which method of describing the data generating process is most generalizable.</p>
 <pre class="r"><code># function for cross validation
 split_data = function(input_df, pct_train){
   set.seed(1)
@@ -2855,7 +2856,7 @@ summary(train_fit)</code></pre>
 ## Residual standard error: 43.19 on 119 degrees of freedom
 ## Multiple R-squared:  0.2424, Adjusted R-squared:  0.217 
 ## F-statistic:  9.52 on 4 and 119 DF,  p-value: 1.033e-06</code></pre>
-<p>Interestingly, even after controlling for pick number, the interaction term is still significant. Intepreting interactions terms can be tricky, and I’ve found it helpful to just plug in a range of numbers for the variable you’re interested in and hold everything else constant to see how the predicted value changes. So that’s what we’ll do here. We’ll hold pick number at the mean, enter “RB” for the position dummy variable, and then generate a sequence between the 5th and 95th percentiles of weight. The slope of our predicted values indicate how many additional points we expect to score during a season for each RB pound.</p>
+<p>Interestingly, even after controlling for pick number, the interaction term is still significant. Interpreting interactions terms can be tricky, and I’ve found it helpful to just plug in a range of numbers for the variable you’re interested in and hold everything else constant to see how the predicted value changes. So that’s what we’ll do here. We’ll hold pick number at the mean, enter “RB” for the position dummy variable, and then generate a sequence between the 5th and 95th percentiles of weight. The slope of our predicted value indicates how many additional points we expect to score during a season for each RB pound.</p>
 <pre class="r"><code># select 5th and 95th percentiles for weight
 # hold pick number and position constant
 
@@ -2869,7 +2870,7 @@ sim_df$predicted_pts = predict(train_fit, sim_df)
 print(diff(sim_df$predicted_pts)[1])</code></pre>
 <pre class="r"><code>## [1] 1.313628</code></pre>
 <p>As the weight of an RB increases by one pound, we expect the total number of fantasy points scored in a season to increase by ~1.3. Thus if you had two RBs drafted around the same position, but one weighed 30lbs more than the other, you would expect 39 more points from the heavier RB. Over a 16 game season, that difference translates to 2.4 more points per game, which could be the difference between making or missing the playoffs.</p>
-<p>90 percent of weight values fall between 180 and 230, so I’d feel comfortable generalizing these findings to all RBs within this range. The data is pretty sparse outside of this range, so the relationships in the model would likely breakdown. Indeed, I’m fairly certain a 320lb RB would not score more points than a 220lb RB; there is some point where weight likely has a negative effect on performance, but we wont see that in the data, because a 320lb RB won’t ever see the field.</p>
+<p>90 percent of weight values fall between 180 and 230, so I’d feel comfortable generalizing these findings to all RBs within this range. The data is pretty sparse outside of this range, so the relationships in the model would likely break down Indeed, I’m fairly certain a 320lb RB would not score more points than a 220lb RB; there is some point where weight likely has a negative effect on performance, but we won’t see that in the data because a 320lb RB won’t ever see the field.</p>
 <p>While these findings are interesting, it’s not clear how helpful the model is in terms of informing our draft strategy. To answer that question, we’ll determine how the model performs on the hold-out set.</p>
 <pre class="r"><code>r_sq_test = round(r_squared(fdata$test_df$total_pts, 
                             predict(train_fit, fdata$test_df)), 
@@ -2888,7 +2889,7 @@ print(paste0(&quot;TEST MAE: &quot;, median_abs_err))</code></pre>
 <li><strong>Presence of skilled existing running back</strong></li>
 <li><strong>Ratio of pass to run plays in the prior season</strong></li>
 </ul>
-<p>These inputs have an impact on how many points a fantasy RB will score. But if we want to keep it simple, the key takeaway is this: When it’s fantasy draft time and you’re debating between a few rookie RBs drafted around the same spot, go with the big guy. It just might be difference between fantasy glory or facing the receiving end of one of these…</p>
+<p>These inputs have an impact on how many points a fantasy RB will score. But if we want to keep it simple, the key takeaway is this: When it’s fantasy draft time and you’re debating between a few rookie RBs drafted around the same spot, go with the big guy. It just might be the difference between fantasy glory or facing the receiving end of one of these…</p>
 <p><img src="combine_analysis_image/brick_tamlin.png" width="500px" height="500px" /></p>
 </div>
 
@@ -2921,8 +2922,6 @@ print(paste0(&quot;TEST MAE: &quot;, median_abs_err))</code></pre>
   <h3>Related</h3>
   <ul>
     
-    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
-    
     <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
     
     <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
@@ -2930,6 +2929,8 @@ print(paste0(&quot;TEST MAE: &quot;, median_abs_err))</code></pre>
     <li><a href="/post/two_flavors_of_parallel_simulation.html">Two Flavors of Parallel Simulation</a></li>
     
     <li><a href="/post/feature_selection_wine.html">Feature Selection for the Wine Connoisseur</a></li>
+    
+    <li><a href="/post/counterfactual_prediction.html">Establishing Causality with Counterfactual Prediction</a></li>
     
   </ul>
 </div>

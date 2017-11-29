@@ -245,7 +245,7 @@
       <div class="article-style" itemprop="articleBody">
         <div id="overview" class="section level3">
 <h3>Overview</h3>
-<p>While there are several definitions for an outlier, I generally think of an outlier as the following: An unexpected event that is unlikely to happen again. For example, website traffic drops precipitously because of a server fire, or insurance claims spike because of an unprecedented, 500-year weather event. These events are random occurences that (we hope) do not occur a regular cadence. Yet if you were attempting to predict future website traffic or understand the seasonal patterns of insurance claims, the aforementioned events may greatly impact our forecasting accuracy. Thus there are two main reasons for conducting an outlier analysis prior to generating a forecast:</p>
+<p>While there are several definitions for an outlier, I generally think of an outlier as the following: An unexpected event that is unlikely to happen again. For example, website traffic drops precipitously because of a server fire, or insurance claims spike because of an unprecedented, 500-year weather event. These events are occurrences that (we hope) do not occur a regular cadence. Yet if you were attempting to predict future website traffic or understand the seasonal patterns of insurance claims, the aforementioned events may greatly impact our forecasting accuracy. Thus there are two main reasons for conducting an outlier analysis prior to generating a forecast:</p>
 <ul>
 <li><strong>Outliers can bias forecasts</strong></li>
 <li><strong>Outliers can inflate estimated variance and produce prediction intervals that are too wide</strong></li>
@@ -347,7 +347,7 @@ outlier_milk_df = milk_df[c(30, 55, 99, 100, 152, 153),]</code></pre>
     xlab(&quot;Date&quot;) + ylab(&quot;Milk Production&quot;) + 
     geom_point(data = outlier_milk_df, colour = color_values[2], size = 8)</code></pre>
 <p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
-<p>Let’s break our time series into three seperate components: Seasonal, Trend, and Remainder. The <code>seasonal</code> and <code>trend</code> are structural parts of the time series that we can explain, while the <code>remainder</code> is everything that’s left over that we cannot explain. This is portion of the time series we’ll focus on when looking for anamoulous data points.</p>
+<p>Let’s break our time series into three separate components: Seasonal, Trend, and Remainder. The <code>seasonal</code> and <code>trend</code> are structural parts of the time series that we can explain, while the <code>remainder</code> is everything that’s left over that we cannot explain. We’ll focus on this portion of the time series when looking for anomalous data points.</p>
 <pre class="r"><code>decomp_ts = stl(ts(milk_df$milk_production, frequency = 12), 
                 s.window = &quot;periodic&quot;,
                 robust = TRUE
@@ -365,8 +365,8 @@ ts_decomposition = data.frame(decomp_ts$time.series) %&gt;%
     theme(legend.title = element_blank()) +
     ylab(&quot;&quot;) + xlab(&quot;Date&quot;)</code></pre>
 <p><img src="/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
-<p>Based on this break out, there is one clear anomaly (the -200 point). The other five aren’t as salient but we know they are there. Let’s try out our two approaches: The first is the +- 3 standard deviation rule. Any residual that is +- 3 SDs is considered an anomaly. If our residuals are normally distributed, then by chance alone 27 of every 10000 points should fall outside of these boundaries. Thus it is possible (but unlikely) when you detect a residual of this magnitude or greater. The second method leverages the Interquartile Range (or IQR). The IQR is the difference between the value at the 75th and 25th percentiles of your residuals. You then multiply the range by some constant (often 1.5). Any values outside of this range are considered an anomaly.</p>
-<p>I don’t want to bury the lede here, so I’ll just come right out and say it: The +-3 SD rule is not the approach you want to use. In the real world, which can admittedly be a scary place, forecasting is done at scale. You’ll be generating lots and lots of forecasts, so many that you wont be able to verify the assumptions or examine the residuals for each one (very scary). Thus it is imperative to use methods for outlier detection that are robust. What does this mean? In short, a measure that quantifies “outlierness” must be immune to the effects of outliers. Hang on…I’m confused. I’ll visualize what this means below.</p>
+<p>Based on this breakout, there is one clear anomaly (the -200 point). The other five aren’t as salient but we know they are there. Let’s try out our two approaches: The first is the +- 3 standard deviation rule. Any residual that is +- 3 SDs is considered an anomaly. If our residuals are normally distributed, then by chance alone 27 of every 10000 points should fall outside of these boundaries. Thus it is possible (but unlikely) when you detect a residual of this magnitude or greater. The second method leverages the Interquartile Range (or IQR). The IQR is the difference between the value at the 75th and 25th percentiles of your residuals. You then multiply the range by some constant (often 1.5). Any values outside of this range are considered an anomaly.</p>
+<p>I don’t want to bury the lede here, so I’ll just come right out and say it: The +-3 SD rule is not the approach you want to use. In the real world, which can admittedly be a scary place, forecasting is done at scale. You’ll be generating lots and lots of forecasts, so many that you won’t be able to verify the assumptions or examine the residuals for each one (very scary). Thus it is imperative to use methods for outlier detection that are robust. What does this mean? In short, a measure that quantifies “outlierness” must be immune to the effects of outliers. Hang on…I’m confused. I’ll visualize what this means below.</p>
 </div>
 <div id="sd-approach" class="section level3">
 <h3>+- 3 SD Approach</h3>
@@ -436,7 +436,6 @@ iqr_forecast = forecast(auto.arima(iqr_ts), h = n_holdout)
 none_ts = ts(sd_df$milk_production[1:(nrow(sd_df) - n_holdout)],
                       frequency = 12)
 none_forecast = forecast(auto.arima(none_ts), h = n_holdout)</code></pre>
-<p>Next let’s compare the accuracy of the forecasts between the three approaches on our validation set.</p>
 <pre class="r"><code>forecast_df = data.frame(anom_method = c(rep(&quot;IQR&quot;, n_holdout),
                                          rep(&quot;SD&quot;, n_holdout),
                                          rep(&quot;None&quot;, n_holdout)),
@@ -565,7 +564,7 @@ SD
     
     <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
     
-    <li><a href="/post/prediction_intervals.html">Is that Home Price Negotiable?</a></li>
+    <li><a href="/post/is_that_home_price_negotiable.html">Is that Home Price Negotiable?</a></li>
     
   </ul>
 </div>

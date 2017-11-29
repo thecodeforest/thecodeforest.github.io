@@ -257,10 +257,10 @@
 </ul>
 <p>The focus here will primarly be on point three, as we address two questions:</p>
 <ul>
-<li><strong>Does having noisy, unncessary variables as inputs reduce classification performance?</strong></li>
-<li><strong>And, if so, which algorithms are the most robust to the ill-effects of these unncessary variables?</strong></li>
+<li><strong>Does having noisy, unnecessary variables as inputs reduce classification performance?</strong></li>
+<li><strong>And, if so, which algorithms are the most robust to the ill-effects of these unnecessary variables?</strong></li>
 </ul>
-<p>We’ll explore these questions with one my favorite datasets located <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/">here</a>. Based on the methodology outlined <a href="http://projects.csail.mit.edu/wiki/pub/Evodesign/SensoryEvaluationsDatabase/winequality09.pdf">here</a>, a bunch of Wine experts got together and evaluated both White and Red wines. Each row represents the chemical properties of a wine in addition to a rating (0 = very bad, 10 = excellent). Each wine was rated by at least three people, and the median of their ratings was used as the final score. I have no idea how you get paid to drink wine, but somewhere in my life I chose the wrong career path. Thus, the goal here is to predict the rating based on the chemical properties of the wine, such as its pH or Alcohol Concentration.</p>
+<p>We’ll explore these questions with one my favorite datasets located <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/">here</a>. Based on the methodology outlined <a href="http://projects.csail.mit.edu/wiki/pub/Evodesign/SensoryEvaluationsDatabase/winequality09.pdf">here</a>, a bunch of Wine experts got together and evaluated both White and Red wines. Each row represents the chemical properties of a wine in addition to a rating (0 = very bad, 10 = excellent). Each wine was rated by at least three people, and the median of their ratings was used as the final score. I have no idea how you get paid to drink wine, but somewhere in my life, I chose the wrong career path. Thus, the goal here is to predict the rating based on the chemical properties of the wine, such as its pH or Alcohol Concentration.</p>
 <p>Let’s load up the libraries we’ll need as well as a custom plotting function.</p>
 <p>Here we’ll read the wine quality ratings directly for the source. We’ll also convert the rating system from a 1-10 scale to binary for the sake of simplicity. Any wine with a rating greater than seven receives the highly coveted “IdDrinkThat”, while all others receive the dreaded “NoThanks” label.</p>
 <pre class="r"><code>red_file = &#39;winequality-red.csv&#39;
@@ -1276,9 +1276,9 @@ NoThanks
 </tbody>
 </table>
 </div>
-<p>This dataset is exceptionally clean. Typically we would do some exploratory analysis to check for outliers, missing values, incorrect codings, or any other number of problems that can sabotage our predictions. In this case we wont have do that and can get right into the variable selection.</p>
+<p>This dataset is exceptionally clean. Typically we would do some exploratory analysis to check for outliers, missing values, incorrect codings, or any other number of problems that can sabotage our predictions. In this case, we can go right into the variable selection.</p>
 <p>We’ll initially leverage the <strong>gradient boosted machine (GBM)</strong> algorithm in the <code>h2o</code> library for variable selection. One of the nice features of GBM is that it automatically tells you which variables are important. Recall that GBM is an iterative algorithm that fits many simple decision trees, where the errors from the prior tree become the dependent variable for each subsequent tree. A feature’s importance is determined by how much its introduction into a given tree reduces the error. The total reduction in error for a given feature is then averaged across all of the trees the feature appeared in. Thus splitting on important variables should lead to larger reductions in error during training relative to less important variables.</p>
-<p>With that in mind let’s do an initial pass and see which variables are important. We’ll do a 70⁄30 train/test split, start up <code>h2o</code>, and fit an initial model.</p>
+<p>With that in mind let’s do an initial pass and see which variables are important. We’ll do a 70⁄30 train/test split, start <code>h2o</code>, and fit an initial model.</p>
 <pre class="r"><code>trainTestSplit = function(df, split_proportion){
   set.seed(123)
   out_list = list()
@@ -1327,7 +1327,7 @@ gbm_fit = h2o.gbm(x = x_var,
     xlab(&quot;Variable&quot;) + 
     theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 12))</code></pre>
 <p><img src="/post/feature_selection_wine_files/figure-html/unnamed-chunk-10-1.png" width="960" /></p>
-<p>It looks like all of the variables have some degree of influence on classification, so we’ll continue with the full model. Next we’re going to calculate AUC (Area Under Curve) for the following methods:</p>
+<p>It looks like all of the variables have some degree of influence on classification, so we’ll continue with the full model. Next, we’re going to calculate AUC (Area Under Curve) for the following methods:</p>
 <ul>
 <li><strong>GBM</strong></li>
 <li><strong>Random Forest (RF)</strong></li>
@@ -1386,7 +1386,7 @@ AUC
 rf
 </td>
 <td style="text-align:center;">
-0.9246283
+0.9186806
 </td>
 </tr>
 <tr>
@@ -1408,7 +1408,7 @@ gbm
 nn
 </td>
 <td style="text-align:center;">
-0.8409303
+0.8417844
 </td>
 </tr>
 <tr>
@@ -1425,22 +1425,22 @@ glm
 </tbody>
 </table>
 </div>
-<p>This provides us with a general baseline. In the following section, we’ll see what happens to the Area Under the Curve (AUC) as we add in lots of irrelevant predictors. But first let’s explore why we are using AUC as our evaluation metric.</p>
+<p>This provides us with a general baseline. In the following section, we’ll see what happens to the Area Under the Curve (AUC) as we add in lots of irrelevant predictors. But first, let’s explore why we are using AUC as our evaluation metric.</p>
 </div>
 <div id="auc-as-a-measure-of-classification-accuracy" class="section level3">
 <h3>AUC as a Measure of Classification Accuracy</h3>
-<p>Measuring model performance when your dependent variable is binary is more “involved” than measuring performance with a continuous dependent variable. With a continuous DV, large residuals are worse than small residuals, and this can be quantified along a continuum. In contrast, you can have a classifier that’s extremely accurate – it provides the correct classification 99.99% of the time – but actually doesn’t tell you anything useful. This situation typically arises when you have imbalanced classes, such as trying to predict whether or not someone has a disease when it only occurs in 1 of 100,000 people. By chance alone the classifier would be right 99,999 times out of 100,000 if you just said “no one has the disease ever”.</p>
+<p>Measuring model performance when your dependent variable is binary is more “involved” than measuring performance with a continuous dependent variable. With a continuous DV, large residuals are worse than small residuals, and this can be quantified along a continuum. In contrast, you can have a classifier that’s extremely accurate – it provides the correct classification 99.99% of the time – but actually doesn’t tell you anything useful. This situation typically arises when you have imbalanced classes, such as trying to predict whether or not someone has a disease when it only occurs in 1 of 100,000 people. By chance alone, the classifier would be right 99,999 times out of 100,000 if you just said: “no one has the disease ever”.</p>
 <p>Let’s consider the class balance in our wine dataset</p>
 <pre class="r"><code>print(round(table(wine_df$wine_class)/nrow(wine_df) * 100, 1))</code></pre>
 <pre class="r"><code>## 
 ## IdDrinkThat    NoThanks 
 ##        19.7        80.3</code></pre>
 <p>According to our refined, discerning pallette, 80% of wines would fall by chance alone in the “NoThanks”&quot; category. We could achieve 80% accuracy by simply assigning a label of “NoThanks” to every new wine we encountered. This would obviously be a terrible idea, because then we’d never get to drink any wine! Thus, in cases where your classes are unevenly distributed, accuracy might not be the best evaluation metric.</p>
-<p>AUC isn’t affected by class imbalances, because it considers both True Positives and False Positives. The True Positive Rate (TPR) captures all the instances in which our model said ‘Drink this wine’ and it was in fact a wine we would want to drink; False Positive Rate (FPR) captures instances in which our model said ‘Drink this Wine’ but it was actually a wine that we would not want to drink. As we have obtain more TPRs and fewer FPRs, our AUC will move closer to 1, which means our model is improving. Hopefully this clarifies the rationale for using AUC relative to accuracy. Now let’s get back to the original question.</p>
+<p>AUC isn’t affected by class imbalances because it considers both True Positives and False Positives. The True Positive Rate (TPR) captures all the instances in which our model said ‘Drink this wine’ and it was, in fact, a wine we would want to drink; False Positive Rate (FPR) captures instances in which our model said ‘Drink this Wine’ but it was actually a wine that we would not want to drink. Obtaining more TPRs and fewer FPRs will move the AUC closer to one, which means our model is improving. Hopefully, this clarifies the rationale for using AUC relative to accuracy. Now let’s get back to the original question.</p>
 </div>
 <div id="adding-irrelevant-predictors" class="section level3">
 <h3>Adding Irrelevant Predictors</h3>
-<p>A little disclaimer before moving on. There are number of ways you can reduce the influence of irrelevant features on predictive accuracy, namely <em>regularization</em>. However, we’re interested in which algorithms are least susceptible to modeling the noise associated with an irrelevant predictor variable without any additional regularization or parameter optimization. Accordingly, we’ll sample the irrelevant predictors from a normal distribution with a mean of zero and a standard deviation of one. Each iteration adds an additional 100 irrelevant predictors across a total of 20 iterations. All of the algorithms use the default parameters that come with the <code>h2o</code> library.</p>
+<p>A little disclaimer before moving on. There are a number of ways you can reduce the influence of irrelevant features on predictive accuracy, namely <em>regularization</em>. However, we’re interested in which algorithms are least susceptible to modeling the noise associated with an irrelevant predictor variable without any additional regularization or parameter optimization. Accordingly, we’ll sample the irrelevant predictors from a normal distribution with a mean of zero and a standard deviation of one. Each iteration adds an additional 100 irrelevant predictors across a total of 20 iterations. All of the algorithms use the default parameters that come with the <code>h2o</code> library.</p>
 <pre class="r"><code>n_noise_vars = seq(100, 2000, length.out = 20)
 
 for(i in n_noise_vars){
@@ -1526,7 +1526,7 @@ for(i in n_noise_vars){
 <li><strong>AUC for all methods, with the exception of GLM, decreased as the number of irrelevant predictors in the model increased</strong></li>
 <li><strong>GBM is the most robust against the ill-effects of irrelevant predictors, while NN was the most susceptible</strong></li>
 </ul>
-<p>Although we can’t generalize these outcomes to every situation, they do align with my experience. In fact, one of the reasons I like GBM is that it tends to ignore irrelevant predictors during modeling. Neural networks are extremely powerful and with the right tuning/regularization will often outperform any of the methods outlined here. However, they are susceptible to overfitting because of their flexibility, which leads to noise being leveraged as signal during the model building process. This goes to show that pre-processing and feature selection is an important part of the model building process if you are dealing with lots of potential features. Beyond reducing the training time, pruning irrelevant features can vastly improve model performance. As illustrated above, including irrelevant features can wreak havoc on your model when using methods with lots of flexible parameters. It would be interesting to see how these results change if we added in some regularization measures to protect against overfitting. For example, one way to reduce overfitting with Random Forest is to limit the maximum depth of a tree (i.e., each tree can only have a single split instead of multiple splits). Or for Neural Networks L2 regularization can be used, which discourages weight vectors in the network from becoming too large. If you try any of these approaches, I’d love to hear how it goes!</p>
+<p>Although we can’t generalize these outcomes to every situation, they do align with my experience. In fact, one of the reasons I like GBM is that it tends to ignore irrelevant predictors during modeling. Neural networks are extremely powerful and with the right tuning/regularization will often outperform any of the methods outlined here. However, they are susceptible to overfitting because of their flexibility, which leads to noise being leveraged as signal during the model building process. This goes to show that pre-processing and feature selection is an important part of the model building process if you are dealing with lots of potential features. Beyond reducing the training time, pruning irrelevant features can vastly improve model performance. As illustrated above, including irrelevant features can wreak havoc on your model when using methods with lots of flexible parameters. It would be interesting to see how these results change if we added some regularization measures to protect against overfitting. For example, one way to reduce overfitting with Random Forest is to limit the maximum depth of a tree (i.e., each tree can only have a single split instead of multiple splits). Or for Neural Networks L2 regularization can be used, which discourages weight vectors in the network from becoming too large. If you try any of these approaches, I’d love to hear how it goes!</p>
 </div>
 
       </div>
