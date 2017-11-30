@@ -981,8 +981,18 @@ qrf_quantile = predict(qrf_fit,
                 mutate(Opportunity = ifelse(residual &lt; 0, 
                                             &quot;underpriced&quot;, 
                                             &quot;overpriced&quot;)) %&gt;% 
-                filter(`PI Range` &lt;= 90000)</code></pre>
-<pre class="r"><code>my_plot_theme = function(){
+                filter(`PI Range` &lt;= 90000)
+
+
+qrf_plot_input = qrf_quantile %&gt;% 
+  mutate(asking_price = asking_price/1e3,
+         predicted_price = predicted_price/1e3,
+         `PI Range` = `PI Range`/1e3,
+         lwr = lwr/1e3,
+         upr = upr/1e3
+         )</code></pre>
+<pre class="r"><code># custom plotting theme
+my_plot_theme = function(){
     font_family = &quot;Helvetica&quot;
     font_face = &quot;bold&quot;
     return(theme(
@@ -1000,15 +1010,8 @@ qrf_quantile = predict(qrf_fit,
     face = font_face,
     family = font_family)
 ))
-}
-qrf_quantile %&gt;% 
-  mutate(asking_price = asking_price/1e3,
-         predicted_price = predicted_price/1e3,
-         `PI Range` = `PI Range`/1e3,
-         lwr = lwr/1e3,
-         upr = upr/1e3
-         ) %&gt;% 
-ggplot(aes(x = asking_price, 
+}</code></pre>
+<pre class="r"><code>ggplot(qrf_plot_input, aes(x = asking_price, 
                           y = predicted_price, 
                           color = Opportunity)) + 
   theme_bw() + 
@@ -1032,7 +1035,8 @@ ggplot(aes(x = asking_price,
            arrow = arrow(),
            alpha = 0.6
            )</code></pre>
-<p><img src="/post/is_that_home_price_negotiable_files/figure-html/unnamed-chunk-12-1.png" width="960" /> Each point represents a home. All points below the diagonal line are overpriced homes (i.e., the asking price is above the predicted price), while those above the diagonal line are underpriced. Each of the points is sized according to the width of its prediction interval, such that smaller points have narrower intervals. The arrow identifies a potential home that we should feel comfortable negotiating on price because it not only is overpriced but also has a relatively narrow prediction interval. When both features are present, making an offer for less than the asking price should result in an acceptance more frequently than the points above of the line or those with wider prediction intervals. This is information we can use to decide when to make a purchase, continue negotiating, or simply walk away from the house.</p>
+<p><img src="/post/is_that_home_price_negotiable_files/figure-html/unnamed-chunk-13-1.png" width="960" /></p>
+<p>Each point represents a home. All points below the diagonal line are overpriced homes (i.e., the asking price is above the predicted price), while those above the diagonal line are underpriced. Each of the points is sized according to the width of its prediction interval, such that smaller points have narrower intervals. The arrow identifies a potential home that we should feel comfortable negotiating on price because it not only is overpriced but also has a relatively narrow prediction interval. When both features are present, making an offer for less than the asking price should result in an acceptance more frequently than the points above of the line or those with wider prediction intervals. This is information we can use to decide when to make a purchase, continue negotiating, or simply walk away from the house.</p>
 </div>
 <div id="concluding-remarks" class="section level3">
 <h3>Concluding Remarks</h3>

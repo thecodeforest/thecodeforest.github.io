@@ -6721,40 +6721,49 @@ for(i in n_noise_vars){
       <pubDate>Sat, 05 Aug 2017 21:13:14 -0500</pubDate>
       
       <guid>/post/counterfactual_prediction.html</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;images/australia.gif&#34; width=&#34;800px&#34; height=&#34;800px&#34; /&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;img src=&#34;images/dealership_tube_man.jpg&#34; width=&#34;800px&#34; height=&#34;800px&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Overview&lt;/h3&gt;
 &lt;p&gt;Businesses have several “levers” they can pull to boost sales. For example, a series of advertisements might be shown in a city or region with the hopes of increasing sales for the advertised product. Ideally, the cost associated with the advertisement would be outstripped by the expected increase in sales, visits, conversion, or whatever KPI (key performance indicator) the business hopes to drive. But how do you capture the ROI of the advertisement? In a parallel universe, where all experiments are possible (and unicorns roam the land), we would create two copies of the same city, run the advertisement in one of them, track our metric of interest over the same time period, and then compare the difference between the two cities. All potential confounding variables, such as differences in seasonal variation, viewership rates, or buying preference, would be controlled. Thus, any difference (lift) in our KPI could be attributed to the intervention.&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;souvenir-sales-australia-and-wacky-inflatable-tube-men&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Souvenir Sales, Australia, and Wacky Inflatable Tube Men&lt;/h3&gt;
+&lt;div id=&#34;used-cars-and-wacky-inflatable-tube-men&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Used Cars and Wacky Inflatable Tube Men&lt;/h3&gt;
 &lt;p&gt;We can’t clone cities, but there is a way to statistically emulate the above situation. This post provides a general overview of how to generate a &lt;strong&gt;counterfactual prediction&lt;/strong&gt;, which is a way to quantify what would’ve happened had we never run the advertisement, event, or intervention.&lt;/p&gt;
-&lt;p&gt;Incremental Sales, ROI, KPIs, Lift – these terms are somewhat abstract. Australia, Souvenirs, Wacky- Inflatable-Tube-Men (WITM for short) – that all seems pretty straight-forward. So imagine you run a souvenir shop near the beach in Australia and you’re looking for ways to attract additional foot traffic and (hopefully) increase sales. You decide to purchase this guy below, hoping it will draw attention to your store, increase foot traffic, and produce more souvenir sales.&lt;/p&gt;
+&lt;p&gt;Incremental Sales, ROI, KPIs, Lift – these terms are somewhat abstract. Cars and Wacky-Inflatable-Tube-Men (WITM for short) – that all seems pretty straight-forward. So imagine you run a car dealership and you’re looking for ways to attract additional customers and (hopefully) increase sales. You decide to purchase this guy below, hoping it will draw attention to your dealership, increase foot traffic, and ultimately produce more car sales.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;counterfactual_prediction_images/wacky_inflatable_man.jpg&#34; width=&#34;800px&#34; height=&#34;800px&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Being a savvy business owner, you’re interested in the effect of your new WITM on sales. Does having this form of advertisement drive sales beyond what would’ve happened in the absence of any WITM? You look to the other six souvenir shops in separate parts of town to answer this question. The other souvenir shops will serve as a control group because they don’t have a WITM. Additionally, the other shops are located far enough away from your shop so there is no way for their sales to be affected by your WITM (this is a critical assumption that in real-world contexts should be verified). After accounting for baseline differences in sales between your shop and the control shops, you build a forecast – or counterfactual prediction – premised on what would’ve happened in your shop had the WITM intervention never taken place. This prediction will then serve as the baseline from which to compare what happened to sales.&lt;/p&gt;
-&lt;p&gt;In short, you (the shop owner) are faced with two tasks:&lt;/p&gt;
+&lt;p&gt;Being a savvy business owner, you’re interested in the effect of your new WITM on sales. Does having this form of advertisement drive sales beyond what would’ve happened in the absence of any WITM? You look to the other car dealerships in separate parts of town to answer this question. The other shops will serve as a control group because they don’t have a WITM. Additionally, the other shops are located far enough away from your shop so there is no way for their sales to be affected by your WITM (this is a critical assumption that in real-world contexts should be verified). After accounting for baseline differences in sales between your shop and the control shops, you build a forecast – or counterfactual prediction – premised on what would’ve happened in your shop had the WITM intervention never taken place. This prediction will then serve as the baseline from which to compare what happened to sales.&lt;/p&gt;
+&lt;p&gt;In short, you (the owner) are faced with two tasks:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Identifying which of control shop(s) are most like your shop&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Identifying which control shop(s) are most like your shop&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Generating the counterfactual prediction&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I’ll go through each of these steps at a high level, just to give you a general idea of the logic underlying the process. For an excellent, more in-depth explanation of the technical details check out this &lt;a href=&#34;http://multithreaded.stitchfix.com/blog/2016/01/13/market-watch/&#34;&gt;post&lt;/a&gt; by the author of the &lt;code&gt;MarketMatching&lt;/code&gt; package, which we will leverage to address both tasks.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;creating-the-synthetic-data-set&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Creating the Synthetic Data Set&lt;/h3&gt;
-&lt;p&gt;Let’s first download the dataset and load up the required libraries. You can find the dataset here.&lt;/p&gt;
+&lt;p&gt;Let’s read the dataset, which can be downloaded &lt;a href=&#34;https://datamarket.com/data/set/22n4/monthly-car-sales-in-quebec-1960-1968#!ds=22n4&amp;amp;display=line&#34;&gt;here&lt;/a&gt;, and load the required libraries. The original dataset is the total number of cars sold each month in Quebec between 1960 and 1968. In this case, let’s assume that the numbers represent the total number of cars sold each month at our dealership.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;libs = c(&amp;quot;devtools&amp;quot;, &amp;quot;CausalImpact&amp;quot;, &amp;quot;forecast&amp;quot;,
          &amp;quot;data.table&amp;quot;, &amp;quot;kableExtra&amp;quot;,&amp;quot;dplyr&amp;quot;, 
          &amp;quot;forcats&amp;quot;, &amp;quot;MarketMatching&amp;quot;, &amp;quot;knitr&amp;quot;, 
-         &amp;quot;ggplot2&amp;quot;, &amp;quot;ggforce&amp;quot;)
+         &amp;quot;ggplot2&amp;quot;, &amp;quot;ggforce&amp;quot;, &amp;quot;readr&amp;quot;,
+         &amp;quot;janitor&amp;quot;, &amp;quot;lubridate&amp;quot;
+         )
+
 lapply(libs, require, character.only = TRUE)
 # Uncomment if you dont have the package installed 
 #devtools::install_github(&amp;quot;klarsen1/MarketMatching&amp;quot;, build_vignettes=TRUE)
-starting_date = as.Date(&amp;quot;1987-01-01&amp;quot;)
-souvenir = fread(&amp;quot;https://robjhyndman.com/tsdldata/data/fancy.dat&amp;quot;,
-                 data.table = FALSE) %&amp;gt;% 
-           rename(sales = V1) %&amp;gt;% 
-           mutate(date = seq(starting_date, by = &amp;quot;month&amp;quot;, length.out = n()))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The dataset is total monthly souvenir sales for your shop, starting in January of 1987 and running through December of 1993. Let’s take a high-level glance at our time series to see if we need to clean it up.&lt;/p&gt;
+working_dir = &amp;quot;path_to_data&amp;quot;
+file_name = &amp;quot;monthly-car-sales-in-quebec-1960.csv&amp;quot;
+car_sales = read_csv(file.path(working_dir, file_name)) %&amp;gt;% 
+            clean_names() %&amp;gt;% 
+            data.frame() %&amp;gt;% 
+            mutate(month = as.Date(paste0(month, &amp;quot;-01&amp;quot;),
+                                   format = &amp;quot;%Y-%m-%d&amp;quot;
+                                   )) %&amp;gt;% 
+            rename(sales = monthly_car_sales_in_quebec_1960_1968,
+                   date = month) %&amp;gt;% 
+            mutate(sales = floor(sales/100)) # to make numbers more realistic&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s take a high-level glance at our time series to see if we need to clean it up.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_plot_theme = function(){
     font_family = &amp;quot;Helvetica&amp;quot;
     font_face = &amp;quot;bold&amp;quot;
@@ -6775,115 +6784,120 @@ souvenir = fread(&amp;quot;https://robjhyndman.com/tsdldata/data/fancy.dat&amp;q
 ))
 }
 
-ggplot(souvenir, aes(x = date, y = sales)) + geom_point(size = 2) + 
+ggplot(car_sales, aes(x = date, y = sales)) + geom_point(size = 2) + 
                                              geom_line(size = 2) + 
   theme_bw() + 
   my_plot_theme()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/counterfactual_prediction_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Notice that the seasonal changes become more volatile across time, particularly in the past couple years. The forecasting model we’ll be using is additive and thus cannot account for a multiplicative time series, so we’ll need to log-transform sales before we build a model.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;souvenir_ts = ts(log(souvenir$sales),
-                 frequency = 12,
-                 start = c(1987, 1))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now the seasonal fluctuations are roughly constant across time and can be described with an additive model. Next, we’ll generate a 6-month ahead forecast. To simulate the positive effect that the WITM intervention had on sales during the 6-month intervention period, we’ll sample from a normal distribution where the mean is 5% of the forecasted value and the standard deviation is defined by the residuals of the fitted model. Using the residuals from the fitted model will result in a smaller standard deviation than using a holdout set, but to keep things simple we’ll estimate uncertainty based on model residuals.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+&lt;p&gt;Overall, everything looks good. No major outliers or missing data. The magnitude of seasonal changes and random variation remains relatively constant over time, so the data generating process can be described with an additive model. Let’s transform our outcome variable (total monthly car sales) into a time series format.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cars_ts = ts(car_sales$sales,
+             frequency = 12,
+             start = c(lubridate::year(min(car_sales$date)), 
+                       lubridate::month(min(car_sales$date))))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we’ll generate a 6-month ahead forecast. To simulate the positive effect that the WITM intervention had on sales during the 6-month intervention period, we’ll sample from a normal distribution where the mean is 105% of the forecasted value and the standard deviation is defined by the residuals of the fitted model. This would simulate a 5% lift above the number of cars we would expect to sell for that month. Using the residuals from the fitted model will result in a smaller standard deviation than using a holdout set, but to keep things simple we’ll estimate uncertainty based on model residuals.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(111)
 # define length of intervention
 trial_period_months = 6
 # define simulated effect size as a percentage (e.g., a 5% lift above what is expected each month)
 effect_size = 0.05
-arima_fit = auto.arima(souvenir_ts)
+arima_fit = auto.arima(cars_ts)
 simulated_intervention = forecast(arima_fit, trial_period_months)$mean
 # create simulated effect 
 simulated_intervention = sapply(simulated_intervention, function(x) x + rnorm(1, 
                                                      mean = (x * effect_size),
                                                      sd = sd(arima_fit$residuals)))
 
-monthly_log_sales = c(souvenir_ts, simulated_intervention)
+monthly_sales = c(cars_ts, simulated_intervention)
 
-study_dates = seq(max(souvenir$date), 
+study_dates = seq(max(car_sales$date), 
                   by = &amp;quot;month&amp;quot;, 
                   length.out = (trial_period_months + 1))
 
 study_dates = study_dates[2:length(study_dates)]
 intervention_start = study_dates[1]
 
-souvenir_sim = data.frame(measurement_date = c(souvenir$date, study_dates),
-                          sales = c(souvenir_ts, simulated_intervention),
-                          store = &amp;quot;1&amp;quot;) %&amp;gt;% 
+cars_sim = data.frame(measurement_date = c(car_sales$date, study_dates),
+                          sales = c(cars_ts, simulated_intervention),
+                          shop = &amp;quot;1&amp;quot;) %&amp;gt;% 
                 mutate(time_period = ifelse(measurement_date &amp;gt;= intervention_start, 
                                             &amp;quot;post-intervention&amp;quot;,
                                             &amp;quot;pre-intervention&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Let’s plot the results to get a better idea of when each of the events is happening.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(souvenir_sim, aes(x = measurement_date, 
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(cars_sim, aes(x = measurement_date, 
                          y = sales,
                          color = time_period
                          )) + 
   geom_point(size = 2) + geom_line(size = 2) +
   theme_bw() +
-  my_plot_theme() + ylab(&amp;quot;Log Sales&amp;quot;) + xlab(&amp;quot;Date&amp;quot;) + 
-  facet_zoom(x = measurement_date %in% as.Date(souvenir_sim %&amp;gt;%
+  my_plot_theme() + ylab(&amp;quot;Sales&amp;quot;) + xlab(&amp;quot;Date&amp;quot;) + 
+  facet_zoom(x = measurement_date %in% as.Date(cars_sim %&amp;gt;%
                                       filter(time_period == &amp;quot;post-intervention&amp;quot;) %&amp;gt;%
                                       pull(measurement_date))) + 
   theme(legend.title=element_blank())&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/counterfactual_prediction_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The blue region is the time before the intervention, while the red region is the time during the intervention. It’s hard to determine if the level (mean) has increased for the last six months of our time series. The uptick could be due to seasonal variation or where the trend of the series was naturally going (Obviously, we know this to be false). We want to rule these explanations out. To do so, we’ll make a counterfactual prediction based on the other control shops. We’ll use the original time series as a basis to create six other time series. Three will be the original time series with an added Gaussian error term while the other three will be random walks. All six will serve as initial candidates for our control shops. Let’s generate the time series for our comparison shops.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(111)
 comparison_df = data.frame(NULL)
-similiar_stores = c(&amp;quot;2&amp;quot;, &amp;quot;3&amp;quot;, &amp;quot;4&amp;quot;)
-# generate time series for similar stores
-for(i in 1:length(similiar_stores)){
-  temp_ts = souvenir_ts
-  
-  # add a bit of random noise
+similiar_shops = c(&amp;quot;2&amp;quot;, &amp;quot;3&amp;quot;, &amp;quot;4&amp;quot;)
+# generate time series for similar shops
+for(i in 1:length(similiar_shops)){
+  temp_ts = cars_ts
+
+  # add a bit of random noise to comparison shop sales
   temp_ts = data.frame(sales = temp_ts + rnorm(length(temp_ts), 
                                                0, 
                                                (sd(temp_ts) * 0.25)))
   
   # fit a arima model to the simulated sales data
-  temp_fit = auto.arima(ts(temp_ts$sales, frequency = 12, 
-                           start = c(1987, 1)))
+  temp_fit = auto.arima(ts(temp_ts$sales, 
+                           frequency = 12, 
+                           start = c(lubridate::year(min(car_sales$date)), 
+                                     lubridate::month(min(car_sales$date)))))
   
   # generate forecast
-  forecasted_values = data.frame(forecast(temp_fit, h = trial_period_months))$Point.Forecast
+  forecasted_values = data.frame(forecast(temp_fit,
+                                          h = trial_period_months))$Point.Forecast
   
   temp_ts = data.frame(sales = c(temp_ts$sales, forecasted_values),
-                       store = similiar_stores[i])
+                       shop = similiar_shops[i])
   
   comparison_df = bind_rows(comparison_df, temp_ts)
 }
-# generate time series for random stores
-random_stores = c(&amp;quot;5&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;7&amp;quot;)
 
-for(r in random_stores){
-  temp_random = data.frame(sales = rnorm((length(souvenir_ts) + trial_period_months), 
-                                         mean = mean(souvenir_ts), 
-                                         sd = sd(souvenir_ts)),
-                           store = r
+# generate time series for random shops
+random_shops = c(&amp;quot;5&amp;quot;, &amp;quot;6&amp;quot;, &amp;quot;7&amp;quot;)
+
+for(r in random_shops){
+  temp_random = data.frame(sales = rnorm((length(cars_ts) + trial_period_months), 
+                                         mean = mean(cars_ts), 
+                                         sd = sd(cars_ts)),
+                           shop = r
   )
   comparison_df = rbind(comparison_df, temp_random)
 }
 
 comparison_df = comparison_df %&amp;gt;% 
-                mutate(measurement_date = rep(seq(starting_date,
+                mutate(measurement_date = rep(seq(min(car_sales$date),
                                     by = &amp;quot;month&amp;quot;,
-                                    length.out = nrow(souvenir_sim)
+                                    length.out = nrow(cars_sim)
                                     ),
-                                length(unique(comparison_df$store)))
+                                length(unique(comparison_df$shop)))
                        ) %&amp;gt;% 
-                bind_rows(souvenir_sim %&amp;gt;% 
+                bind_rows(cars_sim %&amp;gt;% 
                           dplyr::select(-time_period))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We now have all of time series in a neat dataframe. Let’s visualize what that looks like.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(comparison_df, aes(x = as.Date(measurement_date), 
                           y = sales, 
-                          color = store)) + geom_point() + geom_line() +
-  facet_wrap(~store, ncol = 1) + 
+                          color = shop)) + geom_point() + geom_line() +
+  facet_wrap(~shop, ncol = 1) + 
   theme_bw() + 
-  my_plot_theme() + ylab(&amp;quot;Log Sales&amp;quot;) + 
+  my_plot_theme() + ylab(&amp;quot;Sales&amp;quot;) + 
   xlab(&amp;quot;Date&amp;quot;) + 
   theme(strip.text.x = element_text(size = 14, face = &amp;quot;bold&amp;quot;),
         axis.text.y = element_blank(),
         legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/counterfactual_prediction_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Store 1 is our store, while Stores 2-7 are the potential control stores.To make inferences about the effect of our intervention, we want to identify a separate store(s) with similar sales history to serve as the control store(s). We’ll keep it simple here and only use a single store, but you could use any number of stores as a control. I’ll discuss in the next section how we go about defining and identifying similarity.&lt;/p&gt;
+&lt;p&gt;Shop 1 is our shop, while Shops 2-7 are the potential control shops. To make inferences about the effect of our intervention, we want to identify a seperate shop with similar sales history to serve as the control shop We’ll keep it simple here and only use a single shop, but you could use any number of shops as a control. I’ll discuss in the next section how we go about defining and identifying similarity.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;selecting-a-control-time-series-with-dynamic-time-warping&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Selecting a Control Time Series with Dynamic Time Warping&lt;/h3&gt;
@@ -6893,8 +6907,8 @@ comparison_df = comparison_df %&amp;gt;%
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;start = min(comparison_df$measurement_date)
 end = unique(comparison_df$measurement_date)[(length(unique(comparison_df$measurement_date)) - 
                                                                                        trial_period_months)]
-most_similar_store = MarketMatching::best_matches(data = comparison_df,
-                             id_variable = &amp;quot;store&amp;quot;,
+most_similar_shop = MarketMatching::best_matches(data = comparison_df,
+                             id_variable = &amp;quot;shop&amp;quot;,
                              date_variable = &amp;quot;measurement_date&amp;quot;,
                              matching_variable = &amp;quot;sales&amp;quot;,
                              warping_limit = 3,
@@ -6907,7 +6921,7 @@ most_similar_store = MarketMatching::best_matches(data = comparison_df,
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th style=&#34;text-align:center;&#34;&gt;
-store
+shop
 &lt;/th&gt;
 &lt;th style=&#34;text-align:center;&#34;&gt;
 BestControl
@@ -6938,25 +6952,25 @@ MatchingEndDate
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-2
+4
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0236473
+0.0892325
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.9748766
+0.9749544
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-84
+108
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1987-01-01
+1960-01-01
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1993-12-01
+1968-12-01
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -6967,22 +6981,22 @@ MatchingEndDate
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0236340
+0.1046940
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.9748766
+0.9675096
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-84
+108
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1987-01-01
+1960-01-01
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1993-12-01
+1968-12-01
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -6993,22 +7007,22 @@ MatchingEndDate
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0241987
+0.1007655
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.9675762
+0.9667409
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-84
+108
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1987-01-01
+1960-01-01
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1993-12-01
+1968-12-01
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -7019,22 +7033,22 @@ MatchingEndDate
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0242539
+0.0887502
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.9747157
+0.9749544
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-84
+108
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1987-01-01
+1960-01-01
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1993-12-01
+1968-12-01
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -7045,22 +7059,22 @@ MatchingEndDate
 7
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0868463
+0.2950050
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0142677
+0.1958782
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-84
+108
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1987-01-01
+1960-01-01
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1993-12-01
+1968-12-01
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -7068,25 +7082,25 @@ MatchingEndDate
 6
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-7
+2
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0856863
+0.3073312
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0625024
+0.1539837
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-84
+108
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1987-01-01
+1960-01-01
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1993-12-01
+1968-12-01
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -7094,67 +7108,67 @@ MatchingEndDate
 7
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-6
+5
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0845866
+0.2831873
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-0.0625024
+0.1958782
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-84
+108
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 1
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1987-01-01
+1960-01-01
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-1993-12-01
+1968-12-01
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;p&gt;That was too easy! This table indicates that the pre-intervention sales for Store Number 2 are the most similar to those in Store Number 1. Thus, we’ll use Store 2 to generate our counterfactual prediction.&lt;/p&gt;
+&lt;p&gt;That was too easy! This table indicates that the pre-intervention sales for Shop Number 4 are the most similar to those in Shop Number 1. Thus, we’ll use Shop 4 as our reference when generating the counterfactual prediction.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;generating-counterfactual-predictions&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Generating Counterfactual Predictions&lt;/h3&gt;
 &lt;p&gt;This is the inference part – namely, can we infer that our intervention impacted sales?&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results = MarketMatching::inference(matched_markets = most_similar_store,
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results = MarketMatching::inference(matched_markets = most_similar_shop,
                                      test_market = &amp;quot;1&amp;quot;,
                                      end_post_period = max(comparison_df$measurement_date)
                                     )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## ------------- Inputs -------------
-## Test Market: 1
-## Control Market 1: 2
-## Market ID: store
-## Date Variable: measurement_date
-## Matching (pre) Period Start Date: 1987-01-01
-## Matching (pre) Period End Date: 1993-12-01
-## Post Period Start Date: 1994-01-01
-## Post Period End Date: 1994-06-01
-## Matching Metric: sales
-## Local Level Prior SD: 0.01
-## Posterior Intervals Tail Area: 95%
-##
-## 
-## ------------- Model Stats -------------
-## Matching (pre) Period MAPE: 1.47%
-## Beta 1 [2]: 0.9239
-## DW: 1.93
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;##  ------------- Inputs -------------
+##  Test Market: 1
+##  Control Market 1: 4
+##  Market ID: shop
+##  Date Variable: measurement_date
+##  Matching (pre) Period Start Date: 1960-01-01
+##  Matching (pre) Period End Date: 1968-12-01
+##  Post Period Start Date: 1969-01-01
+##  Post Period End Date: 1969-06-01
+##  Matching Metric: sales
+##  Local Level Prior SD: 0.01
+##  Posterior Intervals Tail Area: 95%
 ##
 ##
-## ------------- Effect Analysis -------------
-## Absolute Effect: 2.62 [1.29, 3.99]
-## Relative Effect: 4.41% [2.17%, 6.73%]
-## Probability of a causal impact: 99.8996%&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s break down the &lt;strong&gt;Effect Analysis&lt;/strong&gt; portion of the output. The &lt;strong&gt;Absolute Effect&lt;/strong&gt; indicates a lift of 2.62 in sales over the 6-month intervention period. Given that we’re working with logged units, this isn’t very helpful without transforming it first. The &lt;strong&gt;Relative Effect&lt;/strong&gt;, in contrast, provides a standardized view. Recall that we simulated a 5% lift, and in this case, we observed an estimated lift of 4.41%. Finally, the probability of a causal impact indicates that the likelihood of observing this effect by chance is extremely low (e.g., 100 - 99.8). We can see what was just described above in visual format below.&lt;/p&gt;
+##  ------------- Model Stats -------------
+##  Matching (pre) Period MAPE: 5.75%
+##  Beta 1 [4]: 0.9362
+##  DW: 1.92
+##
+##
+##  ------------- Effect Analysis -------------
+##  Absolute Effect: 93.19 [15.59, 161.41]
+##  Relative Effect: 7.72% [1.29%, 13.37%]
+##  Probability of a causal impact: 98.996%&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s break down the &lt;strong&gt;Effect Analysis&lt;/strong&gt; portion of the output. The &lt;strong&gt;Absolute Effect&lt;/strong&gt; indicates that we sold ~93 more cars over the 6-month intervention period relative to what we expected to sell. The &lt;strong&gt;Relative Effect&lt;/strong&gt; provides a standardized view, indicating a 7.7% lift in sales. Finally, the probability of a causal impact indicates that the likelihood of observing this effect by chance is extremely low (e.g., 100 - 98.9). We can see what was just described above in visual format below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(results$PlotActualVersusExpected)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/counterfactual_prediction_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This drives home that our intervention had a clear effect – and we should promote the WITM to store manager for the excellent work in driving up sales. Hopefully, this post gave you a better idea of how to quantify the impact of an intervention. The ability to run a randomized experiment in the real-world is often too expensive or simply not possible. In many cases creating a statistical control group is the best (and cheapest) option available. For more information about the forecasting methodology used produce counterfactual predictions, check out the &lt;a href=&#34;https://cran.r-project.org/web/packages/bsts/bsts.pdf&#34;&gt;bsts&lt;/a&gt; and (CausalImpact)[&lt;a href=&#34;https://google.github.io/CausalImpact/CausalImpact.html&#34; class=&#34;uri&#34;&gt;https://google.github.io/CausalImpact/CausalImpact.html&lt;/a&gt;] packages. Happy experimenting!&lt;/p&gt;
+&lt;p&gt;This drives home that our intervention had a clear effect – and we should promote the WITM to shop manager for the excellent work in driving up sales. Hopefully, this post gave you a better idea of how to quantify the impact of an intervention. The ability to run a randomized experiment in the real-world is often too expensive or simply not possible. In many cases creating a statistical control group is the best (and cheapest) option available. For more information about the forecasting methodology used produce counterfactual predictions, check out the &lt;a href=&#34;https://cran.r-project.org/web/packages/bsts/bsts.pdf&#34;&gt;bsts&lt;/a&gt; and (CausalImpact)[&lt;a href=&#34;https://google.github.io/CausalImpact/CausalImpact.html&#34; class=&#34;uri&#34;&gt;https://google.github.io/CausalImpact/CausalImpact.html&lt;/a&gt;] packages. Happy experimenting!&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -9745,8 +9759,18 @@ qrf_quantile = predict(qrf_fit,
                 mutate(Opportunity = ifelse(residual &amp;lt; 0, 
                                             &amp;quot;underpriced&amp;quot;, 
                                             &amp;quot;overpriced&amp;quot;)) %&amp;gt;% 
-                filter(`PI Range` &amp;lt;= 90000)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_plot_theme = function(){
+                filter(`PI Range` &amp;lt;= 90000)
+
+
+qrf_plot_input = qrf_quantile %&amp;gt;% 
+  mutate(asking_price = asking_price/1e3,
+         predicted_price = predicted_price/1e3,
+         `PI Range` = `PI Range`/1e3,
+         lwr = lwr/1e3,
+         upr = upr/1e3
+         )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# custom plotting theme
+my_plot_theme = function(){
     font_family = &amp;quot;Helvetica&amp;quot;
     font_face = &amp;quot;bold&amp;quot;
     return(theme(
@@ -9764,15 +9788,8 @@ qrf_quantile = predict(qrf_fit,
     face = font_face,
     family = font_family)
 ))
-}
-qrf_quantile %&amp;gt;% 
-  mutate(asking_price = asking_price/1e3,
-         predicted_price = predicted_price/1e3,
-         `PI Range` = `PI Range`/1e3,
-         lwr = lwr/1e3,
-         upr = upr/1e3
-         ) %&amp;gt;% 
-ggplot(aes(x = asking_price, 
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(qrf_plot_input, aes(x = asking_price, 
                           y = predicted_price, 
                           color = Opportunity)) + 
   theme_bw() + 
@@ -9796,7 +9813,8 @@ ggplot(aes(x = asking_price,
            arrow = arrow(),
            alpha = 0.6
            )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/is_that_home_price_negotiable_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;960&#34; /&gt; Each point represents a home. All points below the diagonal line are overpriced homes (i.e., the asking price is above the predicted price), while those above the diagonal line are underpriced. Each of the points is sized according to the width of its prediction interval, such that smaller points have narrower intervals. The arrow identifies a potential home that we should feel comfortable negotiating on price because it not only is overpriced but also has a relatively narrow prediction interval. When both features are present, making an offer for less than the asking price should result in an acceptance more frequently than the points above of the line or those with wider prediction intervals. This is information we can use to decide when to make a purchase, continue negotiating, or simply walk away from the house.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/is_that_home_price_negotiable_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Each point represents a home. All points below the diagonal line are overpriced homes (i.e., the asking price is above the predicted price), while those above the diagonal line are underpriced. Each of the points is sized according to the width of its prediction interval, such that smaller points have narrower intervals. The arrow identifies a potential home that we should feel comfortable negotiating on price because it not only is overpriced but also has a relatively narrow prediction interval. When both features are present, making an offer for less than the asking price should result in an acceptance more frequently than the points above of the line or those with wider prediction intervals. This is information we can use to decide when to make a purchase, continue negotiating, or simply walk away from the house.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;concluding-remarks&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Concluding Remarks&lt;/h3&gt;
