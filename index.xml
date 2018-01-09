@@ -11,41 +11,31 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Time Series Forecasting with Gradient Boosting</title>
-      <link>/post/time_series_forecasting_with_gradient_boosting.html</link>
-      <pubDate>Tue, 14 Nov 2017 21:13:14 -0500</pubDate>
+      <title>Time Series Forecasting with Neural Networks</title>
+      <link>/post/time_series_forecasting_with_neural_networks.html</link>
+      <pubDate>Thu, 04 Jan 2018 21:13:14 -0500</pubDate>
       
-      <guid>/post/time_series_forecasting_with_gradient_boosting.html</guid>
+      <guid>/post/time_series_forecasting_with_neural_networks.html</guid>
       <description>&lt;p&gt;&lt;img src=&#34;images/city_lights.jpg&#34; width=&#34;800px&#34; height=&#34;800px&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;When considering classic prediction problems, some of the following examples come to mind:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Predicting the content of an image&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Classifying Fraudulent Transactions&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Product recommendations&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Illness diagnostics&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;A common assumption underlies all of these prediction scenarios: That the relationship between the inputs and output remain constant over time. For example, the appearance of dogs or cats hasn’t changed in recent history and will likely remain the same for many years to come. Thus, in an image prediction task, a model trained with images of dogs and cats from the year 2016 could perform just as well when fed images from the year 2020 because the appearance of dogs and cats will not change much from year to year.&lt;/p&gt;
-&lt;p&gt;Now let’s think about classic time series prediction problems, with a few examples listed below:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Daily temperature for the next 10 days&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Monthly unemployment rates for 2018 in the United States&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Daily demand for flights between Portland and New York City in December&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The difference between time series prediction problems and those listed initially is that the relationship between our input and outputs are likely changing over time. That is, we have to account for and anticipate where the thing we’re trying to predict might go in the future. For instance, take the last example – predicting daily bookings for flights from Portland to NYC. Has the number of people flying this route increased or decreased over the past few years? Has there been a change in the overall number of people flying in general? Has the introduction of price-comparison websites shifted the time periods during which people book flights? These forces may change consumption patterns over time, so a portion of our data may no longer reflect the relationship between the inputs and output. While this presents a more challenging prediction scenario, all of these forces can be accounted for and modeled. And once they are, a time series prediction problem is no different than any other prediction problem. Let’s make these concepts more concrete by working through an example.&lt;/p&gt;
+&lt;p&gt;The Internet of Things (IOT) has enabled data collection on a moment-by-moment basis. Some examples include smart-thermostats that store power readings from millions of homes every minute or sensors within a machine that capture part vibration readings every second. The granular nature of these data streams provides opportunites to leverage more advanced forecasting methodologies that can better model non-linearities and higher-order interactions. Accordingly, the goal of this post is to provide an end-to-end overview of how to generate a forecast using neural nets with a classic IOT dataset – hourly electricity consumption from commercial buildings.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;forecasting-power-consumption&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Forecasting Power Consumption&lt;/h3&gt;
-&lt;p&gt;Nothing gets me more &lt;em&gt;charged up&lt;/em&gt; than forecasting electricity consumption, so the data we’ll use here is a time series of consumption for an anonymized commercial building from 2012. Measurements were recorded for a single year at five-minute intervals, so each hour has 12 readings, and each day has 288 readings. Our goal is to train a model on several months of consumption data and then produce a one-week-ahead forecast for anticipated consumption. Let’s get started by downloading the data and examining the first few rows.&lt;/p&gt;
+&lt;p&gt;Nothing gets me more &lt;em&gt;charged up&lt;/em&gt; than forecasting electricity consumption, so the data we’ll use here is a time series of consumption for an anonymized commercial building from 2012. Measurements were recorded for a single year at five-minute intervals, so each hour has 12 readings, and each day has 288 readings. Our goal is to train a model on several months of consumption data and then produce a 24-hour ahead forecast of consumption. Let’s get started by downloading the data and examining the first few rows.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;libs = c(&amp;#39;data.table&amp;#39;,&amp;#39;h2o&amp;#39;,&amp;#39;forecast&amp;#39;,
          &amp;#39;lubridate&amp;#39;,&amp;#39;forcats&amp;#39;,
           &amp;#39;ggforce&amp;#39;, &amp;#39;ggplot2&amp;#39;,
           &amp;#39;reshape&amp;#39;, &amp;#39;knitr&amp;#39;,
-         &amp;#39;kableExtra&amp;#39;,
-         &amp;#39;dplyr&amp;#39;)
+         &amp;#39;kableExtra&amp;#39;, &amp;#39;tidyquant&amp;#39;,
+         &amp;#39;stringr&amp;#39;, &amp;#39;dplyr&amp;#39;,
+         &amp;#39;doParallel&amp;#39;, &amp;#39;foreach&amp;#39;,
+         &amp;#39;janitor&amp;#39;, &amp;#39;timetk&amp;#39;,
+         &amp;#39;tidyquant&amp;#39;, &amp;#39;stringr&amp;#39;
+         )
 lapply(libs, require, character.only = TRUE)
-data_source = &amp;#39;https://open-enernoc-data.s3.amazonaws.com/anon/csv/832.csv&amp;#39;
+data_source = &amp;#39;https://open-enernoc-data.s3.amazonaws.com/anon/csv/401.csv&amp;#39;
 df_elec = fread(data_source,
                 data.table = FALSE)&lt;/code&gt;&lt;/pre&gt;
 &lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:720px; &#34;&gt;
@@ -78,7 +68,7 @@ anomaly
 2012-01-01 00:05:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+10.6253
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -94,7 +84,7 @@ anomaly
 2012-01-01 00:10:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+10.1194
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -110,7 +100,7 @@ anomaly
 2012-01-01 00:15:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+10.6253
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -126,7 +116,7 @@ anomaly
 2012-01-01 00:20:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-24.1851
+9.6134
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -142,7 +132,7 @@ anomaly
 2012-01-01 00:25:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+10.6253
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -158,7 +148,7 @@ anomaly
 2012-01-01 00:30:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-12.0925
+9.6134
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -174,7 +164,7 @@ anomaly
 2012-01-01 00:35:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+10.6253
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -190,7 +180,7 @@ anomaly
 2012-01-01 00:40:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+9.6134
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -206,7 +196,7 @@ anomaly
 2012-01-01 00:45:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+11.6373
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -222,7 +212,7 @@ anomaly
 2012-01-01 00:50:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+12.1433
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -238,7 +228,7 @@ anomaly
 2012-01-01 00:55:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+13.6612
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -254,7 +244,7 @@ anomaly
 2012-01-01 01:00:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+14.1671
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -270,7 +260,7 @@ anomaly
 2012-01-01 01:05:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+12.1433
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -286,7 +276,7 @@ anomaly
 2012-01-01 01:10:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+13.1552
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -302,7 +292,7 @@ anomaly
 2012-01-01 01:15:00
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-18.1388
+12.6492
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
 0
@@ -313,7 +303,7 @@ anomaly
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;p&gt;We only need the date-time and electricity values, so we’ll filter several variables and extract the date information from the timestamps.&lt;/p&gt;
+&lt;p&gt;We only need the date-time and consumption values, so we’ll filter out several variables and extract the date information from the timestamps.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df_elec = df_elec %&amp;gt;% 
   dplyr::select(-anomaly, -timestamp) %&amp;gt;%
   dplyr::rename(date_time = dttm_utc) %&amp;gt;%
@@ -322,7 +312,7 @@ anomaly
                 week = as.factor(lubridate::week(date_time)),
                 hour = lubridate::hour(date_time),
                 day = lubridate::day(date_time))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;To keep things really simple, we’ll model the average reading per hour instead of every five minutes, meaning there will be 24 readings per day instead of 288.&lt;/p&gt;
+&lt;p&gt;To keep things simple, we’ll model the average reading per hour instead of every five minutes, meaning there will be 24 readings per day instead of 288.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df_hourly = df_elec %&amp;gt;% 
          group_by(date_only, month, hour) %&amp;gt;% 
          summarise(value = mean(value)) %&amp;gt;% 
@@ -334,10 +324,10 @@ anomaly
          mutate(date_time = lubridate::ymd_hms(paste(date_only, hour))) %&amp;gt;% 
          dplyr::select(date_time, month, value) %&amp;gt;% 
          mutate(week = as.factor(lubridate::week(date_time)),
-                day = lubridate::day(date_time),
+                day = lubridate::wday(date_time, label = TRUE),
                 hour = lubridate::hour(date_time)
                 ) &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next, we’ll filter the timeframe to only a few months to speed up the eventual training time and break our dataset into &lt;em&gt;training&lt;/em&gt; and &lt;em&gt;testing&lt;/em&gt; segments. We’ll hold out the last week for testing, which contains a total of 168 observations (24 per day).&lt;/p&gt;
+&lt;p&gt;Next, we’ll filter the timeframe to only a few months to speed up the eventual training time and break our dataset into &lt;em&gt;training&lt;/em&gt;, &lt;em&gt;validation&lt;/em&gt;, and &lt;em&gt;testing&lt;/em&gt; segments. The 2nd to last week is held out for validation and the last week for testing. The validation and testing segments contain a total of 168 observations (24 per day).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df_hourly = df_hourly %&amp;gt;% 
             filter(month %in% c(&amp;#39;Feb&amp;#39;,&amp;#39;Mar&amp;#39;, &amp;#39;Apr&amp;#39;, &amp;#39;May&amp;#39;, &amp;#39;Jun&amp;#39;)) %&amp;gt;% 
             dplyr::select(-month)
@@ -345,19 +335,22 @@ anomaly
 daily_p = 24
 # weekly period (7 days)
 weekly_p = 7
-# hold out last week of time series for testing
-train_df = df_hourly[1:(nrow(df_hourly) - daily_p * weekly_p),]
-test_df = tail(df_hourly, daily_p * weekly_p)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s start by creating a high level view of the entire time series and loading up a custom plotting theme.&lt;/p&gt;
+# period length
+period_length = daily_p * weekly_p
+# create train, validation, and testing
+train_df = head(df_hourly, (nrow(df_hourly) - period_length * 2))
+validation_df = head(tail(df_hourly, period_length * 2), period_length)
+test_df = tail(df_hourly, period_length)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s start by creating a high level view of the entire time series and load up a custom plotting theme.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_plot_theme = function(){
     font_family = &amp;quot;Helvetica&amp;quot;
     font_face = &amp;quot;bold&amp;quot;
     return(theme(
-    axis.text.x = element_text(size = 18, face = font_face, family = font_family),
-    axis.text.y = element_text(size = 18, face = font_face, family = font_family),
-    axis.title.x = element_text(size = 20, face = font_face, family = font_family),
-    axis.title.y = element_text(size = 20, face = font_face, family = font_family),
-    strip.text.y = element_text(size = 18, face = font_face, family = font_family),
+    axis.text.x = element_text(size = 14, face = font_face, family = font_family),
+    axis.text.y = element_text(size = 14, face = font_face, family = font_family),
+    axis.title.x = element_text(size = 14, face = font_face, family = font_family),
+    axis.title.y = element_text(size = 14, face = font_face, family = font_family),
+    strip.text.y = element_text(size = 14, face = font_face, family = font_family),
     plot.title = element_text(size = 18, face = font_face, family = font_family),
     legend.position = &amp;quot;top&amp;quot;,
     legend.title = element_text(size = 16,
@@ -371,19 +364,22 @@ test_df = tail(df_hourly, daily_p * weekly_p)&lt;/code&gt;&lt;/pre&gt;
 
 bind_rows(train_df %&amp;gt;% 
             mutate(part = &amp;quot;train&amp;quot;),
+          validation_df %&amp;gt;% 
+            mutate(part = &amp;quot;validation&amp;quot;), 
           test_df %&amp;gt;% 
             mutate(part = &amp;quot;test&amp;quot;)) %&amp;gt;% 
   dplyr::select(date_time, part, value) %&amp;gt;% 
   ggplot(aes(x = date_time, y = value, color = part)) + 
   geom_line() +   
-  facet_zoom(x = date_time %in% c(test_df$date_time)) + 
+  facet_zoom(x = date_time %in% c(validation_df$date_time, 
+                                  test_df$date_time)) + 
   theme_bw() + 
   my_plot_theme() + 
   xlab(&amp;quot;Date-Time&amp;quot;) + 
   ylab(&amp;quot;Value&amp;quot;) + 
   theme(legend.title=element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_gradient_boosting_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;There is clear seasonality in the data – and that’s what we’ll focus on next. The measurements are at the hourly level, so a periodicity (or seasonality) of 24 is likely. This makes sense: consumption increases during business hours and decreases after-hours. It’s also possible there is a daily component, in that consumption is higher on weekdays relative to weekends. However, we have no idea what kind of business we’re working with here (since all the data is anonymized) and can’t make any assumptions about the nature of consumption throughout the week. Rather than assuming these patterns exist, I find it helps to sample some days and plot them out. If there is a pattern amongst the sampled values, then there’s a signal we can leverage to make a forecast. Let’s examine how consumption varies throughout the day and week for a random sample of 100 days.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_neural_networks_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;There is clear seasonality in the data – and that’s what we’ll focus on next. The measurements are at the hourly level, so a periodicity (or seasonality) of 24 is likely. However, we have no idea what kind of business we’re working with (since all the data is anonymized) and can’t make any assumptions about the nature of consumption throughout the week. Rather than assuming these patterns exist, it helps to sample some days and plot them out. If there is a pattern amongst the sampled values, then there’s a signal we can leverage to make a forecast. Let’s examine how consumption varies throughout the day and week for a random sample of 100 days.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
 sample_size = 100
 sample_days = train_df %&amp;gt;% 
@@ -404,166 +400,443 @@ sample_days = train_df %&amp;gt;%
   facet_grid(day_of_week ~ .) + 
   theme(legend.position = &amp;quot;none&amp;quot;, 
   axis.text.y = element_text(size = 13))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_gradient_boosting_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;There is minimal consumption on Saturday and Sunday, while Monday through Friday has higher levels. Monday through Thursday follow a similar “S” shaped pattern throughout the day. Friday starts out similar to the other weekdays but trails off in the later hours of the day. Accordingly, there appears to be an hourly and weekly seasonality component that we can model. In the following section, we’ll go over how to translate these components into features.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;feature-engineering&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Feature Engineering&lt;/h3&gt;
-&lt;p&gt;Based on the initial exploratory analysis, we’ve identified two seasonal components. We’ll capture this via &lt;code&gt;msts&lt;/code&gt;, which is intended for time series data with multiple seasonal periods.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_ts = msts(train_df$value, seasonal.periods = c(daily_p,
-                                                    daily_p * weekly_p))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We’ll take our &lt;code&gt;msts&lt;/code&gt; object and extract the seasonal features via a &lt;strong&gt;Fourier Transformation&lt;/strong&gt;. Fourier transformations are pretty incredible, and they have lots of real-world applications. In a nutshell, applying a Fourier transformation to a time-series (or any signal) is a way of “deconstructing” the series into different parts, each with a unique frequency. If all the parts are added back together, we get the original series. Our goal is to take the fewest number of parts that capture the greatest amount of variation when we add them back together. Let’s visualize what this looks like by examining the forecasted seasonal component for the test week.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;K = 2
-fourier_train = data.frame(fourier(data_ts, K = c(K, K)))
-fourier_test_fcast &amp;lt;- data.frame(fourier(data_ts, 
-                                         K = c(K, K), 
-                                         h = daily_p * weekly_p))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cbind(fourier_test_fcast,
-      data.frame(date_time = test_df$date_time)) %&amp;gt;%
-melt(id.vars = &amp;quot;date_time&amp;quot;) %&amp;gt;%
-ggplot(aes(x = date_time, y = value, color = variable)) +
-  geom_line() +
-  facet_grid(variable ~ .) +
+&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_neural_networks_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Consumption follows a similar pattern for each day of the week, peaking around midnight and reaching a minimum around noon. Thus, the pattern of consumption is stable across weekday but varies by hour within each day, indicating an hourly periodicity. We can confirm this by examining the lagged correlation values. Note much of the code in this section is adapted from &lt;a href=&#34;http://www.business-science.io/timeseries-analysis/2017/08/30/tidy-timeseries-analysis-pt-4.html&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;k = 1:period_length
+col_names = paste0(&amp;quot;lag_&amp;quot;, k)
+consumption_lags = train_df %&amp;gt;%
+  tq_mutate(
+    select = value,
+    mutate_fun = lag.xts,
+    k = 1:period_length,
+    col_rename = col_names
+  )
+
+consumption_auto_cor = consumption_lags %&amp;gt;% 
+  gather(key = &amp;quot;lag&amp;quot;, value = &amp;quot;lag_value&amp;quot;, -c(date_time, value, week, day, hour)) %&amp;gt;% 
+  mutate(lag = str_sub(lag, start = 5) %&amp;gt;% as.numeric) %&amp;gt;% 
+  group_by(lag) %&amp;gt;% 
+  summarize(
+    abs_cor = abs(cor(x = value, y = lag_value, use = &amp;quot;pairwise.complete.obs&amp;quot;))
+  ) %&amp;gt;% 
+  mutate(lag = factor(lag)) %&amp;gt;% 
+  arrange(desc(abs_cor)) %&amp;gt;% 
+  head(25)
+# examine top 25 correlations
+ggplot(consumption_auto_cor, aes(x = fct_reorder(lag, abs_cor, .desc = TRUE) , y = abs_cor)) +
+geom_point(size = 3) +
+  geom_segment(aes(x=lag, xend=lag, y=0, yend=abs_cor)) + 
   theme_bw() +
   my_plot_theme() + 
-  xlab(&amp;quot;Date&amp;quot;) + 
-  ylab(&amp;quot;Value&amp;quot;) +
-  theme(legend.position = &amp;quot;none&amp;quot;,
-        axis.text.y = element_text(size = 13),
-        strip.text.y = element_text(size = 13))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_gradient_boosting_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Note how all the features with &lt;em&gt;24&lt;/em&gt; capture the hourly component, while those with a &lt;em&gt;168&lt;/em&gt; capture the daily component. Note also the continuous nature of the waves. Indeed, one clear advantage of using this approach for modeling seasonality is that it produces &lt;strong&gt;smooth&lt;/strong&gt; forecasts. If we look back at the plot of the daily consumption across the week, the hour-to-hour, day-to-day, and week-to-weekend changes are gradual. If we modeled the hour and day features as dummy variables, simply taking the average for each day or hour, then our seasonality would be stepwise and &lt;strong&gt;not smooth&lt;/strong&gt;, which would likely produce sub-optimal forecasts (also &lt;strong&gt;not smooth&lt;/strong&gt;).&lt;/p&gt;
-&lt;p&gt;Next, we’ll extract the &lt;em&gt;trend&lt;/em&gt; component from the time series. We want to remove this part, and the reasoning is simple: Our model can’t account for changes that occur over time. Let’s extract the trend, generate a trend-only forecast, and later on, we’ll add the trend-only forecast back in.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ts_input = ts(data_ts, freq = daily_p * weekly_p)
-
-# deconstruct series into seasonal, trend, and error components
-decomp_ts = stl(ts_input, s.window = &amp;quot;periodic&amp;quot;, robust = TRUE)
-
-# add together the seasonal and error component
-seasonal_error_part = apply(data.frame(decomp_ts$time.series)[,c(1, 3)], 1, sum)
-
-# extract the seasonal component
-seasonal_part = as.vector(decomp_ts$time.series[,1])
-
-# extract the trend component
-trend_part = ts(decomp_ts$time.series[,2])
-
-# generate a forecast for the trend 
-trend_forecast_test = as.vector(forecast(auto.arima(trend_part), 
-                          h = nrow(test_df))$mean)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we’ll work with the &lt;code&gt;seasonal_error_part&lt;/code&gt;, which is the sum of our seasonal component and error component. In this section we’ll create a &lt;em&gt;seasonal lag&lt;/em&gt;, which is a simple (but effective) way of summarizing recent seasonal variation.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;seasonal_train = seasonal_part[1:(nrow(train_df) - (weekly_p * daily_p))]
-seasonal_test = tail(seasonal_part, weekly_p * daily_p)
-# build the training set
-train_input = data.frame(value = head(seasonal_error_part, length(seasonal_train)),
-                         fourier_train[1:length(seasonal_train),],
-                         seasonal_lag = seasonal_train
-                         )
-# build the testing set
-test_input = data.frame(value = test_df$value,
-                        fourier_test_fcast,
-                        seasonal_lag = seasonal_test
-                        )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Our time-series has successfully been translated into the format required for forecasting.&lt;/p&gt;
+  xlab(&amp;quot;Lags&amp;quot;) + 
+  ylab(&amp;quot;Absolute Correlation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_neural_networks_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;960&#34; /&gt; The plot above shows a strong autocorrelation at multiples of 24, confirming our initial hunch of an hourly periodicity. We’ll use this frequency when modeling our time series.&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;forecasting-prediction-intervals&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Forecasting &amp;amp; Prediction Intervals&lt;/h3&gt;
-&lt;p&gt;We’ll use the &lt;code&gt;h2o&lt;/code&gt; package to generate forecasts and prediction intervals. A forecast is our best guess for what we believe the future holds. But that’s only one part of the process. The other part – a prediction interval – captures our certainty surrounding that guess. Prediction intervals can be created with a technique called &lt;em&gt;quantile regression&lt;/em&gt;. Quantile regression works by differentially weighting errors during the model fitting process. It models the relationship between our inputs and a specific quantile (i.e., percentile) of our output. For example, if the goal is to model the relationship between X and Y at the 90th percentile of Y, 10% of the errors should be positive and 90% negative to minimize our loss function (e.g., MAE, MSE). In this case, we’ll generate forecasts at the following percentiles:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;10%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;50%&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;90%&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The 50th percentile is our forecast, while the 10th and 90th percentile will serve as the lower and upper bound of our 80 percent prediction interval. If our prediction interval is functioning properly, then approximately 90% of the errors for the 10th percentile should be positive, while 10% of the errors for 90% percentile should be positive. We can verify this assumption by examining the residuals on the test set. I’ve created a function below to do this in &lt;code&gt;h2o&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# function to generate quantile regression estimates
-gbm_prediction_interval = function(x_var, y_var, train_input, test_input, quantiles, seed){
-  pred_interval = list()
-  for(q in quantiles){
-  quantile_fit = h2o.gbm(x = x_var,
-                           y = y_var,
-                           training_frame = as.h2o(train_input),
-                           distribution = &amp;quot;quantile&amp;quot;,
-                           quantile_alpha = q,
-                           stopping_rounds = 15,
-                           ntrees = 5000,
-                           seed = seed
-                           )
-    quantile_pred = as.vector(predict(quantile_fit, as.h2o(test_input)))
-    pred_interval[[paste0(&amp;quot;q_&amp;quot;, q)]] = quantile_pred
+&lt;div id=&#34;feature-engineering-parameter-tuning-forecasting&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Feature Engineering, Parameter Tuning, &amp;amp; Forecasting&lt;/h3&gt;
+&lt;p&gt;We’ll implement the forecast with the &lt;code&gt;nnetar&lt;/code&gt; function in the &lt;code&gt;forecast&lt;/code&gt; package. Neural networks, while incredibly powerful, have a tendency to overfit, so it is imperative to understand how different parameter configurations affect performance on unseen data. Accordingly, a total of seven, 24-hour forecasts are created from our validation set. Each model will have different parameter settings and vary along a complexity spectrum. For example, the size parameter specifies how many nodes are in a single hidden layer within the network. More nodes are capable of handling increasingly complex interactions amongst the inputs and target variable but are also more prone to overfitting.&lt;/p&gt;
+&lt;p&gt;The tuning process is parallelized with the &lt;code&gt;doParallel&lt;/code&gt; and &lt;code&gt;foreach&lt;/code&gt; packages. The output of each model is independent of the others, so we can run all candidate models in parallel. Finally, performance is based on two metrics: &lt;em&gt;Mean Absolute Percentage Error&lt;/em&gt; (MAPE), and &lt;em&gt;Coverage&lt;/em&gt; of the prediction intervals.&lt;/p&gt;
+&lt;p&gt;Note that we would typically scale our inputs. However, the &lt;code&gt;nnetar&lt;/code&gt; automatically takes care of this prior to modeling, which eliminates this step from preprocessing.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# parameter grid
+tune_grid = expand.grid(n_seasonal_lags = c(2, 3),
+                        size = c(2, 8, 16)
+                        )
+
+# init computing cluster
+registerDoParallel(cores = detectCores())
+
+# bind training and validation datasets together
+train_val_df = bind_rows(train_df,
+                         validation_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create moving window across time when validating model
+end_index_train = nrow(train_df)
+start_index_validation = nrow(train_df) + 1
+end_index_validation = start_index_validation + 23
+prediction_results = NULL
+n_days = 1:7
+
+for(n in n_days){
+  temp_train = train_val_df[1:end_index_train,]
+  temp_validation = train_val_df[start_index_validation:end_index_validation,]
+  temp_train_ts = ts(temp_train$value, frequency = 24)
+  # test different parameter settings in parallel
+  temp_result = foreach(i = 1:nrow(tune_grid), .combine = rbind) %dopar% {
+    nn_fit = forecast::nnetar(temp_train_ts,
+                              P = tune_grid[i,]$n_seasonal_lags,
+                              size = tune_grid[i,]$size,
+                              repeats = 25
+                              )
+    nn_fcast = forecast(nn_fit, 
+                       PI = TRUE,
+                       npaths = 50,
+                       h = daily_p) %&amp;gt;% 
+               data.frame() %&amp;gt;% 
+               clean_names()
+    
+    data.frame(predicted = nn_fcast$point_forecast,
+               lwr = nn_fcast$lo_95,
+               upr = nn_fcast$hi_95,
+               actual = temp_validation$value,
+               n_seasonal_lags = tune_grid[i,]$n_seasonal_lags,
+               size = tune_grid[i,]$size
+               )
   }
-  return(pred_interval)
+  end_index_train = end_index_train + 23
+  start_index_validation = end_index_validation
+  end_index_validation = end_index_validation + 23
+  prediction_results = bind_rows(prediction_results,
+                                 temp_result %&amp;gt;% 
+                                 mutate(day = n,
+                                        hour = rep(0:23, nrow(tune_grid))
+                                        ))
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;h2o.init()
-# specify 80% prediction interval 
-quantiles = c(0.1,0.5,0.9)
-# set seed for reproduceability
-seed = 123
-y_var = &amp;quot;value&amp;quot;
-x_var = setdiff(names(train_input),y_var)
-detrended_consumption = gbm_prediction_interval(x_var, 
-                                                y_var, 
-                                                train_input,
-                                                test_input, 
-                                                quantiles, 
-                                                seed)
-# add trend forecast back to predictions 
-predicted_consumption = data.frame(lapply(detrended_consumption, 
-                                          function(x) x + trend_forecast_test)) %&amp;gt;% 
-                        mutate(value = test_df$value)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We now have our final model and predictions. Before considering performance on the test set, I’ll reflect on something that I wondered the first time I went through all of the steps outlined above: Is it worth the time and trouble? What kind of performance would result if we avoided all the lags, transformations, and assorted data wizardry and did something like this:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;arima_fit = auto.arima(data_ts)
-arima_fcast = forecast(arima_fit, h = nrow(test_df))$mean&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;That was two lines. Boom. Done. The ARIMA forecast will serve as our performance benchmark. Keep in mind that ARIMA models the &lt;strong&gt;linear&lt;/strong&gt; relationship between inputs and outputs. There are many instances in which capturing higher-order interactions and non-linearities can greatly improve forecasting accuracy, and we’ll determine if this happens to be one of those instances.&lt;/p&gt;
+&lt;p&gt;We have the forecasts for each parameter combination across the seven validation days. We’ll select the model with the best balance between a high &lt;em&gt;Coverage Rate&lt;/em&gt; and a low &lt;em&gt;MAPE&lt;/em&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;validation_perf = prediction_results %&amp;gt;% 
+            mutate(residual = actual - predicted,
+                   coverage = ifelse(actual &amp;gt;= lwr &amp;amp; actual &amp;lt;= upr, 1, 0)) %&amp;gt;% 
+            group_by(n_seasonal_lags, size) %&amp;gt;% 
+            summarise(MAPE = round(mean(abs(residual)/actual * 100), 2),
+                      coverage_95 = round(sum(coverage)/n() * 100, 2)
+                      ) %&amp;gt;% 
+            data.frame() %&amp;gt;% 
+            arrange(desc(coverage_95), MAPE)&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:200px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+n_seasonal_lags
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+size
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+MAPE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+coverage_95
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.87
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+85.71
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.88
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+85.71
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.84
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+83.33
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.81
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+82.14
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+16
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.74
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77.98
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+16
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.82
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+75.60
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;According to performance on our validation set, the best model has 3 seasonal lags and 2 nodes in the hidden layer. The coverage rate of 85.71 is reasonably close to 95%, although the intervals are bit too narrow. The MAPEs are similiar amongst all of the models, so the coverage rate is the differentiating factor. However, before moving on, it’s important to dig a bit deeper into the output by examining the residuals. First, we want to consider the autocorrelation between errors. If there is autocorrelation, then there remains signal that we could leverage to improve the model. Second, we want to consider if the forecast is biased upwards or downwards. If there is a bias, we can add a constant (i.e., the magnitude of the bias) to subsequent forecasts. Let’s investigate both issues by visualizing the validation residuals.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;week_results = prediction_results %&amp;gt;% 
+               filter(n_seasonal_lags == validation_perf$n_seasonal_lags[1] &amp;amp;
+                      size == validation_perf$size[1]
+                        ) %&amp;gt;% 
+               mutate(residuals = actual - predicted)
+
+week_results %&amp;gt;% 
+    dplyr::select(day, hour, predicted, actual) %&amp;gt;% 
+    melt(c(&amp;quot;day&amp;quot;, &amp;quot;hour&amp;quot;)) %&amp;gt;% 
+    ggplot(aes(x = hour, y = value, color = variable)) + 
+    geom_point() + geom_line() + 
+    facet_grid(day ~ .) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    theme(plot.title = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_neural_networks_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Based on the plot above, there are continuous “runs” of prediction errors that are either positive or negative, suggesting the presence of autocorrelation. We can provide some statistical rigor to this insight by calculating the correlation coefficients for different lags amongst the residuals.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# all correlation coefficients above abs(0.4) are significant
+acf_threshold = 0.4
+acf_df = week_results %&amp;gt;% 
+         group_by(day) %&amp;gt;% 
+         do(day_acf = Acf(.$residuals, plot = FALSE)) %&amp;gt;% 
+         data.frame()
+acf_df = sapply(acf_df$day_acf, function(x) x[[1]]) %&amp;gt;% 
+         data.frame()
+names(acf_df) = gsub(&amp;quot;X&amp;quot;, &amp;quot;&amp;quot;, names(acf_df))
+acf_df$lag = 0:(nrow(acf_df) - 1)
+
+acf_df %&amp;gt;% 
+    filter(lag != 0) %&amp;gt;% 
+    melt(&amp;#39;lag&amp;#39;) %&amp;gt;% 
+    dplyr::rename(day = variable,
+           ACF = value
+           ) %&amp;gt;% 
+    mutate(sig_acf = as.factor(ifelse(ACF &amp;gt; acf_threshold | ACF &amp;lt; -acf_threshold, 1, 0))) %&amp;gt;% 
+    ggplot(aes(x = lag, y = ACF, color = sig_acf)) + 
+    geom_point() + 
+    geom_segment(aes(x=lag, xend=lag, y=0, yend=ACF)) + 
+    facet_grid(day ~ .) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    geom_hline(yintercept = c(acf_threshold, 0, -acf_threshold), linetype = 2) + 
+    theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_neural_networks_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Autocorrelation is present on several days at lags one and two. There are some steps to remedy the issue, and I’ve found that identifying an omitted variable is a great place to start. For example, this data set is based on power consumption of a commercial building. Perhaps there are events that occur on certain days that lead to prolonged increases or decreases in power consumption outside of what is normal. Such events could be included as an external regressor in the model with the goal of reducing or eliminating the presence of autocorrelation. However, in order to keep things simple, we’ll stick with the model specification suggested by the validation set.&lt;/p&gt;
+&lt;p&gt;Next, we’ll consider if the forecasts are biased upward or downward. Overall, the mean of our residuals is near zero at 0.18, indicating that our model is not biased.&lt;/p&gt;
+&lt;p&gt;Finally, let’s examine the distribution of our residuals. One key assumption of the approach used to calculate the prediction intervals is that our residuals follow a normal distribution. If we find that they deviate significantly from a theoretical normal distribution, then our prediction intervals will might not be accurate.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+validation_residuals = week_results %&amp;gt;% 
+                       mutate(normal_residuals = rnorm(n = n(),
+                                                      mean = mean(residuals),
+                                                      sd = sd(residuals)
+                                                      )) %&amp;gt;% 
+                       dplyr::select(residuals, normal_residuals)
+validation_residuals %&amp;gt;% 
+  melt() %&amp;gt;% 
+  dplyr::rename(Residuals = value) %&amp;gt;% 
+  ggplot(aes(x = Residuals, fill = variable, color = variable)) + 
+  geom_density(alpha = 0.1) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  ylab(&amp;quot;Density&amp;quot;) + 
+  theme(legend.title = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_neural_networks_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;There is a fair amount of overlap between the distributions, which implies that our errors do in fact follow a normal distribution. We’ll run a KS-test just to be sure, which compares our actual residuals with those generated from our theoretical normal distribution.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ks.test(validation_residuals$residuals,
+        validation_residuals$normal_residuals)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Two-sample Kolmogorov-Smirnov test
+## 
+## data:  validation_residuals$residuals and validation_residuals$normal_residuals
+## D = 0.095238, p-value = 0.4313
+## alternative hypothesis: two-sided&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A non-significant &lt;em&gt;p-value&lt;/em&gt; indicates that both samples are drawn from the same distribution, so the assumption of normality is valid. This means we can have greater confidence in the accuracy of our prediction intervals and their ability to quantify forecasting uncertainty.&lt;/p&gt;
+&lt;p&gt;Now that we have our parameter settings and have investigated potential limitations of the model, let’s get a true test of our performance by making seven 24-hour ahead forecasts on our test set. We’ll also run several benchmark models to compare our performance against. Indeed, while neural networks are very powerful, they take a lot of computing resources and time to run. They also lack the interpretability of other forecasting approaches, such as seasonal decomposition. Can we achieve similar performance with a simpler model? To answer this question, we’ll use the &lt;code&gt;HoltWinters&lt;/code&gt; and &lt;code&gt;stl&lt;/code&gt; functions – two forecasting approaches that have quick run times and can produce solid forecasting results.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train_test_df = bind_rows(train_val_df,
+                          test_df
+                          )
+end_index_train = nrow(train_val_df)
+start_index_test = nrow(train_val_df) + 1
+end_index_test = start_index_test + 23
+prediction_results = NULL
+
+for(n in n_days){
+  temp_train = train_test_df[1:end_index_train,]
+  temp_test = train_test_df[start_index_test:end_index_test,]
+  temp_train_ts = ts(temp_train$value, frequency = 24)
+  
+  nn_fit = forecast::nnetar(temp_train_ts,
+                              P = validation_perf[1,]$n_seasonal_lags,
+                              size = validation_perf[1,]$size,
+                              repeats = 50)
+  
+  nn_fcast = forecast(nn_fit, 
+                      PI = TRUE,
+                      npaths = 50,
+                      h = daily_p) %&amp;gt;% 
+             data.frame() %&amp;gt;% 
+             clean_names() %&amp;gt;% 
+             setNames(paste0(&amp;#39;nn_&amp;#39;, names(.)))
+  
+  stl_fcast = forecast(stl(temp_train_ts, 
+                           s.window = &amp;quot;periodic&amp;quot;, 
+                           robust = TRUE),
+                       h = daily_p) %&amp;gt;% 
+              data.frame() %&amp;gt;% 
+              clean_names() %&amp;gt;% 
+              setNames(paste0(&amp;#39;stl_&amp;#39;, names(.)))
+
+  hw_fcast = forecast(HoltWinters(temp_train_ts),
+                        h = daily_p) %&amp;gt;% 
+             data.frame() %&amp;gt;% 
+             clean_names() %&amp;gt;% 
+             setNames(paste0(&amp;#39;hw_&amp;#39;, names(.)))
+  end_index_train = end_index_train + 23
+  start_index_test = end_index_test
+  end_index_test = end_index_test + 23
+  
+  prediction_results = bind_rows(prediction_results,
+                                 bind_cols(nn_fcast,
+                                           stl_fcast,
+                                           hw_fcast) %&amp;gt;% 
+                                   dplyr::select(matches(&amp;#39;point_forecast|hi_95|lo_95&amp;#39;)) %&amp;gt;% 
+                                   mutate(day = n,
+                                          hour = 0:23,
+                                          actual = temp_test$value
+                                          )
+                                 )
+
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ll compare the forecasting accuracy and coverage between the three methods below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# combine all forecasts here
-perf_df = test_df %&amp;gt;% 
-          mutate(arima_fcast = arima_fcast,
-                 gbm_fcast = predicted_consumption$q_0.5,
-                 lwr = predicted_consumption$q_0.1,
-                 upr = predicted_consumption$q_0.9
-                 ) %&amp;gt;% 
-          dplyr::select(-week, -day, -hour) %&amp;gt;% 
-          dplyr::rename(actual = value) %&amp;gt;% 
-          data.frame()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;perf_df %&amp;gt;% 
-  melt(&amp;#39;date_time&amp;#39;) %&amp;gt;% 
-  filter(variable %in% c(&amp;quot;actual&amp;quot;, &amp;quot;arima_fcast&amp;quot;, &amp;quot;gbm_fcast&amp;quot;)) %&amp;gt;% 
-  ggplot(aes(x = date_time, y = value, color = variable)) + 
-  geom_line(size = 1) + 
-  theme_bw() + 
-  my_plot_theme() + 
-    xlab(&amp;quot;Date-Time&amp;quot;) + 
-    ylab(&amp;quot;Value&amp;quot;) + 
-  theme(legend.title=element_blank())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_gradient_boosting_files/figure-html/unnamed-chunk-21-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;In this case, the difference between the two methods is remarkable: GBM substantially outperforms the ARIMA model. While the granular nature of the data are particularly suited for this forecasting approach, I’ve found you can &lt;em&gt;boost&lt;/em&gt; your accuracy substantially by modeling non-linearities with more advanced machine learning methods. It’s obviously more involved than running a one-liner, and scalability can become an issue when generating many forecasts, but it can pay huge dividends in terms of accuracy.&lt;/p&gt;
-&lt;p&gt;So now that we have our initial forecast, let’s examine our prediction interval.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;perf_df %&amp;gt;% 
-  ggplot(aes(x = date_time, y = actual)) + 
-  geom_ribbon(aes(ymin = lwr,
-                  ymax = upr),
-              fill = &amp;quot;#F8766D&amp;quot;,
-              alpha = 0.7,
-              linetype = 2,
-              size = 2
-              ) + 
-  geom_line(size = 2
-            ) + 
-  theme_bw() + 
-  my_plot_theme() + 
-  xlab(&amp;quot;Date-Time&amp;quot;) + 
-  ylab(&amp;quot;Value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_forecasting_with_gradient_boosting_files/figure-html/unnamed-chunk-22-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The black line is the actual consumption values, while the shaded red area is our prediction interval. Overall the interval does a decent job of capturing uncertainty surrounding the forecasts, but let’s verify the distribution of our residuals. Are ~90% of errors above the 10th quantile forecast?&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(round(sum(ifelse(perf_df$actual - perf_df$lwr &amp;gt;= 0, 1, 0))/nrow(perf_df) * 100, 1))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 89.3&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Looks good! Almost 90% exactly. What about the upper bound?&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(round(sum(ifelse(perf_df$actual - perf_df$upr &amp;gt;= 0, 1, 0))/nrow(perf_df) * 100, 1))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 4.2&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Still reasonably close to 10%. The upper bound is more conservative than it needs to be (i.e., it is too wide in some spots) but it’s not too far from the benchmark. Overall our prediction interval performed well.&lt;/p&gt;
+mape_calc = function(actual, predicted){
+  return(abs(actual - predicted)/actual * 100)
+}
+
+coverage_calc = function(actual, upr, lwr){
+  return(ifelse(actual &amp;lt; upr &amp;amp; actual &amp;gt; lwr, 1, 0))
+}
+
+test_results = prediction_results %&amp;gt;% 
+  mutate(nn = mape_calc(actual, nn_point_forecast),
+         stl = mape_calc(actual, stl_point_forecast),
+         hw= mape_calc(actual, hw_point_forecast),
+         nn_coverage = coverage_calc(actual, nn_hi_95, nn_lo_95),
+         stl_coverage = coverage_calc(actual, stl_hi_95, stl_lo_95),
+         hw_coverage = coverage_calc(actual, hw_hi_95, hw_lo_95)
+        ) %&amp;gt;% 
+  dplyr::select(nn:hw_coverage)
+
+test_mape = test_results %&amp;gt;% 
+            dplyr::select(nn:hw) %&amp;gt;% 
+            melt() %&amp;gt;% 
+  dplyr::rename(method = variable,
+         MAPE = value) %&amp;gt;% 
+  group_by(method) %&amp;gt;% 
+  summarise(MAPE = round(mean(MAPE), 2)) %&amp;gt;%
+  data.frame()
+
+test_coverage = test_results %&amp;gt;% 
+                dplyr::select(nn_coverage:hw_coverage) %&amp;gt;% 
+                melt() %&amp;gt;% 
+                dplyr::rename(method = variable) %&amp;gt;% 
+                group_by(method) %&amp;gt;% 
+                summarise(coverage = round(sum(value)/n() * 100, 1)) %&amp;gt;% 
+                data.frame() %&amp;gt;% 
+                mutate(method = gsub(&amp;quot;_coverage&amp;quot;, &amp;quot;&amp;quot;, method))
+
+test_comparison_df = inner_join(test_mape,
+                                test_coverage
+                                ) %&amp;gt;% 
+                     dplyr::rename(coverage_95 = coverage) %&amp;gt;% 
+                     arrange(MAPE, coverage_95)&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:200px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+method
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+MAPE
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+coverage_95
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+nn
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.89
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+89.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+hw
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6.35
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+86.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+stl
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.69
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+86.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;While the coverage of our prediction intervals is comparable between the three methods, the prediction accuracy is notably better with the NN. This suggests that the additional training time and lack of interpretability are justified given the low forecasting error. While NNs don’t always outperform the “classic” time series forecasting methods, the results observed here fit with my experiences when working with highly granular time series.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;final-remarks&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Final Remarks&lt;/h3&gt;
-&lt;p&gt;Ideally, this post clarified one the biggest hurdles faced by data scientists and analysts: Getting your data into the right format to make the best forecast possible. If there is one thing to take away from this post, it’s that time series are no different than “regular” machine learning problems. There are a few more pre-processing steps to go through, but in many cases, the extra effort can result in more accurate predictions. Happy Forecasting!&lt;/p&gt;
+&lt;p&gt;Hopefully this post clarified one the biggest hurdles faced by data scientists and analysts: Getting your data into the right format and checking your assumptions to make the best forecast possible. There are a few more pre-processing steps to go through, but in many cases, the extra effort can result in more accurate predictions. Happy Forecasting!&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -1280,7 +1553,7 @@ beta_evolution_df = beta_evolution_df %&amp;gt;%
 &lt;div id=&#34;decisions-based-on-the-upper-confidence-bound&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Decisions based on the Upper Confidence Bound&lt;/h3&gt;
 &lt;p&gt;The Upper Confidence Bound algorithm is one way to make decisions in the face of uncertainty, in this case, which quarterback to fire up in our lineup each week. The idea is to choose the option with the greatest potential for a favorable outcome, even if our estimate of the probability of that outcome is uncertain (see &lt;a href=&#34;http://banditalgs.com/2016/09/18/the-upper-confidence-bound-algorithm/&#34;&gt;here&lt;/a&gt; for more detail). We’ll calculate a 90% credible interval for our beta parameter each week. A credible interval is like a confidence interval, but the interpretation is a bit different and, in my opinion, easier to understand. In the current context, a 90% credible interval is the range of values in which we are 90% certain that the probability of weekly success falls based on the data we have thus far (see &lt;a href=&#34;http://www.john-uebersax.com/stat312/17%20Credible%20Intervals%20and%20Confidence%20Intervals.pdf&#34;&gt;here&lt;/a&gt; for an excellent explanation on the distinction between confidence and credible intervals).&lt;/p&gt;
-&lt;p&gt;Taking these concepts together, we’ll choose the QB in Week 2 with the highest upper bound on their credible interval. I’ll also include an additional five weeks to show how the interval evolves as we obtain more information.&lt;/p&gt;
+&lt;p&gt;Taking these concepts together, we’ll choose the QB in Week 2 with the highest upper bound on their credible interval. I’ll also include an additional ten weeks to show how the interval evolves as we obtain more information.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;credible_intervals = data.frame(NULL)
 for(week in 2:length(players_list_reference)){
   temp_week = players_list_reference[[week]]
