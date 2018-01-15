@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/computer_vision_with_r.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/computer_vision_with_r.html">
+  <meta property="og:title" content="Computer Vision with R &amp; Keras | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-01-10T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2018-01-10T21:13:14-05:00">
+  
+
+  
+
+  <title>Computer Vision with R &amp; Keras | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Computer Vision with R &amp; Keras</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-01-10 21:13:14 -0500 -0500" itemprop="datePublished">
+      Jan 10, 2018
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    12 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/computer_vision_with_r.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/keras">Keras</a
+    >, 
+    
+    <a href="/categories/computer-vision">Computer Vision</a
+    >, 
+    
+    <a href="/categories/image-classification">Image Classification</a
+    >, 
+    
+    <a href="/categories/python">Python</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Computer%20Vision%20with%20R%20%26%20Keras&amp;url=%2fpost%2fcomputer_vision_with_r.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcomputer_vision_with_r.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcomputer_vision_with_r.html&amp;title=Computer%20Vision%20with%20R%20%26%20Keras"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcomputer_vision_with_r.html&amp;title=Computer%20Vision%20with%20R%20%26%20Keras"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Computer%20Vision%20with%20R%20%26%20Keras&amp;body=%2fpost%2fcomputer_vision_with_r.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p><img src="computer_vision_with_R_images/big_pizza.jpg" width="800px" height="800px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>Convolutional Neural Networks (CNNs or Convnets) are of one the more interesting applications of Neural Networks today. For example, CNNs power the brains of self-driving cars and the face detection software on your iPhone. The steps required to build a CNN have been greatly simplified with the advent of Keras, a high-level framework for constructing Neural Nets that relies on Tensorflow for low-level computation. Recently, an API for R was enabled, yet there remains a lack of basic tutorials on how to leverage Keras with the R language.The goal of this post is to change that by showing you the end-to-end process of building an image classifier in R. As usual, we’ll cover the steps in the context of real-world example – automated image tagging.</p>
+<p>Imagine you run a website, <em>www.tastyfoodpics.net</em>, dedicated to capturing the most scrumptious images of your favorite foods, which include <em>tacos</em>, <em>pizza</em>, <em>hot dogs</em>, and <em>hamburgers</em>. People upload pictures of these foods to your website, and you tag them with their respective labels. However, your user base is rapidly expanding and you want to automate the tagging process. You have a few thousand pictures of each food class and wonder if you can outsource the image classification process to your computer. Let’s find out below!</p>
+<p>First, we’ll open up R-studio and load the libraries required to build our image classifier. You can install Keras directly from R with <code>install_keras</code>. You’ll also need to install <code>tensorflow</code>, which serves as the backend for Keras.</p>
+<pre class="r"><code>libs = c(&#39;RJSONIO&#39;, &#39;keras&#39;, &#39;ggplot2&#39;, &#39;dplyr&#39;, &#39;reshape&#39;)
+lapply(libs, require, character.only = TRUE)
+base_dir = dirname(rstudioapi::getSourceEditorContext()$path)
+setwd(base_dir)</code></pre>
+<p>Assuming the required libraries have been successfully loaded, the next step is to download the images we’ll need to train and validate our classifier. Luckily, there is a website – <a href="http://www.image-net.org/index" class="uri">http://www.image-net.org/index</a> – that has ~14 million tagged images of pretty much everything you can think of, including all of our tasty foods. The website allows you to search for an image and then provides a list of image URLs from around the web. For example, the two URLs for <em>pizza</em> each contain ~1500 links to images of <em>cheese pizza</em> and <em>pepperoni pizza</em>. We could add more links (and more pictures) to improve our classifier, but we’ll keep in simple with around a thousand images for each class. Once the URLs are specified, the final step is to write our the <code>image_url_json</code> list as a <code>.json</code> file, which will then be read into Python.</p>
+<pre class="r"><code>image_url_json = list(
+  &#39;hot dog&#39; = c(&#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537&#39;,
+                &#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07690019&#39;),
+  &#39;hamburger&#39; = c(&#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697100&#39;,
+                  &#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697313&#39;),
+  &#39;pizza&#39; = c(&#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07874159&#39;,
+              &#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07874259&#39;),
+  &#39;taco&#39; = c(&#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07880751&#39;,
+             &#39;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07880880&#39;)
+          )
+json_img_fname = &#39;image_url.json&#39;
+write(toJSON(image_url_json), json_img_fname)</code></pre>
+<p>The next code block downloads the images. I had some old Python code for image scraping, so I’ve adapted it here as <code>retrieve_img.py</code>. Just drop this script in the same directory as your R script. It will download and organize the images referenced in <code>image_url.json</code>.</p>
+<pre class="python"><code>import os
+import urllib2
+import sys
+from bs4 import BeautifulSoup
+import numpy as np
+from PIL import Image
+import json
+
+def create_image_dir(words):
+    for w in words:
+        if not os.path.exists(w):
+            print(&quot;creating directory for {w} images&quot;.format(w = w))
+            os.mkdir(w)
+
+def remove_blank_image(dir_loc, rm_pix_values):
+    for i in os.listdir(dir_loc):
+        tmp_img = os.path.join(dir_loc, i)
+        try:
+            img_array = np.asarray(Image.open(tmp_img).convert(&#39;RGB&#39;))
+            img_total = sum(sum(img_array.sum(-1)))
+            if img_total == rm_pix_value:
+                os.remove(tmp_img)
+        except Exception as e:
+            print(str(e))
+            os.remove(tmp_img)
+
+def check_for_new_words(image_dict):
+    base_dir = os.getcwd()
+    new_words = list(set(image_dict.keys()) - set(os.listdir(base_dir)))
+    final_image_dict = {}
+    for word, url in image_dict.items():
+        if word in new_words:
+            final_image_dict[word] = url
+    return(final_image_dict)            
+
+
+def download_images(word_url_dict):
+    for word, url in word_url_dict.items():
+        img_count = 1
+        for tmp_url in url:
+            opener = urllib2.build_opener()
+            opener.addheaders = [(&#39;User-Agent&#39;, &#39;Mozilla/5.0&#39;)]
+            image_urls = str(BeautifulSoup(opener.open(tmp_url), 
+                                       &#39;html.parser&#39;)).split(&quot;\r\n&quot;)
+            for i in image_urls:
+                try:
+                    print(&quot;collecting image {n}&quot;.format(n = str(img_count)))
+                    tmp_img = urllib2.urlopen(i, timeout = 2).read()
+                    with open(os.path.join(word, 
+                                           word + str(img_count) + &quot;.jpg&quot;), &#39;w&#39;) as f:
+                        f.write(tmp_img)
+                    img_count += 1
+                except Exception as e:
+                    print(str(e))
+            print(&quot;all images for {word} collected&quot;.format(word = word))
+            print(&quot;removing non-images&quot;)
+            remove_blank_image(word, rm_pix_value)
+
+if __name__ == &#39;__main__&#39;:
+    with open(sys.argv[1]) as f:
+        image_dict = json.load(f)
+    # checks if any new words have been added to the list to avoid overwriting already downloaded images
+    image_dict = check_for_new_words(image_dict)
+    # creates directories based on the words in our dictionary (hot dog, hamburger, etc.)
+    create_image_dir(image_dict.keys())
+    # reads in the and sums up all of the pixcel values in our sample missing image
+    sample_remove_img = np.asarray(Image.open(&#39;sample_remove.jpg&#39;).convert(&#39;RGB&#39;))
+    rm_pix_value = sum(sum(sample_remove_img.sum(-1)))
+    # downloads all of the images, stores each in their respective folder, and then removes missing or corrupted files
+    download_images(image_dict)</code></pre>
+<p>Last, place the image below in the same directory as the <code>retrieve_img.py</code> and call it <code>sample_remove.jpg</code>.</p>
+<p><img src="computer_vision_with_R_images/sample_remove.jpg" width="500px" height="500px" /></p>
+<p>When a URL returns a blank image, the image will be stored as the image above. Obviously, this isn’t a hot dog or hamburger, so we want to exclude it. All blank images are the same and thus have identical Red, Green, and Blue (RGB) values for each pixel. We can add up all RGB values to get a single value for the image. All images with this aggregated value are thus missing and will be removed following the download step.</p>
+<p>We can execute the <code>retrieve_img.py</code> script from within R. This part will take about 20 minutes, which is the perfect amount of time for a spicy taco or pizza slice.</p>
+<pre class="r"><code># my python version is located at &quot;//anaconda/bin/python&quot;
+py = system(&quot;which python&quot;)
+py_img_download_script = &#39;retrieve_img.py&#39;
+system(paste(py, 
+             py_img_download_script,
+             json_img_fname
+             ))</code></pre>
+<p>There should now be four folders in our main directory, one for each food category. Let’s confirm the number of downloaded images.</p>
+<pre class="r"><code>for(category in names(image_url_json)){
+  print(paste0(&quot;There are &quot;, 
+               length(list.files(category)),
+               &quot; images &quot;,
+               category,
+               &quot;s in this directory&quot;
+               ))
+}</code></pre>
+<pre class="r"><code>## [1] &quot;There are 1568 images of hot dogs in this directory&quot;
+## [1] &quot;There are 1932 images of hamburgers in this directory&quot;
+## [1] &quot;There are 2156 images of pizzas in this directory&quot;
+## [1] &quot;There are 1273 images of tacos in this directory&quot;</code></pre>
+<p>The classes are reasonably well balanced and should provide enough images to get started. Next, we’ll segment our images out into <em>training</em>, <em>validation</em>, and <em>testing</em>. 60% will be allocated to <em>training</em>, while the remaining 40% will be split between <em>validation</em> and <em>testing</em>.</p>
+<pre class="r"><code># create four seperate directories (one for each image) in train, validation, and test
+for(label in names(image_url_json)){
+  dir.create(file.path(base_dir, &#39;train&#39;, label))
+  dir.create(file.path(base_dir, &#39;validation&#39;, label))
+  dir.create(file.path(base_dir, &#39;test&#39;, label))
+}
+# Proportion of allocated to training, validation, and testing
+split_prop = c(0.6, 0.2, 0.2)
+
+for(label in names(image_url_json)){
+  img_files = list.files(file.path(base_dir, label))
+  # training images
+  train_img_index = 1:floor(length(img_files) * split_prop[1])
+  train_img_files = img_files[train_img_index]
+  # validation images
+  val_img_index =  max(train_img_index):(max(train_img_index) + floor(length(img_files) * split_prop[2]) + 1)
+  val_img_files = img_files[val_img_index]
+  # test images
+  test_img_index = (max(val_img_index) + 1):length(img_files)
+  test_img_files = img_files[test_img_index]
+  
+  # move files to train directory
+  file.copy(file.path(base_dir, label, train_img_files),
+            file.path(&#39;train&#39;, label))
+  # move files to validation directory
+  file.copy(file.path(base_dir, label, val_img_files),
+            file.path(&#39;validation&#39;, label))
+  # move files to testing directory
+  file.copy(file.path(base_dir, label, test_img_files),
+            file.path(&#39;test&#39;, label))
+}</code></pre>
+<p>We are ready to get started on the modeling part. Let’s establish a path to the training directory and set up our augmented <code>image_data_generator</code> function. This function implements a few techniques that I’ll briefly describe below.</p>
+<p>First, it scales the pixel values to be between zero and one. Normalizing data makes the training process more efficient, which in turn leads to more accurate classification. This happens because changes to weights within the network will have more of an impact on large values relative to small values.</p>
+<p>Second, the function “augments” the training images. Image augmentation involves rotating, shifting, zooming, flipping or modifying certain aspects of an image. The goal is to artificially increase the number of training samples by ensuring that the model never encounters the same image during training. Each time a batch (or sample) of images is fed into the model, the images will be modified slightly and thus have different visual properties relative to previous or future batches. This leads to a model that is less prone to overfitting.</p>
+<pre class="r"><code>train_dir = file.path(base_dir, &#39;train&#39;)
+train_datagen = image_data_generator(rescale = 1/255,
+                                      rotation_range = 40,
+                                      width_shift_range = 0.20,
+                                      height_shift_range = 0.20,
+                                      shear_range = 0.20,
+                                      zoom_range = 0.20,
+                                      horizontal_flip = TRUE
+                                      )</code></pre>
+<p>The <code>train_generator</code> function feeds the images to our model. It generates random samples and then applies the transformations above to each image.</p>
+<pre class="r"><code>train_generator = flow_images_from_directory(
+  train_dir,
+  train_datagen,
+  target_size = c(150, 150),
+  batch_size = 25,
+  class_mode = &quot;categorical&quot;
+)</code></pre>
+<p>Let’s make the concept of image augmentation more concrete by bringing in an image and applying some of the transformations outlined above.</p>
+<p><img src="computer_vision_with_R_images/pizza7.jpg" width="800px" height="800px" /></p>
+<p>Cheesy. If you haven’t picked up your phone and dialed Pizza Hut at this point, you have more willpower than me. Anyways, the block below will make a series of random transformations to the same image.</p>
+<pre class="r"><code># read in a single images of pizza
+pizza = image_load(file.path(&#39;pizza&#39;, &#39;pizza7.jpg&#39;),
+                   target_size = c(150, 150)
+                   )
+# set up our generator to augment the image
+pizza_gen = image_data_generator(rescale = 1/255,
+                                 rotation_range = 40,
+                                 width_shift_range = 0.25,
+                                 height_shift_range = 0.25,
+                                 shear_range = 0.25,
+                                 zoom_range = 0.25,
+                                 horizontal_flip = TRUE)
+
+
+# convert the image into an array
+pizza_array = image_to_array(pizza)
+
+# specify the shape of the array
+pizza_array = array_reshape(pizza_array, c(1, 150, 150, 3))
+augmented_pizza_generator = flow_images_from_data(pizza_array,
+                                        generator = pizza_gen,
+                                        batch_size = 1)
+pizza_plot = par(mfrow = c(2, 4),
+                 pty = &quot;s&quot;,
+                 mar = c(0.5, 0, 0.5, 0)
+                 )
+for(i in 1:8){
+  pizza_pic = generator_next(augmented_pizza_generator)
+  plot(as.raster(pizza_pic[1,,,]))
+}
+
+plot(as.raster())</code></pre>
+<p><img src="computer_vision_with_R_images/augmented_pizza.png" width="800px" height="800px" /></p>
+<p>Note how each image is slightly different than the other images. This is what is referred to as the “augmentation” step and, as mentioned above, is an easy way to improve the overall performance of the model.</p>
+<p>We’ll also set up a generator for our validation set. Note that we do not implement augmentation here because these are the images that we’ll initially measure our classification performance against.</p>
+<pre class="r"><code>validation_dir = file.path(base_dir, &#39;validation&#39;)
+validation_datagen = image_data_generator(rescale = 1/255)
+validation_generator = flow_images_from_directory(
+  validation_dir,
+  validation_datagen,
+  target_size = c(150, 150),
+  batch_size = 25,
+  class_mode = &quot;categorical&quot;
+)</code></pre>
+<p>We’ll specify our network architecture next.</p>
+<pre class="r"><code>model = keras_model_sequential() %&gt;%
+  layer_conv_2d(filters = 8, kernel_size = c(3, 3), activation = &quot;relu&quot;,
+                input_shape = c(150, 150, 3)) %&gt;%
+  layer_max_pooling_2d(pool_size = c(2, 2)) %&gt;%
+  layer_conv_2d(filters = 16, kernel_size = c(3, 3), activation = &quot;relu&quot;) %&gt;%
+  layer_max_pooling_2d(pool_size = c(2, 2)) %&gt;%
+  layer_conv_2d(filters = 32, kernel_size = c(3, 3), activation = &quot;relu&quot;) %&gt;%
+  layer_max_pooling_2d(pool_size = c(2, 2)) %&gt;%
+  layer_flatten() %&gt;%
+  layer_dropout(rate = 0.25) %&gt;% 
+  layer_dense(units = 64, activation = &quot;relu&quot;) %&gt;%
+  layer_dense(units = length(names(image_url_json)), activation = &quot;softmax&quot;)</code></pre>
+<p>This is a simple setup compared to some of the other architectures commonly cited in this area. For example, our convolutional base (the part that extracts the image features) has the following setup.</p>
+<pre class="r"><code># ____________________________________________________________________________
+# Layer (type)                      Output Shape                  Param #
+# ============================================================================
+# conv2d_1 (Conv2D)                 (None, 148, 148, 8)           224
+# ____________________________________________________________________________
+# max_pooling2d_1 (MaxPooling2D)    (None, 74, 74, 8)             0
+# ____________________________________________________________________________
+# conv2d_2 (Conv2D)                 (None, 72, 72, 16)            1168
+# ____________________________________________________________________________
+# max_pooling2d_2 (MaxPooling2D)    (None, 36, 36, 16)            0
+# ____________________________________________________________________________
+# conv2d_3 (Conv2D)                 (None, 34, 34, 32)            4640
+# ____________________________________________________________________________
+# max_pooling2d_3 (MaxPooling2D)    (None, 17, 17, 32)            0</code></pre>
+<p>Compare this to the <a href="https://gist.github.com/baraldilorenzo/8d096f48a1be4a2d660d">VGG19</a> - a deep CNN for large-scale image classification.</p>
+<pre class="r"><code># ____________________________________________________________________________
+# Layer (type)                      Output Shape                  Param #
+# ============================================================================
+# input_4 (InputLayer)              (None, 150, 150, 3)           0
+# ____________________________________________________________________________
+# block1_conv1 (Conv2D)             (None, 150, 150, 64)          1792
+# ____________________________________________________________________________
+# block1_conv2 (Conv2D)             (None, 150, 150, 64)          36928
+# ____________________________________________________________________________
+# block1_pool (MaxPooling2D)        (None, 75, 75, 64)            0
+# ____________________________________________________________________________
+# block2_conv1 (Conv2D)             (None, 75, 75, 128)           73856
+# ____________________________________________________________________________
+# block2_conv2 (Conv2D)             (None, 75, 75, 128)           147584
+# ____________________________________________________________________________
+# block2_pool (MaxPooling2D)        (None, 37, 37, 128)           0
+# ____________________________________________________________________________
+# block3_conv1 (Conv2D)             (None, 37, 37, 256)           295168
+# ____________________________________________________________________________
+# block3_conv2 (Conv2D)             (None, 37, 37, 256)           590080
+# ____________________________________________________________________________
+# block3_conv3 (Conv2D)             (None, 37, 37, 256)           590080
+# ____________________________________________________________________________
+# block3_conv4 (Conv2D)             (None, 37, 37, 256)           590080
+# ____________________________________________________________________________
+# block3_pool (MaxPooling2D)        (None, 18, 18, 256)           0
+# ____________________________________________________________________________
+# block4_conv1 (Conv2D)             (None, 18, 18, 512)           1180160
+# ____________________________________________________________________________
+# block4_conv2 (Conv2D)             (None, 18, 18, 512)           2359808
+# ____________________________________________________________________________
+# block4_conv3 (Conv2D)             (None, 18, 18, 512)           2359808
+# ____________________________________________________________________________
+# block4_conv4 (Conv2D)             (None, 18, 18, 512)           2359808
+# ____________________________________________________________________________
+# block4_pool (MaxPooling2D)        (None, 9, 9, 512)             0
+# ____________________________________________________________________________
+# block5_conv1 (Conv2D)             (None, 9, 9, 512)             2359808
+# ____________________________________________________________________________
+# block5_conv2 (Conv2D)             (None, 9, 9, 512)             2359808
+# ____________________________________________________________________________
+# block5_conv3 (Conv2D)             (None, 9, 9, 512)             2359808
+# ____________________________________________________________________________
+# block5_conv4 (Conv2D)             (None, 9, 9, 512)             2359808
+# ____________________________________________________________________________
+# block5_pool (MaxPooling2D)        (None, 4, 4, 512)             0</code></pre>
+<p>The goal is for the model to run in under 30 minutes without the need of a Graphical Processing Unit (GPU). It would take a long time to train with a CPU if we attempted to implement a structure of this complexity. Adding more convolutions (<code>layer_conv_2d</code>) might improve model performance, but it would also greatly increase runtime. This tutorial was run on a CPU, which greatly limits the complexity of the classification model. Indeed, a GPU is crucial for any large-scale image classification problems.</p>
+<p>Next, let’s compile, fit, and validate the model. Note the <code>early_stopping</code> parameter. This prevents the model from continuing to train once classification accuracy stops increasing on the validation set, indicating that our model is overfitting. If the validation accuracy doesn’t improve after 20 epochs, the model will stop training (otherwise it will go for the full 100 epochs). An epoch is a single run through all of the training data. After each epoch, we get an update on how the model is performing.</p>
+<pre class="r"><code>model %&gt;% compile(
+  loss = &quot;categorical_crossentropy&quot;,
+  optimizer = optimizer_rmsprop(lr = 1e-3),
+  metrics = c(&quot;acc&quot;)
+)
+
+early_stopping = callback_early_stopping(monitor = &#39;val_accuracy&#39;, patience = 20)
+
+history = model %&gt;% fit_generator(
+  train_generator,
+  steps_per_epoch = 50,
+  epochs = 100,
+  validation_data = validation_generator,
+  validation_steps = 25,
+  callbacks = c(early_stopping)
+)</code></pre>
+<p>Let’s plot out the loss and accuracy metrics for our classifier.</p>
+<pre class="r"><code>plot(history) + 
+  theme_bw()</code></pre>
+<p><img src="computer_vision_with_R_images/performance_plot.png" width="800px" height="800px" /></p>
+<p>The model trained for the full 100 epochs. This indicates that we could potentially increase the total number and improve the quality of our model. However, around epoch 95 the training and validation performance begin to diverge. Once the slope of our validation metric flattens (or becomes negative), we should stop training our model, as this indicates overfitting. Thus, we might be able to eek out a bit of improvement beyond 100 epochs, but the overall improvement would be marginal beyond what we achieved with the initial 100 epoch run through.</p>
+<p>Our final step is to assess how the model generalizes to unseen data (our test set).</p>
+<pre class="r"><code>test_dir = file.path(base_dir, &#39;test&#39;)
+test_datagen &lt;- image_data_generator(rescale = 1/255)
+test_generator = flow_images_from_directory(test_dir,
+                                            test_datagen,
+                                            target_size = c(150, 150),
+                                            batch_size = 20,
+                                            class_mode = &quot;categorical&quot;)
+# assess accuracy on the test set
+model %&gt;% evaluate_generator(test_generator, steps = 50)</code></pre>
+<pre class="r"><code>## $loss
+## [1] 0.6804143
+## 
+## $acc
+## [1] 0.729</code></pre>
+<p>The model has a 73% classification accuracy, which is considerably better than chance. However, there are a number of steps we could make to greatly improve the performance accuracy, including (1) downloading more images, (2) fine-tuning the parameters in our network, or (3) using a pre-trained CNN. I’ll leave that up to you to try out some of these methods, and I’d love to hear about the results!</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/keras">Keras</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/computer-vision">Computer Vision</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/image-classification">Image Classification</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/python">Python</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
+    
+    <li><a href="/post/combine_analysis.html">Combine Analysis</a></li>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
+    
+    <li><a href="/post/time_series_forecasting_with_neural_networks.html">Time Series Forecasting with Neural Networks</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

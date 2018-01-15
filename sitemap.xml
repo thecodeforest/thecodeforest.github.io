@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/computer_vision_with_r.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/time_series_forecasting_with_neural_networks.html</loc>
       <lastmod>2018-01-04T21:13:14-05:00</lastmod>
     </url>
@@ -286,6 +295,26 @@
     
     <url>
     
+      <loc>/categories/computer-vision.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/computer-vision.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/categories/counterfactual-prediction.html</loc>
       <lastmod>2017-08-05T21:13:14-05:00</lastmod>
       <priority>0</priority>
@@ -438,6 +467,46 @@
     
       <loc>/tags/h2o.html</loc>
       <lastmod>2017-08-14T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/image-classification.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/image-classification.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/keras.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/keras.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -617,7 +686,7 @@
     <url>
     
       <loc>/categories/python.html</loc>
-      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -627,7 +696,7 @@
     <url>
     
       <loc>/tags/python.html</loc>
-      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -657,7 +726,7 @@
     <url>
     
       <loc>/categories/r.html</loc>
-      <lastmod>2018-01-04T21:13:14-05:00</lastmod>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -667,7 +736,7 @@
     <url>
     
       <loc>/tags/r.html</loc>
-      <lastmod>2018-01-04T21:13:14-05:00</lastmod>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
