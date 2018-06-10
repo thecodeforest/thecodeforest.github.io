@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/optimal_bar_crawl.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/optimal_bar_crawl.html">
+  <meta property="og:title" content="The Optimal Portland Pub Crawl | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-06-01T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2018-06-01T21:13:14-05:00">
+  
+
+  
+
+  <title>The Optimal Portland Pub Crawl | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">The Optimal Portland Pub Crawl</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-06-01 21:13:14 -0500 -0500" itemprop="datePublished">
+      Jun 1, 2018
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    12 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/optimal_bar_crawl.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/python">Python</a
+    >, 
+    
+    <a href="/categories/reticulate">Reticulate</a
+    >, 
+    
+    <a href="/categories/traveling-salesman-problem">Traveling Salesman Problem</a
+    >, 
+    
+    <a href="/categories/route-optimization">Route Optimization</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=The%20Optimal%20Portland%20Pub%20Crawl&amp;url=%2fpost%2foptimal_bar_crawl.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2foptimal_bar_crawl.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2foptimal_bar_crawl.html&amp;title=The%20Optimal%20Portland%20Pub%20Crawl"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2foptimal_bar_crawl.html&amp;title=The%20Optimal%20Portland%20Pub%20Crawl"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=The%20Optimal%20Portland%20Pub%20Crawl&amp;body=%2fpost%2foptimal_bar_crawl.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet/leaflet.js"></script>
+<link href="/rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/leaflet-label/leaflet.label.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet-label/leaflet.label.js"></script>
+<script src="/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js"></script>
+<script src="/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js"></script>
+<script src="/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
+<script src="/rmarkdown-libs/leaflet-providers/leaflet-providers.js"></script>
+<script src="/rmarkdown-libs/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>
+
+
+<p><img src="optimal_bar_crawl_images/portland.jpg" width="800px" height="800px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>The premise of a Pub Crawl is quite simple: visit several bars in an afternoon or evening without a clear plan of where you’ll go next. While this sort of spontaneous, unstructured approach may work for some people, I’ve always been a fan of having a plan – in this case, an optimal plan. If we want to maximize the number of places visited (and beers tasted) in a finite period of time, then there is simply no room for shoddy planning. Accordingly, this post provides a framework for designing the optimal Portland Pub Crawl by working through the following steps:</p>
+<p>🍺 Web Scrape the top 100 Portland bars from <a href="http://www.oregonlive.com/dining/index.ssf/2014/10/portlands_100_best_bars_bar_ta.html">here</a></p>
+<p>🍺 Geocode each bar’s location</p>
+<p>🍺 Find the optimal route between a subsample of the bars, because visiting 100 in a day would make the following day very bad</p>
+<p>🍺 Determine a walking path between the bars</p>
+<p>🍺 Create a map of the walking path, which can be use as a field guide to impress your friends once the pub crawl is under way</p>
+<p>🍺 Promptly spill beer on the map at the 2nd bar, rendering it unreadable, followed by a game of darts and some popcorn</p>
+<p>If that sounds like a plan, let’s get started!</p>
+</div>
+<div id="defining-the-top-100-bars" class="section level3">
+<h3>Defining the Top 100 Bars</h3>
+<p>First, let’s identify the stops during our tour of Portland’s pub scene. In the section below, we’ll load up the R libraries, identify which version of Python we’d like to use, and then do some web scraping. Note that all of the python modules and R-scripts are contained in the same directory for simplicity.</p>
+<pre class="r"><code>libs = c(&#39;leaflet&#39;, 
+         &#39;reticulate&#39;,
+         &#39;tspmeta&#39;,
+         &#39;qdapRegex&#39;,
+         &#39;kableExtra&#39;,
+         &#39;knitr&#39;,
+         &#39;dplyr&#39;
+         )
+lapply(libs, require, character.only = TRUE, quietly = TRUE)
+
+# specify which version of Python to use
+reticulate::use_python(&#39;//anaconda/bin/python&#39;, required = TRUE)</code></pre>
+<p>The function below will do the webscraping.</p>
+<pre class="python"><code>
+import urllib2
+from bs4 import BeautifulSoup
+import re
+
+def find_best_bars():
+    base_url = &#39;http://www.oregonlive.com/dining/index.ssf/2014/10/portlands_100_best_bars_bar_ta.html&#39;
+    page = urllib2.urlopen(base_url)
+    soup = BeautifulSoup(page, &#39;html.parser&#39;)
+    bar_descriptors = soup.find_all(&quot;div&quot;,class_ = &#39;entry-content&#39;)
+    bar_descriptors = str(bar_descriptors).split(&quot;&lt;p&gt;&quot;)
+    bar_descriptors
+    bar_list = []
+    for entry in bar_descriptors:
+        try:
+            bar_name = re.search(&#39;&lt;strong&gt;(.*)&lt;/strong&gt;&#39;, entry)\
+                                                          .group(1)
+
+            bar_address = re.search(&#39;&lt;em&gt;(.*).&#39;, entry)\
+                                                 .group(1)\
+                                                 .split(&quot;,&quot;)[0]\
+                                                 .split(&quot;;&quot;)[0]
+            bar_list.append([bar_name, bar_address])
+        except Exception as e:
+            print(e)
+    bar_list = [x for x in bar_list if x[1][0].isdigit()]
+    bar_list = map(lambda x: [x[0], x[1] + &quot; Portland, OR&quot;], bar_list)
+    best_bars_dict = {x[0] : x[1] for x in bar_list}
+    return(best_bars_dict)</code></pre>
+<p>Historically, this operation would require executing a python script, writing the results out (in an <code>.txt</code> or <code>.csv</code> file), and then reading the result back into R. However, with the advent of <code>reticulate</code>, we can execute a python function and pull the output back without ever having to leave the cozy confines of R (or R-studio in this case). Recall that the actual python module <code>find_best_bars.py</code> is located in the same directory as our R-script. Below we’ll first “source” this function via <code>source_python</code> (which simply means to bring it into the R environment), then we’ll execute it. Note that we aren’t passing in any arguments; this function is designed for a very specific purpose, which is to find the best watering holes in Portland.</p>
+<pre class="r"><code># brings our function into the R Environment
+reticulate::source_python(&#39;find_best_bars.py&#39;)
+
+# executes and stores the output  in our variable &#39;best_bars&#39;
+best_bars = find_best_bars()</code></pre>
+<p>Let’s examine the output.</p>
+<pre class="r"><code>print(head(best_bars))</code></pre>
+<pre><code>## $`Sunshine Tavern`
+## [1] &quot;3111 S.E. Division St. Portland, OR&quot;
+## 
+## $`The Fireside`
+## [1] &quot;801 N.W. 23rd Ave. Portland, OR&quot;
+## 
+## $`Dan &amp;amp; Louis Oyster Bar`
+## [1] &quot;208 S.W. Ankeny St. Portland, OR&quot;
+## 
+## $`La Taq`
+## [1] &quot;1625 N.E. Killingsworth St. Portland, OR&quot;
+## 
+## $`Oven &amp;amp; Shaker`
+## [1] &quot;1134 N.W. Everett St. Portland, OR&quot;
+## 
+## $Ataula
+## [1] &quot;1818 N.W. 23rd Place Portland, OR&quot;</code></pre>
+<p>Looks good! The output from Python was a dictionary, which is automatically converted into R’s equivalent (a list). Now that we have our bars, the next step is to convert each of the addresses into a lat/long coordinate, a process known as “geocoding”.</p>
+</div>
+<div id="geocoding-with-google-maps-api" class="section level3">
+<h3>Geocoding with Google Maps API</h3>
+<p>We’ll rely on the Google Maps API for this step. If you don’t have an API Key, you’ll have <a href="https://cloud.google.com/maps-platform/">set up an account first</a>, which allows for up to 2000 free calls per day. We are geocoding around 100 locations, so no worries about reaching the limit.</p>
+<p>Once you have your API key, store it somewhere safe. One approach is to define it in your <code>.bash_profile</code>. This way it’s not in your codebase. I’ve created a little function below, <code>collect_key_from_profile</code>, that makes this transition possible.</p>
+<pre class="r"><code>collect_key_from_profile = function(profile_location, prefix){
+  # The function assumes that keys in .bash_profile are formatted as follows:
+  # export &lt;key_name&gt;=&quot;&lt;actual_key&gt;&quot;
+  # export GOOGLEMAPSKEY=&quot;KEY12345&quot;
+  # Extracts all text between &quot;&quot; 
+  sys_command = paste(&quot;cat&quot;,
+                      file.path(profile_location,
+                                &quot;.bash_profile&quot;)
+  )
+  profile_lines = system(sys_command, intern = TRUE)
+  profile_lines = sapply(profile_lines, function(x) qdapRegex::ex_between(x,
+                                                                          prefix,
+                                                                          &#39;&quot;&#39;
+  ))
+  profile_key = unname(Filter(Negate(is.na), profile_lines))[[1]]
+  return(profile_key)
+}</code></pre>
+<pre class="r"><code>bash_location = paste0(stringr::str_split(getwd(), &#39;/&#39;)[[1]][1:3], collapse = &quot;/&quot;)
+bash_prefix = &#39;export GOOGLEMAPSKEY=&quot;&#39;
+gmaps_api_key = collect_key_from_profile(bash_location,
+                                         bash_prefix)</code></pre>
+<p>Now that we have our API key and dictionary of best bars, we’ll pass these into the <code>geocode_address</code> function below.</p>
+<pre class="python"><code>import pandas as pd
+import googlemaps
+
+def geocode_address(address_dict, gmaps_key):
+    gmaps = googlemaps.Client(key=gmaps_key)
+    geocoded_addresses = []
+    for name, address in address_dict.items():
+        print(&quot;Geocoding Address {tmp_address}&quot;.format(tmp_address = address))
+        try:
+            geocode_result = gmaps.geocode(address)
+            lat_long = geocode_result[0][&#39;geometry&#39;][&#39;location&#39;].values()
+            lat_long.extend([address, name])
+            geocoded_addresses.append(lat_long)
+        except Exception as e:
+            print(e)
+            geocoded_addresses.append([&#39;NA&#39;, &#39;NA&#39;, address, name])
+
+    geocode_address_df = pd.DataFrame(geocoded_addresses)
+    geocode_address_df.columns = [&#39;lat&#39;,
+                                               &#39;long&#39;,
+                                               &#39;address&#39;,
+                                               &#39;name&#39;]
+    return(geocode_address_df)</code></pre>
+<pre class="r"><code># source our geocoding function
+reticulate::source_python(&#39;geocode_address.py&#39;)
+# pass in the best bars dictionary and our API key
+bar_locations = geocode_address(best_bars,
+                                gmaps_api_key)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+lat
+</th>
+<th style="text-align:center;">
+long
+</th>
+<th style="text-align:center;">
+address
+</th>
+<th style="text-align:center;">
+name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+45.52243
+</td>
+<td style="text-align:center;">
+-122.6726
+</td>
+<td style="text-align:center;">
+208 S.W. Ankeny St. Portland, OR
+</td>
+<td style="text-align:center;">
+Dan &amp;amp; Louis Oyster Bar
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52496
+</td>
+<td style="text-align:center;">
+-122.6827
+</td>
+<td style="text-align:center;">
+1134 N.W. Everett St. Portland, OR
+</td>
+<td style="text-align:center;">
+Oven &amp;amp; Shaker
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52890
+</td>
+<td style="text-align:center;">
+-122.6983
+</td>
+<td style="text-align:center;">
+836 N.W. 23rd Ave. Portland, OR
+</td>
+<td style="text-align:center;">
+Bamboo Sushi NW
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.54089
+</td>
+<td style="text-align:center;">
+-122.6749
+</td>
+<td style="text-align:center;">
+816 N. Russell St. Portland, OR
+</td>
+<td style="text-align:center;">
+Mint/820
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.51926
+</td>
+<td style="text-align:center;">
+-122.5822
+</td>
+<td style="text-align:center;">
+7907 S.E. Stark Ave. Portland, OR
+</td>
+<td style="text-align:center;">
+Vintage Cocktail Lounge
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.50525
+</td>
+<td style="text-align:center;">
+-122.6541
+</td>
+<td style="text-align:center;">
+1125 S.E. Division St. Portland, OR
+</td>
+<td style="text-align:center;">
+The Beer Mongers
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.51900
+</td>
+<td style="text-align:center;">
+-122.6641
+</td>
+<td style="text-align:center;">
+107 S.E. Washington St. Portland, OR
+</td>
+<td style="text-align:center;">
+Ambonnay
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.58896
+</td>
+<td style="text-align:center;">
+-122.7514
+</td>
+<td style="text-align:center;">
+8218 N. Lombard St. Portland, OR
+</td>
+<td style="text-align:center;">
+The Fixin’ To
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.51557
+</td>
+<td style="text-align:center;">
+-122.6820
+</td>
+<td style="text-align:center;">
+1239 S.W. Broadway Portland, OR
+</td>
+<td style="text-align:center;">
+Higgins
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.51893
+</td>
+<td style="text-align:center;">
+-122.6579
+</td>
+<td style="text-align:center;">
+720 SE Sandy Blvd. Portland, OR
+</td>
+<td style="text-align:center;">
+Rum Club
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We have successfully geocoded all addresses. In the following section, we’ll solve a classic routing optimization problem: The Traveling Salesman Problem (TSP). The goal is to find the most direct route between all of the bars we decide to visit during the pub crawl.</p>
+</div>
+<div id="route-optimization" class="section level3">
+<h3>Route Optimization</h3>
+<p>The goal of any routing optimization problem is simple: minimize the total distance travelled between different nodes (locations) in space while ensuring that each node is visited once. There are many algorithms to solve this type of problem, but we’ll leverage the <code>2-optimization</code> or <code>2-opt</code> method due to its simplicity. This algorithm finds the lowest cost route (i.e., the route with the shortest distance that ensures each node is visited once) by swapping the ‘edges’ (the path that connects two nodes) between different nodes. If a swap reduces the total length of our tour, then the swap is maintained; otherwise the swap is reversed and we try again with different edges. Note that the swap must ensure that a single route is always possible between all nodes. The algorithm stops when a tour is reached that cannot be improved with any more swaps (see <a href="https://ocw.mit.edu/courses/sloan-school-of-management/15-053-optimization-methods-in-management-science-spring-2013/lecture-notes/MIT15_053S13_lec17.pdf">here</a> for a more in-depth explanation).</p>
+<p>Before going any further, let’s plot out our locations to see what we’re working with. We’ll also define our starting point, which is often referred to as the ‘depot’.</p>
+<pre class="r"><code>depot_lat = 45.525915
+depot_long = -122.684957
+
+bar_map = leaflet(data = bar_locations) %&gt;% 
+          setView(lng = depot_long + 0.05, lat = depot_lat, zoom = 13) %&gt;% 
+          addProviderTiles(&quot;CartoDB.Positron&quot;) %&gt;%
+          addMarkers(lng=depot_long, lat=depot_lat) %&gt;% 
+          addCircleMarkers(lat=~lat, 
+                           lng=~long,
+                           color = &quot;orange&quot;,
+                           radius = 4,
+                           weight = 10,
+                           stroke = FALSE,
+                           opacity = 4,
+                           fillOpacity = 4)</code></pre>
+<div id="htmlwidget-1" style="width:720px;height:672px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[45.525915,-122.634957],13,[]],"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addMarkers","args":[45.525915,-122.684957,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,null,null]},{"method":"addCircleMarkers","args":[[45.5224315,45.5249614,45.5288971,45.5408883,45.519255,45.5052477,45.5189975,45.5889569,45.515572,45.5189322,45.514894,45.5230751,45.5287834,45.520069,45.522011,45.5049376,45.5122621,45.5592532,45.5175048,45.5209868,45.5230402,45.5050424,45.5262825,45.5032526,45.522648,45.5493649,45.5235032,45.5624773,45.5141593,45.5221773,45.5046429,45.5174125,45.5118608,45.5191128,45.530431,45.5177729,45.518943,45.5529681,45.504659,45.5128155,45.5152956,45.4793488,45.5055148,45.489646,45.504922,45.5285622,45.5049882,45.5628877,45.5252769,45.5117843,45.5342232,45.5189153,45.5163194,45.5230914,45.5225397,45.5624036,45.5263199,45.5357177,45.5209885,45.5483705,45.5134587,45.5225225,45.5629392,45.5231446,45.5352635,45.5308803,45.5164111,45.526048,45.528118,45.5219027,45.5175883,45.50466,45.5210643,45.5198069,45.5258178,45.5214417,45.5254001,45.5280619,45.5525373,45.5285372,45.5206145,45.5213406,45.5139864,45.5266547,45.5394288,45.5625529,45.5193334,45.5217905,45.515251],[-122.672567,-122.6827132,-122.6983065,-122.6749484,-122.582211,-122.6540819,-122.6641258,-122.7514159,-122.682,-122.6579157,-122.682372,-122.654286,-122.6947305,-122.674738,-122.6816169,-122.6252431,-122.6312161,-122.6415703,-122.6604095,-122.6877048,-122.6076635,-122.6278162,-122.6782585,-122.6444737,-122.640481,-122.6611457,-122.6957644,-122.6771879,-122.6808661,-122.6772119,-122.6438073,-122.6603747,-122.6112647,-122.6159694,-122.6882656,-122.6511014,-122.6777971,-122.6757202,-122.62543,-122.6534256,-122.6655476,-122.6146151,-122.6154689,-122.5972091,-122.63345,-122.6987615,-122.6325221,-122.6483923,-122.6816505,-122.6325795,-122.6985948,-122.6824999,-122.6302832,-122.6427946,-122.678138,-122.6346242,-122.68455,-122.699664,-122.6834567,-122.6523757,-122.6579454,-122.6851559,-122.6891024,-122.6370711,-122.6373477,-122.6882746,-122.6156611,-122.681427,-122.6390505,-122.6812985,-122.6593993,-122.6533129,-122.6783495,-122.6594201,-122.6373825,-122.6840961,-122.6781903,-122.6845005,-122.6806869,-122.6983961,-122.6794038,-122.6834774,-122.675303,-122.6835476,-122.6619018,-122.6868299,-122.5803508,-122.6788083,-122.6661995],4,null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":false,"color":"orange","weight":10,"opacity":4,"fill":true,"fillColor":"orange","fillOpacity":4,"dashArray":null},null,null,null,null,null,null,null]}],"limits":{"lat":[45.4793488,45.5889569],"lng":[-122.7514159,-122.5803508]}},"evals":[],"jsHooks":[]}</script>
+<p>Each bar is represented as an orange dot, and the pointer indicates our starting position (the depot). Given that we are walking, let’s limit the potential distance to a maximum of three miles from our starting location. The function below calculates the total feet between two points defined by a latitude/longitude coordinate.</p>
+<pre class="r"><code>earth_dist &lt;- function (lat1, long1, lat2, long2)
+{
+  rad = pi/180
+  a1 = lat1 * rad
+  a2 = long1 * rad
+  b1 = lat2 * rad
+  b2 = long2 * rad
+  dlon = b2 - a2
+  dlat = b1 - a1
+  a = (sin(dlat/2))^2 + cos(a1) * cos(b1) * (sin(dlon/2))^2
+  c = 2 * atan2(sqrt(a), sqrt(1 - a))
+  R = 6378.145
+  d = R * c
+  return(d* 3280.8)
+}</code></pre>
+<p>Below we’ll filter to all locations based on the maximum distance we’re willing to travel.</p>
+<pre class="r"><code>feet_in_mile = 5280
+# maximum distance is 3 miles
+max_miles_away = 3
+
+bar_locations_nearby = bar_locations %&gt;% 
+                       mutate(distance_from_depot = earth_dist(depot_lat,
+                                                               depot_long,
+                                                               lat,
+                                                               long
+                                                               )) %&gt;% 
+                       filter(distance_from_depot &lt;= feet_in_mile * max_miles_away)</code></pre>
+<p>After applying our distance filter, there is still ~70 bars remaining. That’s going to be a challenge to complete in a reasonable amount of time, so we’ll further reduce our consideration set down to 24, which means we can spend a little more time at each bar. Below we’ll randomly select 12 bars from the 70.</p>
+<pre class="r"><code>set.seed(1)
+
+# we&#39;ll visit 24 bars
+n_bars = 24
+
+# randomly select 24 bars to visit
+bar_locations_nearby = bar_locations_nearby %&gt;% 
+                       sample_n(n_bars)</code></pre>
+<p>Next we’ll transform the lat/long locations into a distance matrix. The distance matrix specifies the euclidean distance of each bar from every other bar.</p>
+<pre class="r"><code># now find optimal route
+coordinates = bar_locations_nearby %&gt;% 
+              dplyr::select(lat:name
+                            ) %&gt;% 
+              dplyr::mutate(location_index = 2:(n() + 1)) %&gt;% 
+              dplyr::bind_rows(data.frame(lat = depot_lat,
+                                          long = depot_long,
+                                          address = &#39;depot&#39;,
+                                          name = &#39;depot&#39;,
+                                          location_index = 1
+                                   )) %&gt;% 
+              dplyr::arrange(location_index)
+
+coords_matrix = coordinates %&gt;% 
+                  dplyr::select(lat, long) %&gt;% 
+                  as.matrix()
+
+dist_matrix = dist(coords_matrix)</code></pre>
+<p>The two functions below <code>tsp_instance</code> and <code>run_solver</code> will do the heavy lifting and find the optimal route between bars.</p>
+<p>Let’s take a peak at our data to see how everything turned out.</p>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+start_lat
+</th>
+<th style="text-align:center;">
+start_long
+</th>
+<th style="text-align:center;">
+address
+</th>
+<th style="text-align:center;">
+name
+</th>
+<th style="text-align:center;">
+location_index
+</th>
+<th style="text-align:center;">
+route_order
+</th>
+<th style="text-align:center;">
+end_lat
+</th>
+<th style="text-align:center;">
+end_long
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+45.52591
+</td>
+<td style="text-align:center;">
+-122.6850
+</td>
+<td style="text-align:center;">
+depot
+</td>
+<td style="text-align:center;">
+depot
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+45.52201
+</td>
+<td style="text-align:center;">
+-122.6816
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52201
+</td>
+<td style="text-align:center;">
+-122.6816
+</td>
+<td style="text-align:center;">
+1014 S.W. Stark St. Portland, OR
+</td>
+<td style="text-align:center;">
+Clyde Common
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+45.52254
+</td>
+<td style="text-align:center;">
+-122.6781
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52254
+</td>
+<td style="text-align:center;">
+-122.6781
+</td>
+<td style="text-align:center;">
+213 S.W. Broadway Portland, OR
+</td>
+<td style="text-align:center;">
+Bailey’s Taproom and The Upper Lip
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+45.52218
+</td>
+<td style="text-align:center;">
+-122.6772
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52218
+</td>
+<td style="text-align:center;">
+-122.6772
+</td>
+<td style="text-align:center;">
+219 S.W. 6th Ave. Portland, OR
+</td>
+<td style="text-align:center;">
+Little Bird
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+45.52540
+</td>
+<td style="text-align:center;">
+-122.6782
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52540
+</td>
+<td style="text-align:center;">
+-122.6782
+</td>
+<td style="text-align:center;">
+733 N.W. Everett St. Portland, OR
+</td>
+<td style="text-align:center;">
+Remedy Wine Bar
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+45.54089
+</td>
+<td style="text-align:center;">
+-122.6749
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.54089
+</td>
+<td style="text-align:center;">
+-122.6749
+</td>
+<td style="text-align:center;">
+816 N. Russell St. Portland, OR
+</td>
+<td style="text-align:center;">
+Mint/820
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+45.55254
+</td>
+<td style="text-align:center;">
+-122.6807
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.55254
+</td>
+<td style="text-align:center;">
+-122.6807
+</td>
+<td style="text-align:center;">
+4024 N. Interstate Ave. Portland, OR
+</td>
+<td style="text-align:center;">
+Alibi Tiki Lounge
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+45.56255
+</td>
+<td style="text-align:center;">
+-122.6868
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.56255
+</td>
+<td style="text-align:center;">
+-122.6868
+</td>
+<td style="text-align:center;">
+1914 N. Killingsworth St. Portland, OR
+</td>
+<td style="text-align:center;">
+Hop &amp;amp; Vine
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+45.54936
+</td>
+<td style="text-align:center;">
+-122.6611
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.54936
+</td>
+<td style="text-align:center;">
+-122.6611
+</td>
+<td style="text-align:center;">
+412 N.E. Beech St. Portland, OR
+</td>
+<td style="text-align:center;">
+Beech Street Parlor
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+45.54837
+</td>
+<td style="text-align:center;">
+-122.6524
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.54837
+</td>
+<td style="text-align:center;">
+-122.6524
+</td>
+<td style="text-align:center;">
+1325 N.E. Fremont St. Portland, OR
+</td>
+<td style="text-align:center;">
+Free House
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+45.53943
+</td>
+<td style="text-align:center;">
+-122.6619
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Sweet! Almost there. The final step is to convert these points into an actual travel path.</p>
+</div>
+<div id="creating-a-walking-path" class="section level3">
+<h3>Creating a Walking Path</h3>
+<p>Currently, the path between different nodes (i.e., bars) are straight lines. We’ll be walking this tour, so a sidewalk travel path is required. We’ll call on the Google Maps API one last time to convert each of the straight-line edges to actual walking paths via the <code>convert_route_to_path.py</code> module. This module consists of two functions: <code>find_path</code> and <code>extract_polyline</code>. <code>find_path</code> takes a starting lat/long, ending lat/long, and method of travel (walking in our case) and returns step-by-step lat/long coordinates along with distance and time estimates. <code>extract_polyline</code> is a helper function that will format each of the step-by-step coordinates into pandas DataFrame. The output will then be returned as an R DataFrame. We’ll specify the python module below.</p>
+<pre class="python"><code>
+# convert_route_to_path.py
+import googlemaps
+import pandas as pd
+import pytz
+import polyline
+
+def extract_polyline(travel_dict):
+    gmaps_polyline = travel_dict[&#39;overview_polyline&#39;][&#39;points&#39;]
+    polyline_df = pd.DataFrame(polyline.decode(gmaps_polyline))
+    polyline_df.columns = [&#39;lat&#39;, &#39;long&#39;]
+    polyline_df[&#39;path_order&#39;] = range(1, polyline_df.shape[0] + 1)
+    return(polyline_df)
+
+
+def find_path(route_df, gmaps_key, travel_mode):
+    gmaps = googlemaps.Client(key=gmaps_key)
+    route_df = pd.DataFrame(route_df)   
+    row_count = 1 
+    out_route_df = pd.DataFrame()
+    for index, row in route_df.iterrows():
+        print(&quot;Processing Stop {n} of {n_rows}&quot;.format(n = str(index),
+                                                      n_rows = str(route_df.shape[0])
+                                                        ))
+        row_count += 1
+        try:
+            travel_data = gmaps.directions(origin = list(row[[&#39;start_lat&#39;, 
+                                                      &#39;start_long&#39;]]),
+                                   destination = list(row[[&#39;end_lat&#39;, 
+                                                           &#39;end_long&#39;]]),
+                                   mode = travel_mode
+                                   )
+            path_df = extract_polyline(travel_data[0])
+            path_df[&#39;location_index&#39;] = row[&#39;location_index&#39;]
+            path_df[&#39;travel_time&#39;] = travel_data[0][&#39;legs&#39;][0][&#39;duration&#39;][&#39;value&#39;]
+            path_df[&#39;miles&#39;] = travel_data[0][&#39;legs&#39;][0][&#39;distance&#39;][&#39;text&#39;]
+            path_df[&#39;route_order&#39;] = row[&#39;route_order&#39;]
+            out_route_df = out_route_df.append(path_df)
+        except Exception as e:
+            print(e)
+            out_route_df = out_route_df.append([&#39;NA&#39;] * 7)
+    out_route_df = out_route_df.reset_index(drop = True)
+    return(out_route_df)</code></pre>
+<p>Next, we’ll read the <code>convert_route_to_path.py</code> module into R and pass in our route DataFrame, the Google Maps API key, and our preferred method of travel.</p>
+<pre class="r"><code>reticulate::source_python(&#39;convert_route_to_path.py&#39;)
+travel_mode = &#39;walking&#39;
+
+path_df = calc_route(route_df,
+                     gmaps_api_key,
+                     travel_mode
+                  )</code></pre>
+<p>The data indicating the path between our depot and the first bar should look like this:</p>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+lat
+</th>
+<th style="text-align:center;">
+long
+</th>
+<th style="text-align:center;">
+path_order
+</th>
+<th style="text-align:center;">
+location_index
+</th>
+<th style="text-align:center;">
+travel_time
+</th>
+<th style="text-align:center;">
+miles
+</th>
+<th style="text-align:center;">
+route_order
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+45.52576
+</td>
+<td style="text-align:center;">
+-122.6849
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+371 ft
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52579
+</td>
+<td style="text-align:center;">
+-122.6843
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+371 ft
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52616
+</td>
+<td style="text-align:center;">
+-122.6843
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+371 ft
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52616
+</td>
+<td style="text-align:center;">
+-122.6845
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+371 ft
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52619
+</td>
+<td style="text-align:center;">
+-122.6845
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+371 ft
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45.52624
+</td>
+<td style="text-align:center;">
+-122.6845
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+371 ft
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note the small changes between each of the successive lat/long coordinates. This is the path we’ll be walking to obtain our first frosty mug of beer. Before mapping our data, let’s get a general idea of total walking time and distance.</p>
+<pre class="r"><code>travel_time_in_hours = round(path_df %&gt;% 
+                         dplyr::select(location_index, travel_time) %&gt;% 
+                         dplyr::distinct() %&gt;% 
+                         dplyr::pull(travel_time) %&gt;% 
+                         sum() / 3600, 1)
+
+print(glue::glue(&quot;Total Travel Time Is: &quot;,
+                 travel_time_in_hours,
+                 &quot; Hours&quot;
+                 ))</code></pre>
+<pre><code>## Total Travel Time Is: 5.2 Hours</code></pre>
+<p>It looks like this walk will take a little over five hours, so we’ll need to bring some comfy shoes. What about distance (we’ll need some way to work off those calories)?</p>
+<pre class="r"><code>travel_distance_in_miles = round(path_df %&gt;% 
+  dplyr::mutate(feet_numeric = 
+                case_when(stringr::str_detect(miles, &#39;ft&#39;) == TRUE ~ 
+                as.numeric(stringr::str_replace(miles, &quot; ft&quot;, &quot;&quot;)),
+                stringr::str_detect(miles, &quot; mi&quot;) == TRUE ~ 
+                as.numeric(stringr::str_replace(miles, &quot; mi&quot;, &quot;&quot;)) * feet_in_mile
+                                        )
+                ) %&gt;% 
+  dplyr::select(location_index, feet_numeric) %&gt;% 
+  dplyr::distinct() %&gt;% 
+  dplyr::pull(feet_numeric) %&gt;% 
+  sum() / feet_in_mile, 1)
+
+print(glue::glue(&quot;Total Travel Distance Is: &quot;,
+                 travel_distance_in_miles,
+                 &quot; Miles&quot;
+                 ))</code></pre>
+<pre><code>## Total Travel Distance Is: 15.3 Miles</code></pre>
+<p>OK, this is more of a Pub Crawl half-marathon. That’s some serious distance to cover. Let’s bring it all together with some visualization.</p>
+</div>
+<div id="mapping-the-route" class="section level3">
+<h3>Mapping the Route</h3>
+<p>The last step is to bring this analysis to life with everyone’s favorite visualization: MAPS! Indeed, we’ll plot the walking path across downtown Portland so we can actually see the Pub Crawl route.</p>
+<pre class="r"><code># We&#39;ll use this to identify the labels for each stop 
+label_df = path_df %&gt;% 
+           filter(path_order == 1)
+
+# Bar crawl visualization
+final_route = leaflet(data = path_df) %&gt;%
+  setView(lng = depot_long + 0.02, lat = depot_lat, zoom = 13) %&gt;% 
+  addProviderTiles(&quot;CartoDB.Positron&quot;) %&gt;%
+  addPolylines(data = path_df %&gt;% 
+                      filter(route_order &lt; 24),
+               lng = ~long,
+               lat = ~lat,
+               color = &quot;orange&quot;,
+               opacity = 4
+  ) %&gt;% 
+  addMarkers(lng = depot_long,
+             lat = depot_lat
+  ) %&gt;% 
+  addCircleMarkers(data = label_df,
+                   lng = ~long,
+                   lat = ~lat,
+                   radius = 4,
+                   label = ~as.character(route_order),
+                   labelOptions = labelOptions(noHide = T,
+                                               textOnly = T,
+                                               direction = &#39;top&#39;,
+                                               textsize = &quot;14px&quot;,
+                                               offset=c(0,-30),
+                                               size = 1
+                   )
+  )</code></pre>
+<div id="htmlwidget-2" style="width:720px;height:672px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[45.525915,-122.664957],13,[]],"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addPolylines","args":[[[[{"lng":[-122.68494,-122.6843,-122.68432,-122.68449,-122.68449,-122.68449,-122.68449,-122.68449,-122.68432,-122.68434,-122.68361,-122.68352,-122.6833,-122.68274,-122.68245,-122.68222,-122.68218,-122.68217,-122.68165,-122.68165,-122.68217,-122.68216,-122.68213,-122.68208,-122.68154,-122.68154,-122.68104,-122.6795,-122.67986,-122.68025,-122.68064,-122.68124,-122.68132,-122.68167,-122.68204,-122.68312,-122.68244,-122.68244,-122.68212,-122.68178,-122.68142,-122.681,-122.67996,-122.67961,-122.67891,-122.67931,-122.67931,-122.67861,-122.67793,-122.67721,-122.67701,-122.67701,-122.67721,-122.67712,-122.67615,-122.67442,-122.67409,-122.67433,-122.67457,-122.67457,-122.67481,-122.67517,-122.67418,-122.6734,-122.67305,-122.67285,-122.67269,-122.67266,-122.67258,-122.67249,-122.67215,-122.67203,-122.67134,-122.67063,-122.66868,-122.66802,-122.66779,-122.66759,-122.66753,-122.66743,-122.66723,-122.6668,-122.66668,-122.66656,-122.66641,-122.66626,-122.66613,-122.66586,-122.66586,-122.66584,-122.66584,-122.66488,-122.66478,-122.66378,-122.66188,-122.6618,-122.66179,-122.66099,-122.66074,-122.66074,-122.66016,-122.66012,-122.65973,-122.65973,-122.65974,-122.65849,-122.65769,-122.6577,-122.6577,-122.6577,-122.65769,-122.65773,-122.65772,-122.65772,-122.65772,-122.65772,-122.65773,-122.6569,-122.6563,-122.6547,-122.65343,-122.65343,-122.65367,-122.65366,-122.65367,-122.6537,-122.6537,-122.65371,-122.65373,-122.65372,-122.65398,-122.65397,-122.65397,-122.65398,-122.65372,-122.65271,-122.64968,-122.64563,-122.64381,-122.64381,-122.63338,-122.63266,-122.63266,-122.63266,-122.63266,-122.63269,-122.63158,-122.63158,-122.63158,-122.63158,-122.63158,-122.63132,-122.63132,-122.63377,-122.63476,-122.63477,-122.63477,-122.63478,-122.63476,-122.63478,-122.63477,-122.63478,-122.63481,-122.63483,-122.63488,-122.6359,-122.63733,-122.63729,-122.63728,-122.63727,-122.63726,-122.63726,-122.63726,-122.63769,-122.63858,-122.64142,-122.6428,-122.6428,-122.64142,-122.64139,-122.64139,-122.64139,-122.64106,-122.64036,-122.63877,-122.6378,-122.63716,-122.63715,-122.63715,-122.63716,-122.63715,-122.63713,-122.63712,-122.63708,-122.63709,-122.63707,-122.63707,-122.63706,-122.63701,-122.63697,-122.63678,-122.63673,-122.6367,-122.6367,-122.6367,-122.63735,-122.63735,-122.63956,-122.64054,-122.64093,-122.64155,-122.64191,-122.643,-122.64483,-122.64666,-122.64965,-122.65338,-122.65475,-122.6586,-122.66087,-122.6647,-122.6668,-122.66703,-122.66784,-122.66812,-122.66863,-122.66886,-122.66934,-122.66947,-122.66972,-122.67076,-122.67085,-122.67096,-122.67172,-122.67174,-122.67176,-122.67174,-122.67448,-122.67448,-122.67451,-122.67459,-122.67472,-122.67491,-122.67537,-122.67673,-122.67695,-122.67705,-122.67708,-122.6771,-122.67713,-122.67712,-122.67712,-122.67713,-122.67713,-122.67718,-122.67725,-122.67732,-122.6775,-122.67769,-122.67801,-122.67987,-122.68051,-122.68072,-122.68079,-122.68087,-122.68089,-122.68089,-122.68087,-122.68091,-122.68091,-122.68088,-122.68087,-122.68088,-122.68088,-122.68087,-122.68089,-122.68092,-122.68091,-122.68088,-122.68087,-122.68089,-122.68088,-122.68083,-122.68075,-122.68062,-122.68036,-122.67925,-122.67808,-122.67793,-122.6776,-122.67739,-122.6773,-122.67721,-122.67715,-122.67714,-122.67713,-122.67712,-122.67712,-122.67711,-122.6771,-122.67703,-122.67689,-122.6768,-122.67649,-122.67583,-122.67505,-122.67477,-122.6747,-122.67456,-122.6745,-122.67447,-122.67448,-122.67445,-122.67438,-122.67431,-122.67406,-122.67285,-122.67211,-122.67185,-122.67187,-122.67186,-122.67182,-122.67176,-122.67174,-122.67176,-122.67179,-122.67194,-122.67199,-122.67213,-122.67284,-122.67411,-122.67496,-122.67537,-122.67539,-122.67629,-122.67718,-122.67756,-122.67769,-122.67788,-122.67966,-122.68137,-122.68176,-122.68236,-122.68339,-122.68643,-122.68707,-122.6917,-122.69415,-122.69456,-122.69453,-122.69451,-122.69451,-122.6945,-122.69512,-122.69652,-122.69855,-122.69856],"lat":[45.52576,45.52579,45.52616,45.52616,45.52619,45.52624,45.52624,45.52616,45.52616,45.52649,45.5265,45.52651,45.52653,45.52652,45.52652,45.52652,45.52532,45.5251,45.52511,45.52511,45.5251,45.52439,45.52367,45.52229,45.52215,45.52215,45.52202,45.52163,45.52094,45.52026,45.51949,45.51836,45.51827,45.51761,45.51694,45.51495,45.51477,45.51477,45.51469,45.51535,45.51602,45.51679,45.51869,45.51936,45.52069,45.52079,45.52079,45.52061,45.52042,45.52176,45.52212,45.52212,45.52176,45.52173,45.52147,45.521,45.52091,45.52045,45.52002,45.52002,45.51958,45.51892,45.51868,45.51859,45.51856,45.51853,45.51852,45.51847,45.51837,45.51837,45.51834,45.51832,45.51818,45.518,45.51748,45.51728,45.51718,45.51705,45.51704,45.51698,45.51684,45.51648,45.51637,45.51629,45.51623,45.51621,45.5162,45.51621,45.51626,45.5168,45.51727,45.51727,45.51727,45.51727,45.51725,45.51725,45.51739,45.5174,45.5174,45.5175,45.51768,45.51766,45.51766,45.51766,45.51794,45.51793,45.51793,45.51865,45.51893,45.51893,45.51793,45.51684,45.51628,45.51508,45.51346,45.51346,45.51293,45.51293,45.51292,45.51293,45.51292,45.51292,45.51292,45.51249,45.51222,45.51064,45.50855,45.50723,45.50633,45.50486,45.50486,45.50512,45.50512,45.50486,45.50486,45.50485,45.50484,45.50483,45.50482,45.50482,45.5048,45.5048,45.50489,45.50499,45.50499,45.50726,45.50726,45.50737,45.50817,45.51198,45.51206,45.51206,45.51206,45.51207,45.51207,45.51287,45.51392,45.51491,45.51573,45.51611,45.51645,45.51834,45.51922,45.51932,45.51932,45.51931,45.51931,45.52012,45.52143,45.52244,45.52315,45.52315,45.52289,45.52288,45.52287,45.52287,45.52288,45.52288,45.52287,45.52429,45.5272,45.52751,45.52764,45.52792,45.52853,45.52893,45.52917,45.52956,45.53041,45.53062,45.53081,45.53159,45.53169,45.53187,45.53215,45.53286,45.53332,45.53362,45.53373,45.53375,45.53376,45.53381,45.53389,45.53415,45.53516,45.53516,45.53516,45.53516,45.53516,45.53513,45.53505,45.53501,45.53501,45.53502,45.53503,45.53504,45.53505,45.53504,45.53506,45.53509,45.5351,45.53511,45.53511,45.53514,45.53515,45.53503,45.53489,45.53529,45.5354,45.5356,45.53656,45.53664,45.53667,45.53668,45.53669,45.53675,45.53778,45.53779,45.53873,45.53889,45.53905,45.53919,45.53933,45.53957,45.54026,45.54043,45.54058,45.54065,45.5408,45.54192,45.54267,45.54304,45.5432,45.54395,45.54422,45.54446,45.54458,45.54481,45.54504,45.54532,45.54632,45.54669,45.54688,45.54699,45.54715,45.54729,45.54741,45.54896,45.5496,45.55131,45.55163,45.55212,45.55254,45.55254,45.55202,45.55157,45.55085,45.5496,45.54912,45.54882,45.54735,45.54722,45.54706,45.54694,45.54678,45.54659,45.54599,45.54536,45.54526,45.54495,45.54469,45.54454,45.54436,45.54409,45.5438,45.54316,45.54304,45.54253,45.54101,45.54072,45.54054,45.54038,45.5403,45.54014,45.53982,45.5394,45.53923,45.53916,45.539,45.53885,45.53852,45.53688,45.53658,45.53633,45.53632,45.53608,45.53498,45.53427,45.53404,45.53397,45.53392,45.53384,45.53376,45.53363,45.53349,45.53339,45.53312,45.53305,45.53297,45.53256,45.53186,45.53136,45.53115,45.53114,45.53063,45.53015,45.52993,45.5299,45.52991,45.53012,45.53011,45.53008,45.53007,45.53007,45.53002,45.53,45.52992,45.52987,45.52987,45.52916,45.52879,45.52879,45.52844,45.52843,45.5284,45.52836,45.52853]}]]],null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"orange","weight":5,"opacity":4,"fill":false,"fillColor":"orange","fillOpacity":0.2,"dashArray":null,"smoothFactor":1,"noClip":false},null,null,null,null,null]},{"method":"addMarkers","args":[45.525915,-122.684957,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,null,null]},{"method":"addCircleMarkers","args":[[45.52576,45.52624,45.52651,45.52511,45.52215,45.51477,45.52079,45.52212,45.52002,45.51768,45.51766,45.51893,45.51346,45.51292,45.50512,45.50482,45.50499,45.51206,45.52315,45.52288,45.53516,45.55254,45.52879,45.52853],[-122.68494,-122.68449,-122.68352,-122.68165,-122.68154,-122.68244,-122.67931,-122.67701,-122.67457,-122.66016,-122.65973,-122.6577,-122.65772,-122.65343,-122.65397,-122.64381,-122.63266,-122.63132,-122.63726,-122.6428,-122.63735,-122.68088,-122.69451,-122.69856],4,null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"dashArray":null},null,null,null,null,["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"],{"clickable":false,"noHide":true,"direction":"top","opacity":1,"offset":[0,-30],"textsize":"14px","textOnly":true,"style":null,"zoomAnimation":true,"className":"","size":1},null]}],"limits":{"lat":[45.5048,45.55254],"lng":[-122.69856,-122.63132]}},"evals":[],"jsHooks":[]}</script>
+<p>Whew! That was a lot of work but it looks like we have a reasonable solution. We’ll start in downtown Portland, take a quick jaunt over to the Eastside of the city and eventually return back to the Northwest. So, there you have it – a real-world application of optimization that supports an efficient Pub Crawl. Prost!</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/python">Python</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/reticulate">Reticulate</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/traveling-salesman-problem">Traveling Salesman Problem</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/route-optimization">Route Optimization</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/computer_vision_with_r.html">Computer Vision with R &amp; Keras</a></li>
+    
+    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
+    
+    <li><a href="/post/combine_analysis.html">Combine Analysis</a></li>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/error_handling_markdown.html">Exception Handling with Ron Burgundy</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
