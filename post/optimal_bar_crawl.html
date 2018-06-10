@@ -288,8 +288,7 @@ lapply(libs, require, character.only = TRUE, quietly = TRUE)
 # specify which version of Python to use
 reticulate::use_python(&#39;//anaconda/bin/python&#39;, required = TRUE)</code></pre>
 <p>The function below will do the webscraping.</p>
-<pre class="python"><code>
-import urllib2
+<pre class="python"><code>import urllib2
 from bs4 import BeautifulSoup
 import re
 
@@ -611,7 +610,7 @@ bar_locations_nearby = bar_locations %&gt;%
                                                                long
                                                                )) %&gt;% 
                        filter(distance_from_depot &lt;= feet_in_mile * max_miles_away)</code></pre>
-<p>After applying our distance filter, there is still ~70 bars remaining. That’s going to be a challenge to complete in a reasonable amount of time, so we’ll further reduce our consideration set down to 24, which means we can spend a little more time at each bar. Below we’ll randomly select 12 bars from the 70.</p>
+<p>After applying our distance filter, there is still ~70 bars remaining. That’s going to be a challenge to complete in a reasonable amount of time, so we’ll further reduce our consideration set down to 24, which means we can spend a little more time at each bar. Below we’ll randomly select 24 bars from the 70.</p>
 <pre class="r"><code>set.seed(1)
 
 # we&#39;ll visit 24 bars
@@ -940,9 +939,7 @@ Free House
 <div id="creating-a-walking-path" class="section level3">
 <h3>Creating a Walking Path</h3>
 <p>Currently, the path between different nodes (i.e., bars) are straight lines. We’ll be walking this tour, so a sidewalk travel path is required. We’ll call on the Google Maps API one last time to convert each of the straight-line edges to actual walking paths via the <code>convert_route_to_path.py</code> module. This module consists of two functions: <code>find_path</code> and <code>extract_polyline</code>. <code>find_path</code> takes a starting lat/long, ending lat/long, and method of travel (walking in our case) and returns step-by-step lat/long coordinates along with distance and time estimates. <code>extract_polyline</code> is a helper function that will format each of the step-by-step coordinates into pandas DataFrame. The output will then be returned as an R DataFrame. We’ll specify the python module below.</p>
-<pre class="python"><code>
-# convert_route_to_path.py
-import googlemaps
+<pre class="python"><code>import googlemaps
 import pandas as pd
 import pytz
 import polyline
