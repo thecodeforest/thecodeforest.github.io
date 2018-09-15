@@ -1,0 +1,4080 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/college_rankings_salary.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/college_rankings_salary.html">
+  <meta property="og:title" content="Show me the Money: College Rankings and Pay | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-09-11T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2018-09-11T21:13:14-05:00">
+  
+
+  
+
+  <title>Show me the Money: College Rankings and Pay | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Show me the Money: College Rankings and Pay</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-09-11 21:13:14 -0500 -0500" itemprop="datePublished">
+      Sep 11, 2018
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    21 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/college_rankings_salary.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/college-rankings">College Rankings</a
+    >, 
+    
+    <a href="/categories/career">Career</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/python">Python</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Show%20me%20the%20Money%3a%20College%20Rankings%20and%20Pay&amp;url=%2fpost%2fcollege_rankings_salary.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcollege_rankings_salary.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcollege_rankings_salary.html&amp;title=Show%20me%20the%20Money%3a%20College%20Rankings%20and%20Pay"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcollege_rankings_salary.html&amp;title=Show%20me%20the%20Money%3a%20College%20Rankings%20and%20Pay"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Show%20me%20the%20Money%3a%20College%20Rankings%20and%20Pay&amp;body=%2fpost%2fcollege_rankings_salary.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p><img src="college_rankings_images/belushi.jpg" width="800px" height="200px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>Rankings are a pervasive part of modern life, especially for big decisions – like shelling out thousands of dollars for an education. Indeed, college rankings are amongst the most widely cited rankings in existence. Students, parents, and college administrators fret about where their school lands along these highly debated spectrums. But does it really matter in terms of future earnings potential? While an education is more than a simple “means to an end”, making a decent living is amongst the reasons why students pull all-nighters, work terrible summer jobs, and do everything they can to position themselves for a lucrative, meaningful career. Accordingly, this post will focus on the following topics:</p>
+<p>🤓 The relationship between Mid Career Pay and College Ranking after accounting for external variables (e.g., % of STEM degrees conferred each year)</p>
+<p>🤓 Understand which variables exhibit the strongest relationship with pay</p>
+<p>🤓 Identify which college’s graduates over/under earn relative to our predictions</p>
+<p>Since I’m a big fan of Learning-by-doing, I’ve included all of the code used to answer these questions. If you are simply interested in the answers, <a href="#analysis">click here</a></p>
+</div>
+<div id="data-collection" class="section level3">
+<h3>Data Collection</h3>
+<p>We’ll leverage the following data sources for our analysis:</p>
+<ul>
+<li><p>2018 Payscale Data of Median Mid Career Earnings By College (with additional data about each college)</p></li>
+<li><p>2017 Forbes Undergraduate College Rankings</p></li>
+<li><p>2018 Cost of Living Index by State</p></li>
+</ul>
+<p>Let’s start by collecting the earnings and rankings data. The <code>reticulate</code> package allows us to call the two python functions (outlined below) to scrape this data and return it as a DataFrame back into R. For the sake of simplicity, all of the scripts referenced herein exist in the same folder as the .R script. The <code>pacman</code> package will do the heavy lifting here, loading all previously installed packages and installing all referenced but uninstalled packages.</p>
+<pre class="r"><code>library(pacman)
+pacman::p_load(&#39;readr&#39;,
+               &#39;reshape&#39;,
+               &#39;dplyr&#39;,
+               &#39;janitor&#39;,
+               &#39;ggplot2&#39;,
+               &#39;broom&#39;,
+               &#39;rvest&#39;,
+               &#39;reticulate&#39;,
+               &#39;glue&#39;,
+               &#39;caret&#39;,
+               &#39;kableExtra&#39;,
+               &#39;artyfarty&#39;,
+               &#39;patchwork&#39;,
+               &#39;sjPlot&#39;,
+               &#39;purrr&#39;,
+               &#39;stringr&#39;,
+               &#39;tibble&#39;
+               )
+# set plotting theme to black &amp; white
+theme_set(theme_bw())
+
+# set plotting colors 
+color_pal = pal(&quot;five38&quot;)
+
+# set custom plotting theme
+# source(&#39;my_plot_theme.R&#39;)</code></pre>
+<p>We’ve loaded/installed the relevant packages, set our working directory, and loaded our custom plotting theme (see <a href="#appendix">here</a> for theme. Next we’ll tell R which version of Python to use.</p>
+<pre class="r"><code>reticulate::use_python(&#39;/anaconda/envs/py36/bin/python&#39;, required = TRUE)</code></pre>
+<p>Let’s source (i.e., bring the Python functions into our R environment) with the following command:</p>
+<pre class="r"><code>reticulate::source_python(&#39;rankings_earnings_post_functions.py&#39;)</code></pre>
+<p>We now have access to the two functions described below – <code>collect_payscale_info</code> and <code>college_college_ranks</code>.Each will scrape data from the web, convert the results into a Pandas DataFrame, and then return the final result back as an R DataFrame.</p>
+<pre class="python"><code>import pandas as pd
+import urllib3
+from bs4 import BeautifulSoup
+import re
+import ast
+HTTP = urllib3.PoolManager()
+#
+# Function to scrape payscale information
+#
+def collect_payscale_info():
+    base_url = &#39;https://www.payscale.com/college-salary-report/bachelors?page=101&#39;
+    page = HTTP.request(&#39;GET&#39;, base_url)
+    soup = BeautifulSoup(page.data, &#39;lxml&#39;)
+    all_colleges = (str(soup)
+                    .split(&quot;var collegeSalaryReportData = &quot;)[1]
+                    .split(&#39;},{&#39;)
+                    )
+    college_list = []
+    for i in all_colleges:
+        try:
+            college_list.append(ast.literal_eval(&quot;{&quot; + i.replace(&quot;[{&quot;, &quot;&quot;) + &quot;}&quot;))
+        except Exception as e:
+            print(e)
+    college_df = pd.DataFrame(college_list)
+    return(college_df)
+#
+# Function to scrape college rankings information  
+#
+def collect_college_ranks(college_names_list):
+    base_url = &#39;https://www.forbes.com/colleges/&#39;
+    rank_list = []
+    for college_name in college_names_list:
+        print(str(round(count/float(len(college_names_list)) * 100, 2)) + &#39;% Complete&#39;)
+        try:
+            tmp_url = base_url + college_name.lower().replace(&quot; &quot;, &quot;-&quot;) + &quot;/&quot;
+            page = HTTP.request(&#39;GET&#39;, base_url)
+            soup = BeautifulSoup(page.data, &#39;lxml&#39;)
+            college_rank = (re.search(r&#39;class=&quot;rankonlist&quot;&gt;#(.*?) &lt;a href=&quot;/top-colleges/list/&quot;&#39;, 
+                                      str(soup))
+                              .group(1)
+                           )
+            rank_list.append([college_name, college_rank])
+        except Exception as e:
+            rank_list.append([college_name, None])
+            print(e)
+        count += 1
+    rank_df = pd.DataFrame(rank_list)
+    rank_df = rank_df.rename(columns={rank_df.columns[0]: &quot;college_name&quot;,
+                                      rank_df.columns[1]: &quot;rank&quot;
+                                  })
+    return(rank_df)</code></pre>
+<p>Let’s start by collecting data about each college. We’ll gather the following fields:</p>
+<ul>
+<li>Percent_Female: Percentage of the student body that is female</li>
+<li>Percent_Stem: Percentage of students majoring in a Science, Technology, Engineering, or Math field</li>
+<li>Undergraduate_Enrollment: Number of students enrolled as undergraduate students</li>
+<li>School_Sector: If the College if Public or Private</li>
+<li>Rank: 2017 Forbe’s undergraduate college rankings</li>
+<li>COL_Index: Cost of Living index at the state level</li>
+<li>Mid_Career_Median_Pay: Median Salary for alumni with 10+ years of experience</li>
+</ul>
+<pre class="r"><code>college_salary_df = collect_payscale_info() %&gt;% 
+  clean_names() %&gt;% 
+  select(friendly_name,
+         state,
+         percent_female,
+         percent_stem,
+         undergraduate_enrollment,
+         school_sector,
+         mid_career_median_pay
+         ) %&gt;% 
+  rename(college_name = friendly_name)</code></pre>
+<p>Below we’ll have a glimpse at the first few rows of data pertinent to each college.</p>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+college_name
+</th>
+<th style="text-align:center;">
+state
+</th>
+<th style="text-align:center;">
+percent_female
+</th>
+<th style="text-align:center;">
+percent_stem
+</th>
+<th style="text-align:center;">
+undergraduate_enrollment
+</th>
+<th style="text-align:center;">
+school_sector
+</th>
+<th style="text-align:center;">
+mid_career_median_pay
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Harvey Mudd College
+</td>
+<td style="text-align:center;">
+California
+</td>
+<td style="text-align:center;">
+0.46
+</td>
+<td style="text-align:center;">
+0.85
+</td>
+<td style="text-align:center;">
+831
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+155800
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Princeton University
+</td>
+<td style="text-align:center;">
+New Jersey
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.47
+</td>
+<td style="text-align:center;">
+5666
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+147800
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Massachusetts Institute of Technology
+</td>
+<td style="text-align:center;">
+Massachusetts
+</td>
+<td style="text-align:center;">
+0.46
+</td>
+<td style="text-align:center;">
+0.69
+</td>
+<td style="text-align:center;">
+4680
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+147000
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SUNY Maritime College
+</td>
+<td style="text-align:center;">
+New York
+</td>
+<td style="text-align:center;">
+0.1
+</td>
+<td style="text-align:center;">
+0.35
+</td>
+<td style="text-align:center;">
+1817
+</td>
+<td style="text-align:center;">
+Public
+</td>
+<td style="text-align:center;">
+145100
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+United States Military Academy
+</td>
+<td style="text-align:center;">
+New York
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+0.43
+</td>
+<td style="text-align:center;">
+4536
+</td>
+<td style="text-align:center;">
+Public
+</td>
+<td style="text-align:center;">
+144300
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+United States Naval Academy
+</td>
+<td style="text-align:center;">
+Maryland
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+0.6
+</td>
+<td style="text-align:center;">
+4535
+</td>
+<td style="text-align:center;">
+Public
+</td>
+<td style="text-align:center;">
+143800
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+California Institute of Technology
+</td>
+<td style="text-align:center;">
+California
+</td>
+<td style="text-align:center;">
+0.39
+</td>
+<td style="text-align:center;">
+0.97
+</td>
+<td style="text-align:center;">
+1034
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+142500
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Babson College
+</td>
+<td style="text-align:center;">
+Massachusetts
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+2211
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+141700
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Harvard University
+</td>
+<td style="text-align:center;">
+Massachusetts
+</td>
+<td style="text-align:center;">
+0.5
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+14128
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+140700
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Stanford University
+</td>
+<td style="text-align:center;">
+California
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+8302
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+140400
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Dartmouth College
+</td>
+<td style="text-align:center;">
+New Hampshire
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+<td style="text-align:center;">
+4695
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+140300
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Williams College
+</td>
+<td style="text-align:center;">
+Massachusetts
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.33
+</td>
+<td style="text-align:center;">
+2233
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+138400
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+United States Air Force Academy
+</td>
+<td style="text-align:center;">
+Colorado
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+4112
+</td>
+<td style="text-align:center;">
+Public
+</td>
+<td style="text-align:center;">
+138300
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Webb Institute
+</td>
+<td style="text-align:center;">
+New York
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+91
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+138200
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Samuel Merritt University
+</td>
+<td style="text-align:center;">
+California
+</td>
+<td style="text-align:center;">
+0.81
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+851
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+138100
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Colgate University
+</td>
+<td style="text-align:center;">
+New York
+</td>
+<td style="text-align:center;">
+0.56
+</td>
+<td style="text-align:center;">
+0.27
+</td>
+<td style="text-align:center;">
+2991
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+137700
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Stevens Institute of Technology
+</td>
+<td style="text-align:center;">
+New Jersey
+</td>
+<td style="text-align:center;">
+0.29
+</td>
+<td style="text-align:center;">
+0.8
+</td>
+<td style="text-align:center;">
+3076
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+136900
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Colorado School of Mines
+</td>
+<td style="text-align:center;">
+Colorado
+</td>
+<td style="text-align:center;">
+0.28
+</td>
+<td style="text-align:center;">
+0.94
+</td>
+<td style="text-align:center;">
+4821
+</td>
+<td style="text-align:center;">
+Public
+</td>
+<td style="text-align:center;">
+136100
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+United States Merchant Marine Academy
+</td>
+<td style="text-align:center;">
+New York
+</td>
+<td style="text-align:center;">
+0.17
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+908
+</td>
+<td style="text-align:center;">
+Public
+</td>
+<td style="text-align:center;">
+135900
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+University of Pennsylvania
+</td>
+<td style="text-align:center;">
+Pennsylvania
+</td>
+<td style="text-align:center;">
+0.53
+</td>
+<td style="text-align:center;">
+0.22
+</td>
+<td style="text-align:center;">
+13096
+</td>
+<td style="text-align:center;">
+Private not-for-profit
+</td>
+<td style="text-align:center;">
+134800
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Looks good! Next, we’ll pass the college names as an argument into our <code>collect_college_ranks</code> function. We’ll iterate through each college and extract its ranking, which ranges from 1 to 650.</p>
+<pre class="r"><code>college_rankings_df = collect_college_ranks(college_salary_df$college_name) %&gt;% 
+  clean_names() %&gt;% 
+  filter(is.na(rank) == FALSE) %&gt;% 
+  arrange(rank)</code></pre>
+<p>Our last piece of data is the Cost of Living for each college’s state of residence. College graduates frequently work in the same state they attend college, and Cost of Living is related to how much companies pay their employees. By accounting for such expenses, we’ll have better estimates of the impact of rankings on pay This data is housed on a website that publishes current Cost of Living estimates by state. We’ll switch back to R and use the <code>rvest</code> package for web scraping.</p>
+<pre class="r"><code>table_path = &#39;/html/body/div[5]/div/table&#39;
+url = &quot;https://www.missourieconomy.org/indicators/cost_of_living/&quot;
+
+col_table = url %&gt;% 
+  read_html() %&gt;% 
+  html_nodes(xpath = table_path) %&gt;% 
+  html_table(header = TRUE)
+
+# note: col_index = cost of living index
+col_df = data.frame(col_table[[1]])[,c(1, 3)] %&gt;% 
+  setNames(., c(&#39;state&#39;, &#39;col_index&#39;)) %&gt;% 
+  slice(2:(n() - 1)) %&gt;% 
+  mutate(col_index = as.numeric(col_index)) %&gt;% 
+  arrange(desc(col_index))
+
+print(head(col_df, 10))</code></pre>
+<pre><code>##                      state col_index
+## 1                   Hawaii     186.3
+## 2  District of    Columbia     161.8
+## 3               California     141.0
+## 4                 New York     133.9
+## 5                   Alaska     130.9
+## 6                 Maryland     130.4
+## 7                   Oregon     130.0
+## 8            Massachusetts     127.6
+## 9              Connecticut     127.1
+## 10            Rhode Island     122.2</code></pre>
+<p>Having lived on the West Coast for the past three years, these numbers check out! The next step is to confirm that we can join our Cost of Living data with college salaries. A simple <code>left join</code> will identify any inconsistencies between our key (state) that are we using to merge our datasets.</p>
+<pre class="r"><code>college_salary_df %&gt;% 
+  select(state) %&gt;% 
+  distinct() %&gt;% 
+  left_join(col_df, by = &#39;state&#39;) %&gt;% 
+  filter(is.na(col_index) == TRUE)</code></pre>
+<pre><code>## # A tibble: 4 x 2
+##   state                col_index
+##   &lt;chr&gt;                    &lt;dbl&gt;
+## 1 District of Columbia        NA
+## 2 Puerto Rico                 NA
+## 3 Guam                        NA
+## 4 &lt;NA&gt;                        NA</code></pre>
+<p>The only mismatch within the United States is the District of Columbia. We’ll reformat the state names and then join all three data sources – salary, rankings, and Cost of Living – to complete our final data set.</p>
+<pre class="r"><code>final_df = college_salary_df %&gt;% 
+  inner_join(college_rankings_df, by = &#39;college_name&#39;) %&gt;% 
+  inner_join(col_df %&gt;% 
+             mutate(state = ifelse(state == &#39;District of    Columbia&#39;, 
+                                            &#39;District of Columbia&#39;,
+                                             state
+                                   )
+                                  ),
+                    by = &#39;state&#39;
+                    ) %&gt;% 
+  arrange(rank) %&gt;% 
+  select(-state) %&gt;% 
+  select(rank, everything()) %&gt;% 
+  mutate(percent_stem = as.numeric(percent_stem),
+         percent_female = as.numeric(percent_female),
+         undergraduate_enrollment =  as.numeric(undergraduate_enrollment),
+         school_sector = factor(if_else(school_sector == &#39;Public&#39;, 1, 0))
+                ) %&gt;% 
+  na.omit() %&gt;% 
+  data.frame()</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+rank
+</th>
+<th style="text-align:center;">
+college_name
+</th>
+<th style="text-align:center;">
+percent_female
+</th>
+<th style="text-align:center;">
+percent_stem
+</th>
+<th style="text-align:center;">
+undergraduate_enrollment
+</th>
+<th style="text-align:center;">
+school_sector
+</th>
+<th style="text-align:center;">
+mid_career_median_pay
+</th>
+<th style="text-align:center;">
+col_index
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+Harvard University
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+14128
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+140700
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+Stanford University
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+8302
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+140400
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+Yale University
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+7150
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+132100
+</td>
+<td style="text-align:center;">
+127.1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+Princeton University
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.47
+</td>
+<td style="text-align:center;">
+5666
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+147800
+</td>
+<td style="text-align:center;">
+118.4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+Massachusetts Institute of Technology
+</td>
+<td style="text-align:center;">
+0.46
+</td>
+<td style="text-align:center;">
+0.69
+</td>
+<td style="text-align:center;">
+4680
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+147000
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+California Institute of Technology
+</td>
+<td style="text-align:center;">
+0.39
+</td>
+<td style="text-align:center;">
+0.97
+</td>
+<td style="text-align:center;">
+1034
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+142500
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+University of Pennsylvania
+</td>
+<td style="text-align:center;">
+0.53
+</td>
+<td style="text-align:center;">
+0.22
+</td>
+<td style="text-align:center;">
+13096
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+134800
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+Duke University
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+0.26
+</td>
+<td style="text-align:center;">
+7253
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+134400
+</td>
+<td style="text-align:center;">
+93.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+Brown University
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+0.39
+</td>
+<td style="text-align:center;">
+7214
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+132000
+</td>
+<td style="text-align:center;">
+122.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+Pomona College
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.43
+</td>
+<td style="text-align:center;">
+1677
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+114100
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+Claremont McKenna College
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.14
+</td>
+<td style="text-align:center;">
+1359
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+130800
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+Dartmouth College
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+<td style="text-align:center;">
+4695
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+140300
+</td>
+<td style="text-align:center;">
+112.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+Williams College
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.33
+</td>
+<td style="text-align:center;">
+2233
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+138400
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+Columbia University in the City of New York
+</td>
+<td style="text-align:center;">
+0.47
+</td>
+<td style="text-align:center;">
+0.30
+</td>
+<td style="text-align:center;">
+8623
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+124700
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+Cornell University
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.43
+</td>
+<td style="text-align:center;">
+14656
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+123900
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+University of Chicago
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.20
+</td>
+<td style="text-align:center;">
+6046
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+117000
+</td>
+<td style="text-align:center;">
+96.7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+Amherst College
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.27
+</td>
+<td style="text-align:center;">
+1921
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+122800
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+Harvey Mudd College
+</td>
+<td style="text-align:center;">
+0.46
+</td>
+<td style="text-align:center;">
+0.85
+</td>
+<td style="text-align:center;">
+831
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+155800
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+19
+</td>
+<td style="text-align:center;">
+Swarthmore College
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.34
+</td>
+<td style="text-align:center;">
+1606
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+126200
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+United States Naval Academy
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+0.60
+</td>
+<td style="text-align:center;">
+4535
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+143800
+</td>
+<td style="text-align:center;">
+130.4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+21
+</td>
+<td style="text-align:center;">
+Georgetown University
+</td>
+<td style="text-align:center;">
+0.56
+</td>
+<td style="text-align:center;">
+0.12
+</td>
+<td style="text-align:center;">
+8719
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+129500
+</td>
+<td style="text-align:center;">
+161.8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+22
+</td>
+<td style="text-align:center;">
+Rice University
+</td>
+<td style="text-align:center;">
+0.47
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+4051
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+130200
+</td>
+<td style="text-align:center;">
+91.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+23
+</td>
+<td style="text-align:center;">
+Bowdoin College
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.35
+</td>
+<td style="text-align:center;">
+1952
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+115500
+</td>
+<td style="text-align:center;">
+116.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+24
+</td>
+<td style="text-align:center;">
+United States Military Academy
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+0.43
+</td>
+<td style="text-align:center;">
+4536
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+144300
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+25
+</td>
+<td style="text-align:center;">
+Haverford College
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.38
+</td>
+<td style="text-align:center;">
+1305
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+119500
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+26
+</td>
+<td style="text-align:center;">
+University of Notre Dame
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.26
+</td>
+<td style="text-align:center;">
+8626
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+127900
+</td>
+<td style="text-align:center;">
+91.5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+27
+</td>
+<td style="text-align:center;">
+Vanderbilt University
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.22
+</td>
+<td style="text-align:center;">
+7046
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+116000
+</td>
+<td style="text-align:center;">
+89.4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+28
+</td>
+<td style="text-align:center;">
+Northwestern University
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+10611
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+113300
+</td>
+<td style="text-align:center;">
+96.7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+29
+</td>
+<td style="text-align:center;">
+University of California-Berkeley
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.34
+</td>
+<td style="text-align:center;">
+29591
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+130100
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+30
+</td>
+<td style="text-align:center;">
+Johns Hopkins University
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.33
+</td>
+<td style="text-align:center;">
+8152
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+112200
+</td>
+<td style="text-align:center;">
+130.4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+31
+</td>
+<td style="text-align:center;">
+Washington and Lee University
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+0.21
+</td>
+<td style="text-align:center;">
+1867
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+131700
+</td>
+<td style="text-align:center;">
+102.1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+32
+</td>
+<td style="text-align:center;">
+Tufts University
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.24
+</td>
+<td style="text-align:center;">
+5697
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+120200
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+33
+</td>
+<td style="text-align:center;">
+Wesleyan University
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.22
+</td>
+<td style="text-align:center;">
+3091
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+117700
+</td>
+<td style="text-align:center;">
+127.1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+34
+</td>
+<td style="text-align:center;">
+Davidson College
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.24
+</td>
+<td style="text-align:center;">
+1928
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+111400
+</td>
+<td style="text-align:center;">
+93.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+35
+</td>
+<td style="text-align:center;">
+Bates College
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.26
+</td>
+<td style="text-align:center;">
+1903
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+125000
+</td>
+<td style="text-align:center;">
+116.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+36
+</td>
+<td style="text-align:center;">
+Washington University in St Louis
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+0.31
+</td>
+<td style="text-align:center;">
+8440
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+113400
+</td>
+<td style="text-align:center;">
+88.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+37
+</td>
+<td style="text-align:center;">
+Carleton College
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.40
+</td>
+<td style="text-align:center;">
+2093
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+113800
+</td>
+<td style="text-align:center;">
+100.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+38
+</td>
+<td style="text-align:center;">
+University of Michigan-Ann Arbor
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+0.38
+</td>
+<td style="text-align:center;">
+29124
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+104600
+</td>
+<td style="text-align:center;">
+88.7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+39
+</td>
+<td style="text-align:center;">
+Middlebury College
+</td>
+<td style="text-align:center;">
+0.53
+</td>
+<td style="text-align:center;">
+0.18
+</td>
+<td style="text-align:center;">
+3849
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+113200
+</td>
+<td style="text-align:center;">
+117.4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+40
+</td>
+<td style="text-align:center;">
+University of Virginia-Main Campus
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.21
+</td>
+<td style="text-align:center;">
+18930
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+118400
+</td>
+<td style="text-align:center;">
+102.1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+41
+</td>
+<td style="text-align:center;">
+United States Air Force Academy
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+4112
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+138300
+</td>
+<td style="text-align:center;">
+103.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+42
+</td>
+<td style="text-align:center;">
+Colgate University
+</td>
+<td style="text-align:center;">
+0.56
+</td>
+<td style="text-align:center;">
+0.27
+</td>
+<td style="text-align:center;">
+2991
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+137700
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+43
+</td>
+<td style="text-align:center;">
+Scripps College
+</td>
+<td style="text-align:center;">
+1.00
+</td>
+<td style="text-align:center;">
+0.24
+</td>
+<td style="text-align:center;">
+1023
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+96700
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+44
+</td>
+<td style="text-align:center;">
+University of Southern California
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.24
+</td>
+<td style="text-align:center;">
+20543
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+119300
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+45
+</td>
+<td style="text-align:center;">
+Carnegie Mellon University
+</td>
+<td style="text-align:center;">
+0.44
+</td>
+<td style="text-align:center;">
+0.64
+</td>
+<td style="text-align:center;">
+6869
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+126400
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+47
+</td>
+<td style="text-align:center;">
+Wellesley College
+</td>
+<td style="text-align:center;">
+0.95
+</td>
+<td style="text-align:center;">
+0.29
+</td>
+<td style="text-align:center;">
+2644
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+100900
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+48
+</td>
+<td style="text-align:center;">
+University of California-Los Angeles
+</td>
+<td style="text-align:center;">
+0.56
+</td>
+<td style="text-align:center;">
+0.31
+</td>
+<td style="text-align:center;">
+31906
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+114800
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+49
+</td>
+<td style="text-align:center;">
+Boston College
+</td>
+<td style="text-align:center;">
+0.53
+</td>
+<td style="text-align:center;">
+0.11
+</td>
+<td style="text-align:center;">
+10297
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+115300
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+50
+</td>
+<td style="text-align:center;">
+Vassar College
+</td>
+<td style="text-align:center;">
+0.57
+</td>
+<td style="text-align:center;">
+0.27
+</td>
+<td style="text-align:center;">
+2625
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+98900
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+51
+</td>
+<td style="text-align:center;">
+United States Merchant Marine Academy
+</td>
+<td style="text-align:center;">
+0.17
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+908
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+135900
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+52
+</td>
+<td style="text-align:center;">
+New York University
+</td>
+<td style="text-align:center;">
+0.57
+</td>
+<td style="text-align:center;">
+0.17
+</td>
+<td style="text-align:center;">
+30000
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+117000
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+53
+</td>
+<td style="text-align:center;">
+Oberlin College
+</td>
+<td style="text-align:center;">
+0.56
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+3042
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+107600
+</td>
+<td style="text-align:center;">
+92.7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+54
+</td>
+<td style="text-align:center;">
+Barnard College
+</td>
+<td style="text-align:center;">
+1.00
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+2669
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+103700
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+55
+</td>
+<td style="text-align:center;">
+Bucknell University
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.37
+</td>
+<td style="text-align:center;">
+3721
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+124700
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+56
+</td>
+<td style="text-align:center;">
+Lafayette College
+</td>
+<td style="text-align:center;">
+0.49
+</td>
+<td style="text-align:center;">
+0.41
+</td>
+<td style="text-align:center;">
+2541
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+123800
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+57
+</td>
+<td style="text-align:center;">
+Grinnell College
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.36
+</td>
+<td style="text-align:center;">
+1774
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+96200
+</td>
+<td style="text-align:center;">
+91.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+58
+</td>
+<td style="text-align:center;">
+College of William and Mary
+</td>
+<td style="text-align:center;">
+0.57
+</td>
+<td style="text-align:center;">
+0.20
+</td>
+<td style="text-align:center;">
+6890
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+111900
+</td>
+<td style="text-align:center;">
+102.1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+59
+</td>
+<td style="text-align:center;">
+Pitzer College
+</td>
+<td style="text-align:center;">
+0.57
+</td>
+<td style="text-align:center;">
+0.13
+</td>
+<td style="text-align:center;">
+1094
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+91100
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+60
+</td>
+<td style="text-align:center;">
+Wake Forest University
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.14
+</td>
+<td style="text-align:center;">
+4966
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+118400
+</td>
+<td style="text-align:center;">
+93.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+61
+</td>
+<td style="text-align:center;">
+Colby College
+</td>
+<td style="text-align:center;">
+0.53
+</td>
+<td style="text-align:center;">
+0.28
+</td>
+<td style="text-align:center;">
+2055
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+104200
+</td>
+<td style="text-align:center;">
+116.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+62
+</td>
+<td style="text-align:center;">
+Cooper Union for the Advancement of Science and Art
+</td>
+<td style="text-align:center;">
+0.34
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+942
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+124200
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+63
+</td>
+<td style="text-align:center;">
+Kenyon College
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.17
+</td>
+<td style="text-align:center;">
+1764
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+110400
+</td>
+<td style="text-align:center;">
+92.7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+64
+</td>
+<td style="text-align:center;">
+Santa Clara University
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.30
+</td>
+<td style="text-align:center;">
+5759
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+134500
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+Hamilton College
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.28
+</td>
+<td style="text-align:center;">
+2036
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+107000
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+66
+</td>
+<td style="text-align:center;">
+Emory University
+</td>
+<td style="text-align:center;">
+0.58
+</td>
+<td style="text-align:center;">
+0.21
+</td>
+<td style="text-align:center;">
+7764
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+109800
+</td>
+<td style="text-align:center;">
+90.8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+67
+</td>
+<td style="text-align:center;">
+Lehigh University
+</td>
+<td style="text-align:center;">
+0.44
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+5325
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+133900
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+68
+</td>
+<td style="text-align:center;">
+University of North Carolina at Chapel Hill
+</td>
+<td style="text-align:center;">
+0.58
+</td>
+<td style="text-align:center;">
+0.18
+</td>
+<td style="text-align:center;">
+19312
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+96000
+</td>
+<td style="text-align:center;">
+93.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+69
+</td>
+<td style="text-align:center;">
+University of Illinois at Urbana-Champaign
+</td>
+<td style="text-align:center;">
+0.44
+</td>
+<td style="text-align:center;">
+0.37
+</td>
+<td style="text-align:center;">
+34687
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+109600
+</td>
+<td style="text-align:center;">
+96.7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+70
+</td>
+<td style="text-align:center;">
+Reed College
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.26
+</td>
+<td style="text-align:center;">
+1491
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+103900
+</td>
+<td style="text-align:center;">
+130.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+71
+</td>
+<td style="text-align:center;">
+Smith College
+</td>
+<td style="text-align:center;">
+1.00
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+2603
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+98400
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+72
+</td>
+<td style="text-align:center;">
+University of Maryland-College Park
+</td>
+<td style="text-align:center;">
+0.46
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+<td style="text-align:center;">
+31050
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+107100
+</td>
+<td style="text-align:center;">
+130.4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+73
+</td>
+<td style="text-align:center;">
+Villanova University
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+7871
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+114700
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+74
+</td>
+<td style="text-align:center;">
+Babson College
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.00
+</td>
+<td style="text-align:center;">
+2211
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+141700
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+75
+</td>
+<td style="text-align:center;">
+Yeshiva University
+</td>
+<td style="text-align:center;">
+0.45
+</td>
+<td style="text-align:center;">
+0.13
+</td>
+<td style="text-align:center;">
+2949
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+122300
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+76
+</td>
+<td style="text-align:center;">
+Colorado College
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+0.28
+</td>
+<td style="text-align:center;">
+2322
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+97000
+</td>
+<td style="text-align:center;">
+103.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+Occidental College
+</td>
+<td style="text-align:center;">
+0.57
+</td>
+<td style="text-align:center;">
+0.25
+</td>
+<td style="text-align:center;">
+2178
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+107700
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+78
+</td>
+<td style="text-align:center;">
+Whitman College
+</td>
+<td style="text-align:center;">
+0.58
+</td>
+<td style="text-align:center;">
+0.38
+</td>
+<td style="text-align:center;">
+1562
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+107700
+</td>
+<td style="text-align:center;">
+108.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+79
+</td>
+<td style="text-align:center;">
+University of Washington-Seattle Campus
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+<td style="text-align:center;">
+34486
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+108800
+</td>
+<td style="text-align:center;">
+108.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+80
+</td>
+<td style="text-align:center;">
+University of Florida
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.27
+</td>
+<td style="text-align:center;">
+36703
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+97800
+</td>
+<td style="text-align:center;">
+98.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+81
+</td>
+<td style="text-align:center;">
+Georgia Institute of Technology-Main Campus
+</td>
+<td style="text-align:center;">
+0.35
+</td>
+<td style="text-align:center;">
+0.78
+</td>
+<td style="text-align:center;">
+16694
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+128700
+</td>
+<td style="text-align:center;">
+90.8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+University of Richmond
+</td>
+<td style="text-align:center;">
+0.55
+</td>
+<td style="text-align:center;">
+0.14
+</td>
+<td style="text-align:center;">
+3910
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+106600
+</td>
+<td style="text-align:center;">
+102.1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+83
+</td>
+<td style="text-align:center;">
+University of California-Santa Barbara
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.28
+</td>
+<td style="text-align:center;">
+21897
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+118800
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+84
+</td>
+<td style="text-align:center;">
+Trinity College
+</td>
+<td style="text-align:center;">
+0.48
+</td>
+<td style="text-align:center;">
+0.18
+</td>
+<td style="text-align:center;">
+2434
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+108700
+</td>
+<td style="text-align:center;">
+127.1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+85
+</td>
+<td style="text-align:center;">
+University of Rochester
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+<td style="text-align:center;">
+6821
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+107400
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+86
+</td>
+<td style="text-align:center;">
+Boston University
+</td>
+<td style="text-align:center;">
+0.60
+</td>
+<td style="text-align:center;">
+0.23
+</td>
+<td style="text-align:center;">
+22685
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+113500
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+87
+</td>
+<td style="text-align:center;">
+University of Wisconsin-Madison
+</td>
+<td style="text-align:center;">
+0.51
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+<td style="text-align:center;">
+33400
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+98400
+</td>
+<td style="text-align:center;">
+96.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+88
+</td>
+<td style="text-align:center;">
+George Washington University
+</td>
+<td style="text-align:center;">
+0.56
+</td>
+<td style="text-align:center;">
+0.14
+</td>
+<td style="text-align:center;">
+12039
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+115900
+</td>
+<td style="text-align:center;">
+161.8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+89
+</td>
+<td style="text-align:center;">
+College of the Holy Cross
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.22
+</td>
+<td style="text-align:center;">
+2759
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+119700
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+90
+</td>
+<td style="text-align:center;">
+Trinity University
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.22
+</td>
+<td style="text-align:center;">
+2298
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+101600
+</td>
+<td style="text-align:center;">
+91.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+91
+</td>
+<td style="text-align:center;">
+The University of Texas at Austin
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.26
+</td>
+<td style="text-align:center;">
+42193
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+107400
+</td>
+<td style="text-align:center;">
+91.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+92
+</td>
+<td style="text-align:center;">
+Franklin and Marshall College
+</td>
+<td style="text-align:center;">
+0.53
+</td>
+<td style="text-align:center;">
+0.21
+</td>
+<td style="text-align:center;">
+2417
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+112400
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+93
+</td>
+<td style="text-align:center;">
+University of California-San Diego
+</td>
+<td style="text-align:center;">
+0.47
+</td>
+<td style="text-align:center;">
+0.54
+</td>
+<td style="text-align:center;">
+27918
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+124900
+</td>
+<td style="text-align:center;">
+141.0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+94
+</td>
+<td style="text-align:center;">
+Skidmore College
+</td>
+<td style="text-align:center;">
+0.61
+</td>
+<td style="text-align:center;">
+0.21
+</td>
+<td style="text-align:center;">
+2798
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+97300
+</td>
+<td style="text-align:center;">
+133.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+95
+</td>
+<td style="text-align:center;">
+Bryn Mawr College
+</td>
+<td style="text-align:center;">
+1.00
+</td>
+<td style="text-align:center;">
+0.19
+</td>
+<td style="text-align:center;">
+1430
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+89900
+</td>
+<td style="text-align:center;">
+101.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+96
+</td>
+<td style="text-align:center;">
+Furman University
+</td>
+<td style="text-align:center;">
+0.56
+</td>
+<td style="text-align:center;">
+0.16
+</td>
+<td style="text-align:center;">
+2887
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+104000
+</td>
+<td style="text-align:center;">
+98.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+97
+</td>
+<td style="text-align:center;">
+University of Miami
+</td>
+<td style="text-align:center;">
+0.52
+</td>
+<td style="text-align:center;">
+0.22
+</td>
+<td style="text-align:center;">
+12243
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+92400
+</td>
+<td style="text-align:center;">
+98.9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+98
+</td>
+<td style="text-align:center;">
+Southern Methodist University
+</td>
+<td style="text-align:center;">
+0.50
+</td>
+<td style="text-align:center;">
+0.20
+</td>
+<td style="text-align:center;">
+6866
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+108500
+</td>
+<td style="text-align:center;">
+91.3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+99
+</td>
+<td style="text-align:center;">
+Brandeis University
+</td>
+<td style="text-align:center;">
+0.57
+</td>
+<td style="text-align:center;">
+0.26
+</td>
+<td style="text-align:center;">
+3852
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+114200
+</td>
+<td style="text-align:center;">
+127.6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+Macalester College
+</td>
+<td style="text-align:center;">
+0.60
+</td>
+<td style="text-align:center;">
+0.33
+</td>
+<td style="text-align:center;">
+2238
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+97700
+</td>
+<td style="text-align:center;">
+100.2
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+101
+</td>
+<td style="text-align:center;">
+St Olaf College
+</td>
+<td style="text-align:center;">
+0.57
+</td>
+<td style="text-align:center;">
+0.32
+</td>
+<td style="text-align:center;">
+3122
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+98700
+</td>
+<td style="text-align:center;">
+100.2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We have a total of 578 colleges with complete data. Let’s get moving on our analysis!</p>
+</div>
+<div id="analysis" class="section level3">
+<h3>Analysis</h3>
+<p>We’ll first start by examining the relationship between our two main variables of interest: College Rank and Mid Career Pay.</p>
+<p><img src="/post/college_rankings_salary_files/figure-html/unnamed-chunk-16-1.png" width="960" /></p>
+<p>Earnings drop much quicker for highly ranked colleges relative to lower ranked colleges. Let’s break this out by bucketing the ranks and examining the slopes for each bucket – that is, the expected change in salary as our ranking decreases by one.</p>
+<pre class="r"><code>final_df = final_df %&gt;% 
+  mutate(rank_bucket = case_when(rank &gt;= 1 &amp; rank &lt;= 50 ~ &#39;1 - 50&#39;,
+                                 rank &gt;= 51 &amp; rank &lt;= 100 ~ &#39;51 - 100&#39;,
+                                 rank &gt; 100 &amp; rank &lt;= 200 ~ &#39;101 - 200&#39;,
+                                 rank &gt; 200 &amp; rank &lt;= 400 ~ &#39;201 - 400&#39;,
+                                 rank &gt; 400 ~ &#39;&gt; 400&#39;
+                                 )
+         )
+
+rank_bucket_est = final_df %&gt;% 
+  group_by(rank_bucket) %&gt;% 
+  do(tidy(lm(mid_career_median_pay ~ rank, data=.))) %&gt;% 
+  select(rank_bucket, term, estimate) %&gt;% 
+  reshape::cast(rank_bucket ~ term, value = &#39;estimate&#39;) %&gt;% 
+  clean_names() %&gt;% 
+  dplyr::rename(rank_coeff = rank) %&gt;% 
+  data.frame() %&gt;% 
+  arrange(rank_coeff)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:220px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+rank_bucket
+</th>
+<th style="text-align:center;">
+intercept
+</th>
+<th style="text-align:center;">
+rank_coeff
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1 - 50
+</td>
+<td style="text-align:center;">
+140453.6
+</td>
+<td style="text-align:center;">
+-599.28741
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+51 - 100
+</td>
+<td style="text-align:center;">
+127265.4
+</td>
+<td style="text-align:center;">
+-219.40936
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+101 - 200
+</td>
+<td style="text-align:center;">
+115381.3
+</td>
+<td style="text-align:center;">
+-79.85206
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+201 - 400
+</td>
+<td style="text-align:center;">
+110338.7
+</td>
+<td style="text-align:center;">
+-55.96746
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+&gt; 400
+</td>
+<td style="text-align:center;">
+102147.0
+</td>
+<td style="text-align:center;">
+-35.61756
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>While the relationship between earnings and rank is non-linear, this provides a rough estimate of what we originally noticed in the first scatterplot. Specifically, for colleges that fall in the 1- 50 bucket, a one-unit reduction in rank is associated with a decrease in pay of ~$600. In contrast, for those in the &gt; 400 bucket, a one-unit reduction results only in a ~$36 reduction in pay. Let’s bring this concept to life by visualizing the relationship with our grouped ranking variable.</p>
+<pre class="r"><code>rank_bucket_est %&gt;% 
+  inner_join(final_df, by = &#39;rank_bucket&#39;) %&gt;% 
+  mutate(predicted_income = rank * rank_coeff + intercept) %&gt;% 
+  mutate(rank_bucket = factor(rank_bucket,
+                              levels = c(&#39;1 - 50&#39;,
+                                         &#39;51 - 100&#39;,
+                                         &#39;101 - 200&#39;,
+                                         &#39;201 - 400&#39;,
+                                         &#39;&gt; 400&#39;
+                                         )
+                              )
+         ) %&gt;% 
+  ggplot(aes(x = rank, y = predicted_income, color = rank_bucket)) + 
+    geom_point() + 
+    geom_line() + 
+    geom_point(data = final_df, aes(x = rank,
+                                    y = mid_career_median_pay),
+               alpha = 0.25
+               ) + 
+    my_plot_theme() + 
+    ylab(&quot;Predicted Mid Career Pay&quot;) + 
+    scale_y_continuous(labels=scales::dollar) + 
+    scale_x_continuous(breaks = seq(0, max(final_df$rank), by = 50)) + 
+    labs(color = &#39;Rank Bucket&#39;) + 
+    scale_color_manual(values = pal(&quot;five38&quot;))</code></pre>
+<p><img src="/post/college_rankings_salary_files/figure-html/unnamed-chunk-19-1.png" width="960" /></p>
+<p>At this point, we’ve established that (1) rank is a good predictor of earnings, and (2) the nature of this relationship varies by the level of the rank, indicating that a modeling approach that handles non-linearity would likely perform better than our current linear model. Accordingly, we’ll try out three separate models – Linear Regression, General Additive Model, and Random Forest – to see which performs best on a holdout set. Once we identify the best approach (from a modeling perspective), we’ll start considering the role of the other variables as well.</p>
+<pre class="r"><code>row.names(final_df) = final_df$college_name
+final_df = final_df %&gt;%
+  select(-rank_bucket, -college_name)
+
+y_var = &#39;mid_career_median_pay&#39;
+x_var = setdiff(names(final_df), y_var)
+model_form = as.formula(paste0(y_var,
+                               &quot; ~ &quot;,
+                               paste0(x_var, collapse = &quot; + &quot;)
+                               )
+                        )
+print(model_form)</code></pre>
+<pre><code>## mid_career_median_pay ~ rank + percent_female + percent_stem + 
+##     undergraduate_enrollment + school_sector + col_index</code></pre>
+<p>Now that we’ve established our model formula, let’s do a quick quality check on our data. We’ll first consider the presence of variables with near zero variance. Such variables all have the same value (e.g., 0) or are highly unbalanced (e.g., 10000 zeros and 1 one). This can be problematic for certain modeling approaches, in that the model won’t fit properly. Second, we’ll explore the bi-variate correlations amongst our predictors. Highly correlated variables can interfere with interpretability and lead to incorrect parameter estimates. If you’ve ever done a linear regression and the direction or size of the resulting coefficients don’t make sense, this might be the reason. We’ll check for both of these issues below.</p>
+<pre class="r"><code># identifies any variables with near zero variance, which can lead to model instability
+near_zero_vars = nearZeroVar(final_df[x_var])
+# identifies any vavriables with absolute correlation &gt; .7
+correlated_vars = findCorrelation(cor(final_df[x_var[x_var != &#39;school_sector&#39;]]),
+                                  cutoff = .7
+                                  )
+
+print(c(paste0(&quot;N correlated Vars: &quot;, length(correlated_vars)),
+        paste0(&quot;N low variance Vars: &quot;, length(near_zero_vars))
+        )
+      )</code></pre>
+<pre><code>## [1] &quot;N correlated Vars: 0&quot;   &quot;N low variance Vars: 0&quot;</code></pre>
+<p>Looks good. Let’s compare our three models and select the one that provides the best out-of-sample performance using the <code>caret</code> package. We’ll use 10-fold cross validation and repeat the validation process five times.</p>
+<pre class="r"><code>control = trainControl(method = &#39;repeatedcv&#39;,
+                      number = 10,
+                      repeats = 5
+                      )
+
+set.seed(1)
+model_lm = train(model_form, 
+                 data=final_df, 
+                 method=&quot;lm&quot;, 
+                 trControl=control
+                 )
+
+set.seed(1)
+model_gam = train(model_form, 
+                  data=final_df, 
+                  method=&quot;gam&quot;, 
+                  trControl=control
+                  )
+set.seed(1)
+model_rf = train(model_form, 
+                 data=final_df, 
+                 method=&quot;rf&quot;, 
+                 trControl=control,
+                 ntree = 100
+                 )</code></pre>
+<p>Model performance is based on Root Mean Square Error (RMSE), R-squared, and Mean Absolute Error (MAE). While performance across these metrics will be related, each tells a different story. For example, RMSE squares each of the errors before they are averaged, while MAE simply takes the absolute value. RMSE puts a larger penalty on models with big errors relative to MAE. Thus, if reliability and consistency are particularly important, RMSE might be the better metric. In the current context, we aren’t concerned with this tradeoff – and obviously it’s easiest when all metrics point to the same model!</p>
+<pre class="r"><code>model_perf = resamples(list(LM=model_lm, 
+                            GAM=model_gam, 
+                            RF=model_rf)
+                       )$values %&gt;% 
+  clean_names() %&gt;% 
+  select(-resample) %&gt;% 
+  reshape::melt() %&gt;% 
+  as_tibble()
+
+model_perf$model_metric = model_perf$variable %&gt;%
+  map(function(x) str_split(pattern = &quot;_&quot;, x))
+
+model_perf$model = model_perf$model_metric %&gt;%
+  map(function(x) x[[1]][1]) %&gt;%
+  unlist()
+
+model_perf$metric =
+  model_perf$model_metric %&gt;%
+  map(function(x) x[[1]][2]) %&gt;%
+  unlist()
+
+model_perf = model_perf %&gt;%
+  select(-variable, -model_metric)</code></pre>
+<p>Let’s visualize the performance of each model across 50 trials (10 folds X 5 repeats) with a boxplot.</p>
+<pre class="r"><code>ggplot(model_perf, aes(x = model, y = value, color = model)) + 
+  geom_boxplot() + 
+  facet_grid(metric ~ ., scales = &#39;free&#39;) + 
+  my_plot_theme() + 
+  scale_color_manual(values = color_pal) + 
+  ylab(&quot;Metric Value&quot;) + 
+  xlab(&quot;Model&quot;)</code></pre>
+<p><img src="/post/college_rankings_salary_files/figure-html/unnamed-chunk-24-1.png" width="960" /></p>
+<p>The GAM performed best, following by the Random Forest and Linear Regression Model. Let’s do a quick review of each by considering the in-sample errors – that is, when we make predictions against the same dataset we trained our model on. A simple approach is to plot the fitted (predicted) values against the errors (residuals).</p>
+<pre class="r"><code>insample_predictions = final_df %&gt;% 
+  mutate(lm_pred = as.vector(predict(model_lm, final_df)),
+         gam_pred = as.vector(predict(model_gam, final_df)),
+         rf_pred = as.vector(predict(model_rf, final_df))
+         ) %&gt;% 
+  select(y_var, ends_with(&#39;_pred&#39;)) %&gt;% 
+  reshape::melt(y_var) %&gt;% 
+  dplyr::rename(predicted_earnings = value,
+                actual_earnings = mid_career_median_pay,
+                model = variable
+                ) %&gt;% 
+  mutate(residual = actual_earnings - predicted_earnings) </code></pre>
+<pre class="r"><code>ggplot(insample_predictions, 
+       aes(x = predicted_earnings,
+           y = residual,
+           color = model
+           )) + 
+  geom_point(alpha = 0.5, size = 2) + 
+  facet_grid(model ~ .) + 
+  geom_abline(intercept = 0, slope = 0) + 
+  stat_smooth(size = 2, se = FALSE) + 
+  scale_color_manual(values = pal(&quot;five38&quot;)[c(1, 3, 2)]) + 
+  my_plot_theme() + 
+  xlab(&quot;Predicted Earnings&quot;) + 
+  ylab(&quot;Residual&quot;)</code></pre>
+<p><img src="/post/college_rankings_salary_files/figure-html/unnamed-chunk-26-1.png" width="960" /></p>
+<p>A few takeaways from this visual. First, it’s apparent that a non-linear model (e.g., GAM or RF) performs best on this dataset, based on the pattern of residuals associated with the linear model. Second, the GAM performed best in terms of limiting bias across the entire prediction range. This means we are just as likely to over- or under-predict across the range of values, whereas RF and LM are biased at the tails of the range. Third, RF performs much better in-sample than out-of-sample, as is indicated by the close spread of the errors around zero. This indicates that the RF model is likely overfitting, which we could address by (1) acquiring more data, and/or (2) changing some of the model parameters to encourage a simpler, more robust model – a process referred to as <em>regularization</em>. However, interpretability is a key component of our analysis, and GAM models have this quality in spades. Let’s move forward with the GAM and rank the overall importance of each variable.</p>
+<pre class="r"><code>var_imp = varImp(model_gam)$importance %&gt;% 
+  dplyr::rename(importance = Overall) %&gt;% 
+  rownames_to_column(var = &#39;variable&#39;)</code></pre>
+<pre class="r"><code>  ggplot(var_imp, aes(x = reorder(variable, importance), y = importance)) + 
+  geom_bar(stat = &#39;identity&#39;, 
+           fill =  pal(&quot;five38&quot;)[1],
+           color = &#39;black&#39;) + 
+  coord_flip() + 
+  my_plot_theme() + 
+  xlab(&quot;&quot;) + 
+  ylab(&quot;Importance&quot;)</code></pre>
+<p><img src="/post/college_rankings_salary_files/figure-html/unnamed-chunk-28-1.png" width="960" /></p>
+<p>This provides a global measure of importance for all of our variables. Let’s take this a step further and examine the marginal effects of the top four most important variables.</p>
+<pre class="r"><code>x_var_plot = x_var[!x_var %in% c(&#39;undergraduate_enrollment&#39;, &#39;school_sector&#39;)]
+marginal_effects_plots = list()
+for(var in x_var_plot){
+  tmp_effects_plot = plot_model(model_gam$finalModel, 
+                                 type = &quot;pred&quot;, 
+                                 terms = var
+                                )
+  tmp_effects_plot = tmp_effects_plot + 
+    ggtitle(glue::glue(&quot;Predicted Pay by {var}&quot;)) + 
+    xlab(glue::glue(&quot;{var}&quot;)) + 
+    ylab(&quot;Mid Career Median Pay&quot;) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    scale_y_continuous(labels=scales::dollar)
+  
+  marginal_effects_plots[[var]] = tmp_effects_plot
+}</code></pre>
+<p>Below we’ll take our four separate plots and organize them nicely into a single, unified plot via the <code>patchwork</code> package.</p>
+<pre class="r"><code>(marginal_effects_plots$rank + 
+  marginal_effects_plots$percent_female + 
+  marginal_effects_plots$percent_stem +
+  marginal_effects_plots$col_index + 
+  patchwork::plot_layout(ncol = 2) 
+)</code></pre>
+<p><img src="/post/college_rankings_salary_files/figure-html/unnamed-chunk-30-1.png" width="1152" /></p>
+<p>Most of these findings aren’t too surprising: Those who attend top-ranked colleges, in a state with a high cost of living, and likely majored in a STEM subject tend to have the highest pay. However, pay as a percentage of female graduates was unexpected. While the earnings discrepency between men and women has been well documented, it was surprising to see that the gender distribution of a college was a stronger predictor of earnings than cost of living or major. While I’d put less faith in the predictions at the extreme ranges (i.e., all-male or all-female colleges), it is unfortunate to see such a discrepancy.</p>
+</div>
+<div id="over-and-under-performers" class="section level3">
+<h3>Over and Under Performers</h3>
+<p>The last question to consider is which college’s graduates over/under perform their expected pay. Looking at where your model goes wrong is a great way to identify missing variables. Let’s have a look at the top and bottom 10 colleges based on the largest positive and negative residual values.</p>
+<pre class="r"><code>final_df$college_name = row.names(final_df)
+final_df$predicted_pay = as.vector(predict(model_gam, final_df))
+final_df$residual_pay = final_df$mid_career_median_pay - final_df$predicted_pay  
+top10_over_under = bind_rows(
+  final_df %&gt;% 
+  arrange(desc(residual_pay)) %&gt;% 
+  head(10) %&gt;% 
+  mutate(earnings_group = &#39;More Than Expected&#39;),
+  final_df %&gt;% 
+  arrange(residual_pay) %&gt;% 
+  head(10) %&gt;% 
+  mutate(earnings_group = &#39;Less Than Expected&#39;)
+                            )</code></pre>
+<pre class="r"><code>ggplot(top10_over_under, 
+       aes(x = reorder(college_name, residual_pay),
+           y = residual_pay,
+           fill = earnings_group
+           )
+       ) + 
+    geom_bar(stat = &#39;identity&#39;, color = &#39;black&#39;) + 
+    coord_flip() + 
+    my_plot_theme() + 
+    ylab(&quot;Error&quot;) +
+    xlab(&quot;&quot;) + 
+    scale_fill_manual(values = color_pal) + 
+    theme(legend.title=element_blank(),
+          legend.text = element_text(size = 15)
+          )</code></pre>
+<p><img src="/post/college_rankings_salary_files/figure-html/unnamed-chunk-32-1.png" width="960" /></p>
+<p>It is interesting to note that Babson and SUNY Maritime are the top two over-performers, meaning that their graduates have higher pay than expected. A quick google search reveals what these two colleges have in common: They both emphasize specialization in lucrative fields. Babson focuses exclusively on entrepreneurship and business, while SUNY Maritime prepares graduates for what I believe to be lucrative careers around boats?</p>
+<div class="figure">
+<img src="https://media.giphy.com/media/l2Jeczy9FOg59bKYE/giphy.gif" />
+
+</div>
+<p>In contrast, the only pattern that emerges amongst the under-performers is that most are small, private, liberal arts colleges. While our model accounted for school sector (private vs. public) and undergraduate enrollment, it is possible that including a factor indicating if a college emphasizes a liberal arts education could be valuable. Indeed, the vocational emphasis of the two top over-performers suggests that our model would likely improve with the addition of a feature that captures if a college has a Liberal Arts vs. Vocational focus.</p>
+</div>
+<div id="conclusion-does-rank-matter" class="section level3">
+<h3>Conclusion: Does Rank Matter?</h3>
+<p>It’s important to note that our outcome variable – <em>Median</em> Mid Career Pay – is a summary statistic. Thus, we do not know how much information each college contributed to our estimates, as the raw data (i.e., the individual responses associated with each college) are not available. However, these findings seem directionally correct. Even after considering the aforementioned caveat, it is apparent that where you attend college is strongly associated with how much you earn later in life. This is especially true for top ranked colleges. The difference between attending a college ranked in the top 10 relative to the top 100 has substantial pay implications, while this difference is less important amongst lower ranked colleges.</p>
+<p>Hopefully you enjoyed the post. I’d love to hear your feedback, so feel free to comment below!</p>
+</div>
+<div id="appendix" class="section level3">
+<h3>Appendix</h3>
+<pre class="r"><code>my_plot_theme = function(){
+  font_family = &quot;Helvetica&quot;
+  font_face = &quot;bold&quot;
+  return(theme(
+    axis.text.x = element_text(size = 16, face = font_face, family = font_family),
+    axis.text.y = element_text(size = 16, face = font_face, family = font_family),
+    axis.title.x = element_text(size = 16, face = font_face, family = font_family),
+    axis.title.y = element_text(size = 16, face = font_face, family = font_family),
+    strip.text.y = element_text(size = 16, face = font_face, family = font_family),
+    plot.title = element_text(size = 20, face = font_face, family = font_family),
+    plot.caption = element_text(size = 11, face = &quot;italic&quot;, hjust = 0),
+    
+    legend.position = &quot;top&quot;,
+    legend.title = element_text(size = 16,
+                                face = font_face,
+                                family = font_family),
+    legend.text = element_text(size = 20,
+                               face = font_face,
+                               family = font_family),
+    legend.key = element_rect(size = 3),
+    legend.key.size = unit(3, &#39;lines&#39;),
+    legend.title=element_blank()
+  ))
+}</code></pre>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/college-rankings">College Rankings</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/career">Career</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/python">Python</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/optimal_bar_crawl.html">The Optimal Portland Pub Crawl</a></li>
+    
+    <li><a href="/post/computer_vision_with_r.html">Computer Vision with R &amp; Keras</a></li>
+    
+    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
+    
+    <li><a href="/post/combine_analysis.html">Combine Analysis</a></li>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

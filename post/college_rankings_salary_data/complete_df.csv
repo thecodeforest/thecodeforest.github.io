@@ -1,0 +1,582 @@
+college_name,state,percent_female,percent_stem,div1_fball,school_sector,undergraduate_enrollment,mid_career_median_pay,rank,col_index,gam_residual
+Harvard University,Massachusetts,38,20,0,1,14128,140700,1,127.6,5950.639099307329
+Stanford University,California,36,48,1,1,8302,140400,2,141,1078.9126950706122
+Yale University,Connecticut,39,24,0,1,7150,132100,3,127.1,19.731845672242343
+Princeton University,New Jersey,36,47,0,1,5666,147800,4,118.4,13400.296618210472
+Massachusetts Institute of Technology,Massachusetts,34,60,0,1,4680,147e3,5,127.6,4956.075326651189
+California Institute of Technology,California,27,73,0,1,1034,142500,6,141,-7468.188461374521
+University of Pennsylvania,Pennsylvania,41,23,0,1,13096,134800,7,101.2,7297.184226118523
+Duke University,North Carolina,37,27,1,1,7253,134400,8,93.9,8970.446697869353
+Brown University,Rhode Island,42,40,0,1,7214,132e3,9,122.2,1837.9465151998593
+Pomona College,California,38,44,0,1,1677,114100,10,141,-15808.55388180427
+Claremont McKenna College,California,36,15,0,1,1359,130800,11,141,3853.7215095983847
+Dartmouth College,New Hampshire,37,33,0,1,4695,140300,12,112,13291.185789550887
+Williams College,Massachusetts,39,34,0,1,2233,138400,13,127.6,12226.020089488462
+Columbia University in the City of New York,New York,35,31,0,1,8623,124700,14,133.9,-8078.82324714266
+Cornell University,New York,39,44,0,1,14656,123900,15,133.9,-10405.991380701249
+University of Chicago,Illinois,36,21,0,1,6046,117e3,16,96.7,-6677.035524738123
+Amherst College,Massachusetts,38,28,0,1,1921,122800,17,127.6,-2244.263495134772
+Harvey Mudd College,California,34,68,0,1,831,155800,18,141,14868.861659914459
+Swarthmore College,Pennsylvania,38,35,0,1,1606,126200,19,101.2,6302.519084719868
+United States Naval Academy,Maryland,11,56,1,0,4535,143800,20,130.4,52.85925937752472
+Georgetown University,District of Columbia,44,13,0,1,8719,129500,21,161.8,2026.8292804228113
+Rice University,Texas,35,49,1,1,4051,130200,22,91.3,5831.467980825124
+Bowdoin College,Maine,38,36,0,1,1952,115500,23,116.3,-7099.708718853071
+United States Military Academy,New York,8,44,1,0,4536,144300,24,133.9,4885.269289668766
+Haverford College,Pennsylvania,40,39,0,1,1305,119500,25,101.2,1491.4518570414948
+University of Notre Dame,Indiana,36,27,1,1,8626,127900,26,91.5,6076.892576076658
+Vanderbilt University,Tennessee,38,23,1,1,7046,116e3,27,89.4,-3336.083005542343
+Northwestern University,Illinois,39,20,1,1,10611,113300,28,96.7,-8495.569637111883
+University of California-Berkeley,California,40,35,1,0,29591,130100,29,141,4957.635543599608
+Johns Hopkins University,Maryland,43,34,0,1,8152,112200,30,130.4,-13364.464187575111
+Washington and Lee University,Virginia,37,22,0,1,1867,131700,31,102.1,14144.566087685627
+Tufts University,Massachusetts,39,25,0,1,5697,120200,32,127.6,-4361.016292197281
+Wesleyan University,Connecticut,43,23,0,1,3091,117700,33,127.1,-2784.0940027962934
+Davidson College,North Carolina,39,25,0,1,1928,111400,34,93.9,-2918.4227384604455
+Bates College,Maine,38,27,0,1,1903,125e3,35,116.3,5626.404767618893
+Washington University in St Louis,Missouri,42,32,0,1,8440,113400,36,88.9,-3247.221652184584
+Carleton College,Minnesota,40,41,0,1,2093,113800,37,100.2,-2637.198967848526
+University of Michigan-Ann Arbor,Michigan,37,39,1,0,29124,104600,38,88.7,-11485.732120102257
+Middlebury College,Vermont,41,19,0,1,3849,113200,39,117.4,-5808.6385953071
+University of Virginia-Main Campus,Virginia,43,22,1,0,18930,118400,40,102.1,3203.748421818964
+United States Air Force Academy,Colorado,11,48,1,0,4112,138300,41,103.9,7840.698728186166
+Colgate University,New York,44,28,0,1,2991,137700,42,133.9,18784.32059373503
+Scripps College,California,87,25,0,1,1023,96700,43,141,-8661.688928628326
+University of Southern California,California,38,25,1,1,20543,119300,44,141,-7061.138079790209
+Carnegie Mellon University,Pennsylvania,32,58,0,1,6869,126400,45,101.2,-3285.0685757181927
+Wellesley College,Massachusetts,82,30,0,1,2644,100900,47,127.6,-5409.368376537488
+University of California-Los Angeles,California,44,32,1,0,31906,114800,48,141,-4597.435437057735
+Boston College,Massachusetts,41,12,1,1,10297,115300,49,127.6,-5843.543112188709
+Vassar College,New York,45,28,0,1,2625,98900,50,133.9,-17647.529655403996
+United States Merchant Marine Academy,New York,7,53,0,0,908,135900,51,133.9,1411.7097510658205
+New York University,New York,45,18,0,1,3e4,117e3,52,133.9,-4216.126746844209
+Oberlin College,Ohio,44,24,0,1,3042,107600,53,92.7,-1641.5412721937755
+Barnard College,New York,87,20,0,1,2669,103700,54,133.9,-385.3618493996619
+Bucknell University,Pennsylvania,40,38,0,1,3721,124700,55,101.2,10774.650860841837
+Lafayette College,Pennsylvania,37,42,0,1,2541,123800,56,101.2,9077.801515123108
+Grinnell College,Iowa,43,37,0,1,1774,96200,57,91.9,-11884.073118472355
+College of William and Mary,Virginia,45,21,0,0,6890,111900,58,102.1,3156.508429822323
+Pitzer College,California,45,14,0,1,1094,91100,59,141,-21534.263369904904
+Wake Forest University,North Carolina,40,15,1,1,4966,118400,60,93.9,7841.011711590181
+Colby College,Maine,41,29,0,1,2055,104200,61,116.3,-8895.693634111507
+Cooper Union for the Advancement of Science and Art,New York,22,53,0,1,942,124200,62,133.9,-4427.017922977917
+Kenyon College,Ohio,43,18,0,1,1764,110400,63,92.7,4428.090721308021
+Santa Clara University,California,38,31,0,1,5759,134500,64,141,14642.9987530754
+Hamilton College,New York,40,29,0,1,2036,107e3,65,133.9,-7980.23131671756
+Emory University,Georgia,46,22,0,1,7764,109800,66,90.8,806.4568321830156
+Lehigh University,Pennsylvania,32,51,0,1,5325,133900,67,101.2,13175.268123910326
+University of North Carolina at Chapel Hill,North Carolina,46,19,1,0,19312,96e3,68,93.9,-10403.81344883771
+University of Illinois at Urbana-Champaign,Illinois,32,38,1,0,34687,109600,69,96.7,-4421.211751532799
+Reed College,Oregon,43,27,0,1,1491,103900,70,130,-8008.777854507483
+Smith College,Massachusetts,87,24,0,1,2603,98400,71,127.6,-2019.768010554515
+University of Maryland-College Park,Maryland,34,33,1,0,31050,107100,72,130.4,-10931.540718576187
+Villanova University,Pennsylvania,42,24,0,1,7871,114700,73,101.2,2852.413388300891
+Babson College,Massachusetts,36,1,0,1,2211,141700,74,127.6,31081.77625770461
+Yeshiva University,New York,33,14,0,1,2949,122300,75,133.9,6332.40773744577
+Colorado College,Colorado,42,29,0,1,2322,97e3,76,103.9,-10783.59823560137
+Occidental College,California,45,26,0,1,2178,107700,77,141,-3889.1405337846372
+Whitman College,Washington,46,39,0,1,1562,107700,78,108.3,606.3262450156035
+University of Washington-Seattle Campus,Washington,40,33,1,0,34486,108800,79,108.3,-2147.152845503282
+University of Florida,Florida,43,28,1,0,36703,97800,80,98.9,-9466.438811813146
+Georgia Institute of Technology-Main Campus,Georgia,23,64,1,0,16694,128700,81,90.8,2684.522901552875
+University of Richmond,Virginia,43,15,0,1,3910,106600,82,102.1,28.479901291793794
+University of California-Santa Barbara,California,40,29,0,0,21897,118800,83,141,4652.689967817918
+Trinity College,Connecticut,36,19,0,1,2434,108700,84,127.1,-3930.994649709057
+University of Rochester,New York,39,33,0,1,6821,107400,85,133.9,-8705.189017915603
+Boston University,Massachusetts,48,24,0,1,22685,113500,86,127.6,-148.66057585773524
+University of Wisconsin-Madison,Wisconsin,39,33,1,0,33400,98400,87,96.3,-8910.059671964686
+George Washington University,District of Columbia,44,15,0,1,12039,115900,88,161.8,173.8372441795218
+College of the Holy Cross,Massachusetts,38,23,0,1,2759,119700,89,127.6,8018.175856317408
+Trinity University,Texas,40,23,0,1,2298,101600,90,91.3,-1568.263829319636
+The University of Texas at Austin,Texas,40,27,1,0,42193,107400,91,91.3,2994.0914768141374
+Franklin and Marshall College,Pennsylvania,41,22,0,1,2417,112400,92,101.2,7493.765156909882
+University of California-San Diego,California,35,53,0,0,27918,124900,93,141,3966.80520203957
+Skidmore College,New York,49,22,0,1,2798,97300,94,133.9,-10149.579839926635
+Bryn Mawr College,Pennsylvania,87,20,0,1,1430,89900,95,101.2,-472.249408940188
+Furman University,South Carolina,44,17,0,1,2887,104e3,96,98.3,1493.1188810462045
+University of Miami,Florida,40,23,1,1,12243,92400,97,98.9,-17250.505514816454
+Southern Methodist University,Texas,38,21,1,1,6866,108500,98,91.3,2065.1506517313246
+Brandeis University,Massachusetts,45,27,0,1,3852,114200,99,127.6,5561.241111186697
+Macalester College,Minnesota,48,34,0,1,2238,97700,100,100.2,-3525.3796946911607
+St Olaf College,Minnesota,45,33,0,1,3122,98700,101,100.2,-4248.629346855785
+University of California-Davis,California,46,38,0,0,30215,110900,102,141,825.7108917859587
+Rhode Island School of Design,Rhode Island,56,1,0,1,2045,96300,103,122.2,-1828.342455195423
+Worcester Polytechnic Institute,Massachusetts,21,69,0,1,4362,129400,104,127.6,-4593.52752393618
+Connecticut College,Connecticut,50,28,0,1,1972,99200,105,127.1,-5028.761564127897
+University of California-Irvine,California,42,33,0,0,26991,118800,106,141,8484.497288780418
+Case Western Reserve University,Ohio,33,38,0,1,5298,111100,107,92.7,3422.604814886974
+Rhodes College,Tennessee,46,31,0,1,2130,97100,108,89.4,-886.8542982756771
+Virginia Polytechnic Institute and State University,Virginia,30,40,1,0,26211,110200,109,102.1,-68.25126193583128
+University of Georgia,Georgia,45,13,1,0,30197,97300,112,90.8,-1418.9404430934082
+New College of Florida,Florida,50,1,0,0,884,82500,113,98.9,-6167.508817946247
+Rose-Hulman Institute of Technology,Indiana,11,74,0,1,2339,125900,116,91.5,-5786.99458861482
+DePauw University,Indiana,42,24,0,1,2285,109400,117,91.5,10506.283804069244
+Dickinson College,Pennsylvania,46,23,0,1,2427,101700,118,101.2,1987.5967966774915
+Bentley University,Massachusetts,29,8,0,1,4369,114300,119,127.6,3256.9065457621473
+Denison University,Ohio,45,23,0,1,2283,105100,120,92.7,7414.951727038002
+Rensselaer Polytechnic Institute,New York,19,62,0,1,5914,129500,121,133.9,-1363.2352721881034
+Colorado School of Mines,Colorado,16,72,0,0,4821,136100,122,103.9,7953.187351574175
+Tulane University of Louisiana,Louisiana,46,19,1,1,8798,108700,123,93.4,7066.250660647682
+University of Connecticut,Connecticut,38,25,1,0,20152,99200,124,127.1,-9017.921653887504
+James Madison University,Virginia,46,14,0,0,21306,101700,125,102.1,2152.9022152932885
+University of Delaware,Delaware,45,23,0,0,20498,102700,126,105.4,1193.0592855607392
+SUNY at Binghamton,New York,36,34,0,0,14663,110200,127,133.9,275.07897042307013
+Mount Holyoke College,Massachusetts,87,30,0,1,2346,88600,128,127.6,-3826.6967608153936
+American University,District of Columbia,50,4,0,1,8666,106900,129,161.8,1669.1492875236436
+Wofford College,South Carolina,39,27,0,1,1702,97600,130,98.3,-2175.721767625335
+Ohio State University-Main Campus,Ohio,36,27,1,0,48487,92400,131,92.7,-7948.440747644214
+Fordham University,New York,44,10,0,1,9785,111300,132,133.9,3645.7845611065713
+Clemson University,South Carolina,34,38,1,0,19593,101100,133,98.3,-3425.765866929738
+Sewanee-The University of the South,Tennessee,41,15,0,1,1810,88600,134,89.4,-7081.028008020308
+Earlham College,Indiana,45,23,0,1,1004,84e3,135,91.5,-10484.653566001754
+Loyola Marymount University,California,44,11,0,1,6624,114700,136,141,8207.951500890646
+University of Denver,Colorado,42,13,0,1,6151,97100,137,103.9,-4811.131761232726
+Gettysburg College,Pennsylvania,42,24,0,1,2664,111400,138,101.2,11953.806068293663
+University of Minnesota-Twin Cities,Minnesota,41,29,1,0,44505,98200,139,100.2,-1983.2236296427582
+Willamette University,Oregon,45,13,0,1,2149,98900,140,130,-2570.1315562251402
+Kalamazoo College,Michigan,44,40,0,1,1467,95200,141,88.7,-270.8974384339235
+Pennsylvania State University-Main Campus,Pennsylvania,34,36,1,0,43073,99600,142,101.2,-4155.489011898404
+Purdue University-Main Campus,Indiana,30,39,1,0,31985,104e3,143,91.5,-204.11027035635198
+Syracuse University,New York,44,28,1,1,27675,102900,144,133.9,-6184.536449423991
+Loyola University Maryland,Maryland,46,9,0,1,4128,114200,145,130.4,12379.636273617449
+Indiana University-Bloomington,Indiana,39,16,1,0,40945,94100,147,91.5,-3836.22226229668
+Fairfield University,Connecticut,48,22,0,1,4398,117500,148,127.1,14924.713145096743
+Pepperdine University,California,47,9,0,1,3698,104e3,149,141,2355.59414195054
+Elon University,North Carolina,47,8,0,1,6111,90100,150,93.9,-5495.666059282201
+Providence College,Rhode Island,44,11,0,1,4460,107900,151,122.2,6145.651404095537
+University of Portland,Oregon,47,25,0,1,4073,102100,152,130,-667.8280906806176
+California Polytechnic State University-San Luis Obispo,California,35,42,0,0,20622,114700,153,141,4842.113109551516
+University of Pittsburgh-Pittsburgh Campus,Pennsylvania,38,26,1,0,20635,94400,154,101.2,-6462.880953575164
+North Carolina State University at Raleigh,North Carolina,34,47,1,0,27249,101700,155,93.9,-2585.594027208339
+The College of New Jersey,New Jersey,47,16,0,0,7217,98300,156,118.4,48.451188322433154
+University of San Diego,California,42,13,0,1,6166,108100,157,141,2508.5056233033683
+Rutgers University-New Brunswick,New Jersey,38,29,1,0,39735,108100,158,118.4,3916.014893674568
+Gonzaga University,Washington,42,18,0,1,5187,105800,161,108.3,4810.536387168977
+Centre College,Kentucky,38,28,0,1,1382,85500,162,92.6,-10334.036682015736
+Muhlenberg College,Pennsylvania,48,23,0,1,2534,100400,164,101.2,5344.223676173773
+Clark University,Massachusetts,48,15,0,1,2508,97100,165,127.6,-1808.924343416671
+Thomas Aquinas College,California,37,1,0,1,378,83300,166,141,-15582.827951959494
+Westmont College,California,49,19,0,1,1359,111500,167,141,12582.014841403026
+Clarkson University,New York,18,51,0,1,3352,126700,168,133.9,7262.289886533821
+University of Puget Sound,Washington,47,22,0,1,2520,99800,169,108.3,3199.77531883576
+Miami University-Oxford,Ohio,39,19,1,0,17717,104600,170,92.7,7542.12826555784
+University of Dayton,Ohio,35,31,0,1,8999,102600,171,92.7,191.3704107420781
+Hobart William Smith Colleges,New York,37,16,0,1,2378,116400,172,133.9,13087.073619202536
+Marquette University,Wisconsin,41,25,0,1,8488,103100,173,96.3,2776.0311425643304
+University of Vermont,Vermont,44,22,0,0,12804,96800,174,117.4,-3584.316322749961
+University of Tulsa,Oklahoma,30,36,1,1,3699,99700,175,88.3,-565.6504669644637
+University of Iowa,Iowa,40,16,1,0,25883,96700,176,91.9,998.5622104935901
+Virginia Military Institute,Virginia,3,44,0,0,1762,124600,177,102.1,11401.247739257364
+Michigan State University,Michigan,38,20,1,0,42452,97200,178,88.7,1403.540666841931
+St Lawrence University,New York,42,25,0,1,2532,98400,179,133.9,-3357.477856107522
+Stevens Institute of Technology,New Jersey,17,65,0,1,3076,136900,180,118.4,12254.506154724018
+Manhattan College,New York,33,39,0,1,3675,119300,181,133.9,11799.00879527592
+Samford University,Alabama,52,4,0,1,3282,86200,182,88.8,-1144.2546679234656
+Bryant University,Rhode Island,29,9,0,1,3519,105200,183,122.2,476.94284853617137
+Florida State University,Florida,43,19,1,0,35129,90600,184,98.9,-5766.238932090797
+University of San Francisco,California,49,7,0,1,7469,109600,185,141,8710.127122343009
+Sarah Lawrence College,New York,60,1,0,1,1422,94700,186,133.9,4273.25039431639
+Stony Brook University,New York,34,36,0,0,19410,108800,187,133.9,2378.6178381150094
+Texas Christian University,Texas,48,9,1,1,9261,94300,188,91.3,228.17490354533948
+Creighton University,Nebraska,46,10,0,1,4586,90400,190,93.4,-2173.185715082247
+Bard College,New York,45,1,0,1,2135,89e3,191,133.9,-6732.816207269658
+University of Utah,Utah,33,22,1,0,28297,97500,192,96.6,-2073.069302032338
+Drake University,Iowa,45,10,0,1,3609,97800,193,91.9,6219.234065687953
+George Mason University,Virginia,41,23,0,0,30789,104300,194,102.1,6727.236670934726
+University at Buffalo,New York,33,33,1,0,22503,92100,196,133.9,-13971.582070594464
+Illinois Wesleyan University,Illinois,44,23,0,1,1857,92200,197,96.7,-666.0504825827957
+Gustavus Adolphus College,Minnesota,41,24,0,1,2386,94e3,198,100.2,-1374.665632607328
+CUNY Bernard M Baruch College,New York,38,8,0,0,18799,103e3,200,133.9,1621.3335560940614
+University of Oklahoma-Norman Campus,Oklahoma,37,22,1,0,23570,96100,201,88.3,805.1665152783244
+Lawrence University,Wisconsin,43,22,0,1,1583,95100,202,96.3,2528.86567950435
+Rockhurst University,Missouri,50,12,0,1,2226,89400,203,88.9,1714.6487451249996
+Emerson College,Massachusetts,48,1,0,1,4144,93100,205,127.6,-2167.0065480925987
+Seattle University,Washington,48,13,0,1,5187,97700,206,108.3,2107.201006082876
+Illinois Institute of Technology,Illinois,17,56,0,1,3858,114400,207,96.7,-73.4405948099884
+University of South Carolina-Columbia,South Carolina,41,20,1,0,25594,84700,208,98.3,-10979.533950131314
+Beloit College,Wisconsin,42,21,0,1,1467,84200,209,96.3,-8256.613271092705
+University of California-Santa Cruz,California,40,38,0,0,17380,103800,210,141,30.192364005895797
+Baylor University,Texas,46,18,1,1,14785,98700,211,91.3,2544.7630416882894
+Stonehill College,Massachusetts,48,18,0,1,2532,101400,212,127.6,4529.090299067117
+Hendrix College,Arkansas,41,29,0,1,1405,94e3,213,88.8,2947.6365131871717
+Wabash College,Indiana,1,28,0,1,873,124400,214,91.5,13440.48328205278
+San Diego State University,California,42,18,1,0,30960,100100,216,141,-1450.0287454042846
+Saint Johns University,Minnesota,1,24,0,1,1781,110800,217,100.2,-3039.9804195057513
+Marist College,New York,46,17,0,1,6112,95500,220,133.9,-5293.045258580838
+Taylor University,Indiana,44,17,0,1,2482,92200,222,91.5,1501.353700827458
+University of Missouri-Columbia,Missouri,40,18,1,0,29984,95700,223,88.9,2537.314837402053
+Grove City College,Pennsylvania,38,31,0,1,2445,97900,224,101.2,1943.3068563679553
+University of Dallas,Texas,43,13,0,1,1474,93300,225,91.3,4052.4447735103313
+University of Massachusetts-Amherst,Massachusetts,38,25,1,0,25988,99300,226,127.6,-2549.676495782769
+University of Oregon,Oregon,40,14,1,0,22625,93900,227,130,-6300.89107135142
+Bennington College,Vermont,51,6,0,1,758,90100,229,117.4,406.24596158204076
+Hope College,Michigan,48,24,0,1,3601,84800,230,88.7,-5107.627868262542
+University of Arizona,Arizona,39,25,1,0,36246,97e3,231,94.6,1805.9096334044734
+Washington State University,Washington,40,21,1,0,27313,98100,232,108.3,553.130724963703
+Calvin College,Michigan,44,23,0,1,4200,88100,233,88.7,-3629.1012429981056
+University of Kansas,Kansas,38,18,1,0,20943,95200,234,89.5,1671.858299451429
+College of the Ozarks,Missouri,41,11,0,1,1577,66400,235,88.9,-22423.649159372188
+Presbyterian College,South Carolina,42,17,0,1,1134,97e3,236,98.3,5852.645387210272
+Ithaca College,New York,45,9,0,1,6582,103500,237,133.9,4025.45933924579
+Chapman University,California,48,6,0,1,6649,94400,238,141,-3892.772706630698
+Quinnipiac University,Connecticut,49,13,0,1,7418,94300,240,127.1,-4236.870869484235
+Northeastern University,Massachusetts,38,38,0,1,18648,103300,241,127.6,-3140.6927571510605
+The College of Wooster,Ohio,43,29,0,1,2077,87500,245,92.7,-3307.240085751371
+Missouri University of Science and Technology,Missouri,12,66,0,0,7163,112200,246,88.9,-5414.4684174867725
+Butler University,Indiana,47,10,0,1,4058,96700,247,91.5,7640.811977843827
+Knox College,Illinois,47,25,0,1,1398,89300,248,96.7,-103.50830801455595
+Truman State University,Missouri,46,15,0,0,6045,83200,249,88.9,-3709.968591902012
+Austin College,Texas,40,23,0,1,1276,93500,250,91.3,3031.9120449306647
+Whitworth University,Washington,50,21,0,1,2427,84700,251,108.3,-7140.3577014990005
+Ursinus College,Pennsylvania,40,44,0,1,1663,99400,252,101.2,3786.2418955154426
+University of Nebraska-Lincoln,Nebraska,35,22,1,0,21433,91500,253,93.4,-3957.1966869735625
+Xavier University,Ohio,41,7,0,1,4941,89500,254,92.7,-1943.131438646902
+Catholic University of America,District of Columbia,41,15,0,1,3561,103400,255,161.8,3029.3152378781087
+SUNY Maritime College,New York,2,36,0,0,1817,145100,256,133.9,31151.108641525716
+University of Scranton,Pennsylvania,45,14,0,1,4068,101400,257,101.2,8874.820324627784
+Iowa State University,Iowa,31,33,1,0,32246,95800,258,91.9,-1550.780211342848
+University of California-Riverside,California,40,34,0,0,19765,107400,259,141,5938.236941877491
+The New School,New York,62,1,0,1,8586,103900,261,133.9,11344.51843103327
+Hampshire College,Massachusetts,49,16,0,1,1461,94500,262,127.6,1054.9420561157167
+Rollins College,Florida,46,12,0,1,2874,83200,263,98.9,-6801.483939989237
+The University of Alabama,Alabama,43,16,1,0,35199,90900,264,88.8,406.82072658759716
+Agnes Scott College,Georgia,86,22,0,1,959,78300,265,90.8,1890.470225530662
+Michigan Technological University,Michigan,15,63,0,0,6035,107500,266,88.7,-5430.840725151778
+Drexel University,Pennsylvania,37,29,0,1,18721,108200,267,101.2,7663.914203837223
+University of Maryland-Baltimore County,Maryland,34,45,0,0,12942,99100,268,130.4,-6111.601795062117
+John Carroll University,Ohio,38,17,0,1,3325,95300,269,92.7,2666.17584339896
+University of the Pacific,California,40,19,0,1,3973,109700,270,141,9146.452227877686
+Seattle Pacific University,Washington,56,11,0,1,3467,98200,271,108.3,9218.52637193074
+Duquesne University,Pennsylvania,50,12,0,1,6410,88800,273,101.2,-2934.1623912183713
+Citadel Military College of South Carolina,South Carolina,2,19,0,0,2898,108200,274,98.3,645.6754816722387
+Embry-Riddle Aeronautical University-Prescott,Arizona,11,40,0,1,2356,113200,275,94.6,6242.2676055265765
+University of Mary Washington,Virginia,52,19,0,0,4761,92600,276,102.1,5828.795740912203
+Juniata College,Pennsylvania,44,34,0,1,1611,85400,277,101.2,-5861.532774987107
+University of New Hampshire-Main Campus,New Hampshire,42,22,0,0,13852,96100,278,112,-88.9040064772853
+DePaul University,Illinois,40,17,0,1,18349,100200,279,96.7,2929.6619056422205
+Western Washington University,Washington,44,15,0,0,16084,95200,280,108.3,1293.7483890643052
+Seton Hall University,New Jersey,44,9,0,1,6349,96800,281,118.4,350.2656777268712
+University of Arkansas,Arkansas,40,20,1,0,23946,92300,283,88.8,1031.4637869856087
+College of Saint Benedict,Minnesota,87,20,0,1,1989,86300,284,100.2,7433.200236184624
+Oregon State University,Oregon,35,31,1,0,28849,98700,285,130,-3080.0183540282887
+Southwestern University,Texas,45,20,0,1,1559,88500,286,91.3,876.1897420249588
+Siena College,New York,39,17,0,1,3246,98600,288,133.9,-398.7340976851119
+California Lutheran University,California,45,14,0,1,3114,95300,289,141,-1348.4285483506683
+CUNY Queens College,New York,44,8,0,0,20154,95200,290,133.9,-753.6864410547569
+Cedarville University,Ohio,41,18,0,1,3589,83800,291,92.7,-7355.484978987835
+University of Illinois at Chicago,Illinois,38,30,0,0,19184,98500,292,96.7,4398.057442811449
+Bradley University,Illinois,38,39,0,1,4647,102600,293,96.7,6931.1359029140585
+Embry-Riddle Aeronautical University-Daytona Beach,Florida,8,40,0,1,5629,101100,294,98.9,-10826.826298945176
+The University of Texas at Dallas,Texas,31,44,0,0,17084,97200,295,91.3,-877.1828187788342
+SUNY College of Environmental Science and Forestry,New York,34,44,0,0,1867,87500,296,133.9,-10671.450158448948
+SUNY at Albany,New York,37,18,0,0,14671,100500,297,133.9,134.3965097723849
+University of Minnesota-Morris,Minnesota,42,37,0,0,2020,83e3,298,100.2,-4722.8402239413845
+New Jersey Institute of Technology,New Jersey,13,61,0,0,8992,119700,299,118.4,-290.6651165008225
+University of Redlands,California,44,6,0,1,3848,99400,300,141,3649.286361921928
+Drew University,New Jersey,49,15,0,1,1633,91400,301,118.4,318.7774413267907
+Messiah College,Pennsylvania,49,13,0,1,2916,84800,302,101.2,-3771.315651341647
+Transylvania University,Kentucky,46,23,0,1,1061,84800,303,92.6,-1910.6328491104941
+Allegheny College,Pennsylvania,42,39,0,1,1981,95600,304,101.2,3270.8034434353176
+Susquehanna University,Pennsylvania,43,17,0,1,2413,95200,306,101.2,4488.33841550193
+Albion College,Michigan,38,25,0,1,1405,101700,307,88.7,12533.577322510537
+University of Central Florida,Florida,43,18,1,0,63692,84900,308,98.9,-905.6654510830558
+Loyola University Chicago,Illinois,53,16,0,1,12324,91100,309,96.7,-444.04378115166037
+University of Kentucky,Kentucky,41,19,1,0,23877,91700,310,92.6,796.0459704075474
+University of Evansville,Indiana,42,16,0,1,2525,86e3,311,91.5,-2611.9416921029915
+The College of Idaho,Idaho,38,19,0,1,1070,81600,312,92.7,-7666.79700108488
+Sweet Briar College,Virginia,81,29,0,1,394,75700,313,102.1,-2647.367784208487
+Texas Tech University,Texas,33,23,1,0,31494,100600,314,91.3,6284.060093111708
+Appalachian State University,North Carolina,41,9,1,0,17469,79200,315,93.9,-10348.4039118839
+Ohio Northern University,Ohio,34,21,0,1,2440,95600,316,92.7,3124.5037698203814
+Mills College,California,87,7,0,1,917,85100,317,141,4377.770300317614
+Oklahoma State University-Main Campus,Oklahoma,37,25,1,0,23193,94400,318,88.3,2834.4093009410135
+San Jose State University,California,36,28,1,0,27855,108700,319,141,7558.569335531647
+Kettering University,Michigan,8,62,0,1,2092,117e3,320,88.7,1585.3475434250431
+Saint Anselm College,New Hampshire,48,17,0,1,1976,100400,321,112,10070.86449794039
+Florida Institute of Technology,Florida,17,50,0,1,3902,98600,322,98.9,-9725.548283437864
+Hofstra University,New York,42,8,0,1,7362,110200,323,133.9,11940.493459968406
+Biola University,California,51,8,0,1,4437,89e3,325,141,-4503.23068938205
+Spelman College,Georgia,87,21,0,1,2180,79400,326,90.8,3764.818562590517
+New Mexico Institute of Mining and Technology,New Mexico,19,70,0,0,1755,116200,327,92.9,5988.395981878246
+CUNY Hunter College,New York,53,9,0,0,20523,87500,328,133.9,-4424.910331007428
+Ouachita Baptist University,Arkansas,39,18,0,1,1669,79400,329,88.8,-8542.48759491359
+Lake Forest College,Illinois,44,24,0,1,1595,101700,330,96.7,13476.531125643742
+Whittier College,California,44,9,0,1,1709,93700,331,141,327.04639367663185
+Adelphi University,New York,57,7,0,1,5391,90600,332,133.9,-801.3676377804659
+Hanover College,Indiana,47,21,0,1,1142,8e4,333,91.5,-5144.222717439232
+Christopher Newport University,Virginia,44,25,0,0,5150,79800,334,102.1,-8640.873785896634
+Towson University,Maryland,47,15,0,0,21337,89e3,335,130.4,-5459.94966277077
+Hampden-Sydney College,Virginia,1,24,0,1,1112,105900,336,102.1,-3920.205656469756
+Valparaiso University,Indiana,41,29,0,1,3426,91500,337,91.5,1662.5394175431866
+Goshen College,Indiana,47,13,0,1,835,71900,338,91.5,-11729.173880903196
+California State University-Long Beach,California,44,17,0,0,34062,98800,339,141,1919.8571625130862
+Wittenberg University,Ohio,45,28,0,1,1870,108700,340,92.7,21746.98231890358
+College of Charleston,South Carolina,50,21,0,0,11319,80200,341,98.3,-7807.3211479008605
+California State University-Chico,California,40,12,0,0,17353,102e3,342,141,4656.745801306664
+CUNY Brooklyn College,New York,47,9,0,0,17563,94800,343,133.9,1264.0793602279882
+Millsaps College,Mississippi,38,29,0,1,783,87400,344,84,1172.1649331464723
+Hamline University,Minnesota,45,6,0,1,2413,87300,345,100.2,843.6972043728892
+Elmhurst College,Illinois,48,12,0,1,3108,84100,346,96.7,-2378.5341698767734
+University of North Carolina Wilmington,North Carolina,50,18,0,0,14730,76300,347,93.9,-10523.014502933758
+Wagner College,New York,51,12,0,1,1874,103100,348,133.9,12501.472596757783
+California State Polytechnic University-Pomona,California,32,29,0,0,22651,108300,349,141,6483.105165780056
+Saint Norbert College,Wisconsin,44,16,0,1,2176,90400,350,96.3,2989.7383481272846
+Lebanon Valley College,Pennsylvania,42,14,0,1,1807,89600,352,101.2,1037.6763604594307
+Le Moyne College,New York,48,18,0,1,3118,89500,354,133.9,-4061.1044547431957
+University of Wisconsin-La Crosse,Wisconsin,44,20,0,0,10385,84600,355,96.3,-4270.347545319033
+Belmont University,Tennessee,49,4,0,1,6347,78500,356,89.4,-6395.570470753388
+Azusa Pacific University,California,54,4,0,1,6379,82800,357,141,-9203.625392359274
+Franciscan University of Steubenville,Ohio,48,8,0,1,2249,76100,358,92.7,-7346.833481890295
+Temple University,Pennsylvania,39,13,1,0,31311,90300,360,101.2,-1218.8025138103112
+Rochester Institute of Technology,New York,20,47,0,1,15289,98700,361,133.9,-15739.807598105152
+Canisius College,New York,39,12,0,1,2966,88e3,362,133.9,-7603.881733708913
+California State University-Fullerton,California,43,15,0,0,36593,97600,363,141,1463.7065941942565
+Cornell College,Iowa,39,28,0,1,1041,88500,364,91.9,1165.0172635899507
+Rowan University,New Jersey,35,19,0,0,14726,86200,365,118.4,-11024.096268394977
+Berea College,Kentucky,45,16,0,1,1717,68300,367,92.6,-16775.13161899637
+University of Houston,Texas,37,23,1,0,39756,97700,369,91.3,7076.79169188402
+University of Cincinnati-Main Campus,Ohio,39,19,1,0,28056,92800,370,92.7,2940.995027909041
+Saint John Fisher College,New York,48,10,0,1,2992,83400,371,133.9,-8142.886649839042
+University of Hawaii at Manoa,Hawaii,43,18,1,0,15844,86100,372,186.3,-9631.422344762526
+Union University,Tennessee,49,6,0,1,2990,71300,373,89.4,-10748.021003314963
+George Fox University,Oregon,45,9,0,1,2960,81300,374,130,-10580.802850070788
+La Salle University,Pennsylvania,51,6,0,1,4284,103900,376,101.2,18642.38567713443
+Salisbury University,Maryland,45,14,0,0,8658,87400,377,130.4,-5126.4758684050175
+Simmons College,Massachusetts,86,4,0,1,1850,89500,378,127.6,11482.738760031352
+Dordt College,Iowa,37,17,0,1,1529,79600,379,91.9,-7917.715160282765
+University of Nevada-Reno,Nevada,41,26,1,0,19708,90700,380,110.3,-2272.033333674888
+University of Wyoming,Wyoming,40,24,1,0,11301,92e3,381,91.4,3264.9793115092616
+Bellarmine University,Kentucky,53,8,0,1,2810,90200,382,92.6,8744.36328015673
+Illinois State University,Illinois,43,10,0,0,19898,90600,383,96.7,3340.19869218691
+California State University-Stanislaus,California,52,10,0,0,8745,90300,384,141,255.24840285499522
+Kansas State University,Kansas,36,18,1,0,21725,90600,386,89.5,1115.587782361079
+Pace University-New York,New York,46,12,0,1,10231,106200,387,133.9,9602.687954110414
+Luther College,Iowa,43,24,0,1,2380,80100,388,91.9,-6133.8259091785585
+CUNY City College,New York,39,31,0,0,15744,90400,389,133.9,-6658.874564945596
+John Brown University,Arkansas,45,7,0,1,2331,77600,390,88.8,-4644.436237306945
+Pacific Lutheran University,Washington,50,18,0,1,3054,95e3,391,108.3,7334.4627069269045
+Berry College,Georgia,50,23,0,1,2189,84100,392,90.8,1008.1134928771644
+Lynn University,Florida,36,3,0,1,2186,79500,394,98.9,-7458.921081052904
+Utah State University,Utah,41,15,1,0,29981,91800,395,96.6,3184.2137704016786
+Carroll College,Montana,46,26,0,1,1515,87900,396,103.9,1112.247593286258
+Louisiana Tech University,Louisiana,36,21,1,0,12174,93200,397,93.4,2949.5127395410527
+Montclair State University,New Jersey,49,10,0,0,18348,93900,399,118.4,4830.141427245806
+North Dakota State University-Main Campus,North Dakota,34,26,0,0,13063,93100,401,99,510.01402963040164
+University of Northern Iowa,Iowa,46,10,0,0,11284,82200,402,91.9,-1857.684791380103
+Houghton College,New York,52,15,0,1,1095,71900,403,133.9,-15997.713770994218
+Merrimack College,Massachusetts,40,12,0,1,3522,99500,404,127.6,6003.1715777156205
+Brigham Young University-Idaho,Idaho,44,14,0,1,65811,90800,406,92.7,7285.951488279723
+Ohio Wesleyan University,Ohio,41,18,0,1,1734,102800,408,92.7,17476.538988616216
+Milwaukee School of Engineering,Wisconsin,14,59,0,1,2825,106900,409,96.3,-2964.3882468750526
+Sonoma State University,California,50,12,0,0,9053,92600,410,141,2385.213474439952
+Elizabethtown College,Pennsylvania,50,27,0,1,1814,89400,411,101.2,4853.912813521863
+Warren Wilson College,North Carolina,48,10,0,1,819,75300,412,93.9,-5267.047194352432
+Nebraska Wesleyan University,Nebraska,51,11,0,1,3719,79200,413,93.4,-3372.7119298392063
+Gordon College,Massachusetts,50,16,0,1,1798,87400,414,127.6,-1004.4105734446639
+Coe College,Iowa,45,20,0,1,1498,82e3,415,91.9,-1294.883032929618
+Covenant College,Georgia,45,11,0,1,1081,70500,416,90.8,-10731.566678263378
+Iona College,New York,39,6,0,1,3558,103300,417,133.9,10489.365521713233
+University of Massachusetts-Lowell,Massachusetts,27,36,0,0,16166,105500,418,127.6,4495.081522456792
+Birmingham Southern College,Alabama,38,26,0,1,1382,82900,419,88.8,-2349.0782410956454
+Montana State University,Montana,33,29,0,0,15081,92e3,420,103.9,-1585.2957995622855
+Roger Williams University,Rhode Island,39,13,0,1,4923,84400,421,122.2,-9528.155733319072
+Stetson University,Florida,45,8,0,1,3179,83200,422,98.9,-1302.6595898119558
+Saint Vincent College,Pennsylvania,35,20,0,1,1686,81e3,424,101.2,-8346.843467326282
+Mississippi State University,Mississippi,38,28,1,0,19030,89100,425,84,2727.9717459803796
+University of Louisville,Kentucky,38,19,1,0,18219,81500,426,92.6,-6560.538018257139
+Concordia College at Moorhead,Minnesota,47,20,0,1,2202,77600,427,100.2,-7259.0670058877295
+Converse College,South Carolina,87,7,0,1,853,61800,428,98.3,-8278.038785645316
+Stockton University,New Jersey,47,14,0,0,8971,87900,429,118.4,-493.82246641415986
+Virginia Commonwealth University,Virginia,45,18,0,0,26531,82400,430,102.1,-4950.561374376804
+West Chester University of Pennsylvania,Pennsylvania,47,10,0,0,15787,88600,431,101.2,3425.736179239073
+North Central College,Illinois,42,9,0,1,2921,91100,432,96.7,6388.668277425779
+Oklahoma City University,Oklahoma,54,9,0,1,2007,74700,433,88.3,-2869.8830174503237
+West Virginia University,West Virginia,34,23,1,0,24343,94500,434,96.8,3799.179056610592
+Goucher College,Maryland,55,8,0,1,1791,93500,435,130.4,8623.68822462007
+Oregon Institute of Technology,Oregon,36,25,0,0,6456,96700,436,130,3084.203776428287
+University of Wisconsin-Eau Claire,Wisconsin,49,15,0,0,10944,87500,437,96.3,3913.739736082134
+Augustana University,South Dakota,48,16,0,1,1700,83400,438,101.2,28.80388345051324
+Huntington University,Indiana,47,4,0,1,1184,65400,440,91.5,-12978.877556062085
+University of North Dakota,North Dakota,31,17,0,0,14247,91800,442,99,-96.99739640840562
+Loyola University New Orleans,Louisiana,47,5,0,1,3076,85100,443,93.4,4156.017006357695
+Rider University,New Jersey,46,5,0,1,4520,95e3,444,118.4,7130.088735174373
+Ohio University-Main Campus,Ohio,49,11,1,0,27817,88500,445,92.7,6354.265557655846
+Farmingdale State College,New York,34,12,0,0,11888,89700,446,133.9,-5616.04975144616
+University of Alabama at Birmingham,Alabama,47,18,1,0,13440,81800,447,88.8,-1104.571757318743
+University of Northwestern-St Paul,Minnesota,49,9,0,1,3722,68600,449,100.2,-14578.939823642038
+Florida International University,Florida,44,17,1,0,55100,86900,450,98.9,3848.779582149349
+University of Rhode Island,Rhode Island,43,20,0,0,15742,98100,452,122.2,6629.379591889374
+Howard University,District of Columbia,55,13,0,1,7203,97600,453,161.8,6333.764242092511
+Mercer University,Georgia,49,13,0,1,5057,75100,454,90.8,-7570.1763541350665
+California State University-East Bay,California,49,13,0,0,14540,94800,455,141,4618.57636249956
+Central College,Iowa,42,34,0,1,1521,83100,456,91.9,-526.2993236520124
+University of Maine,Maine,37,25,0,0,10277,87200,457,116.3,-5235.688832505577
+Eckerd College,Florida,50,26,0,1,2278,82900,458,98.9,46.651498211344006
+Moravian College,Pennsylvania,44,17,0,1,2071,86800,459,101.2,2128.841572656529
+Washington College,Maryland,44,22,0,1,1482,84700,460,130.4,-4814.821701981404
+California State University-Fresno,California,45,11,1,0,22308,93800,461,141,2906.151747705255
+Roanoke College,Virginia,48,18,0,1,2098,81800,462,102.1,-1709.2536881649576
+San Francisco State University,California,44,14,0,0,29787,96400,463,141,4461.293764804854
+University of La Verne,California,45,5,0,1,6674,83400,465,141,-8223.979048848021
+High Point University,North Carolina,47,11,0,1,4556,76700,467,93.9,-6281.229384782637
+Pacific University,Oregon,48,9,0,1,1977,90900,468,130,4386.088434630845
+University of North Carolina at Charlotte,North Carolina,36,26,1,0,25928,87300,469,93.9,-903.5165493996319
+Marietta College,Ohio,27,40,0,1,1347,89700,470,92.7,-947.1295978534181
+South Dakota State University,South Dakota,42,17,0,0,13235,83100,471,101.2,-3796.965522096594
+University of North Florida,Florida,43,13,0,0,16481,85e3,472,98.9,-401.9961237911484
+Tennessee Technological University,Tennessee,32,27,0,0,10658,87700,473,89.4,-678.9386693587876
+University of Alabama in Huntsville,Alabama,31,43,0,0,6994,98500,474,88.8,9395.1780928199
+East Carolina University,North Carolina,46,13,1,0,25671,80800,476,93.9,-2123.598296247743
+University of Idaho,Idaho,36,23,1,0,10784,91700,477,92.7,4425.00274999949
+California State University-Northridge,California,42,12,0,0,38667,95200,478,141,3233.8341170062195
+Ripon College,Wisconsin,38,29,0,1,810,80400,479,96.3,-4223.771210853476
+University of Hartford,Connecticut,38,19,0,1,6085,97200,480,127.1,2340.0444761628023
+University of New England,Maine,58,10,0,1,7413,83900,481,116.3,-1861.705843348609
+California State University-Sacramento,California,44,13,0,0,29768,97e3,482,141,5685.353917279892
+The University of Tampa,Florida,45,9,0,1,7724,86300,483,98.9,49.37649572020746
+Queens University of Charlotte,North Carolina,56,6,0,1,1846,80600,484,93.9,4565.389290189356
+University of North Carolina at Asheville,North Carolina,44,22,0,0,4353,69400,485,93.9,-11277.43783315229
+Simpson College,Iowa,42,18,0,1,1779,81700,486,91.9,-677.2863581452402
+Bloomsburg University of Pennsylvania,Pennsylvania,44,9,0,0,9978,87100,489,101.2,3355.0380758303363
+Baldwin Wallace University,Ohio,44,13,0,1,3680,78200,490,92.7,-4680.913131354115
+Otterbein University,Ohio,49,7,0,1,2477,81e3,492,92.7,2299.2500432459346
+Wesleyan College,Georgia,84,11,0,1,780,59300,493,90.8,-8616.027190793888
+Fairleigh Dickinson University-Metropolitan Campus,New Jersey,43,24,0,1,6528,90600,494,118.4,-1410.1663404630526
+Abilene Christian University,Texas,47,8,0,1,3845,90300,495,91.3,9785.225195941443
+Illinois College,Illinois,40,34,0,1,978,79e3,496,96.7,-5023.236687065
+Oglethorpe University,Georgia,51,13,0,1,1663,87400,497,90.8,9554.86249444526
+University of Minnesota-Duluth,Minnesota,35,33,0,0,10374,90200,498,100.2,925.5915081077401
+Maryville University of Saint Louis,Missouri,57,3,0,1,3068,73500,499,88.9,-1242.9189563163964
+University of North Texas,Texas,39,13,1,0,34448,87e3,500,91.3,2270.938120410414
+Ball State University,Indiana,47,8,1,0,18583,80100,501,91.5,-400.9756611549383
+Florida Southern College,Florida,53,16,0,1,2737,73700,503,98.9,-6913.9700861380115
+University of North Georgia,Georgia,43,10,0,0,20064,81400,504,90.8,-717.6476730837167
+University of Colorado Colorado Springs,Colorado,41,20,0,0,13528,86600,505,103.9,-953.1160824136023
+Texas State University,Texas,45,11,1,0,36791,86600,506,91.3,4684.890647629611
+Webster University,Missouri,44,2,0,1,3853,80500,507,88.9,1123.0510659424326
+Carthage College,Wisconsin,42,17,0,1,3087,82900,508,96.3,-1324.2031703184039
+Hartwick College,New York,48,27,0,1,1459,94400,509,133.9,6909.011678901501
+Oklahoma Baptist University,Oklahoma,47,8,0,1,2048,74500,510,88.3,-3278.724153288189
+Touro College,New York,58,8,0,1,8689,99800,511,133.9,12140.261725285163
+William Jewell College,Missouri,47,13,0,1,1150,88200,512,88.9,10292.794560705966
+Grand Valley State University,Michigan,46,11,0,0,23943,75700,514,88.7,-4822.290679844897
+University of South Dakota,South Dakota,51,9,0,0,10096,85500,515,101.2,4638.967567699947
+Christian Brothers University,Tennessee,43,16,0,1,1642,91300,516,89.4,10865.336754171934
+Florida Atlantic University,Florida,44,15,1,0,32087,86e3,517,98.9,1402.1619353314454
+Randolph-Macon College,Virginia,43,26,0,1,1601,82500,518,102.1,-1609.3597359434934
+Ashland University,Ohio,37,6,0,1,4850,68e3,519,92.7,-16656.397074290056
+Wheeling Jesuit University,West Virginia,43,10,0,1,1168,77300,520,96.8,-3284.395319142146
+California State University-Los Angeles,California,47,19,0,0,24156,87300,521,141,-2864.1283820497774
+Minnesota State University-Mankato,Minnesota,41,12,0,0,15299,85400,522,100.2,51.261239874744206
+Florida Gulf Coast University,Florida,43,12,0,0,15223,70600,523,98.9,-13657.048615605396
+CUNY Lehman College,New York,56,7,0,0,14558,73700,525,133.9,-11010.357669103367
+University of Nevada-Las Vegas,Nevada,44,12,1,0,25566,87200,526,110.3,946.1039162142406
+Meredith College,North Carolina,87,11,0,1,1815,67700,527,93.9,-830.1630341228738
+University of Louisiana at Lafayette,Louisiana,46,19,1,0,17975,89100,529,93.4,6432.283601094619
+Georgia State University,Georgia,47,17,1,0,29438,86700,530,90.8,5168.576477798968
+Old Dominion University,Virginia,42,20,1,0,22680,85900,531,102.1,-283.49253595531627
+Lycoming College,Pennsylvania,40,21,0,1,1394,88900,532,101.2,4509.594099630311
+Montana Tech of the University of Montana,Montana,18,57,0,0,2306,102600,533,103.9,2182.3481315884565
+Central Washington University,Washington,40,14,0,0,15296,88600,534,108.3,910.1482416639337
+Northern Arizona University,Arizona,47,13,0,0,28303,84800,535,94.6,3091.519013066878
+California State University-San Bernardino,California,48,10,0,0,18483,84400,536,141,-3785.9210786678013
+Benedictine University,Illinois,46,7,0,1,3950,82300,537,96.7,1021.2652182998427
+Nova Southeastern University,Florida,58,10,0,1,5136,83100,538,98.9,3566.8408949521836
+Salem College,North Carolina,83,14,0,1,977,68900,539,93.9,79.26071676357242
+University of Missouri-St Louis,Missouri,46,13,0,0,17327,80900,540,88.9,338.2090778112324
+University of Alaska Fairbanks,Alaska,47,20,0,0,13045,97e3,541,130.9,7895.94345583512
+Millersville University of Pennsylvania,Pennsylvania,44,16,0,0,8025,79800,542,101.2,-3420.518108353528
+University of Nebraska at Omaha,Nebraska,40,16,0,0,14621,84700,543,93.4,323.52893625393335
+Wells College,New York,55,26,0,1,581,67600,544,133.9,-15957.707347505537
+Andrews University,Michigan,45,8,0,1,2233,77700,545,88.7,-438.91981895806384
+Alfred University,New York,38,20,0,1,2014,89e3,547,133.9,-1868.6538878341962
+Hollins University,Virginia,85,8,0,1,674,77900,548,102.1,9288.975781308836
+Hood College,Maryland,51,34,0,1,1324,76300,549,130.4,-9246.66285887832
+Alma College,Michigan,45,18,0,1,1427,82100,550,88.7,3208.326202609358
+University of Massachusetts-Boston,Massachusetts,42,13,0,0,16082,87700,551,127.6,-1833.1229493074643
+University of Missouri-Kansas City,Missouri,45,25,0,0,13702,84e3,553,88.9,2165.6371629839705
+Southern Illinois University-Edwardsville,Illinois,41,23,0,0,13163,83500,554,96.7,-1602.016311782485
+Spring Hill College,Alabama,47,13,0,1,1436,93300,555,88.8,15930.620754868098
+University of Northern Colorado,Colorado,51,8,0,0,10835,84e3,556,103.9,3334.6422874898562
+Hastings College,Nebraska,36,23,0,1,1200,83900,557,93.4,347.1271065659239
+The University of Texas at Arlington,Texas,51,22,0,0,39975,93600,558,91.3,13534.515004879591
+Georgia Southern University,Georgia,38,19,1,0,20522,82800,560,90.8,-1586.4473388376355
+Elmira College,New York,58,9,0,1,1360,77600,562,133.9,-3569.9326660782826
+University of New Mexico-Main Campus,New Mexico,43,20,1,0,23419,9e4,563,92.9,7059.206298857229
+Murray State University,Kentucky,47,11,0,0,10225,74800,564,92.6,-4822.217130579447
+University of North Carolina at Greensboro,North Carolina,54,11,0,0,18592,71900,565,93.9,-6213.277474114118
+Capital University,Ohio,46,7,0,1,3139,77600,567,92.7,-1299.550315619068
+Oral Roberts University,Oklahoma,46,11,0,1,3601,79500,569,88.3,447.45774949734914
+St Francis College,New York,45,17,0,1,2740,88200,570,133.9,185.65369318568264
+Saint Cloud State University,Minnesota,41,13,0,0,16344,86900,571,100.2,2453.6212736172165
+Vanguard University of Southern California,California,54,4,0,1,2451,85e3,572,141,2345.3286549933255
+Portland State University,Oregon,41,15,0,0,28348,84300,573,130,-5643.339571298828
+Randolph College,Virginia,54,19,0,1,702,83800,574,102.1,6063.76311478563
+Western Michigan University,Michigan,37,16,1,0,20265,88200,575,88.7,4669.265809732111
+Wichita State University,Kansas,41,25,0,0,12788,79700,576,89.5,-3119.040193463894
+Monmouth College,Illinois,40,19,0,1,1231,84400,577,96.7,2476.608310181211
+Weber State University,Utah,42,9,0,0,31790,86700,578,96.6,4355.785203915773
+University of New Orleans,Louisiana,38,25,0,0,8131,84400,579,93.4,848.2379106903827
+Sam Houston State University,Texas,49,7,0,0,19163,84500,581,91.3,6710.056841468671
+Immaculata University,Pennsylvania,63,3,0,1,2125,81800,582,101.2,8536.95953949912
+St Catherine University,Minnesota,83,3,0,1,3810,77e3,583,100.2,7247.6529389232455
+Centenary College of Louisiana,Louisiana,44,26,0,1,535,85500,584,93.4,6548.53870449157
+Mississippi College,Mississippi,47,20,0,1,3323,72100,585,84,-6116.836853515357
+Western Illinois University,Illinois,38,12,0,0,10355,81400,587,96.7,-2201.3897321311815
+The University of Montana,Montana,42,10,0,0,12291,83600,588,103.9,-75.12763590003306
+Carroll University,Wisconsin,52,15,0,1,3255,79100,590,96.3,402.3129207647289
+Oakland University,Michigan,45,17,0,0,19641,87200,591,88.7,7136.87719431131
+Bowling Green State University-Main Campus,Ohio,45,12,1,0,15849,83700,592,92.7,3353.7745552531705
+Rhode Island College,Rhode Island,55,5,0,0,8445,78500,593,122.2,-1744.1471214977355
+Aurora University,Illinois,53,4,0,1,3980,78400,594,96.7,1649.9140822070767
+Millikin University,Illinois,46,9,0,1,2220,79400,595,96.7,851.7864482088917
+Indiana University-Purdue University-Indianapolis,Indiana,44,14,0,0,25859,82300,596,91.5,1756.9936911173572
+Humboldt State University,California,43,19,0,0,8686,86e3,597,141,-2701.7101003478456
+The University of Texas Rio Grande Valley,Texas,44,18,0,0,27811,74400,598,91.3,-6646.774376995585
+Northern Illinois University,Illinois,37,20,1,0,16344,91400,599,96.7,6106.650583173658
+Lyon College,Arkansas,36,39,0,1,747,74100,600,88.8,-7672.337554104379
+University of Wisconsin-Milwaukee,Wisconsin,40,17,0,0,25552,84900,601,96.3,1405.7731903115928
+Maryville College,Tennessee,42,17,0,1,1266,67e3,602,89.4,-11396.990810205156
+Southern Illinois University-Carbondale,Illinois,32,17,0,0,14593,85500,603,96.7,-1508.5745156779158
+Clarke University,Iowa,56,11,0,1,967,71800,604,91.9,-1056.9213895384019
+Fisk University,Tennessee,53,34,0,1,819,78400,605,89.4,3544.849005753116
+Central Michigan University,Michigan,44,12,1,0,21479,79e3,606,88.7,-113.82142581233347
+University of Alaska Anchorage,Alaska,46,11,0,0,24754,93100,607,130.9,6827.241436955635
+The University of Texas at El Paso,Texas,42,23,1,0,23771,88400,608,91.3,6661.482468138041
+The University of West Florida,Florida,45,13,0,0,12463,76800,609,98.9,-4477.587109984728
+Liberty University,Virginia,46,2,0,1,65425,68400,610,102.1,-8688.790924207904
+Fort Lewis College,Colorado,39,18,0,0,4086,78900,611,103.9,-2468.4636409823142
+University of Toledo,Ohio,37,20,1,0,17965,86100,612,92.7,2278.838382984555
+Western Kentucky University,Kentucky,46,11,1,0,20547,79100,614,92.6,234.98737827152945
+University of South Alabama,Alabama,42,18,1,0,13267,80100,616,88.8,-432.51872197393095
+Guilford College,North Carolina,42,16,0,1,2150,69800,617,93.9,-9971.930245478405
+Catawba College,North Carolina,41,14,0,1,1391,74200,618,93.9,-4806.910529081375
+Hiram College,Ohio,41,20,0,1,1217,79800,619,92.7,555.887907934637
+Castleton University,Vermont,40,8,0,0,2188,73300,620,117.4,-6510.256916085287
+Wayne State University,Michigan,43,20,0,0,20795,86100,621,88.7,6041.837150896448
+Indiana University of Pennsylvania-Main Campus,Pennsylvania,42,7,0,0,13061,81500,622,101.2,182.45866607002972
+Cleveland State University,Ohio,41,18,0,0,14415,81300,623,92.7,-369.7680872755154
+Carson-Newman University,Tennessee,45,6,0,1,1875,68800,624,89.4,-6292.50229153737
+Middle Tennessee State University,Tennessee,42,10,1,0,23722,74400,625,89.4,-4573.2308746075
+Indiana State University,Indiana,41,8,0,0,14331,8e4,626,91.5,453.65116168498935
+New Mexico State University-Main Campus,New Mexico,41,22,1,0,14169,94400,627,92.9,12499.69014993179
+Boise State University,Idaho,42,13,1,0,22234,79900,628,92.7,-315.45748167250713
+University of Southern Mississippi,Mississippi,51,11,1,0,13747,77400,629,84,2788.809921987224
+University of Akron Main Campus,Ohio,35,20,1,0,21460,81600,630,92.7,-2313.538878186955
+Wright State University-Main Campus,Ohio,40,32,0,0,14240,82700,631,92.7,298.53187842690386
+University of Central Oklahoma,Oklahoma,46,8,0,0,17659,76200,632,88.3,-416.57271475711605
+Northern Kentucky University,Kentucky,44,11,0,0,14417,83100,633,92.6,4071.048823802339
+Georgetown College,Kentucky,40,11,0,1,1037,78800,634,92.6,1248.9027344638598
+University of Memphis,Tennessee,47,12,1,0,19345,79800,635,89.4,2636.6038926378096
+Southeastern Louisiana University,Louisiana,49,8,0,0,16501,76e3,636,93.4,-694.6136877498648
+Eastern Kentucky University,Kentucky,44,6,0,0,16253,77900,637,92.6,105.76338982090238
+Morehouse College,Georgia,1,30,0,1,2266,94e3,638,90.8,-5461.688587675671
+The University of Texas at San Antonio,Texas,37,23,1,0,27364,82e3,639,91.3,-677.772772262877
+Troy University,Alabama,47,9,1,0,17375,77900,640,88.8,1598.1909695424547
+Barry University,Florida,48,13,0,1,4403,78100,641,98.9,-1398.8040630046453
+East Tennessee State University,Tennessee,44,9,0,0,12793,71600,642,89.4,-5790.980472823096
+Albright College,Pennsylvania,49,14,0,1,2349,79100,643,101.2,1218.0086244253616
+Florida Agricultural and Mechanical University,Florida,51,10,0,0,9130,79100,645,98.9,2664.541633919347
+Wilmington University,Delaware,52,5,0,1,12169,68600,646,105.4,-12898.9512185778
+Idaho State University,Idaho,41,14,0,0,13626,84900,647,92.7,4745.451647427995
+Tuskegee University,Alabama,45,35,0,1,2601,86400,648,88.8,8565.815282741649

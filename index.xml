@@ -11,20 +11,3699 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Show me the Money: College Rankings and Pay</title>
+      <link>/post/college_rankings_salary.html</link>
+      <pubDate>Tue, 11 Sep 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/post/college_rankings_salary.html</guid>
+      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;&lt;img src=&#34;college_rankings_images/belushi.jpg&#34; width=&#34;800px&#34; height=&#34;200px&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Rankings are a pervasive part of modern life, especially for big decisions – like shelling out thousands of dollars for an education. Indeed, college rankings are amongst the most widely cited rankings in existence. Students, parents, and college administrators fret about where their school lands along these highly debated spectrums. But does it really matter in terms of future earnings potential? While an education is more than a simple “means to an end”, making a decent living is amongst the reasons why students pull all-nighters, work terrible summer jobs, and do everything they can to position themselves for a lucrative, meaningful career. Accordingly, this post will focus on the following topics:&lt;/p&gt;
+&lt;p&gt;🤓 The relationship between Mid Career Pay and College Ranking after accounting for external variables (e.g., % of STEM degrees conferred each year)&lt;/p&gt;
+&lt;p&gt;🤓 Understand which variables exhibit the strongest relationship with pay&lt;/p&gt;
+&lt;p&gt;🤓 Identify which college’s graduates over/under earn relative to our predictions&lt;/p&gt;
+&lt;p&gt;Since I’m a big fan of Learning-by-doing, I’ve included all of the code used to answer these questions. If you are simply interested in the answers, &lt;a href=&#34;#analysis&#34;&gt;click here&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-collection&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data Collection&lt;/h3&gt;
+&lt;p&gt;We’ll leverage the following data sources for our analysis:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;2018 Payscale Data of Median Mid Career Earnings By College (with additional data about each college)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2017 Forbes Undergraduate College Rankings&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;2018 Cost of Living Index by State&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let’s start by collecting the earnings and rankings data. The &lt;code&gt;reticulate&lt;/code&gt; package allows us to call the two python functions (outlined below) to scrape this data and return it as a DataFrame back into R. For the sake of simplicity, all of the scripts referenced herein exist in the same folder as the .R script. The &lt;code&gt;pacman&lt;/code&gt; package will do the heavy lifting here, loading all previously installed packages and installing all referenced but uninstalled packages.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(pacman)
+pacman::p_load(&amp;#39;readr&amp;#39;,
+               &amp;#39;reshape&amp;#39;,
+               &amp;#39;dplyr&amp;#39;,
+               &amp;#39;janitor&amp;#39;,
+               &amp;#39;ggplot2&amp;#39;,
+               &amp;#39;broom&amp;#39;,
+               &amp;#39;rvest&amp;#39;,
+               &amp;#39;reticulate&amp;#39;,
+               &amp;#39;glue&amp;#39;,
+               &amp;#39;caret&amp;#39;,
+               &amp;#39;kableExtra&amp;#39;,
+               &amp;#39;artyfarty&amp;#39;,
+               &amp;#39;patchwork&amp;#39;,
+               &amp;#39;sjPlot&amp;#39;,
+               &amp;#39;purrr&amp;#39;,
+               &amp;#39;stringr&amp;#39;,
+               &amp;#39;tibble&amp;#39;
+               )
+# set plotting theme to black &amp;amp; white
+theme_set(theme_bw())
+
+# set plotting colors 
+color_pal = pal(&amp;quot;five38&amp;quot;)
+
+# set custom plotting theme
+# source(&amp;#39;my_plot_theme.R&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ve loaded/installed the relevant packages, set our working directory, and loaded our custom plotting theme (see &lt;a href=&#34;#appendix&#34;&gt;here&lt;/a&gt; for theme. Next we’ll tell R which version of Python to use.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;reticulate::use_python(&amp;#39;/anaconda/envs/py36/bin/python&amp;#39;, required = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s source (i.e., bring the Python functions into our R environment) with the following command:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;reticulate::source_python(&amp;#39;rankings_earnings_post_functions.py&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We now have access to the two functions described below – &lt;code&gt;collect_payscale_info&lt;/code&gt; and &lt;code&gt;college_college_ranks&lt;/code&gt;.Each will scrape data from the web, convert the results into a Pandas DataFrame, and then return the final result back as an R DataFrame.&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import pandas as pd
+import urllib3
+from bs4 import BeautifulSoup
+import re
+import ast
+HTTP = urllib3.PoolManager()
+#
+# Function to scrape payscale information
+#
+def collect_payscale_info():
+    base_url = &amp;#39;https://www.payscale.com/college-salary-report/bachelors?page=101&amp;#39;
+    page = HTTP.request(&amp;#39;GET&amp;#39;, base_url)
+    soup = BeautifulSoup(page.data, &amp;#39;lxml&amp;#39;)
+    all_colleges = (str(soup)
+                    .split(&amp;quot;var collegeSalaryReportData = &amp;quot;)[1]
+                    .split(&amp;#39;},{&amp;#39;)
+                    )
+    college_list = []
+    for i in all_colleges:
+        try:
+            college_list.append(ast.literal_eval(&amp;quot;{&amp;quot; + i.replace(&amp;quot;[{&amp;quot;, &amp;quot;&amp;quot;) + &amp;quot;}&amp;quot;))
+        except Exception as e:
+            print(e)
+    college_df = pd.DataFrame(college_list)
+    return(college_df)
+#
+# Function to scrape college rankings information  
+#
+def collect_college_ranks(college_names_list):
+    base_url = &amp;#39;https://www.forbes.com/colleges/&amp;#39;
+    rank_list = []
+    for college_name in college_names_list:
+        print(str(round(count/float(len(college_names_list)) * 100, 2)) + &amp;#39;% Complete&amp;#39;)
+        try:
+            tmp_url = base_url + college_name.lower().replace(&amp;quot; &amp;quot;, &amp;quot;-&amp;quot;) + &amp;quot;/&amp;quot;
+            page = HTTP.request(&amp;#39;GET&amp;#39;, base_url)
+            soup = BeautifulSoup(page.data, &amp;#39;lxml&amp;#39;)
+            college_rank = (re.search(r&amp;#39;class=&amp;quot;rankonlist&amp;quot;&amp;gt;#(.*?) &amp;lt;a href=&amp;quot;/top-colleges/list/&amp;quot;&amp;#39;, 
+                                      str(soup))
+                              .group(1)
+                           )
+            rank_list.append([college_name, college_rank])
+        except Exception as e:
+            rank_list.append([college_name, None])
+            print(e)
+        count += 1
+    rank_df = pd.DataFrame(rank_list)
+    rank_df = rank_df.rename(columns={rank_df.columns[0]: &amp;quot;college_name&amp;quot;,
+                                      rank_df.columns[1]: &amp;quot;rank&amp;quot;
+                                  })
+    return(rank_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s start by collecting data about each college. We’ll gather the following fields:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Percent_Female: Percentage of the student body that is female&lt;/li&gt;
+&lt;li&gt;Percent_Stem: Percentage of students majoring in a Science, Technology, Engineering, or Math field&lt;/li&gt;
+&lt;li&gt;Undergraduate_Enrollment: Number of students enrolled as undergraduate students&lt;/li&gt;
+&lt;li&gt;School_Sector: If the College if Public or Private&lt;/li&gt;
+&lt;li&gt;Rank: 2017 Forbe’s undergraduate college rankings&lt;/li&gt;
+&lt;li&gt;COL_Index: Cost of Living index at the state level&lt;/li&gt;
+&lt;li&gt;Mid_Career_Median_Pay: Median Salary for alumni with 10+ years of experience&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;college_salary_df = collect_payscale_info() %&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  select(friendly_name,
+         state,
+         percent_female,
+         percent_stem,
+         undergraduate_enrollment,
+         school_sector,
+         mid_career_median_pay
+         ) %&amp;gt;% 
+  rename(college_name = friendly_name)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below we’ll have a glimpse at the first few rows of data pertinent to each college.&lt;/p&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+college_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+state
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+percent_female
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+percent_stem
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+undergraduate_enrollment
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+school_sector
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+mid_career_median_pay
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Harvey Mudd College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+California
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.46
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.85
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+831
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+155800
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Princeton University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New Jersey
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.47
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5666
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+147800
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Massachusetts Institute of Technology
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Massachusetts
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.46
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.69
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4680
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+147000
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+SUNY Maritime College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New York
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.35
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1817
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Public
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+145100
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Military Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New York
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.43
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4536
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Public
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+144300
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Naval Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Maryland
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4535
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Public
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+143800
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+California Institute of Technology
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+California
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.39
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.97
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1034
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+142500
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Babson College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Massachusetts
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2211
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141700
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Harvard University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Massachusetts
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+14128
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+140700
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Stanford University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+California
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8302
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+140400
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Dartmouth College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New Hampshire
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4695
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+140300
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Williams College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Massachusetts
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.33
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2233
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+138400
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Air Force Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Colorado
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4112
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Public
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+138300
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Webb Institute
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New York
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+138200
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Samuel Merritt University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+California
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.81
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+851
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+138100
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Colgate University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New York
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.27
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2991
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+137700
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Stevens Institute of Technology
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New Jersey
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.29
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3076
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+136900
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Colorado School of Mines
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Colorado
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.28
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.94
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4821
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Public
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+136100
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Merchant Marine Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New York
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.17
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+908
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Public
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+135900
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Pennsylvania
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Pennsylvania
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.53
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+13096
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Private not-for-profit
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+134800
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Looks good! Next, we’ll pass the college names as an argument into our &lt;code&gt;collect_college_ranks&lt;/code&gt; function. We’ll iterate through each college and extract its ranking, which ranges from 1 to 650.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;college_rankings_df = collect_college_ranks(college_salary_df$college_name) %&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  filter(is.na(rank) == FALSE) %&amp;gt;% 
+  arrange(rank)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our last piece of data is the Cost of Living for each college’s state of residence. College graduates frequently work in the same state they attend college, and Cost of Living is related to how much companies pay their employees. By accounting for such expenses, we’ll have better estimates of the impact of rankings on pay This data is housed on a website that publishes current Cost of Living estimates by state. We’ll switch back to R and use the &lt;code&gt;rvest&lt;/code&gt; package for web scraping.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table_path = &amp;#39;/html/body/div[5]/div/table&amp;#39;
+url = &amp;quot;https://www.missourieconomy.org/indicators/cost_of_living/&amp;quot;
+
+col_table = url %&amp;gt;% 
+  read_html() %&amp;gt;% 
+  html_nodes(xpath = table_path) %&amp;gt;% 
+  html_table(header = TRUE)
+
+# note: col_index = cost of living index
+col_df = data.frame(col_table[[1]])[,c(1, 3)] %&amp;gt;% 
+  setNames(., c(&amp;#39;state&amp;#39;, &amp;#39;col_index&amp;#39;)) %&amp;gt;% 
+  slice(2:(n() - 1)) %&amp;gt;% 
+  mutate(col_index = as.numeric(col_index)) %&amp;gt;% 
+  arrange(desc(col_index))
+
+print(head(col_df, 10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                      state col_index
+## 1                   Hawaii     186.3
+## 2  District of    Columbia     161.8
+## 3               California     141.0
+## 4                 New York     133.9
+## 5                   Alaska     130.9
+## 6                 Maryland     130.4
+## 7                   Oregon     130.0
+## 8            Massachusetts     127.6
+## 9              Connecticut     127.1
+## 10            Rhode Island     122.2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Having lived on the West Coast for the past three years, these numbers check out! The next step is to confirm that we can join our Cost of Living data with college salaries. A simple &lt;code&gt;left join&lt;/code&gt; will identify any inconsistencies between our key (state) that are we using to merge our datasets.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;college_salary_df %&amp;gt;% 
+  select(state) %&amp;gt;% 
+  distinct() %&amp;gt;% 
+  left_join(col_df, by = &amp;#39;state&amp;#39;) %&amp;gt;% 
+  filter(is.na(col_index) == TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 4 x 2
+##   state                col_index
+##   &amp;lt;chr&amp;gt;                    &amp;lt;dbl&amp;gt;
+## 1 District of Columbia        NA
+## 2 Puerto Rico                 NA
+## 3 Guam                        NA
+## 4 &amp;lt;NA&amp;gt;                        NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The only mismatch within the United States is the District of Columbia. We’ll reformat the state names and then join all three data sources – salary, rankings, and Cost of Living – to complete our final data set.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;final_df = college_salary_df %&amp;gt;% 
+  inner_join(college_rankings_df, by = &amp;#39;college_name&amp;#39;) %&amp;gt;% 
+  inner_join(col_df %&amp;gt;% 
+             mutate(state = ifelse(state == &amp;#39;District of    Columbia&amp;#39;, 
+                                            &amp;#39;District of Columbia&amp;#39;,
+                                             state
+                                   )
+                                  ),
+                    by = &amp;#39;state&amp;#39;
+                    ) %&amp;gt;% 
+  arrange(rank) %&amp;gt;% 
+  select(-state) %&amp;gt;% 
+  select(rank, everything()) %&amp;gt;% 
+  mutate(percent_stem = as.numeric(percent_stem),
+         percent_female = as.numeric(percent_female),
+         undergraduate_enrollment =  as.numeric(undergraduate_enrollment),
+         school_sector = factor(if_else(school_sector == &amp;#39;Public&amp;#39;, 1, 0))
+                ) %&amp;gt;% 
+  na.omit() %&amp;gt;% 
+  data.frame()&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+rank
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+college_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+percent_female
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+percent_stem
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+undergraduate_enrollment
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+school_sector
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+mid_career_median_pay
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+col_index
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Harvard University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+14128
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+140700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Stanford University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8302
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+140400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Yale University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7150
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+132100
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Princeton University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.47
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5666
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+147800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+118.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Massachusetts Institute of Technology
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.46
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.69
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4680
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+147000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+California Institute of Technology
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.39
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.97
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1034
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+142500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Pennsylvania
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.53
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+13096
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+134800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Duke University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7253
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+134400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+93.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Brown University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.39
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7214
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+132000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+122.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Pomona College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.43
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1677
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+114100
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+11
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Claremont McKenna College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.14
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1359
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+130800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Dartmouth College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4695
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+140300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+112.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+13
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Williams College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.33
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2233
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+138400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+14
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Columbia University in the City of New York
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.47
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.30
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+124700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+15
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Cornell University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.43
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+14656
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+123900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+16
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Chicago
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.20
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6046
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+117000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96.7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Amherst College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.27
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1921
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+122800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+18
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Harvey Mudd College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.46
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.85
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+831
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+155800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Swarthmore College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.34
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1606
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+126200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+20
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Naval Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.60
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4535
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+143800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+130.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+21
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Georgetown University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8719
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+129500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+161.8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Rice University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.47
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4051
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+130200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bowdoin College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.35
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1952
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+115500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+116.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+24
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Military Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.43
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4536
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+144300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+25
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Haverford College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.38
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1305
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+119500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Notre Dame
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8626
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91.5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+27
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Vanderbilt University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7046
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+116000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+89.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+28
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Northwestern University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10611
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+113300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96.7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+29
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of California-Berkeley
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.34
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+29591
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+130100
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+30
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Johns Hopkins University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.33
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8152
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+112200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+130.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+31
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Washington and Lee University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.21
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1867
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+131700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+102.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Tufts University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.24
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5697
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+120200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+33
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Wesleyan University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3091
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+117700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+34
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Davidson College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.24
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1928
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+111400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+93.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+35
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bates College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1903
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+125000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+116.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+36
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Washington University in St Louis
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.31
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8440
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+113400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+88.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+37
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Carleton College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.40
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2093
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+113800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+100.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+38
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Michigan-Ann Arbor
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.38
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+29124
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+104600
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+88.7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+39
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Middlebury College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.53
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.18
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3849
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+113200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+117.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+40
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Virginia-Main Campus
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.21
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+18930
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+118400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+102.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+41
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Air Force Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4112
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+138300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+103.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+42
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Colgate University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.27
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2991
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+137700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+43
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Scripps College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.24
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1023
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+44
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Southern California
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.24
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+20543
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+119300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+45
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Carnegie Mellon University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.44
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.64
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+126400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+47
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Wellesley College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.95
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.29
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2644
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+100900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of California-Los Angeles
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.31
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+31906
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+114800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Boston College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.53
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.11
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10297
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+115300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Vassar College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.27
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2625
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+United States Merchant Marine Academy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.17
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+908
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+135900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+New York University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.17
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+30000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+117000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+53
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Oberlin College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3042
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+107600
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+92.7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Barnard College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2669
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+103700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bucknell University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.37
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3721
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+124700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Lafayette College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.49
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.41
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2541
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+123800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Grinnell College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.36
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1774
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+58
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+College of William and Mary
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.20
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6890
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+111900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+102.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+59
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Pitzer College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.13
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1094
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91100
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+60
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Wake Forest University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.14
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4966
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+118400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+93.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+61
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Colby College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.53
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.28
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2055
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+104200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+116.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+62
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Cooper Union for the Advancement of Science and Art
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.34
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+942
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+124200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+63
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Kenyon College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.17
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1764
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+110400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+92.7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+64
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Santa Clara University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.30
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5759
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+134500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+65
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Hamilton College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.28
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2036
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+107000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+66
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Emory University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.58
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.21
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7764
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+109800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+90.8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+67
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Lehigh University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.44
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5325
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+68
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of North Carolina at Chapel Hill
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.58
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.18
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+19312
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+93.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+69
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Illinois at Urbana-Champaign
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.44
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.37
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+34687
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+109600
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96.7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+70
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Reed College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1491
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+103900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+130.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+71
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Smith College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2603
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+72
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Maryland-College Park
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.46
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+31050
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+107100
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+130.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+73
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Villanova University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7871
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+114700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+74
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Babson College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2211
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+75
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Yeshiva University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.45
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.13
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2949
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+122300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+76
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Colorado College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.28
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2322
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+97000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+103.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Occidental College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.25
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2178
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+107700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+78
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Whitman College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.58
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.38
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1562
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+107700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+108.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+79
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Washington-Seattle Campus
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+34486
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+108800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+108.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+80
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Florida
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.27
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+36703
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+97800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+81
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Georgia Institute of Technology-Main Campus
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.35
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.78
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+16694
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+128700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+90.8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+82
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Richmond
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.55
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.14
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+106600
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+102.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+83
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of California-Santa Barbara
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.28
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+21897
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+118800
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+84
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Trinity College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.48
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.18
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2434
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+108700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+85
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Rochester
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6821
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+107400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+86
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Boston University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.60
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.23
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+22685
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+113500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+87
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Wisconsin-Madison
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+33400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+88
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+George Washington University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.14
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12039
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+115900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+161.8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+89
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+College of the Holy Cross
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2759
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+119700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+90
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Trinity University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2298
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101600
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+The University of Texas at Austin
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+42193
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+107400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+92
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Franklin and Marshall College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.53
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.21
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2417
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+112400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+93
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of California-San Diego
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.47
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.54
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+27918
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+124900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+141.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+94
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Skidmore College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.61
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.21
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2798
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+97300
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+133.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+95
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bryn Mawr College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.19
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1430
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+89900
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+96
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Furman University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.56
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.16
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2887
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+104000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+97
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+University of Miami
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.52
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12243
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+92400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Southern Methodist University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.20
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6866
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+108500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+91.3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+99
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Brandeis University
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3852
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+114200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+100
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Macalester College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.60
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.33
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2238
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+97700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+100.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+St Olaf College
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.57
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3122
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+98700
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+100.2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;We have a total of 578 colleges with complete data. Let’s get moving on our analysis!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;analysis&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Analysis&lt;/h3&gt;
+&lt;p&gt;We’ll first start by examining the relationship between our two main variables of interest: College Rank and Mid Career Pay.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/college_rankings_salary_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Earnings drop much quicker for highly ranked colleges relative to lower ranked colleges. Let’s break this out by bucketing the ranks and examining the slopes for each bucket – that is, the expected change in salary as our ranking decreases by one.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;final_df = final_df %&amp;gt;% 
+  mutate(rank_bucket = case_when(rank &amp;gt;= 1 &amp;amp; rank &amp;lt;= 50 ~ &amp;#39;1 - 50&amp;#39;,
+                                 rank &amp;gt;= 51 &amp;amp; rank &amp;lt;= 100 ~ &amp;#39;51 - 100&amp;#39;,
+                                 rank &amp;gt; 100 &amp;amp; rank &amp;lt;= 200 ~ &amp;#39;101 - 200&amp;#39;,
+                                 rank &amp;gt; 200 &amp;amp; rank &amp;lt;= 400 ~ &amp;#39;201 - 400&amp;#39;,
+                                 rank &amp;gt; 400 ~ &amp;#39;&amp;gt; 400&amp;#39;
+                                 )
+         )
+
+rank_bucket_est = final_df %&amp;gt;% 
+  group_by(rank_bucket) %&amp;gt;% 
+  do(tidy(lm(mid_career_median_pay ~ rank, data=.))) %&amp;gt;% 
+  select(rank_bucket, term, estimate) %&amp;gt;% 
+  reshape::cast(rank_bucket ~ term, value = &amp;#39;estimate&amp;#39;) %&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  dplyr::rename(rank_coeff = rank) %&amp;gt;% 
+  data.frame() %&amp;gt;% 
+  arrange(rank_coeff)&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:220px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+rank_bucket
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+intercept
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+rank_coeff
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1 - 50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+140453.6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+-599.28741
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+51 - 100
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+127265.4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+-219.40936
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+101 - 200
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+115381.3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+-79.85206
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+201 - 400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+110338.7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+-55.96746
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+&amp;gt; 400
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+102147.0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+-35.61756
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;While the relationship between earnings and rank is non-linear, this provides a rough estimate of what we originally noticed in the first scatterplot. Specifically, for colleges that fall in the 1- 50 bucket, a one-unit reduction in rank is associated with a decrease in pay of ~$600. In contrast, for those in the &amp;gt; 400 bucket, a one-unit reduction results only in a ~$36 reduction in pay. Let’s bring this concept to life by visualizing the relationship with our grouped ranking variable.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rank_bucket_est %&amp;gt;% 
+  inner_join(final_df, by = &amp;#39;rank_bucket&amp;#39;) %&amp;gt;% 
+  mutate(predicted_income = rank * rank_coeff + intercept) %&amp;gt;% 
+  mutate(rank_bucket = factor(rank_bucket,
+                              levels = c(&amp;#39;1 - 50&amp;#39;,
+                                         &amp;#39;51 - 100&amp;#39;,
+                                         &amp;#39;101 - 200&amp;#39;,
+                                         &amp;#39;201 - 400&amp;#39;,
+                                         &amp;#39;&amp;gt; 400&amp;#39;
+                                         )
+                              )
+         ) %&amp;gt;% 
+  ggplot(aes(x = rank, y = predicted_income, color = rank_bucket)) + 
+    geom_point() + 
+    geom_line() + 
+    geom_point(data = final_df, aes(x = rank,
+                                    y = mid_career_median_pay),
+               alpha = 0.25
+               ) + 
+    my_plot_theme() + 
+    ylab(&amp;quot;Predicted Mid Career Pay&amp;quot;) + 
+    scale_y_continuous(labels=scales::dollar) + 
+    scale_x_continuous(breaks = seq(0, max(final_df$rank), by = 50)) + 
+    labs(color = &amp;#39;Rank Bucket&amp;#39;) + 
+    scale_color_manual(values = pal(&amp;quot;five38&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/college_rankings_salary_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;At this point, we’ve established that (1) rank is a good predictor of earnings, and (2) the nature of this relationship varies by the level of the rank, indicating that a modeling approach that handles non-linearity would likely perform better than our current linear model. Accordingly, we’ll try out three separate models – Linear Regression, General Additive Model, and Random Forest – to see which performs best on a holdout set. Once we identify the best approach (from a modeling perspective), we’ll start considering the role of the other variables as well.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;row.names(final_df) = final_df$college_name
+final_df = final_df %&amp;gt;%
+  select(-rank_bucket, -college_name)
+
+y_var = &amp;#39;mid_career_median_pay&amp;#39;
+x_var = setdiff(names(final_df), y_var)
+model_form = as.formula(paste0(y_var,
+                               &amp;quot; ~ &amp;quot;,
+                               paste0(x_var, collapse = &amp;quot; + &amp;quot;)
+                               )
+                        )
+print(model_form)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## mid_career_median_pay ~ rank + percent_female + percent_stem + 
+##     undergraduate_enrollment + school_sector + col_index&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now that we’ve established our model formula, let’s do a quick quality check on our data. We’ll first consider the presence of variables with near zero variance. Such variables all have the same value (e.g., 0) or are highly unbalanced (e.g., 10000 zeros and 1 one). This can be problematic for certain modeling approaches, in that the model won’t fit properly. Second, we’ll explore the bi-variate correlations amongst our predictors. Highly correlated variables can interfere with interpretability and lead to incorrect parameter estimates. If you’ve ever done a linear regression and the direction or size of the resulting coefficients don’t make sense, this might be the reason. We’ll check for both of these issues below.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# identifies any variables with near zero variance, which can lead to model instability
+near_zero_vars = nearZeroVar(final_df[x_var])
+# identifies any vavriables with absolute correlation &amp;gt; .7
+correlated_vars = findCorrelation(cor(final_df[x_var[x_var != &amp;#39;school_sector&amp;#39;]]),
+                                  cutoff = .7
+                                  )
+
+print(c(paste0(&amp;quot;N correlated Vars: &amp;quot;, length(correlated_vars)),
+        paste0(&amp;quot;N low variance Vars: &amp;quot;, length(near_zero_vars))
+        )
+      )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;N correlated Vars: 0&amp;quot;   &amp;quot;N low variance Vars: 0&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looks good. Let’s compare our three models and select the one that provides the best out-of-sample performance using the &lt;code&gt;caret&lt;/code&gt; package. We’ll use 10-fold cross validation and repeat the validation process five times.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;control = trainControl(method = &amp;#39;repeatedcv&amp;#39;,
+                      number = 10,
+                      repeats = 5
+                      )
+
+set.seed(1)
+model_lm = train(model_form, 
+                 data=final_df, 
+                 method=&amp;quot;lm&amp;quot;, 
+                 trControl=control
+                 )
+
+set.seed(1)
+model_gam = train(model_form, 
+                  data=final_df, 
+                  method=&amp;quot;gam&amp;quot;, 
+                  trControl=control
+                  )
+set.seed(1)
+model_rf = train(model_form, 
+                 data=final_df, 
+                 method=&amp;quot;rf&amp;quot;, 
+                 trControl=control,
+                 ntree = 100
+                 )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Model performance is based on Root Mean Square Error (RMSE), R-squared, and Mean Absolute Error (MAE). While performance across these metrics will be related, each tells a different story. For example, RMSE squares each of the errors before they are averaged, while MAE simply takes the absolute value. RMSE puts a larger penalty on models with big errors relative to MAE. Thus, if reliability and consistency are particularly important, RMSE might be the better metric. In the current context, we aren’t concerned with this tradeoff – and obviously it’s easiest when all metrics point to the same model!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;model_perf = resamples(list(LM=model_lm, 
+                            GAM=model_gam, 
+                            RF=model_rf)
+                       )$values %&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  select(-resample) %&amp;gt;% 
+  reshape::melt() %&amp;gt;% 
+  as_tibble()
+
+model_perf$model_metric = model_perf$variable %&amp;gt;%
+  map(function(x) str_split(pattern = &amp;quot;_&amp;quot;, x))
+
+model_perf$model = model_perf$model_metric %&amp;gt;%
+  map(function(x) x[[1]][1]) %&amp;gt;%
+  unlist()
+
+model_perf$metric =
+  model_perf$model_metric %&amp;gt;%
+  map(function(x) x[[1]][2]) %&amp;gt;%
+  unlist()
+
+model_perf = model_perf %&amp;gt;%
+  select(-variable, -model_metric)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s visualize the performance of each model across 50 trials (10 folds X 5 repeats) with a boxplot.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(model_perf, aes(x = model, y = value, color = model)) + 
+  geom_boxplot() + 
+  facet_grid(metric ~ ., scales = &amp;#39;free&amp;#39;) + 
+  my_plot_theme() + 
+  scale_color_manual(values = color_pal) + 
+  ylab(&amp;quot;Metric Value&amp;quot;) + 
+  xlab(&amp;quot;Model&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/college_rankings_salary_files/figure-html/unnamed-chunk-24-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The GAM performed best, following by the Random Forest and Linear Regression Model. Let’s do a quick review of each by considering the in-sample errors – that is, when we make predictions against the same dataset we trained our model on. A simple approach is to plot the fitted (predicted) values against the errors (residuals).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;insample_predictions = final_df %&amp;gt;% 
+  mutate(lm_pred = as.vector(predict(model_lm, final_df)),
+         gam_pred = as.vector(predict(model_gam, final_df)),
+         rf_pred = as.vector(predict(model_rf, final_df))
+         ) %&amp;gt;% 
+  select(y_var, ends_with(&amp;#39;_pred&amp;#39;)) %&amp;gt;% 
+  reshape::melt(y_var) %&amp;gt;% 
+  dplyr::rename(predicted_earnings = value,
+                actual_earnings = mid_career_median_pay,
+                model = variable
+                ) %&amp;gt;% 
+  mutate(residual = actual_earnings - predicted_earnings) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(insample_predictions, 
+       aes(x = predicted_earnings,
+           y = residual,
+           color = model
+           )) + 
+  geom_point(alpha = 0.5, size = 2) + 
+  facet_grid(model ~ .) + 
+  geom_abline(intercept = 0, slope = 0) + 
+  stat_smooth(size = 2, se = FALSE) + 
+  scale_color_manual(values = pal(&amp;quot;five38&amp;quot;)[c(1, 3, 2)]) + 
+  my_plot_theme() + 
+  xlab(&amp;quot;Predicted Earnings&amp;quot;) + 
+  ylab(&amp;quot;Residual&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/college_rankings_salary_files/figure-html/unnamed-chunk-26-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;A few takeaways from this visual. First, it’s apparent that a non-linear model (e.g., GAM or RF) performs best on this dataset, based on the pattern of residuals associated with the linear model. Second, the GAM performed best in terms of limiting bias across the entire prediction range. This means we are just as likely to over- or under-predict across the range of values, whereas RF and LM are biased at the tails of the range. Third, RF performs much better in-sample than out-of-sample, as is indicated by the close spread of the errors around zero. This indicates that the RF model is likely overfitting, which we could address by (1) acquiring more data, and/or (2) changing some of the model parameters to encourage a simpler, more robust model – a process referred to as &lt;em&gt;regularization&lt;/em&gt;. However, interpretability is a key component of our analysis, and GAM models have this quality in spades. Let’s move forward with the GAM and rank the overall importance of each variable.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;var_imp = varImp(model_gam)$importance %&amp;gt;% 
+  dplyr::rename(importance = Overall) %&amp;gt;% 
+  rownames_to_column(var = &amp;#39;variable&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;  ggplot(var_imp, aes(x = reorder(variable, importance), y = importance)) + 
+  geom_bar(stat = &amp;#39;identity&amp;#39;, 
+           fill =  pal(&amp;quot;five38&amp;quot;)[1],
+           color = &amp;#39;black&amp;#39;) + 
+  coord_flip() + 
+  my_plot_theme() + 
+  xlab(&amp;quot;&amp;quot;) + 
+  ylab(&amp;quot;Importance&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/college_rankings_salary_files/figure-html/unnamed-chunk-28-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This provides a global measure of importance for all of our variables. Let’s take this a step further and examine the marginal effects of the top four most important variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x_var_plot = x_var[!x_var %in% c(&amp;#39;undergraduate_enrollment&amp;#39;, &amp;#39;school_sector&amp;#39;)]
+marginal_effects_plots = list()
+for(var in x_var_plot){
+  tmp_effects_plot = plot_model(model_gam$finalModel, 
+                                 type = &amp;quot;pred&amp;quot;, 
+                                 terms = var
+                                )
+  tmp_effects_plot = tmp_effects_plot + 
+    ggtitle(glue::glue(&amp;quot;Predicted Pay by {var}&amp;quot;)) + 
+    xlab(glue::glue(&amp;quot;{var}&amp;quot;)) + 
+    ylab(&amp;quot;Mid Career Median Pay&amp;quot;) + 
+    theme_bw() + 
+    my_plot_theme() + 
+    scale_y_continuous(labels=scales::dollar)
+  
+  marginal_effects_plots[[var]] = tmp_effects_plot
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below we’ll take our four separate plots and organize them nicely into a single, unified plot via the &lt;code&gt;patchwork&lt;/code&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(marginal_effects_plots$rank + 
+  marginal_effects_plots$percent_female + 
+  marginal_effects_plots$percent_stem +
+  marginal_effects_plots$col_index + 
+  patchwork::plot_layout(ncol = 2) 
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/college_rankings_salary_files/figure-html/unnamed-chunk-30-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Most of these findings aren’t too surprising: Those who attend top-ranked colleges, in a state with a high cost of living, and likely majored in a STEM subject tend to have the highest pay. However, pay as a percentage of female graduates was unexpected. While the earnings discrepency between men and women has been well documented, it was surprising to see that the gender distribution of a college was a stronger predictor of earnings than cost of living or major. While I’d put less faith in the predictions at the extreme ranges (i.e., all-male or all-female colleges), it is unfortunate to see such a discrepancy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;over-and-under-performers&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Over and Under Performers&lt;/h3&gt;
+&lt;p&gt;The last question to consider is which college’s graduates over/under perform their expected pay. Looking at where your model goes wrong is a great way to identify missing variables. Let’s have a look at the top and bottom 10 colleges based on the largest positive and negative residual values.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;final_df$college_name = row.names(final_df)
+final_df$predicted_pay = as.vector(predict(model_gam, final_df))
+final_df$residual_pay = final_df$mid_career_median_pay - final_df$predicted_pay  
+top10_over_under = bind_rows(
+  final_df %&amp;gt;% 
+  arrange(desc(residual_pay)) %&amp;gt;% 
+  head(10) %&amp;gt;% 
+  mutate(earnings_group = &amp;#39;More Than Expected&amp;#39;),
+  final_df %&amp;gt;% 
+  arrange(residual_pay) %&amp;gt;% 
+  head(10) %&amp;gt;% 
+  mutate(earnings_group = &amp;#39;Less Than Expected&amp;#39;)
+                            )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(top10_over_under, 
+       aes(x = reorder(college_name, residual_pay),
+           y = residual_pay,
+           fill = earnings_group
+           )
+       ) + 
+    geom_bar(stat = &amp;#39;identity&amp;#39;, color = &amp;#39;black&amp;#39;) + 
+    coord_flip() + 
+    my_plot_theme() + 
+    ylab(&amp;quot;Error&amp;quot;) +
+    xlab(&amp;quot;&amp;quot;) + 
+    scale_fill_manual(values = color_pal) + 
+    theme(legend.title=element_blank(),
+          legend.text = element_text(size = 15)
+          )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/college_rankings_salary_files/figure-html/unnamed-chunk-32-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;It is interesting to note that Babson and SUNY Maritime are the top two over-performers, meaning that their graduates have higher pay than expected. A quick google search reveals what these two colleges have in common: They both emphasize specialization in lucrative fields. Babson focuses exclusively on entrepreneurship and business, while SUNY Maritime prepares graduates for what I believe to be lucrative careers around boats?&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/l2Jeczy9FOg59bKYE/giphy.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;In contrast, the only pattern that emerges amongst the under-performers is that most are small, private, liberal arts colleges. While our model accounted for school sector (private vs. public) and undergraduate enrollment, it is possible that including a factor indicating if a college emphasizes a liberal arts education could be valuable. Indeed, the vocational emphasis of the two top over-performers suggests that our model would likely improve with the addition of a feature that captures if a college has a Liberal Arts vs. Vocational focus.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion-does-rank-matter&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Conclusion: Does Rank Matter?&lt;/h3&gt;
+&lt;p&gt;It’s important to note that our outcome variable – &lt;em&gt;Median&lt;/em&gt; Mid Career Pay – is a summary statistic. Thus, we do not know how much information each college contributed to our estimates, as the raw data (i.e., the individual responses associated with each college) are not available. However, these findings seem directionally correct. Even after considering the aforementioned caveat, it is apparent that where you attend college is strongly associated with how much you earn later in life. This is especially true for top ranked colleges. The difference between attending a college ranked in the top 10 relative to the top 100 has substantial pay implications, while this difference is less important amongst lower ranked colleges.&lt;/p&gt;
+&lt;p&gt;Hopefully you enjoyed the post. I’d love to hear your feedback, so feel free to comment below!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;appendix&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Appendix&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_plot_theme = function(){
+  font_family = &amp;quot;Helvetica&amp;quot;
+  font_face = &amp;quot;bold&amp;quot;
+  return(theme(
+    axis.text.x = element_text(size = 16, face = font_face, family = font_family),
+    axis.text.y = element_text(size = 16, face = font_face, family = font_family),
+    axis.title.x = element_text(size = 16, face = font_face, family = font_family),
+    axis.title.y = element_text(size = 16, face = font_face, family = font_family),
+    strip.text.y = element_text(size = 16, face = font_face, family = font_family),
+    plot.title = element_text(size = 20, face = font_face, family = font_family),
+    plot.caption = element_text(size = 11, face = &amp;quot;italic&amp;quot;, hjust = 0),
+    
+    legend.position = &amp;quot;top&amp;quot;,
+    legend.title = element_text(size = 16,
+                                face = font_face,
+                                family = font_family),
+    legend.text = element_text(size = 20,
+                               face = font_face,
+                               family = font_family),
+    legend.key = element_rect(size = 3),
+    legend.key.size = unit(3, &amp;#39;lines&amp;#39;),
+    legend.title=element_blank()
+  ))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>The Optimal Portland Pub Crawl</title>
       <link>/post/optimal_bar_crawl.html</link>
       <pubDate>Fri, 01 Jun 2018 21:13:14 -0500</pubDate>
       
       <guid>/post/optimal_bar_crawl.html</guid>
-      <description>&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
 &lt;link href=&#34;/rmarkdown-libs/leaflet/leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
 &lt;script src=&#34;/rmarkdown-libs/leaflet/leaflet.js&#34;&gt;&lt;/script&gt;
 &lt;link href=&#34;/rmarkdown-libs/leafletfix/leafletfix.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;link href=&#34;/rmarkdown-libs/leaflet-label/leaflet.label.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;script src=&#34;/rmarkdown-libs/leaflet-label/leaflet.label.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
 &lt;script src=&#34;/rmarkdown-libs/leaflet-binding/leaflet.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/leaflet-providers/leaflet-providers.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/leaflet-providers-plugin/leaflet-providers-plugin.js&#34;&gt;&lt;/script&gt;
@@ -61,7 +3740,6 @@ reticulate::use_python(&amp;#39;//anaconda/bin/python&amp;#39;, required = TRUE)
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import urllib2
 from bs4 import BeautifulSoup
 import re
-
 def find_best_bars():
     base_url = &amp;#39;http://www.oregonlive.com/dining/index.ssf/2014/10/portlands_100_best_bars_bar_ta.html&amp;#39;
     page = urllib2.urlopen(base_url)
@@ -74,7 +3752,6 @@ def find_best_bars():
         try:
             bar_name = re.search(&amp;#39;&amp;lt;strong&amp;gt;(.*)&amp;lt;/strong&amp;gt;&amp;#39;, entry)\
                                                           .group(1)
-
             bar_address = re.search(&amp;#39;&amp;lt;em&amp;gt;(.*).&amp;#39;, entry)\
                                                  .group(1)\
                                                  .split(&amp;quot;,&amp;quot;)[0]\
@@ -130,18 +3807,20 @@ best_bars = find_best_bars()&lt;/code&gt;&lt;/pre&gt;
   profile_lines = sapply(profile_lines, function(x) qdapRegex::ex_between(x,
                                                                           prefix,
                                                                           &amp;#39;&amp;quot;&amp;#39;
-  ))
+                                                                          )
+                        )
   profile_key = unname(Filter(Negate(is.na), profile_lines))[[1]]
   return(profile_key)
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bash_location = paste0(stringr::str_split(getwd(), &amp;#39;/&amp;#39;)[[1]][1:3], collapse = &amp;quot;/&amp;quot;)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bash_location = paste0(stringr::str_split(getwd(), &amp;#39;/&amp;#39;)[[1]][1:3], 
+                       collapse = &amp;quot;/&amp;quot;)
 bash_prefix = &amp;#39;export GOOGLEMAPSKEY=&amp;quot;&amp;#39;
 gmaps_api_key = collect_key_from_profile(bash_location,
-                                         bash_prefix)&lt;/code&gt;&lt;/pre&gt;
+                                         bash_prefix
+                                         )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now that we have our API key and dictionary of best bars, we’ll pass these into the &lt;code&gt;geocode_address&lt;/code&gt; function below.&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import pandas as pd
 import googlemaps
-
 def geocode_address(address_dict, gmaps_key):
     gmaps = googlemaps.Client(key=gmaps_key)
     geocoded_addresses = []
@@ -155,12 +3834,12 @@ def geocode_address(address_dict, gmaps_key):
         except Exception as e:
             print(e)
             geocoded_addresses.append([&amp;#39;NA&amp;#39;, &amp;#39;NA&amp;#39;, address, name])
-
     geocode_address_df = pd.DataFrame(geocoded_addresses)
     geocode_address_df.columns = [&amp;#39;lat&amp;#39;,
                                                &amp;#39;long&amp;#39;,
                                                &amp;#39;address&amp;#39;,
-                                               &amp;#39;name&amp;#39;]
+                                               &amp;#39;name&amp;#39;
+                                               ]
     return(geocode_address_df)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# source our geocoding function
 reticulate::source_python(&amp;#39;geocode_address.py&amp;#39;)
@@ -349,11 +4028,12 @@ bar_map = leaflet(data = bar_locations) %&amp;gt;%
                            weight = 10,
                            stroke = FALSE,
                            opacity = 4,
-                           fillOpacity = 4)&lt;/code&gt;&lt;/pre&gt;
+                           fillOpacity = 4
+                           )&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:720px;height:672px;&#34; class=&#34;leaflet html-widget&#34;&gt;&lt;/div&gt;
-&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;setView&#34;:[[45.525915,-122.634957],13,[]],&#34;calls&#34;:[{&#34;method&#34;:&#34;addProviderTiles&#34;,&#34;args&#34;:[&#34;CartoDB.Positron&#34;,null,null,{&#34;errorTileUrl&#34;:&#34;&#34;,&#34;noWrap&#34;:false,&#34;zIndex&#34;:null,&#34;unloadInvisibleTiles&#34;:null,&#34;updateWhenIdle&#34;:null,&#34;detectRetina&#34;:false,&#34;reuseTiles&#34;:false}]},{&#34;method&#34;:&#34;addMarkers&#34;,&#34;args&#34;:[45.525915,-122.684957,null,null,null,{&#34;clickable&#34;:true,&#34;draggable&#34;:false,&#34;keyboard&#34;:true,&#34;title&#34;:&#34;&#34;,&#34;alt&#34;:&#34;&#34;,&#34;zIndexOffset&#34;:0,&#34;opacity&#34;:1,&#34;riseOnHover&#34;:false,&#34;riseOffset&#34;:250},null,null,null,null,null,null,null]},{&#34;method&#34;:&#34;addCircleMarkers&#34;,&#34;args&#34;:[[45.5224315,45.5249614,45.5288971,45.5408883,45.519255,45.5052477,45.5189975,45.5889569,45.515572,45.5189322,45.514894,45.5230751,45.5287834,45.520069,45.522011,45.5049376,45.5122621,45.5592532,45.5175048,45.5209868,45.5230402,45.5050424,45.5262825,45.5032526,45.522648,45.5493649,45.5235032,45.5624773,45.5141593,45.5221773,45.5046429,45.5174125,45.5118608,45.5191128,45.530431,45.5177729,45.518943,45.5529681,45.504659,45.5128155,45.5152956,45.4793488,45.5055148,45.489646,45.504922,45.5285622,45.5049882,45.5628877,45.5252769,45.5117843,45.5342232,45.5189153,45.5163194,45.5230914,45.5225397,45.5624036,45.5263199,45.5357177,45.5209885,45.5483705,45.5134587,45.5225225,45.5629392,45.5231446,45.5352635,45.5308803,45.5164111,45.526048,45.528118,45.5219027,45.5175883,45.50466,45.5210643,45.5198069,45.5258178,45.5214417,45.5254001,45.5280619,45.5525373,45.5285372,45.5206145,45.5213406,45.5139864,45.5266547,45.5394288,45.5625529,45.5193334,45.5217905,45.515251],[-122.672567,-122.6827132,-122.6983065,-122.6749484,-122.582211,-122.6540819,-122.6641258,-122.7514159,-122.682,-122.6579157,-122.682372,-122.654286,-122.6947305,-122.674738,-122.6816169,-122.6252431,-122.6312161,-122.6415703,-122.6604095,-122.6877048,-122.6076635,-122.6278162,-122.6782585,-122.6444737,-122.640481,-122.6611457,-122.6957644,-122.6771879,-122.6808661,-122.6772119,-122.6438073,-122.6603747,-122.6112647,-122.6159694,-122.6882656,-122.6511014,-122.6777971,-122.6757202,-122.62543,-122.6534256,-122.6655476,-122.6146151,-122.6154689,-122.5972091,-122.63345,-122.6987615,-122.6325221,-122.6483923,-122.6816505,-122.6325795,-122.6985948,-122.6824999,-122.6302832,-122.6427946,-122.678138,-122.6346242,-122.68455,-122.699664,-122.6834567,-122.6523757,-122.6579454,-122.6851559,-122.6891024,-122.6370711,-122.6373477,-122.6882746,-122.6156611,-122.681427,-122.6390505,-122.6812985,-122.6593993,-122.6533129,-122.6783495,-122.6594201,-122.6373825,-122.6840961,-122.6781903,-122.6845005,-122.6806869,-122.6983961,-122.6794038,-122.6834774,-122.675303,-122.6835476,-122.6619018,-122.6868299,-122.5803508,-122.6788083,-122.6661995],4,null,null,{&#34;lineCap&#34;:null,&#34;lineJoin&#34;:null,&#34;clickable&#34;:true,&#34;pointerEvents&#34;:null,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:false,&#34;color&#34;:&#34;orange&#34;,&#34;weight&#34;:10,&#34;opacity&#34;:4,&#34;fill&#34;:true,&#34;fillColor&#34;:&#34;orange&#34;,&#34;fillOpacity&#34;:4,&#34;dashArray&#34;:null},null,null,null,null,null,null,null]}],&#34;limits&#34;:{&#34;lat&#34;:[45.4793488,45.5889569],&#34;lng&#34;:[-122.7514159,-122.5803508]}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;setView&#34;:[[45.525915,-122.634957],13,[]],&#34;calls&#34;:[{&#34;method&#34;:&#34;addProviderTiles&#34;,&#34;args&#34;:[&#34;CartoDB.Positron&#34;,null,null,{&#34;errorTileUrl&#34;:&#34;&#34;,&#34;noWrap&#34;:false,&#34;detectRetina&#34;:false}]},{&#34;method&#34;:&#34;addMarkers&#34;,&#34;args&#34;:[45.525915,-122.684957,null,null,null,{&#34;interactive&#34;:true,&#34;draggable&#34;:false,&#34;keyboard&#34;:true,&#34;title&#34;:&#34;&#34;,&#34;alt&#34;:&#34;&#34;,&#34;zIndexOffset&#34;:0,&#34;opacity&#34;:1,&#34;riseOnHover&#34;:false,&#34;riseOffset&#34;:250},null,null,null,null,null,{&#34;interactive&#34;:false,&#34;permanent&#34;:false,&#34;direction&#34;:&#34;auto&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,0],&#34;textsize&#34;:&#34;10px&#34;,&#34;textOnly&#34;:false,&#34;className&#34;:&#34;&#34;,&#34;sticky&#34;:true},null]},{&#34;method&#34;:&#34;addCircleMarkers&#34;,&#34;args&#34;:[[45.5224315,45.5249614,45.5288971,45.5408883,45.519255,45.5052477,45.5189975,45.5889569,45.515572,45.5189322,45.514894,45.5230751,45.5287834,45.520069,45.522011,45.5049376,45.5122621,45.5592532,45.5175048,45.5209868,45.5230402,45.5050424,45.5262825,45.5032526,45.522648,45.5493649,45.5235032,45.5624773,45.5141593,45.5221773,45.5046429,45.5174125,45.5118608,45.5191128,45.530431,45.5177729,45.518943,45.5529681,45.504659,45.5128155,45.5152956,45.4793488,45.5055148,45.489646,45.504922,45.5285622,45.5049882,45.5628877,45.5252769,45.5117843,45.5342232,45.5189153,45.5163194,45.5230914,45.5225397,45.5624036,45.5263199,45.5357177,45.5209885,45.5483705,45.5134587,45.5225225,45.5629392,45.5231446,45.5352635,45.5308803,45.5164111,45.526048,45.528118,45.5219027,45.5175883,45.50466,45.5210643,45.5198069,45.5258178,45.5214417,45.5254001,45.5280619,45.5525373,45.5285372,45.5206145,45.5213406,45.5139864,45.5266547,45.5394288,45.5625529,45.5193334,45.5217905,45.515251],[-122.672567,-122.6827132,-122.6983065,-122.6749484,-122.582211,-122.6540819,-122.6641258,-122.7514159,-122.682,-122.6579157,-122.682372,-122.654286,-122.6947305,-122.674738,-122.6816169,-122.6252431,-122.6312161,-122.6415703,-122.6604095,-122.6877048,-122.6076635,-122.6278162,-122.6782585,-122.6444737,-122.640481,-122.6611457,-122.6957644,-122.6771879,-122.6808661,-122.6772119,-122.6438073,-122.6603747,-122.6112647,-122.6159694,-122.6882656,-122.6511014,-122.6777971,-122.6757202,-122.62543,-122.6534256,-122.6655476,-122.6146151,-122.6154689,-122.5972091,-122.63345,-122.6987615,-122.6325221,-122.6483923,-122.6816505,-122.6325795,-122.6985948,-122.6824999,-122.6302832,-122.6427946,-122.678138,-122.6346242,-122.68455,-122.699664,-122.6834567,-122.6523757,-122.6579454,-122.6851559,-122.6891024,-122.6370711,-122.6373477,-122.6882746,-122.6156611,-122.681427,-122.6390505,-122.6812985,-122.6593993,-122.6533129,-122.6783495,-122.6594201,-122.6373825,-122.6840961,-122.6781903,-122.6845005,-122.6806869,-122.6983961,-122.6794038,-122.6834774,-122.675303,-122.6835476,-122.6619018,-122.6868299,-122.5803508,-122.6788083,-122.6661995],4,null,null,{&#34;interactive&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:false,&#34;color&#34;:&#34;orange&#34;,&#34;weight&#34;:10,&#34;opacity&#34;:4,&#34;fill&#34;:true,&#34;fillColor&#34;:&#34;orange&#34;,&#34;fillOpacity&#34;:4},null,null,null,null,null,{&#34;interactive&#34;:false,&#34;permanent&#34;:false,&#34;direction&#34;:&#34;auto&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,0],&#34;textsize&#34;:&#34;10px&#34;,&#34;textOnly&#34;:false,&#34;className&#34;:&#34;&#34;,&#34;sticky&#34;:true},null]}],&#34;limits&#34;:{&#34;lat&#34;:[45.4793488,45.5889569],&#34;lng&#34;:[-122.7514159,-122.5803508]}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
 &lt;p&gt;Each bar is represented as an orange dot, and the pointer indicates our starting position (the depot). Given that we are walking, let’s limit the potential distance to a maximum of three miles from our starting location. The function below calculates the total feet between two points defined by a latitude/longitude coordinate.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;earth_dist &amp;lt;- function (lat1, long1, lat2, long2)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;earth_dist = function (lat1, long1, lat2, long2)
 {
   rad = pi/180
   a1 = lat1 * rad
@@ -374,12 +4054,13 @@ bar_map = leaflet(data = bar_locations) %&amp;gt;%
 max_miles_away = 3
 
 bar_locations_nearby = bar_locations %&amp;gt;% 
-                       mutate(distance_from_depot = earth_dist(depot_lat,
+                       dplyr::mutate(distance_from_depot = earth_dist(depot_lat,
                                                                depot_long,
                                                                lat,
                                                                long
-                                                               )) %&amp;gt;% 
-                       filter(distance_from_depot &amp;lt;= feet_in_mile * max_miles_away)&lt;/code&gt;&lt;/pre&gt;
+                                                               )
+                              ) %&amp;gt;% 
+                       dplyr::filter(distance_from_depot &amp;lt;= feet_in_mile * max_miles_away)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;After applying our distance filter, there is still ~70 bars remaining. That’s going to be a challenge to complete in a reasonable amount of time, so we’ll further reduce our consideration set down to 24, which means we can spend a little more time at each bar. Below we’ll randomly select 24 bars from the 70.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
 
@@ -388,27 +4069,58 @@ n_bars = 24
 
 # randomly select 24 bars to visit
 bar_locations_nearby = bar_locations_nearby %&amp;gt;% 
-                       sample_n(n_bars)&lt;/code&gt;&lt;/pre&gt;
+                       dplyr::sample_n(n_bars)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Next we’ll transform the lat/long locations into a distance matrix. The distance matrix specifies the euclidean distance of each bar from every other bar.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# now find optimal route
 coordinates = bar_locations_nearby %&amp;gt;% 
-              dplyr::select(lat:name
-                            ) %&amp;gt;% 
+              dplyr::select(lat:name) %&amp;gt;% 
               dplyr::mutate(location_index = 2:(n() + 1)) %&amp;gt;% 
               dplyr::bind_rows(data.frame(lat = depot_lat,
                                           long = depot_long,
                                           address = &amp;#39;depot&amp;#39;,
                                           name = &amp;#39;depot&amp;#39;,
                                           location_index = 1
-                                   )) %&amp;gt;% 
+                                          )
+                               ) %&amp;gt;% 
               dplyr::arrange(location_index)
 
 coords_matrix = coordinates %&amp;gt;% 
-                  dplyr::select(lat, long) %&amp;gt;% 
-                  as.matrix()
+                dplyr::select(lat, long) %&amp;gt;% 
+                as.matrix()
 
 dist_matrix = dist(coords_matrix)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The two functions below &lt;code&gt;tsp_instance&lt;/code&gt; and &lt;code&gt;run_solver&lt;/code&gt; will do the heavy lifting and find the optimal route between bars.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create tsp instance
+tsp_ins = tspmeta::tsp_instance(coords_matrix,
+                                dist_matrix)
+
+# find optimal route based on 2-opt method
+opt_tour = as.integer(tspmeta::run_solver(tsp_ins, 
+                                          method=&amp;quot;2-opt&amp;quot;)
+                      )
+
+# sort to start at depot
+sorted_tour = c(opt_tour[which(opt_tour == 1):length(opt_tour)],
+                opt_tour[1:(which(opt_tour == 1) - 1)]
+                )
+
+# join route order back to original data
+coordinates = coordinates %&amp;gt;% 
+              dplyr::inner_join(data.frame(location_index = sorted_tour,
+                                           route_order = 1:length(sorted_tour)
+                                           )
+                                ) %&amp;gt;% 
+              dplyr::arrange(route_order)
+
+# reformat so each row has a starting lat/long and ending lat/long
+route_df = coordinates %&amp;gt;% 
+            dplyr::rename(start_lat = lat,
+                          start_long = long
+                          ) %&amp;gt;% 
+            dplyr::mutate(end_lat = c(start_lat[2:n()], NA),
+                          end_long = c(start_long[2:n()], NA)
+                          ) %&amp;gt;% 
+            na.omit()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Let’s take a peak at our data to see how everything turned out.&lt;/p&gt;
 &lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
 &lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
@@ -713,15 +4425,12 @@ Free House
 import pandas as pd
 import pytz
 import polyline
-
 def extract_polyline(travel_dict):
     gmaps_polyline = travel_dict[&amp;#39;overview_polyline&amp;#39;][&amp;#39;points&amp;#39;]
     polyline_df = pd.DataFrame(polyline.decode(gmaps_polyline))
     polyline_df.columns = [&amp;#39;lat&amp;#39;, &amp;#39;long&amp;#39;]
     polyline_df[&amp;#39;path_order&amp;#39;] = range(1, polyline_df.shape[0] + 1)
     return(polyline_df)
-
-
 def find_path(route_df, gmaps_key, travel_mode):
     gmaps = googlemaps.Client(key=gmaps_key)
     route_df = pd.DataFrame(route_df)   
@@ -729,16 +4438,21 @@ def find_path(route_df, gmaps_key, travel_mode):
     out_route_df = pd.DataFrame()
     for index, row in route_df.iterrows():
         print(&amp;quot;Processing Stop {n} of {n_rows}&amp;quot;.format(n = str(index),
-                                                      n_rows = str(route_df.shape[0])
-                                                        ))
+                                                                             n_rows = str(route_df.shape[0])
+                                                                             )
+                 )  
         row_count += 1
         try:
             travel_data = gmaps.directions(origin = list(row[[&amp;#39;start_lat&amp;#39;, 
-                                                      &amp;#39;start_long&amp;#39;]]),
-                                   destination = list(row[[&amp;#39;end_lat&amp;#39;, 
-                                                           &amp;#39;end_long&amp;#39;]]),
-                                   mode = travel_mode
-                                   )
+                                                          &amp;#39;start_long&amp;#39;
+                                                        ]]
+                                                     ),
+                                     destination = list(row[[&amp;#39;end_lat&amp;#39;, 
+                                                           &amp;#39;end_long&amp;#39;
+                                                         ]]
+                                                     ),
+                                      mode = travel_mode
+                                      )
             path_df = extract_polyline(travel_data[0])
             path_df[&amp;#39;location_index&amp;#39;] = row[&amp;#39;location_index&amp;#39;]
             path_df[&amp;#39;travel_time&amp;#39;] = travel_data[0][&amp;#39;legs&amp;#39;][0][&amp;#39;duration&amp;#39;][&amp;#39;value&amp;#39;]
@@ -757,7 +4471,7 @@ travel_mode = &amp;#39;walking&amp;#39;
 path_df = calc_route(route_df,
                      gmaps_api_key,
                      travel_mode
-                  )&lt;/code&gt;&lt;/pre&gt;
+                    )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The data indicating the path between our depot and the first bar should look like this:&lt;/p&gt;
 &lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
 &lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
@@ -930,24 +4644,32 @@ route_order
 &lt;/div&gt;
 &lt;p&gt;Note the small changes between each of the successive lat/long coordinates. This is the path we’ll be walking to obtain our first frosty mug of beer. Before mapping our data, let’s get a general idea of total walking time and distance.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;travel_time_in_hours = round(path_df %&amp;gt;% 
-                         dplyr::select(location_index, travel_time) %&amp;gt;% 
-                         dplyr::distinct() %&amp;gt;% 
-                         dplyr::pull(travel_time) %&amp;gt;% 
-                         sum() / 3600, 1)
+                             dplyr::select(location_index, travel_time) %&amp;gt;% 
+                             dplyr::distinct() %&amp;gt;% 
+                             dplyr::pull(travel_time) %&amp;gt;% 
+                             sum() / 3600, 1)
 
 print(glue::glue(&amp;quot;Total Travel Time Is: &amp;quot;,
                  travel_time_in_hours,
                  &amp;quot; Hours&amp;quot;
-                 ))&lt;/code&gt;&lt;/pre&gt;
+                 )
+      )&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Total Travel Time Is: 5.2 Hours&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It looks like this walk will take a little over five hours, so we’ll need to bring some comfy shoes. What about distance (we’ll need some way to work off those calories)?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;travel_distance_in_miles = round(path_df %&amp;gt;% 
   dplyr::mutate(feet_numeric = 
                 case_when(stringr::str_detect(miles, &amp;#39;ft&amp;#39;) == TRUE ~ 
-                as.numeric(stringr::str_replace(miles, &amp;quot; ft&amp;quot;, &amp;quot;&amp;quot;)),
-                stringr::str_detect(miles, &amp;quot; mi&amp;quot;) == TRUE ~ 
-                as.numeric(stringr::str_replace(miles, &amp;quot; mi&amp;quot;, &amp;quot;&amp;quot;)) * feet_in_mile
-                                        )
+                          as.numeric(stringr::str_replace(miles, 
+                                                          &amp;quot; ft&amp;quot;, 
+                                                          &amp;quot;&amp;quot;
+                                                          )
+                                     ),
+                          stringr::str_detect(miles, &amp;quot; mi&amp;quot;) == TRUE ~ 
+                          as.numeric(stringr::str_replace(miles, 
+                                                          &amp;quot; mi&amp;quot;, 
+                                                          &amp;quot;&amp;quot;)
+                                     ) * feet_in_mile
+                         )
                 ) %&amp;gt;% 
   dplyr::select(location_index, feet_numeric) %&amp;gt;% 
   dplyr::distinct() %&amp;gt;% 
@@ -957,7 +4679,8 @@ print(glue::glue(&amp;quot;Total Travel Time Is: &amp;quot;,
 print(glue::glue(&amp;quot;Total Travel Distance Is: &amp;quot;,
                  travel_distance_in_miles,
                  &amp;quot; Miles&amp;quot;
-                 ))&lt;/code&gt;&lt;/pre&gt;
+                 )
+      )&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Total Travel Distance Is: 15.3 Miles&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;OK, this is more of a Pub Crawl half-marathon. That’s some serious distance to cover. Let’s bring it all together with some visualization.&lt;/p&gt;
 &lt;/div&gt;
@@ -966,7 +4689,7 @@ print(glue::glue(&amp;quot;Total Travel Distance Is: &amp;quot;,
 &lt;p&gt;The last step is to bring this analysis to life with everyone’s favorite visualization: MAPS! Indeed, we’ll plot the walking path across downtown Portland so we can actually see the Pub Crawl route.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# We&amp;#39;ll use this to identify the labels for each stop 
 label_df = path_df %&amp;gt;% 
-           filter(path_order == 1)
+           dplyr::filter(path_order == 1)
 
 # Bar crawl visualization
 final_route = leaflet(data = path_df) %&amp;gt;%
@@ -978,10 +4701,10 @@ final_route = leaflet(data = path_df) %&amp;gt;%
                lat = ~lat,
                color = &amp;quot;orange&amp;quot;,
                opacity = 4
-  ) %&amp;gt;% 
+               ) %&amp;gt;% 
   addMarkers(lng = depot_long,
              lat = depot_lat
-  ) %&amp;gt;% 
+             ) %&amp;gt;% 
   addCircleMarkers(data = label_df,
                    lng = ~long,
                    lat = ~lat,
@@ -993,10 +4716,10 @@ final_route = leaflet(data = path_df) %&amp;gt;%
                                                textsize = &amp;quot;14px&amp;quot;,
                                                offset=c(0,-30),
                                                size = 1
-                   )
-  )&lt;/code&gt;&lt;/pre&gt;
+                                               )
+                  )&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;htmlwidget-2&#34; style=&#34;width:720px;height:672px;&#34; class=&#34;leaflet html-widget&#34;&gt;&lt;/div&gt;
-&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-2&#34;&gt;{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;setView&#34;:[[45.525915,-122.664957],13,[]],&#34;calls&#34;:[{&#34;method&#34;:&#34;addProviderTiles&#34;,&#34;args&#34;:[&#34;CartoDB.Positron&#34;,null,null,{&#34;errorTileUrl&#34;:&#34;&#34;,&#34;noWrap&#34;:false,&#34;zIndex&#34;:null,&#34;unloadInvisibleTiles&#34;:null,&#34;updateWhenIdle&#34;:null,&#34;detectRetina&#34;:false,&#34;reuseTiles&#34;:false}]},{&#34;method&#34;:&#34;addPolylines&#34;,&#34;args&#34;:[[[[{&#34;lng&#34;:[-122.68494,-122.6843,-122.68432,-122.68449,-122.68449,-122.68449,-122.68449,-122.68449,-122.68432,-122.68434,-122.68361,-122.68352,-122.6833,-122.68274,-122.68245,-122.68222,-122.68218,-122.68217,-122.68165,-122.68165,-122.68217,-122.68216,-122.68213,-122.68208,-122.68154,-122.68154,-122.68104,-122.6795,-122.67986,-122.68025,-122.68064,-122.68124,-122.68132,-122.68167,-122.68204,-122.68312,-122.68244,-122.68244,-122.68212,-122.68178,-122.68142,-122.681,-122.67996,-122.67961,-122.67891,-122.67931,-122.67931,-122.67861,-122.67793,-122.67721,-122.67701,-122.67701,-122.67721,-122.67712,-122.67615,-122.67442,-122.67409,-122.67433,-122.67457,-122.67457,-122.67481,-122.67517,-122.67418,-122.6734,-122.67305,-122.67285,-122.67269,-122.67266,-122.67258,-122.67249,-122.67215,-122.67203,-122.67134,-122.67063,-122.66868,-122.66802,-122.66779,-122.66759,-122.66753,-122.66743,-122.66723,-122.6668,-122.66668,-122.66656,-122.66641,-122.66626,-122.66613,-122.66586,-122.66586,-122.66584,-122.66584,-122.66488,-122.66478,-122.66378,-122.66188,-122.6618,-122.66179,-122.66099,-122.66074,-122.66074,-122.66016,-122.66012,-122.65973,-122.65973,-122.65974,-122.65849,-122.65769,-122.6577,-122.6577,-122.6577,-122.65769,-122.65773,-122.65772,-122.65772,-122.65772,-122.65772,-122.65773,-122.6569,-122.6563,-122.6547,-122.65343,-122.65343,-122.65367,-122.65366,-122.65367,-122.6537,-122.6537,-122.65371,-122.65373,-122.65372,-122.65398,-122.65397,-122.65397,-122.65398,-122.65372,-122.65271,-122.64968,-122.64563,-122.64381,-122.64381,-122.63338,-122.63266,-122.63266,-122.63266,-122.63266,-122.63269,-122.63158,-122.63158,-122.63158,-122.63158,-122.63158,-122.63132,-122.63132,-122.63377,-122.63476,-122.63477,-122.63477,-122.63478,-122.63476,-122.63478,-122.63477,-122.63478,-122.63481,-122.63483,-122.63488,-122.6359,-122.63733,-122.63729,-122.63728,-122.63727,-122.63726,-122.63726,-122.63726,-122.63769,-122.63858,-122.64142,-122.6428,-122.6428,-122.64142,-122.64139,-122.64139,-122.64139,-122.64106,-122.64036,-122.63877,-122.6378,-122.63716,-122.63715,-122.63715,-122.63716,-122.63715,-122.63713,-122.63712,-122.63708,-122.63709,-122.63707,-122.63707,-122.63706,-122.63701,-122.63697,-122.63678,-122.63673,-122.6367,-122.6367,-122.6367,-122.63735,-122.63735,-122.63956,-122.64054,-122.64093,-122.64155,-122.64191,-122.643,-122.64483,-122.64666,-122.64965,-122.65338,-122.65475,-122.6586,-122.66087,-122.6647,-122.6668,-122.66703,-122.66784,-122.66812,-122.66863,-122.66886,-122.66934,-122.66947,-122.66972,-122.67076,-122.67085,-122.67096,-122.67172,-122.67174,-122.67176,-122.67174,-122.67448,-122.67448,-122.67451,-122.67459,-122.67472,-122.67491,-122.67537,-122.67673,-122.67695,-122.67705,-122.67708,-122.6771,-122.67713,-122.67712,-122.67712,-122.67713,-122.67713,-122.67718,-122.67725,-122.67732,-122.6775,-122.67769,-122.67801,-122.67987,-122.68051,-122.68072,-122.68079,-122.68087,-122.68089,-122.68089,-122.68087,-122.68091,-122.68091,-122.68088,-122.68087,-122.68088,-122.68088,-122.68087,-122.68089,-122.68092,-122.68091,-122.68088,-122.68087,-122.68089,-122.68088,-122.68083,-122.68075,-122.68062,-122.68036,-122.67925,-122.67808,-122.67793,-122.6776,-122.67739,-122.6773,-122.67721,-122.67715,-122.67714,-122.67713,-122.67712,-122.67712,-122.67711,-122.6771,-122.67703,-122.67689,-122.6768,-122.67649,-122.67583,-122.67505,-122.67477,-122.6747,-122.67456,-122.6745,-122.67447,-122.67448,-122.67445,-122.67438,-122.67431,-122.67406,-122.67285,-122.67211,-122.67185,-122.67187,-122.67186,-122.67182,-122.67176,-122.67174,-122.67176,-122.67179,-122.67194,-122.67199,-122.67213,-122.67284,-122.67411,-122.67496,-122.67537,-122.67539,-122.67629,-122.67718,-122.67756,-122.67769,-122.67788,-122.67966,-122.68137,-122.68176,-122.68236,-122.68339,-122.68643,-122.68707,-122.6917,-122.69415,-122.69456,-122.69453,-122.69451,-122.69451,-122.6945,-122.69512,-122.69652,-122.69855,-122.69856],&#34;lat&#34;:[45.52576,45.52579,45.52616,45.52616,45.52619,45.52624,45.52624,45.52616,45.52616,45.52649,45.5265,45.52651,45.52653,45.52652,45.52652,45.52652,45.52532,45.5251,45.52511,45.52511,45.5251,45.52439,45.52367,45.52229,45.52215,45.52215,45.52202,45.52163,45.52094,45.52026,45.51949,45.51836,45.51827,45.51761,45.51694,45.51495,45.51477,45.51477,45.51469,45.51535,45.51602,45.51679,45.51869,45.51936,45.52069,45.52079,45.52079,45.52061,45.52042,45.52176,45.52212,45.52212,45.52176,45.52173,45.52147,45.521,45.52091,45.52045,45.52002,45.52002,45.51958,45.51892,45.51868,45.51859,45.51856,45.51853,45.51852,45.51847,45.51837,45.51837,45.51834,45.51832,45.51818,45.518,45.51748,45.51728,45.51718,45.51705,45.51704,45.51698,45.51684,45.51648,45.51637,45.51629,45.51623,45.51621,45.5162,45.51621,45.51626,45.5168,45.51727,45.51727,45.51727,45.51727,45.51725,45.51725,45.51739,45.5174,45.5174,45.5175,45.51768,45.51766,45.51766,45.51766,45.51794,45.51793,45.51793,45.51865,45.51893,45.51893,45.51793,45.51684,45.51628,45.51508,45.51346,45.51346,45.51293,45.51293,45.51292,45.51293,45.51292,45.51292,45.51292,45.51249,45.51222,45.51064,45.50855,45.50723,45.50633,45.50486,45.50486,45.50512,45.50512,45.50486,45.50486,45.50485,45.50484,45.50483,45.50482,45.50482,45.5048,45.5048,45.50489,45.50499,45.50499,45.50726,45.50726,45.50737,45.50817,45.51198,45.51206,45.51206,45.51206,45.51207,45.51207,45.51287,45.51392,45.51491,45.51573,45.51611,45.51645,45.51834,45.51922,45.51932,45.51932,45.51931,45.51931,45.52012,45.52143,45.52244,45.52315,45.52315,45.52289,45.52288,45.52287,45.52287,45.52288,45.52288,45.52287,45.52429,45.5272,45.52751,45.52764,45.52792,45.52853,45.52893,45.52917,45.52956,45.53041,45.53062,45.53081,45.53159,45.53169,45.53187,45.53215,45.53286,45.53332,45.53362,45.53373,45.53375,45.53376,45.53381,45.53389,45.53415,45.53516,45.53516,45.53516,45.53516,45.53516,45.53513,45.53505,45.53501,45.53501,45.53502,45.53503,45.53504,45.53505,45.53504,45.53506,45.53509,45.5351,45.53511,45.53511,45.53514,45.53515,45.53503,45.53489,45.53529,45.5354,45.5356,45.53656,45.53664,45.53667,45.53668,45.53669,45.53675,45.53778,45.53779,45.53873,45.53889,45.53905,45.53919,45.53933,45.53957,45.54026,45.54043,45.54058,45.54065,45.5408,45.54192,45.54267,45.54304,45.5432,45.54395,45.54422,45.54446,45.54458,45.54481,45.54504,45.54532,45.54632,45.54669,45.54688,45.54699,45.54715,45.54729,45.54741,45.54896,45.5496,45.55131,45.55163,45.55212,45.55254,45.55254,45.55202,45.55157,45.55085,45.5496,45.54912,45.54882,45.54735,45.54722,45.54706,45.54694,45.54678,45.54659,45.54599,45.54536,45.54526,45.54495,45.54469,45.54454,45.54436,45.54409,45.5438,45.54316,45.54304,45.54253,45.54101,45.54072,45.54054,45.54038,45.5403,45.54014,45.53982,45.5394,45.53923,45.53916,45.539,45.53885,45.53852,45.53688,45.53658,45.53633,45.53632,45.53608,45.53498,45.53427,45.53404,45.53397,45.53392,45.53384,45.53376,45.53363,45.53349,45.53339,45.53312,45.53305,45.53297,45.53256,45.53186,45.53136,45.53115,45.53114,45.53063,45.53015,45.52993,45.5299,45.52991,45.53012,45.53011,45.53008,45.53007,45.53007,45.53002,45.53,45.52992,45.52987,45.52987,45.52916,45.52879,45.52879,45.52844,45.52843,45.5284,45.52836,45.52853]}]]],null,null,{&#34;lineCap&#34;:null,&#34;lineJoin&#34;:null,&#34;clickable&#34;:true,&#34;pointerEvents&#34;:null,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:true,&#34;color&#34;:&#34;orange&#34;,&#34;weight&#34;:5,&#34;opacity&#34;:4,&#34;fill&#34;:false,&#34;fillColor&#34;:&#34;orange&#34;,&#34;fillOpacity&#34;:0.2,&#34;dashArray&#34;:null,&#34;smoothFactor&#34;:1,&#34;noClip&#34;:false},null,null,null,null,null]},{&#34;method&#34;:&#34;addMarkers&#34;,&#34;args&#34;:[45.525915,-122.684957,null,null,null,{&#34;clickable&#34;:true,&#34;draggable&#34;:false,&#34;keyboard&#34;:true,&#34;title&#34;:&#34;&#34;,&#34;alt&#34;:&#34;&#34;,&#34;zIndexOffset&#34;:0,&#34;opacity&#34;:1,&#34;riseOnHover&#34;:false,&#34;riseOffset&#34;:250},null,null,null,null,null,null,null]},{&#34;method&#34;:&#34;addCircleMarkers&#34;,&#34;args&#34;:[[45.52576,45.52624,45.52651,45.52511,45.52215,45.51477,45.52079,45.52212,45.52002,45.51768,45.51766,45.51893,45.51346,45.51292,45.50512,45.50482,45.50499,45.51206,45.52315,45.52288,45.53516,45.55254,45.52879,45.52853],[-122.68494,-122.68449,-122.68352,-122.68165,-122.68154,-122.68244,-122.67931,-122.67701,-122.67457,-122.66016,-122.65973,-122.6577,-122.65772,-122.65343,-122.65397,-122.64381,-122.63266,-122.63132,-122.63726,-122.6428,-122.63735,-122.68088,-122.69451,-122.69856],4,null,null,{&#34;lineCap&#34;:null,&#34;lineJoin&#34;:null,&#34;clickable&#34;:true,&#34;pointerEvents&#34;:null,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:true,&#34;color&#34;:&#34;#03F&#34;,&#34;weight&#34;:5,&#34;opacity&#34;:0.5,&#34;fill&#34;:true,&#34;fillColor&#34;:&#34;#03F&#34;,&#34;fillOpacity&#34;:0.2,&#34;dashArray&#34;:null},null,null,null,null,[&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;,&#34;6&#34;,&#34;7&#34;,&#34;8&#34;,&#34;9&#34;,&#34;10&#34;,&#34;11&#34;,&#34;12&#34;,&#34;13&#34;,&#34;14&#34;,&#34;15&#34;,&#34;16&#34;,&#34;17&#34;,&#34;18&#34;,&#34;19&#34;,&#34;20&#34;,&#34;21&#34;,&#34;22&#34;,&#34;23&#34;,&#34;24&#34;],{&#34;clickable&#34;:false,&#34;noHide&#34;:true,&#34;direction&#34;:&#34;top&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,-30],&#34;textsize&#34;:&#34;14px&#34;,&#34;textOnly&#34;:true,&#34;style&#34;:null,&#34;zoomAnimation&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;size&#34;:1},null]}],&#34;limits&#34;:{&#34;lat&#34;:[45.5048,45.55254],&#34;lng&#34;:[-122.69856,-122.63132]}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-2&#34;&gt;{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;setView&#34;:[[45.525915,-122.664957],13,[]],&#34;calls&#34;:[{&#34;method&#34;:&#34;addProviderTiles&#34;,&#34;args&#34;:[&#34;CartoDB.Positron&#34;,null,null,{&#34;errorTileUrl&#34;:&#34;&#34;,&#34;noWrap&#34;:false,&#34;detectRetina&#34;:false}]},{&#34;method&#34;:&#34;addPolylines&#34;,&#34;args&#34;:[[[[{&#34;lng&#34;:[-122.68494,-122.6843,-122.68432,-122.68449,-122.68449,-122.68449,-122.68449,-122.68449,-122.68432,-122.68434,-122.68361,-122.68352,-122.6833,-122.68274,-122.68245,-122.68222,-122.68218,-122.68217,-122.68165,-122.68165,-122.68217,-122.68216,-122.68213,-122.68208,-122.68154,-122.68154,-122.68104,-122.6795,-122.67986,-122.68025,-122.68064,-122.68124,-122.68132,-122.68167,-122.68204,-122.68312,-122.68244,-122.68244,-122.68212,-122.68178,-122.68142,-122.681,-122.67996,-122.67961,-122.67891,-122.67931,-122.67931,-122.67861,-122.67793,-122.67721,-122.67701,-122.67701,-122.67721,-122.67712,-122.67615,-122.67442,-122.67409,-122.67433,-122.67457,-122.67457,-122.67481,-122.67517,-122.67418,-122.6734,-122.67305,-122.67285,-122.67269,-122.67266,-122.67258,-122.67249,-122.67215,-122.67203,-122.67134,-122.67063,-122.66868,-122.66802,-122.66779,-122.66759,-122.66753,-122.66743,-122.66723,-122.6668,-122.66668,-122.66656,-122.66641,-122.66626,-122.66613,-122.66586,-122.66586,-122.66584,-122.66584,-122.66488,-122.66478,-122.66378,-122.66188,-122.6618,-122.66179,-122.66099,-122.66074,-122.66074,-122.66016,-122.66012,-122.65973,-122.65973,-122.65974,-122.65849,-122.65769,-122.6577,-122.6577,-122.6577,-122.65769,-122.65773,-122.65772,-122.65772,-122.65772,-122.65772,-122.65773,-122.6569,-122.6563,-122.6547,-122.65343,-122.65343,-122.65367,-122.65366,-122.65367,-122.6537,-122.6537,-122.65371,-122.65373,-122.65372,-122.65398,-122.65397,-122.65397,-122.65398,-122.65372,-122.65271,-122.64968,-122.64563,-122.64381,-122.64381,-122.63338,-122.63266,-122.63266,-122.63266,-122.63266,-122.63269,-122.63158,-122.63158,-122.63158,-122.63158,-122.63158,-122.63132,-122.63132,-122.63377,-122.63476,-122.63477,-122.63477,-122.63478,-122.63476,-122.63478,-122.63477,-122.63478,-122.63481,-122.63483,-122.63488,-122.6359,-122.63733,-122.63729,-122.63728,-122.63727,-122.63726,-122.63726,-122.63726,-122.63769,-122.63858,-122.64142,-122.6428,-122.6428,-122.64142,-122.64139,-122.64139,-122.64139,-122.64106,-122.64036,-122.63877,-122.6378,-122.63716,-122.63715,-122.63715,-122.63716,-122.63715,-122.63713,-122.63712,-122.63708,-122.63709,-122.63707,-122.63707,-122.63706,-122.63701,-122.63697,-122.63678,-122.63673,-122.6367,-122.6367,-122.6367,-122.63735,-122.63735,-122.63956,-122.64054,-122.64093,-122.64155,-122.64191,-122.643,-122.64483,-122.64666,-122.64965,-122.65338,-122.65475,-122.6586,-122.66087,-122.6647,-122.6668,-122.66703,-122.66784,-122.66812,-122.66863,-122.66886,-122.66934,-122.66947,-122.66972,-122.67076,-122.67085,-122.67096,-122.67172,-122.67174,-122.67176,-122.67174,-122.67448,-122.67448,-122.67451,-122.67459,-122.67472,-122.67491,-122.67537,-122.67673,-122.67695,-122.67705,-122.67708,-122.6771,-122.67713,-122.67712,-122.67712,-122.67713,-122.67713,-122.67718,-122.67725,-122.67732,-122.6775,-122.67769,-122.67801,-122.67987,-122.68051,-122.68072,-122.68079,-122.68087,-122.68089,-122.68089,-122.68087,-122.68091,-122.68091,-122.68088,-122.68087,-122.68088,-122.68088,-122.68087,-122.68089,-122.68092,-122.68091,-122.68088,-122.68087,-122.68089,-122.68088,-122.68083,-122.68075,-122.68062,-122.68036,-122.67925,-122.67808,-122.67793,-122.6776,-122.67739,-122.6773,-122.67721,-122.67715,-122.67714,-122.67713,-122.67712,-122.67712,-122.67711,-122.6771,-122.67703,-122.67689,-122.6768,-122.67649,-122.67583,-122.67505,-122.67477,-122.6747,-122.67456,-122.6745,-122.67447,-122.67448,-122.67445,-122.67438,-122.67431,-122.67406,-122.67285,-122.67211,-122.67185,-122.67187,-122.67186,-122.67182,-122.67176,-122.67174,-122.67176,-122.67179,-122.67194,-122.67199,-122.67213,-122.67284,-122.67411,-122.67496,-122.67537,-122.67539,-122.67629,-122.67718,-122.67756,-122.67769,-122.67788,-122.67966,-122.68137,-122.68176,-122.68236,-122.68339,-122.68643,-122.68707,-122.6917,-122.69415,-122.69456,-122.69453,-122.69451,-122.69451,-122.6945,-122.69512,-122.69652,-122.69855,-122.69856],&#34;lat&#34;:[45.52576,45.52579,45.52616,45.52616,45.52619,45.52624,45.52624,45.52616,45.52616,45.52649,45.5265,45.52651,45.52653,45.52652,45.52652,45.52652,45.52532,45.5251,45.52511,45.52511,45.5251,45.52439,45.52367,45.52229,45.52215,45.52215,45.52202,45.52163,45.52094,45.52026,45.51949,45.51836,45.51827,45.51761,45.51694,45.51495,45.51477,45.51477,45.51469,45.51535,45.51602,45.51679,45.51869,45.51936,45.52069,45.52079,45.52079,45.52061,45.52042,45.52176,45.52212,45.52212,45.52176,45.52173,45.52147,45.521,45.52091,45.52045,45.52002,45.52002,45.51958,45.51892,45.51868,45.51859,45.51856,45.51853,45.51852,45.51847,45.51837,45.51837,45.51834,45.51832,45.51818,45.518,45.51748,45.51728,45.51718,45.51705,45.51704,45.51698,45.51684,45.51648,45.51637,45.51629,45.51623,45.51621,45.5162,45.51621,45.51626,45.5168,45.51727,45.51727,45.51727,45.51727,45.51725,45.51725,45.51739,45.5174,45.5174,45.5175,45.51768,45.51766,45.51766,45.51766,45.51794,45.51793,45.51793,45.51865,45.51893,45.51893,45.51793,45.51684,45.51628,45.51508,45.51346,45.51346,45.51293,45.51293,45.51292,45.51293,45.51292,45.51292,45.51292,45.51249,45.51222,45.51064,45.50855,45.50723,45.50633,45.50486,45.50486,45.50512,45.50512,45.50486,45.50486,45.50485,45.50484,45.50483,45.50482,45.50482,45.5048,45.5048,45.50489,45.50499,45.50499,45.50726,45.50726,45.50737,45.50817,45.51198,45.51206,45.51206,45.51206,45.51207,45.51207,45.51287,45.51392,45.51491,45.51573,45.51611,45.51645,45.51834,45.51922,45.51932,45.51932,45.51931,45.51931,45.52012,45.52143,45.52244,45.52315,45.52315,45.52289,45.52288,45.52287,45.52287,45.52288,45.52288,45.52287,45.52429,45.5272,45.52751,45.52764,45.52792,45.52853,45.52893,45.52917,45.52956,45.53041,45.53062,45.53081,45.53159,45.53169,45.53187,45.53215,45.53286,45.53332,45.53362,45.53373,45.53375,45.53376,45.53381,45.53389,45.53415,45.53516,45.53516,45.53516,45.53516,45.53516,45.53513,45.53505,45.53501,45.53501,45.53502,45.53503,45.53504,45.53505,45.53504,45.53506,45.53509,45.5351,45.53511,45.53511,45.53514,45.53515,45.53503,45.53489,45.53529,45.5354,45.5356,45.53656,45.53664,45.53667,45.53668,45.53669,45.53675,45.53778,45.53779,45.53873,45.53889,45.53905,45.53919,45.53933,45.53957,45.54026,45.54043,45.54058,45.54065,45.5408,45.54192,45.54267,45.54304,45.5432,45.54395,45.54422,45.54446,45.54458,45.54481,45.54504,45.54532,45.54632,45.54669,45.54688,45.54699,45.54715,45.54729,45.54741,45.54896,45.5496,45.55131,45.55163,45.55212,45.55254,45.55254,45.55202,45.55157,45.55085,45.5496,45.54912,45.54882,45.54735,45.54722,45.54706,45.54694,45.54678,45.54659,45.54599,45.54536,45.54526,45.54495,45.54469,45.54454,45.54436,45.54409,45.5438,45.54316,45.54304,45.54253,45.54101,45.54072,45.54054,45.54038,45.5403,45.54014,45.53982,45.5394,45.53923,45.53916,45.539,45.53885,45.53852,45.53688,45.53658,45.53633,45.53632,45.53608,45.53498,45.53427,45.53404,45.53397,45.53392,45.53384,45.53376,45.53363,45.53349,45.53339,45.53312,45.53305,45.53297,45.53256,45.53186,45.53136,45.53115,45.53114,45.53063,45.53015,45.52993,45.5299,45.52991,45.53012,45.53011,45.53008,45.53007,45.53007,45.53002,45.53,45.52992,45.52987,45.52987,45.52916,45.52879,45.52879,45.52844,45.52843,45.5284,45.52836,45.52853]}]]],null,null,{&#34;interactive&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:true,&#34;color&#34;:&#34;orange&#34;,&#34;weight&#34;:5,&#34;opacity&#34;:4,&#34;fill&#34;:false,&#34;fillColor&#34;:&#34;orange&#34;,&#34;fillOpacity&#34;:0.2,&#34;smoothFactor&#34;:1,&#34;noClip&#34;:false},null,null,null,{&#34;interactive&#34;:false,&#34;permanent&#34;:false,&#34;direction&#34;:&#34;auto&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,0],&#34;textsize&#34;:&#34;10px&#34;,&#34;textOnly&#34;:false,&#34;className&#34;:&#34;&#34;,&#34;sticky&#34;:true},null]},{&#34;method&#34;:&#34;addMarkers&#34;,&#34;args&#34;:[45.525915,-122.684957,null,null,null,{&#34;interactive&#34;:true,&#34;draggable&#34;:false,&#34;keyboard&#34;:true,&#34;title&#34;:&#34;&#34;,&#34;alt&#34;:&#34;&#34;,&#34;zIndexOffset&#34;:0,&#34;opacity&#34;:1,&#34;riseOnHover&#34;:false,&#34;riseOffset&#34;:250},null,null,null,null,null,{&#34;interactive&#34;:false,&#34;permanent&#34;:false,&#34;direction&#34;:&#34;auto&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,0],&#34;textsize&#34;:&#34;10px&#34;,&#34;textOnly&#34;:false,&#34;className&#34;:&#34;&#34;,&#34;sticky&#34;:true},null]},{&#34;method&#34;:&#34;addCircleMarkers&#34;,&#34;args&#34;:[[45.52576,45.52624,45.52651,45.52511,45.52215,45.51477,45.52079,45.52212,45.52002,45.51768,45.51766,45.51893,45.51346,45.51292,45.50512,45.50482,45.50499,45.51206,45.52315,45.52288,45.53516,45.55254,45.52879,45.52853],[-122.68494,-122.68449,-122.68352,-122.68165,-122.68154,-122.68244,-122.67931,-122.67701,-122.67457,-122.66016,-122.65973,-122.6577,-122.65772,-122.65343,-122.65397,-122.64381,-122.63266,-122.63132,-122.63726,-122.6428,-122.63735,-122.68088,-122.69451,-122.69856],4,null,null,{&#34;interactive&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:true,&#34;color&#34;:&#34;#03F&#34;,&#34;weight&#34;:5,&#34;opacity&#34;:0.5,&#34;fill&#34;:true,&#34;fillColor&#34;:&#34;#03F&#34;,&#34;fillOpacity&#34;:0.2},null,null,null,null,[&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;,&#34;6&#34;,&#34;7&#34;,&#34;8&#34;,&#34;9&#34;,&#34;10&#34;,&#34;11&#34;,&#34;12&#34;,&#34;13&#34;,&#34;14&#34;,&#34;15&#34;,&#34;16&#34;,&#34;17&#34;,&#34;18&#34;,&#34;19&#34;,&#34;20&#34;,&#34;21&#34;,&#34;22&#34;,&#34;23&#34;,&#34;24&#34;],{&#34;interactive&#34;:false,&#34;permanent&#34;:true,&#34;direction&#34;:&#34;top&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,-30],&#34;textsize&#34;:&#34;14px&#34;,&#34;textOnly&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;sticky&#34;:true,&#34;size&#34;:1},null]}],&#34;limits&#34;:{&#34;lat&#34;:[45.5048,45.55254],&#34;lng&#34;:[-122.69856,-122.63132]}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
 &lt;p&gt;Whew! That was a lot of work but it looks like we have a reasonable solution. We’ll start in downtown Portland, take a quick jaunt over to the Eastside of the city and eventually return back to the Northwest. So, there you have it – a real-world application of optimization that supports an efficient Pub Crawl. Prost!&lt;/p&gt;
 &lt;/div&gt;
 </description>
@@ -11426,16 +15149,6 @@ my_plot_theme = function(){
 &lt;h3&gt;Concluding Remarks&lt;/h3&gt;
 &lt;p&gt;This post outlined a framework for identifying opportunities where an offer lower than the asking price would likely be accepted when purchasing a home. However, this framework could be used in any decision-making context where uncertainty is a major factor in choosing a course of action. For example, imagine we were predicting demand for a new product instead of home prices. If our demand forecast was much larger than production numbers, and the accompanying prediction interval was small, then we could recommend an increase in production numbers to avoid lost sales. I’d love to hear about frameworks/techniques that you use to deal with these types of issues, so please feel free to chime in below!&lt;/p&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Example Talk</title>
-      <link>/talk/example-talk.html</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 -0800</pubDate>
-      
-      <guid>/talk/example-talk.html</guid>
-      <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://sourcethemes.com/academic/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
 </description>
     </item>
     
