@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/surviving_the_nfl.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/surviving_the_nfl.html">
+  <meta property="og:title" content="Surviving the NFL | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-12-12T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2018-12-12T21:13:14-05:00">
+  
+
+  
+
+  <title>Surviving the NFL | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Surviving the NFL</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-12-12 21:13:14 -0500 -0500" itemprop="datePublished">
+      Dec 12, 2018
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    15 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/surviving_the_nfl.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/survival-analysis">Survival Analysis</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/nfl">NFL</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Surviving%20the%20NFL&amp;url=%2fpost%2fsurviving_the_nfl.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fsurviving_the_nfl.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fsurviving_the_nfl.html&amp;title=Surviving%20the%20NFL"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fsurviving_the_nfl.html&amp;title=Surviving%20the%20NFL"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Surviving%20the%20NFL&amp;body=%2fpost%2fsurviving_the_nfl.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p><img src="surviving_the_nfl_images/nfl_yikes.jpg" width="800px" height="200px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>Survival analysis is used anticipate the time until some <em>event</em>. An event could be cancelling a cable subscription, defaulting on a loan, or any binary outcome. Predicting the occurrence of such events would normally fall under the domain of classification, which assigns a probability between 0 and 1 as to whether an event will occur. However, classification models (e.g., logistic regression) do not account for the fact that, in many cases, the units under study (e.g., people, machines, etc.) are observed for varying periods of time. For example, let’s say we’re interested in studying how long consumers maintain their cable service based on their initial subscription price. Consumers who started their service today will likely remain subscribers tomorrow simply because they have only been active for one day. These consumers are <em>censored</em>, indicating that they have not yet experienced the event. In contrast, nearly all consumers who began their service 15 years ago are probably no longer active today (i.e., <em>uncensored</em>) due to a myriad of factors. Unlike typical classification models, survival models can account for both censored and uncensored data, as well as the influential role of time, during the model building process.</p>
+<p>Let’s make these concepts more palatable with a real-life example. Linking abstract concepts, like survival probabilities and censoring, with concrete concepts, like Touchdowns and Coors Light, makes the leap from theory to application much easier. In this post, we’ll use survival analysis to understand how several factors, including Field Position and Draft Pick, affect the number of years a player remains active in the NFL. Here’s what you’ll know by the end:</p>
+<p>🏈 <strong>The steps required for to format data for survival analysis</strong></p>
+<p>🏈 <strong>Different approaches to modeling survival rates and evaluating prediction accuracy</strong></p>
+<p>🏈 <strong>How to intepret and communicate survival model outputs</strong></p>
+<p>Let’s get started!</p>
+</div>
+<div id="the-data" class="section level3">
+<h3>The Data</h3>
+<p>All data used herein were acquired from <a href="https://www.pro-football-reference.com/">this website</a> and can be downloaded from my github account. If you’re curious about the web-scraping specifics, all code is located in the <a href="#appendix">appendix</a> below. Go ahead and download the data to get started. All the libraries we’ll need are loaded or installed via <code>pacman</code>.</p>
+<pre class="r"><code>library(pacman)
+pacman::p_load(rvest,
+               survival,
+               kableExtra,
+               survminer,
+               ggplot2,
+               ranger,
+               pROC,
+               reshape,
+               dplyr
+               )
+
+url = &#39;https://raw.githubusercontent.com/thecodeforest/nfl_survival_analysis_data/master/nfl_survival_data.csv&#39;
+draft_table = read_csv(url)</code></pre>
+<p>Now we have our data. Let’s clean it up before diving into specifics.</p>
+<pre class="r"><code>input_df = draft_table %&gt;% 
+  clean_names() %&gt;% 
+  select(player, pos, rnd, pick, year, from, to) %&gt;% 
+  rename(position = pos,
+         draft_rnd = rnd,
+         pick_nbr = pick,
+         draft_year = year
+         ) %&gt;% 
+  filter(position %in% c(&#39;QB&#39;, &#39;RB&#39;, &#39;WR&#39;)) %&gt;% 
+  mutate(draft_year = as.numeric(draft_year),
+         draft_rnd = as.numeric(draft_rnd),
+         pick_nbr = as.numeric(pick_nbr),
+         from = as.numeric(from),
+         to = as.numeric(to)
+         ) %&gt;% 
+  filter(draft_year != 2018) %&gt;% 
+  filter(pick_nbr &lt;= 256)</code></pre>
+To familiarize ourselves with the format, let’s consider all quarterbacks drafted in 2014:
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+player
+</th>
+<th style="text-align:center;">
+position
+</th>
+<th style="text-align:center;">
+draft_rnd
+</th>
+<th style="text-align:center;">
+pick_nbr
+</th>
+<th style="text-align:center;">
+draft_year
+</th>
+<th style="text-align:center;">
+from
+</th>
+<th style="text-align:center;">
+to
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Blake Bortles
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Johnny Manziel
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+22
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2015
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Teddy Bridgewater
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+32
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Derek Carr
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+36
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Jimmy Garoppolo
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+62
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Logan Thomas
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+120
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Tom Savage
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+135
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2017
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Aaron Murray
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+163
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+A.J. McCarron
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+164
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2018
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Zach Mettenberger
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+178
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2015
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+David Fales
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+183
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2017
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Keith Wenning
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+194
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Tajh Boyd
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+213
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Garrett Gilbert
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+214
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2014
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The initial dataset consists of the 7 variables:</p>
+<p>🏈 <strong>Player</strong> - Player Name<br />
+🏈 <strong>Position</strong> - Field position (QB = Quarterback, RB = Running Back, WR = Wide Receiver)<br />
+🏈 <strong>Draft Round</strong> - The round the player was originally drafted (range 1 - 7)<br />
+🏈 <strong>Pick Number</strong> - The pick the player was originally drafted (range 1 - 256)<br />
+🏈 <strong>Draft Year</strong> - The year the player was drafted into the NFL<br />
+🏈 <strong>From </strong> - The year the player was drafted into the NFL<br />
+🏈 <strong>To </strong> - The most recent year played in the NFL</p>
+<p>Below we’ll build two additional features that are central to any survival analysis: <strong>Time</strong> and <strong>Status</strong>. Our time variable – <em>yrs_in_nfl</em> – indicates how many seasons the player has participated in at least one regular season game. Status indicates if the player is still playing in the NFL; that is, if they have participated in at least one game during the 2018 regular season. For example, Johnny Manziel played two years for the Cleveland Browns and then left to play in the Canadian Football league at the end of the 2015 season. Thus, his status is <strong>1</strong>, indicating he did not survive until the 2018 season and is no longer active. In contrast, Blake Bortles is still playing in the NFL, so his status is a <strong>0</strong>, indicating that the event in question – retirement – has not yet happened. Let’s create these two features and revisit our 2014 quarterback cohort.</p>
+<pre class="r"><code>input_df = input_df %&gt;% 
+  mutate(yrs_in_nfl = (to - from) + 1) %&gt;% 
+  mutate(yrs_in_nfl = ifelse(is.na(from) &amp; is.na(to), 0, yrs_in_nfl)) %&gt;% 
+  mutate(status = ifelse(to == 2018, 0, 1)) %&gt;% 
+  mutate(status = ifelse(is.na(status), 1, status)) %&gt;% 
+  select(player:draft_year, yrs_in_nfl, status)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+player
+</th>
+<th style="text-align:center;">
+position
+</th>
+<th style="text-align:center;">
+draft_rnd
+</th>
+<th style="text-align:center;">
+pick_nbr
+</th>
+<th style="text-align:center;">
+draft_year
+</th>
+<th style="text-align:center;">
+yrs_in_nfl
+</th>
+<th style="text-align:center;">
+status
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Blake Bortles
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Johnny Manziel
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+22
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Teddy Bridgewater
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+32
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Derek Carr
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+36
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Jimmy Garoppolo
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+62
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Logan Thomas
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+120
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Tom Savage
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+135
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Aaron Murray
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+163
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+A.J. McCarron
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+164
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Zach Mettenberger
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+178
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+David Fales
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+183
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Keith Wenning
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+194
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Tajh Boyd
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+213
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Garrett Gilbert
+</td>
+<td style="text-align:center;">
+QB
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+214
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Great! Our data is now formatted and we are ready for some survival analysis.</p>
+</div>
+<div id="stayin-alive" class="section level3">
+<h3>Stayin’ Alive</h3>
+<p>Let’s start with a simple question: What is the relationship between Draft Round and the number of years played in the NFL? We’ll address this question with a simple yet powerful technique – the <strong>Kaplan Meier Estimator</strong> (KM for short). KM estimates the probability of surviving up to a certain point in time and not experiencing the event at that time. In this case, let’s compare the survival rates for players drafted in the 1st Round relative to those drafted in the 7th Round.Better players are typically drafted earlier on, so we’d expect 1st Rounders to have longer careers than 7th Rounders.</p>
+<pre class="r"><code>draft_surv = input_df %&gt;% 
+  filter(draft_rnd %in% c(1, 7))
+
+draft_fit = survfit(Surv(yrs_in_nfl, status) ~ draft_rnd, data = draft_surv)</code></pre>
+<p>Below we’ll compare the survival curves of our draft cohorts to see how they differ.</p>
+<pre class="r"><code>draft_rnd_surv = ggsurvplot(draft_fit,
+                            pval = TRUE,
+                            conf.int = TRUE,
+                            linetype = &quot;strata&quot;,
+                            fun = &quot;pct&quot;,
+                            surv.median.line = &quot;hv&quot;,
+                            ggtheme = theme_bw(),
+                            break.time.by = 1,
+                            xlab = &quot;Time in Years&quot;,
+                            ylab = &#39;Survival Probability (%)&#39;,
+                            legend.labs = c(&#39;Round 1&#39;, &#39;Round 7&#39;),
+                            font.x =  16,
+                            font.y = 16,
+                            font.tickslab = 14
+                )</code></pre>
+<p><img src="/post/surviving_the_nfl_files/figure-html/unnamed-chunk-10-1.png" width="1152" /></p>
+<p>As expected, players drafted in Round 1 have a higher chance of surviving across all time points. The dotted line indicates the median survival time for both groups and can be interpreted as follows: 50% of 1st Round picks are expected to be playing in the NFL after 9 years, while 50% of 7th Round picks will be around after 2 years. Note the p-value associated with the above plot. This is the produced by the <em>logrank test</em>, which determines if there is a difference between our cohorts (Round 1 vs. Round 7) in the probability of retiring at any point in time. Thus, if you happen to be a 7th round pick, I’d suggest enrolling in some Coursera courses in your spare time during the offseason (just in case).</p>
+<p>While KM is a great place to start due to its interpretability, one of its major shortcomings is the ability to handle continuous inputs. For example, Draft Round is categorical, in that it treats all picks within a round as the same. We lose lots of information by representing Draft Pick in this way, because the 1st pick in Round 1 is not the same as the 32nd pick in Round 1. Likewise, The 33rd pick (i.e, the 1st pick of Round 2) is similar to the 32nd pick in Round 1, yet they are treated differently if we model based on Draft Round. Thus, we need a different approach to model both continuous (i.e., Pick Number) and categorical (i.e., Player Position) inputs.</p>
+</div>
+<div id="cox-proportional-hazard-model" class="section level3">
+<h3>Cox Proportional Hazard Model</h3>
+<p>When including more than a single factor or continuous input, survival times can be estimated via the <em>Cox-Proportional Hazard Regression Model (CPH)</em>. The hazard function estimates the probability that if a person survives to Time (t), they will experience the event in the next time period. For example, if a 22nd pick QB has just completed their 6th season, what is probability they will retire for the 7th season?</p>
+<p>While <em>CPH</em> has been successfully applied in a variety of domains, it also has some limitations – namely the assumption of <em>proportionality of hazards</em>. This means that the hazard function for different levels of an input are proportional across all time values. In Football-speak, this means that if RBs have twice the risk of retiring compared to QBs after two seasons, then they should also have twice the risk of retiring after four seasons, six season, ten seasons, etc.</p>
+<p>A simple way to verify this assumption is to plot the survival curves for a factor and then look at whether they remain parallel across time. If they cross over, there’s a good chance that this assumption has been violated. Let’s check below for our Position variable, which models the survival rate of QBs, RB, and WRs.</p>
+<p><img src="/post/surviving_the_nfl_files/figure-html/unnamed-chunk-11-1.png" width="1152" /></p>
+<p>It’s apparent that risk is not proportional across time. Near the beginning of their career (i.e., 0 - 2 years), QBs have a lower survival rate relative to RB/WRs. However, long-term survival (&gt; 5 years) is higher amongst QBs. In fact, there are not BRs in our sample that have played beyond 14 years (Frank Gore has played 14), while ~12% of QBs have played beyond this time frame, such as Tom Brady, Drew Brees, or Peyton Manning. This makes intuitive sense – if you are a good enough quarterback to play in the NFL for a few years, you’ll likely stick around for a while, assuming you don’t get injured. However, even the best RBs/WRs take a beating across their careers, which shortens their overall NFL lifespan. It is also the reason why RBs/WRs remain in the NFL at higher rates relative to QBs for the short-term (&lt; 4 years), as replacements for these positions are the norm within the regular season due to their high injury rate.</p>
+<p>While the comparison of survival curves (and whether they cross) is a decent heuristic, we can use a more formal approach – the <em>Schoenfeld Residuals Test</em> – to confirm our initial observation. This test determines if there is independence between the scaled residuals (actual - observed) and time. If the slope is different from zero, then the proportional hazard assumption is not satisfied (i.e., relative risk is not constant over time).</p>
+<p><img src="/post/surviving_the_nfl_files/figure-html/unnamed-chunk-12-1.png" width="1152" /></p>
+<p>A trend is present in the residuals of each of our predictors, which means the proportional hazard assumption does not hold up. Let’s focus on the top panel, labeled <strong>Beta(t) for positionRB</strong> to unpack what this plot reveals. The model’s reference category is QBs, so we are comparing the hazard rate of RBs relative to QBs over time. Note how the trend line is below zero for lower values of Time and then gradually trends upward. This means that survival is dependent upon time, and in this case the hazard ratio is increasing over time for RBs relative to QBs – an observation that we made in the previous survival plot.</p>
+<p>There are several ways to change our approach in order to accommodate this assumption. First, we can create strata for each position and model them seperately. However, this only works for categorical variables with a few factors. What about our Pick Number variable, which has 256 unique values? Second, we could create time-by-input interactions that capture the time-dependent nature of our inputs, or we could reduce the estimation period to only a few years. This requires additional parameters or limits the horizon across which we can create estimates – both of which aren’t great.</p>
+<p>The other approach is to simply use a model that does not make these assumptions. Indeed, Random Survival Forests (RSF) have shown promise as an alternative to CPH and KM without any of the modeling limitations or strong assumptions. Additionally, RSF can automatically capture interactions between variables without having to be explicitly modeled. For this reason, we’ll build our final model via RSF, which is outlined in greater detail in the next section.</p>
+</div>
+<div id="random-survival-forest-predicting-survival-rates" class="section level3">
+<h3>Random Survival Forest &amp; Predicting Survival Rates</h3>
+<p>The Random Forest algorithm needs no introduction – it’s one of the most popular approaches in machine learning thanks to its ease of use and powerful predictive properties. Some of have even referred to as the “Honda Civic” of algorithms due to its low maintenance yet reliable performance. The great news is that it can be extended to the domain of survival analysis. Contrary to the <em>CPH</em> model, RSF does not assume proportional hazards, automatically detects interactions (e.g., non-linear effects), and even provides a ranking of variable importance.</p>
+<p>Now that we’ve settled on a modeling framwork, let’s discuss what it means to predict survival rates with a short thought-experiment. Imagine you are a statistically savvy agent for new NFL players. A service you offer to your clients is advice on how long they will remain in the NFL, which allows for better financial and career planning. Your goal is to provide a personalized estimate for each player based on their 5-year survival rate. Accordingly, you decide to use all data prior to 2013 to train your model and then test its accuracy on all players drafted since 2013. This will provide an idea of how predictable survival rates are for individual players.</p>
+<p>So how do we determine “accuracy”, “goodness-of-fit” or “performance” for survival analysis? One way is to set a time horizon (e.g., 5 years) and extract all predicted survival probabilities for that time horizon. Then we compare the estimates for each individual to their actual status (0, 1). An ROC curve will tell us how well our model performs relative to simply guessing.</p>
+<pre class="r"><code> # we are predicting survival rates 5 years into the future
+time_horizon = 5
+
+train_df = input_df %&gt;% 
+  filter(draft_year &lt; 2013)
+
+test_df = input_df %&gt;% 
+  filter(draft_year &gt;= 2013) %&gt;% 
+  mutate(retired = ifelse(status == 0 &amp; yrs_in_nfl &lt;= time_horizon, 0, 1))
+
+rf_fit = ranger(Surv(yrs_in_nfl, status) ~ pick_nbr + position, 
+                data = train_df,
+                seed = 1234,
+                importance = &#39;permutation&#39;,
+                verbose = TRUE,
+                min.node.size = 30
+                )</code></pre>
+<p>We’ve fit our model. Let’s predict the survival rates for the 325 players in our test set and then build an ROC curve to assess our model’s performance at the 5-year time horizon.</p>
+<pre class="r"><code># make predictions against the test set
+surv_pred = predict(rf_fit, test_df)
+
+# extract the survival probabilities at the 5 year horizon
+surv_prob = surv_pred$survival[,which(surv_pred$unique.death.times == time_horizon)]
+
+# compare the predicted probabilities against the actual outcomes
+roc_results = smooth(roc(response=test_df$retired, 
+                         predictor= surv_prob)
+                     )
+auc = round(roc_results$auc, 2)
+
+data.frame(Sensitivity = roc_results$sensitivities,
+           Specificity = roc_results$specificities) %&gt;% 
+  ggplot(aes(x = 1 - Specificity, y = Sensitivity)) + 
+  geom_point(size = 2) + 
+  geom_line(size = 2) + 
+  geom_abline(intercept = 0, slope = 1, size = 2, color = &#39;red&#39;) + 
+  xlab(&#39;False Positive Rate (1 - Specificity)&#39;) + 
+  ylab(&#39;True Positive Rate (Sensitivity)&#39;) + 
+  annotate(&#39;text&#39;,
+           x = 0.1, 
+           y = 0.9,
+           size = 8,
+           label = glue::glue(&#39;AUC = {auc}&#39;)
+           ) + 
+  theme_bw() + 
+  my_plot_theme() </code></pre>
+<p><img src="/post/surviving_the_nfl_files/figure-html/unnamed-chunk-14-1.png" width="1152" /></p>
+<p>Our AUC isn’t too shabby at 0.71, and we can predict survival at better than chance levels. Assuming this is an acceptable level of performance, we are now ready to roll out our model to all new players. Let’s say it’s the day after the 2018 draft and you are representing the following rookies:</p>
+<ul>
+<li>Quarterback drafted 5th</li>
+<li>Running back drafted 25th</li>
+<li>Wide Receiver drafted 200th</li>
+<li>Quarterback drafted 240th</li>
+</ul>
+<p>We’ll re-fit our model using the entire dataset prior to 2018, make survival predictions for each player, and then plot the probabilities across a 5-year time span.</p>
+<pre class="r"><code>new_players = data.frame(position = c(&#39;QB&#39;, &#39;RB&#39;, &#39;WR&#39;, &#39;QB&#39;),
+                         pick_nbr = c(5, 50, 200, 240)
+                         )
+                         
+rf_future = ranger(Surv(yrs_in_nfl, status) ~ pick_nbr + position, 
+                data = input_df,
+                seed = 1234,
+                importance = &#39;permutation&#39;,
+                mtry = 2,
+                verbose = TRUE,
+                min.node.size = 30
+                )
+
+predicted_surv = predict(rf_future, data = new_players)</code></pre>
+<pre class="r"><code>predicted_surv$survival %&gt;% 
+  data.frame() %&gt;% 
+  mutate(player = paste(new_players$position, 
+                        new_players$pick_nbr)) %&gt;% 
+  melt(id = &#39;player&#39;) %&gt;% 
+  mutate(variable = as.numeric(variable)) %&gt;% 
+  rename(year = variable,
+         surv_prob = value) %&gt;% 
+  filter(year &lt;= 5) %&gt;% 
+  ggplot(aes(x = year, y = surv_prob, color = player)) + 
+  geom_point(size = 2) + 
+  geom_line() + 
+  scale_x_continuous(breaks = 1:5) + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  ylab(&quot;Survival Probability&quot;) + 
+  xlab(&quot;Time in Years&quot;)</code></pre>
+<p><img src="/post/surviving_the_nfl_files/figure-html/unnamed-chunk-16-1.png" width="1152" /></p>
+<p>Neato! Look at all those cool lines, unless you are the QB drafted with pick 240. That guy is more likely to be working at a desk job (which are great, too) after one year than playing in the NFL. QB 5, in contrast, can finally splurge on that Jet Ski, because there is a good chance he’ll still be around after five years, collecting that sweet NFL-QB salary.</p>
+<div class="figure">
+<img src="https://media.giphy.com/media/aiE3JQU3vLqTK/giphy.gif" />
+
+</div>
+<p>That’s it! Hopefully you enjoyed this post. Feel free to reach out with questions or comments!</p>
+</div>
+<div id="appendix" class="section level3">
+<h3>Appendix</h3>
+<p>Below is the code used to scrape the draft and career length data.</p>
+<pre class="r"><code>url_prefix_pg1 = &#39;https://www.pro-football-reference.com/play-index/draft-finder.cgi?request=1&amp;year_min=1936&amp;year_max=2018&amp;type=&amp;round_min=1&amp;round_max=30&amp;slot_min=1&amp;slot_max=500&amp;league_id=&amp;team_id=&amp;pos[]=&#39;
+
+url_suffix_pg1 = &#39;&amp;college_id=all&amp;conference=any&amp;show=all&#39;
+
+url_prefix_pg2 = &#39;https://www.pro-football-reference.com/play-index/draft-finder.cgi?request=1&amp;year_min=1936&amp;year_max=2018&amp;type=&amp;round_min=1&amp;round_max=30&amp;slot_min=1&amp;slot_max=500&amp;league_id=&amp;team_id=&amp;pos%5B%5D=&#39;
+
+url_suffix_pg2 = &#39;&amp;college_id=all&amp;conference=any&amp;show=all&amp;offset=300&#39;
+
+positions = c(&#39;RB&#39;, &#39;WR&#39;, &#39;QB&#39;)
+
+urls_pg1 = paste0(url_prefix_pg1, positions, url_suffix_pg1)
+urls_pg2 = paste0(url_prefix_pg2, positions, url_suffix_pg2)
+urls = c(urls_pg1, urls_pg2)
+
+scrape_tbl = function(url, table_xpath){
+  html_table = url %&gt;% 
+    xml2::read_html() %&gt;% 
+    rvest::html_nodes(xpath = table_xpath) %&gt;% 
+    rvest::html_table(header = TRUE) %&gt;% 
+    .[[1]] %&gt;% 
+    data.frame()
+  return(html_table)
+}
+
+table_xpath = &#39;//*[@id=&quot;results&quot;]&#39;
+draft_table = data.frame(NULL)
+for(url in urls){
+  tmp_table = scrape_tbl(url, table_xpath)
+  names(tmp_table) = unname(tmp_table[1,])
+  tmp_table = tmp_table[2:nrow(tmp_table),]
+  draft_table = bind_rows(draft_table,
+                          tmp_table)
+}</code></pre>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/survival-analysis">Survival Analysis</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/nfl">NFL</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/college_rankings_salary.html">College Rankings and Pay</a></li>
+    
+    <li><a href="/post/optimal_bar_crawl.html">The Optimal Portland Pub Crawl</a></li>
+    
+    <li><a href="/post/computer_vision_with_r.html">Computer Vision with R &amp; Keras</a></li>
+    
+    <li><a href="/post/time_series_forecasting_with_neural_networks.html">Time Series Forecasting with Neural Networks</a></li>
+    
+    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

@@ -883,16 +883,16 @@ col_df = data.frame(col_table[[1]])[,c(1, 3)] %&gt;%
 
 print(head(col_df, 10))</code></pre>
 <pre><code>##                      state col_index
-## 1                   Hawaii     186.3
-## 2  District of    Columbia     161.8
-## 3               California     141.0
-## 4                 New York     133.9
-## 5                   Alaska     130.9
-## 6                 Maryland     130.4
-## 7                   Oregon     130.0
-## 8            Massachusetts     127.6
-## 9              Connecticut     127.1
-## 10            Rhode Island     122.2</code></pre>
+## 1                   Hawaii     188.9
+## 2  District of    Columbia     161.0
+## 3               California     137.2
+## 4                 New York     134.0
+## 5              Connecticut     133.0
+## 6                   Alaska     130.5
+## 7                   Oregon     129.4
+## 8                 Maryland     129.3
+## 9            Massachusetts     129.2
+## 10              New Jersey     122.3</code></pre>
 <p>Having lived on the West Coast for the past three years, these numbers check out! The next step is to confirm that we can join our Cost of Living data with college salaries. A simple <code>left join</code> will identify any inconsistencies between our key (state) that are we using to merge our datasets.</p>
 <pre class="r"><code>college_salary_df %&gt;% 
   select(state) %&gt;% 
@@ -981,7 +981,7 @@ Harvard University
 140700
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -1007,7 +1007,7 @@ Stanford University
 140400
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -1033,7 +1033,7 @@ Yale University
 132100
 </td>
 <td style="text-align:center;">
-127.1
+133.0
 </td>
 </tr>
 <tr>
@@ -1059,7 +1059,7 @@ Princeton University
 147800
 </td>
 <td style="text-align:center;">
-118.4
+122.3
 </td>
 </tr>
 <tr>
@@ -1085,7 +1085,7 @@ Massachusetts Institute of Technology
 147000
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -1111,7 +1111,7 @@ California Institute of Technology
 142500
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -1137,7 +1137,7 @@ University of Pennsylvania
 134800
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -1163,7 +1163,7 @@ Duke University
 134400
 </td>
 <td style="text-align:center;">
-93.9
+94.5
 </td>
 </tr>
 <tr>
@@ -1189,7 +1189,7 @@ Brown University
 132000
 </td>
 <td style="text-align:center;">
-122.2
+120.8
 </td>
 </tr>
 <tr>
@@ -1215,7 +1215,7 @@ Pomona College
 114100
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -1241,7 +1241,7 @@ Claremont McKenna College
 130800
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -1267,7 +1267,7 @@ Dartmouth College
 140300
 </td>
 <td style="text-align:center;">
-112.0
+106.6
 </td>
 </tr>
 <tr>
@@ -1293,7 +1293,7 @@ Williams College
 138400
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -1319,7 +1319,7 @@ Columbia University in the City of New York
 124700
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -1345,7 +1345,7 @@ Cornell University
 123900
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -1371,7 +1371,7 @@ University of Chicago
 117000
 </td>
 <td style="text-align:center;">
-96.7
+95.7
 </td>
 </tr>
 <tr>
@@ -1397,7 +1397,7 @@ Amherst College
 122800
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -1423,7 +1423,7 @@ Harvey Mudd College
 155800
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -1449,7 +1449,7 @@ Swarthmore College
 126200
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -1475,7 +1475,7 @@ United States Naval Academy
 143800
 </td>
 <td style="text-align:center;">
-130.4
+129.3
 </td>
 </tr>
 <tr>
@@ -1501,7 +1501,7 @@ Georgetown University
 129500
 </td>
 <td style="text-align:center;">
-161.8
+161.0
 </td>
 </tr>
 <tr>
@@ -1527,7 +1527,7 @@ Rice University
 130200
 </td>
 <td style="text-align:center;">
-91.3
+91.4
 </td>
 </tr>
 <tr>
@@ -1553,7 +1553,7 @@ Bowdoin College
 115500
 </td>
 <td style="text-align:center;">
-116.3
+115.9
 </td>
 </tr>
 <tr>
@@ -1579,7 +1579,7 @@ United States Military Academy
 144300
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -1605,7 +1605,7 @@ Haverford College
 119500
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -1631,7 +1631,7 @@ University of Notre Dame
 127900
 </td>
 <td style="text-align:center;">
-91.5
+90.0
 </td>
 </tr>
 <tr>
@@ -1683,7 +1683,7 @@ Northwestern University
 113300
 </td>
 <td style="text-align:center;">
-96.7
+95.7
 </td>
 </tr>
 <tr>
@@ -1709,7 +1709,7 @@ University of California-Berkeley
 130100
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -1735,7 +1735,7 @@ Johns Hopkins University
 112200
 </td>
 <td style="text-align:center;">
-130.4
+129.3
 </td>
 </tr>
 <tr>
@@ -1761,7 +1761,7 @@ Washington and Lee University
 131700
 </td>
 <td style="text-align:center;">
-102.1
+101.1
 </td>
 </tr>
 <tr>
@@ -1787,7 +1787,7 @@ Tufts University
 120200
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -1813,7 +1813,7 @@ Wesleyan University
 117700
 </td>
 <td style="text-align:center;">
-127.1
+133.0
 </td>
 </tr>
 <tr>
@@ -1839,7 +1839,7 @@ Davidson College
 111400
 </td>
 <td style="text-align:center;">
-93.9
+94.5
 </td>
 </tr>
 <tr>
@@ -1865,7 +1865,7 @@ Bates College
 125000
 </td>
 <td style="text-align:center;">
-116.3
+115.9
 </td>
 </tr>
 <tr>
@@ -1891,7 +1891,7 @@ Washington University in St Louis
 113400
 </td>
 <td style="text-align:center;">
-88.9
+88.6
 </td>
 </tr>
 <tr>
@@ -1917,7 +1917,7 @@ Carleton College
 113800
 </td>
 <td style="text-align:center;">
-100.2
+103.2
 </td>
 </tr>
 <tr>
@@ -1943,7 +1943,7 @@ University of Michigan-Ann Arbor
 104600
 </td>
 <td style="text-align:center;">
-88.7
+90.2
 </td>
 </tr>
 <tr>
@@ -1969,7 +1969,7 @@ Middlebury College
 113200
 </td>
 <td style="text-align:center;">
-117.4
+117.2
 </td>
 </tr>
 <tr>
@@ -1995,7 +1995,7 @@ University of Virginia-Main Campus
 118400
 </td>
 <td style="text-align:center;">
-102.1
+101.1
 </td>
 </tr>
 <tr>
@@ -2021,7 +2021,7 @@ United States Air Force Academy
 138300
 </td>
 <td style="text-align:center;">
-103.9
+107.3
 </td>
 </tr>
 <tr>
@@ -2047,7 +2047,7 @@ Colgate University
 137700
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2073,7 +2073,7 @@ Scripps College
 96700
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -2099,7 +2099,7 @@ University of Southern California
 119300
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -2125,7 +2125,7 @@ Carnegie Mellon University
 126400
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -2151,7 +2151,7 @@ Wellesley College
 100900
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -2177,7 +2177,7 @@ University of California-Los Angeles
 114800
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -2203,7 +2203,7 @@ Boston College
 115300
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -2229,7 +2229,7 @@ Vassar College
 98900
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2255,7 +2255,7 @@ United States Merchant Marine Academy
 135900
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2281,7 +2281,7 @@ New York University
 117000
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2307,7 +2307,7 @@ Oberlin College
 107600
 </td>
 <td style="text-align:center;">
-92.7
+93.0
 </td>
 </tr>
 <tr>
@@ -2333,7 +2333,7 @@ Barnard College
 103700
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2359,7 +2359,7 @@ Bucknell University
 124700
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -2385,7 +2385,7 @@ Lafayette College
 123800
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -2411,7 +2411,7 @@ Grinnell College
 96200
 </td>
 <td style="text-align:center;">
-91.9
+91.5
 </td>
 </tr>
 <tr>
@@ -2437,7 +2437,7 @@ College of William and Mary
 111900
 </td>
 <td style="text-align:center;">
-102.1
+101.1
 </td>
 </tr>
 <tr>
@@ -2463,7 +2463,7 @@ Pitzer College
 91100
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -2489,7 +2489,7 @@ Wake Forest University
 118400
 </td>
 <td style="text-align:center;">
-93.9
+94.5
 </td>
 </tr>
 <tr>
@@ -2515,7 +2515,7 @@ Colby College
 104200
 </td>
 <td style="text-align:center;">
-116.3
+115.9
 </td>
 </tr>
 <tr>
@@ -2541,7 +2541,7 @@ Cooper Union for the Advancement of Science and Art
 124200
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2567,7 +2567,7 @@ Kenyon College
 110400
 </td>
 <td style="text-align:center;">
-92.7
+93.0
 </td>
 </tr>
 <tr>
@@ -2593,7 +2593,7 @@ Santa Clara University
 134500
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -2619,7 +2619,7 @@ Hamilton College
 107000
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2645,7 +2645,7 @@ Emory University
 109800
 </td>
 <td style="text-align:center;">
-90.8
+91.6
 </td>
 </tr>
 <tr>
@@ -2671,7 +2671,7 @@ Lehigh University
 133900
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -2697,7 +2697,7 @@ University of North Carolina at Chapel Hill
 96000
 </td>
 <td style="text-align:center;">
-93.9
+94.5
 </td>
 </tr>
 <tr>
@@ -2723,7 +2723,7 @@ University of Illinois at Urbana-Champaign
 109600
 </td>
 <td style="text-align:center;">
-96.7
+95.7
 </td>
 </tr>
 <tr>
@@ -2749,7 +2749,7 @@ Reed College
 103900
 </td>
 <td style="text-align:center;">
-130.0
+129.4
 </td>
 </tr>
 <tr>
@@ -2775,7 +2775,7 @@ Smith College
 98400
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -2801,7 +2801,7 @@ University of Maryland-College Park
 107100
 </td>
 <td style="text-align:center;">
-130.4
+129.3
 </td>
 </tr>
 <tr>
@@ -2827,7 +2827,7 @@ Villanova University
 114700
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -2853,7 +2853,7 @@ Babson College
 141700
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -2879,7 +2879,7 @@ Yeshiva University
 122300
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -2905,7 +2905,7 @@ Colorado College
 97000
 </td>
 <td style="text-align:center;">
-103.9
+107.3
 </td>
 </tr>
 <tr>
@@ -2931,7 +2931,7 @@ Occidental College
 107700
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -2957,7 +2957,7 @@ Whitman College
 107700
 </td>
 <td style="text-align:center;">
-108.3
+109.3
 </td>
 </tr>
 <tr>
@@ -2983,7 +2983,7 @@ University of Washington-Seattle Campus
 108800
 </td>
 <td style="text-align:center;">
-108.3
+109.3
 </td>
 </tr>
 <tr>
@@ -3009,7 +3009,7 @@ University of Florida
 97800
 </td>
 <td style="text-align:center;">
-98.9
+99.1
 </td>
 </tr>
 <tr>
@@ -3035,7 +3035,7 @@ Georgia Institute of Technology-Main Campus
 128700
 </td>
 <td style="text-align:center;">
-90.8
+91.6
 </td>
 </tr>
 <tr>
@@ -3061,7 +3061,7 @@ University of Richmond
 106600
 </td>
 <td style="text-align:center;">
-102.1
+101.1
 </td>
 </tr>
 <tr>
@@ -3087,7 +3087,7 @@ University of California-Santa Barbara
 118800
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -3113,7 +3113,7 @@ Trinity College
 108700
 </td>
 <td style="text-align:center;">
-127.1
+133.0
 </td>
 </tr>
 <tr>
@@ -3139,7 +3139,7 @@ University of Rochester
 107400
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -3165,7 +3165,7 @@ Boston University
 113500
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -3191,7 +3191,7 @@ University of Wisconsin-Madison
 98400
 </td>
 <td style="text-align:center;">
-96.3
+96.8
 </td>
 </tr>
 <tr>
@@ -3217,7 +3217,7 @@ George Washington University
 115900
 </td>
 <td style="text-align:center;">
-161.8
+161.0
 </td>
 </tr>
 <tr>
@@ -3243,7 +3243,7 @@ College of the Holy Cross
 119700
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -3269,7 +3269,7 @@ Trinity University
 101600
 </td>
 <td style="text-align:center;">
-91.3
+91.4
 </td>
 </tr>
 <tr>
@@ -3295,7 +3295,7 @@ The University of Texas at Austin
 107400
 </td>
 <td style="text-align:center;">
-91.3
+91.4
 </td>
 </tr>
 <tr>
@@ -3321,7 +3321,7 @@ Franklin and Marshall College
 112400
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -3347,7 +3347,7 @@ University of California-San Diego
 124900
 </td>
 <td style="text-align:center;">
-141.0
+137.2
 </td>
 </tr>
 <tr>
@@ -3373,7 +3373,7 @@ Skidmore College
 97300
 </td>
 <td style="text-align:center;">
-133.9
+134.0
 </td>
 </tr>
 <tr>
@@ -3399,7 +3399,7 @@ Bryn Mawr College
 89900
 </td>
 <td style="text-align:center;">
-101.2
+98.4
 </td>
 </tr>
 <tr>
@@ -3425,7 +3425,7 @@ Furman University
 104000
 </td>
 <td style="text-align:center;">
-98.3
+97.8
 </td>
 </tr>
 <tr>
@@ -3451,7 +3451,7 @@ University of Miami
 92400
 </td>
 <td style="text-align:center;">
-98.9
+99.1
 </td>
 </tr>
 <tr>
@@ -3477,7 +3477,7 @@ Southern Methodist University
 108500
 </td>
 <td style="text-align:center;">
-91.3
+91.4
 </td>
 </tr>
 <tr>
@@ -3503,7 +3503,7 @@ Brandeis University
 114200
 </td>
 <td style="text-align:center;">
-127.6
+129.2
 </td>
 </tr>
 <tr>
@@ -3529,7 +3529,7 @@ Macalester College
 97700
 </td>
 <td style="text-align:center;">
-100.2
+103.2
 </td>
 </tr>
 <tr>
@@ -3555,7 +3555,7 @@ St Olaf College
 98700
 </td>
 <td style="text-align:center;">
-100.2
+103.2
 </td>
 </tr>
 </tbody>

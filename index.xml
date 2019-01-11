@@ -11,6 +11,964 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Surviving the NFL</title>
+      <link>/post/surviving_the_nfl.html</link>
+      <pubDate>Wed, 12 Dec 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/post/surviving_the_nfl.html</guid>
+      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;&lt;img src=&#34;surviving_the_nfl_images/nfl_yikes.jpg&#34; width=&#34;800px&#34; height=&#34;200px&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Survival analysis is used anticipate the time until some &lt;em&gt;event&lt;/em&gt;. An event could be cancelling a cable subscription, defaulting on a loan, or any binary outcome. Predicting the occurrence of such events would normally fall under the domain of classification, which assigns a probability between 0 and 1 as to whether an event will occur. However, classification models (e.g., logistic regression) do not account for the fact that, in many cases, the units under study (e.g., people, machines, etc.) are observed for varying periods of time. For example, let’s say we’re interested in studying how long consumers maintain their cable service based on their initial subscription price. Consumers who started their service today will likely remain subscribers tomorrow simply because they have only been active for one day. These consumers are &lt;em&gt;censored&lt;/em&gt;, indicating that they have not yet experienced the event. In contrast, nearly all consumers who began their service 15 years ago are probably no longer active today (i.e., &lt;em&gt;uncensored&lt;/em&gt;) due to a myriad of factors. Unlike typical classification models, survival models can account for both censored and uncensored data, as well as the influential role of time, during the model building process.&lt;/p&gt;
+&lt;p&gt;Let’s make these concepts more palatable with a real-life example. Linking abstract concepts, like survival probabilities and censoring, with concrete concepts, like Touchdowns and Coors Light, makes the leap from theory to application much easier. In this post, we’ll use survival analysis to understand how several factors, including Field Position and Draft Pick, affect the number of years a player remains active in the NFL. Here’s what you’ll know by the end:&lt;/p&gt;
+&lt;p&gt;🏈 &lt;strong&gt;The steps required for to format data for survival analysis&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;🏈 &lt;strong&gt;Different approaches to modeling survival rates and evaluating prediction accuracy&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;🏈 &lt;strong&gt;How to intepret and communicate survival model outputs&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Let’s get started!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;The Data&lt;/h3&gt;
+&lt;p&gt;All data used herein were acquired from &lt;a href=&#34;https://www.pro-football-reference.com/&#34;&gt;this website&lt;/a&gt; and can be downloaded from my github account. If you’re curious about the web-scraping specifics, all code is located in the &lt;a href=&#34;#appendix&#34;&gt;appendix&lt;/a&gt; below. Go ahead and download the data to get started. All the libraries we’ll need are loaded or installed via &lt;code&gt;pacman&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(pacman)
+pacman::p_load(rvest,
+               survival,
+               kableExtra,
+               survminer,
+               ggplot2,
+               ranger,
+               pROC,
+               reshape,
+               dplyr
+               )
+
+url = &amp;#39;https://raw.githubusercontent.com/thecodeforest/nfl_survival_analysis_data/master/nfl_survival_data.csv&amp;#39;
+draft_table = read_csv(url)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have our data. Let’s clean it up before diving into specifics.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;input_df = draft_table %&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  select(player, pos, rnd, pick, year, from, to) %&amp;gt;% 
+  rename(position = pos,
+         draft_rnd = rnd,
+         pick_nbr = pick,
+         draft_year = year
+         ) %&amp;gt;% 
+  filter(position %in% c(&amp;#39;QB&amp;#39;, &amp;#39;RB&amp;#39;, &amp;#39;WR&amp;#39;)) %&amp;gt;% 
+  mutate(draft_year = as.numeric(draft_year),
+         draft_rnd = as.numeric(draft_rnd),
+         pick_nbr = as.numeric(pick_nbr),
+         from = as.numeric(from),
+         to = as.numeric(to)
+         ) %&amp;gt;% 
+  filter(draft_year != 2018) %&amp;gt;% 
+  filter(pick_nbr &amp;lt;= 256)&lt;/code&gt;&lt;/pre&gt;
+To familiarize ourselves with the format, let’s consider all quarterbacks drafted in 2014:
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+player
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+position
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+draft_rnd
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+pick_nbr
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+draft_year
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+from
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+to
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Blake Bortles
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2018
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Johnny Manziel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2015
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Teddy Bridgewater
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2018
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Derek Carr
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+36
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2018
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Jimmy Garoppolo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+62
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2018
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Logan Thomas
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+120
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2018
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Tom Savage
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+135
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2017
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Aaron Murray
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+163
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+A.J. McCarron
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+164
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2018
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Zach Mettenberger
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+178
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2015
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+David Fales
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+183
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2017
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Keith Wenning
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+194
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Tajh Boyd
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+213
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Garrett Gilbert
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+214
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;The initial dataset consists of the 7 variables:&lt;/p&gt;
+&lt;p&gt;🏈 &lt;strong&gt;Player&lt;/strong&gt; - Player Name&lt;br /&gt;
+🏈 &lt;strong&gt;Position&lt;/strong&gt; - Field position (QB = Quarterback, RB = Running Back, WR = Wide Receiver)&lt;br /&gt;
+🏈 &lt;strong&gt;Draft Round&lt;/strong&gt; - The round the player was originally drafted (range 1 - 7)&lt;br /&gt;
+🏈 &lt;strong&gt;Pick Number&lt;/strong&gt; - The pick the player was originally drafted (range 1 - 256)&lt;br /&gt;
+🏈 &lt;strong&gt;Draft Year&lt;/strong&gt; - The year the player was drafted into the NFL&lt;br /&gt;
+🏈 &lt;strong&gt;From &lt;/strong&gt; - The year the player was drafted into the NFL&lt;br /&gt;
+🏈 &lt;strong&gt;To &lt;/strong&gt; - The most recent year played in the NFL&lt;/p&gt;
+&lt;p&gt;Below we’ll build two additional features that are central to any survival analysis: &lt;strong&gt;Time&lt;/strong&gt; and &lt;strong&gt;Status&lt;/strong&gt;. Our time variable – &lt;em&gt;yrs_in_nfl&lt;/em&gt; – indicates how many seasons the player has participated in at least one regular season game. Status indicates if the player is still playing in the NFL; that is, if they have participated in at least one game during the 2018 regular season. For example, Johnny Manziel played two years for the Cleveland Browns and then left to play in the Canadian Football league at the end of the 2015 season. Thus, his status is &lt;strong&gt;1&lt;/strong&gt;, indicating he did not survive until the 2018 season and is no longer active. In contrast, Blake Bortles is still playing in the NFL, so his status is a &lt;strong&gt;0&lt;/strong&gt;, indicating that the event in question – retirement – has not yet happened. Let’s create these two features and revisit our 2014 quarterback cohort.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;input_df = input_df %&amp;gt;% 
+  mutate(yrs_in_nfl = (to - from) + 1) %&amp;gt;% 
+  mutate(yrs_in_nfl = ifelse(is.na(from) &amp;amp; is.na(to), 0, yrs_in_nfl)) %&amp;gt;% 
+  mutate(status = ifelse(to == 2018, 0, 1)) %&amp;gt;% 
+  mutate(status = ifelse(is.na(status), 1, status)) %&amp;gt;% 
+  select(player:draft_year, yrs_in_nfl, status)&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+player
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+position
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+draft_rnd
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+pick_nbr
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+draft_year
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+yrs_in_nfl
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+status
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Blake Bortles
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Johnny Manziel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+22
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Teddy Bridgewater
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Derek Carr
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+36
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Jimmy Garoppolo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+62
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Logan Thomas
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+120
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Tom Savage
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+135
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Aaron Murray
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+163
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+A.J. McCarron
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+164
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Zach Mettenberger
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+178
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+David Fales
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+183
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Keith Wenning
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+194
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Tajh Boyd
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+213
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Garrett Gilbert
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+QB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+214
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2014
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Great! Our data is now formatted and we are ready for some survival analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;stayin-alive&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Stayin’ Alive&lt;/h3&gt;
+&lt;p&gt;Let’s start with a simple question: What is the relationship between Draft Round and the number of years played in the NFL? We’ll address this question with a simple yet powerful technique – the &lt;strong&gt;Kaplan Meier Estimator&lt;/strong&gt; (KM for short). KM estimates the probability of surviving up to a certain point in time and not experiencing the event at that time. In this case, let’s compare the survival rates for players drafted in the 1st Round relative to those drafted in the 7th Round.Better players are typically drafted earlier on, so we’d expect 1st Rounders to have longer careers than 7th Rounders.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;draft_surv = input_df %&amp;gt;% 
+  filter(draft_rnd %in% c(1, 7))
+
+draft_fit = survfit(Surv(yrs_in_nfl, status) ~ draft_rnd, data = draft_surv)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below we’ll compare the survival curves of our draft cohorts to see how they differ.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;draft_rnd_surv = ggsurvplot(draft_fit,
+                            pval = TRUE,
+                            conf.int = TRUE,
+                            linetype = &amp;quot;strata&amp;quot;,
+                            fun = &amp;quot;pct&amp;quot;,
+                            surv.median.line = &amp;quot;hv&amp;quot;,
+                            ggtheme = theme_bw(),
+                            break.time.by = 1,
+                            xlab = &amp;quot;Time in Years&amp;quot;,
+                            ylab = &amp;#39;Survival Probability (%)&amp;#39;,
+                            legend.labs = c(&amp;#39;Round 1&amp;#39;, &amp;#39;Round 7&amp;#39;),
+                            font.x =  16,
+                            font.y = 16,
+                            font.tickslab = 14
+                )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/surviving_the_nfl_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;As expected, players drafted in Round 1 have a higher chance of surviving across all time points. The dotted line indicates the median survival time for both groups and can be interpreted as follows: 50% of 1st Round picks are expected to be playing in the NFL after 9 years, while 50% of 7th Round picks will be around after 2 years. Note the p-value associated with the above plot. This is the produced by the &lt;em&gt;logrank test&lt;/em&gt;, which determines if there is a difference between our cohorts (Round 1 vs. Round 7) in the probability of retiring at any point in time. Thus, if you happen to be a 7th round pick, I’d suggest enrolling in some Coursera courses in your spare time during the offseason (just in case).&lt;/p&gt;
+&lt;p&gt;While KM is a great place to start due to its interpretability, one of its major shortcomings is the ability to handle continuous inputs. For example, Draft Round is categorical, in that it treats all picks within a round as the same. We lose lots of information by representing Draft Pick in this way, because the 1st pick in Round 1 is not the same as the 32nd pick in Round 1. Likewise, The 33rd pick (i.e, the 1st pick of Round 2) is similar to the 32nd pick in Round 1, yet they are treated differently if we model based on Draft Round. Thus, we need a different approach to model both continuous (i.e., Pick Number) and categorical (i.e., Player Position) inputs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cox-proportional-hazard-model&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Cox Proportional Hazard Model&lt;/h3&gt;
+&lt;p&gt;When including more than a single factor or continuous input, survival times can be estimated via the &lt;em&gt;Cox-Proportional Hazard Regression Model (CPH)&lt;/em&gt;. The hazard function estimates the probability that if a person survives to Time (t), they will experience the event in the next time period. For example, if a 22nd pick QB has just completed their 6th season, what is probability they will retire for the 7th season?&lt;/p&gt;
+&lt;p&gt;While &lt;em&gt;CPH&lt;/em&gt; has been successfully applied in a variety of domains, it also has some limitations – namely the assumption of &lt;em&gt;proportionality of hazards&lt;/em&gt;. This means that the hazard function for different levels of an input are proportional across all time values. In Football-speak, this means that if RBs have twice the risk of retiring compared to QBs after two seasons, then they should also have twice the risk of retiring after four seasons, six season, ten seasons, etc.&lt;/p&gt;
+&lt;p&gt;A simple way to verify this assumption is to plot the survival curves for a factor and then look at whether they remain parallel across time. If they cross over, there’s a good chance that this assumption has been violated. Let’s check below for our Position variable, which models the survival rate of QBs, RB, and WRs.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/surviving_the_nfl_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;It’s apparent that risk is not proportional across time. Near the beginning of their career (i.e., 0 - 2 years), QBs have a lower survival rate relative to RB/WRs. However, long-term survival (&amp;gt; 5 years) is higher amongst QBs. In fact, there are not BRs in our sample that have played beyond 14 years (Frank Gore has played 14), while ~12% of QBs have played beyond this time frame, such as Tom Brady, Drew Brees, or Peyton Manning. This makes intuitive sense – if you are a good enough quarterback to play in the NFL for a few years, you’ll likely stick around for a while, assuming you don’t get injured. However, even the best RBs/WRs take a beating across their careers, which shortens their overall NFL lifespan. It is also the reason why RBs/WRs remain in the NFL at higher rates relative to QBs for the short-term (&amp;lt; 4 years), as replacements for these positions are the norm within the regular season due to their high injury rate.&lt;/p&gt;
+&lt;p&gt;While the comparison of survival curves (and whether they cross) is a decent heuristic, we can use a more formal approach – the &lt;em&gt;Schoenfeld Residuals Test&lt;/em&gt; – to confirm our initial observation. This test determines if there is independence between the scaled residuals (actual - observed) and time. If the slope is different from zero, then the proportional hazard assumption is not satisfied (i.e., relative risk is not constant over time).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/surviving_the_nfl_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;A trend is present in the residuals of each of our predictors, which means the proportional hazard assumption does not hold up. Let’s focus on the top panel, labeled &lt;strong&gt;Beta(t) for positionRB&lt;/strong&gt; to unpack what this plot reveals. The model’s reference category is QBs, so we are comparing the hazard rate of RBs relative to QBs over time. Note how the trend line is below zero for lower values of Time and then gradually trends upward. This means that survival is dependent upon time, and in this case the hazard ratio is increasing over time for RBs relative to QBs – an observation that we made in the previous survival plot.&lt;/p&gt;
+&lt;p&gt;There are several ways to change our approach in order to accommodate this assumption. First, we can create strata for each position and model them seperately. However, this only works for categorical variables with a few factors. What about our Pick Number variable, which has 256 unique values? Second, we could create time-by-input interactions that capture the time-dependent nature of our inputs, or we could reduce the estimation period to only a few years. This requires additional parameters or limits the horizon across which we can create estimates – both of which aren’t great.&lt;/p&gt;
+&lt;p&gt;The other approach is to simply use a model that does not make these assumptions. Indeed, Random Survival Forests (RSF) have shown promise as an alternative to CPH and KM without any of the modeling limitations or strong assumptions. Additionally, RSF can automatically capture interactions between variables without having to be explicitly modeled. For this reason, we’ll build our final model via RSF, which is outlined in greater detail in the next section.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;random-survival-forest-predicting-survival-rates&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Random Survival Forest &amp;amp; Predicting Survival Rates&lt;/h3&gt;
+&lt;p&gt;The Random Forest algorithm needs no introduction – it’s one of the most popular approaches in machine learning thanks to its ease of use and powerful predictive properties. Some of have even referred to as the “Honda Civic” of algorithms due to its low maintenance yet reliable performance. The great news is that it can be extended to the domain of survival analysis. Contrary to the &lt;em&gt;CPH&lt;/em&gt; model, RSF does not assume proportional hazards, automatically detects interactions (e.g., non-linear effects), and even provides a ranking of variable importance.&lt;/p&gt;
+&lt;p&gt;Now that we’ve settled on a modeling framwork, let’s discuss what it means to predict survival rates with a short thought-experiment. Imagine you are a statistically savvy agent for new NFL players. A service you offer to your clients is advice on how long they will remain in the NFL, which allows for better financial and career planning. Your goal is to provide a personalized estimate for each player based on their 5-year survival rate. Accordingly, you decide to use all data prior to 2013 to train your model and then test its accuracy on all players drafted since 2013. This will provide an idea of how predictable survival rates are for individual players.&lt;/p&gt;
+&lt;p&gt;So how do we determine “accuracy”, “goodness-of-fit” or “performance” for survival analysis? One way is to set a time horizon (e.g., 5 years) and extract all predicted survival probabilities for that time horizon. Then we compare the estimates for each individual to their actual status (0, 1). An ROC curve will tell us how well our model performs relative to simply guessing.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt; # we are predicting survival rates 5 years into the future
+time_horizon = 5
+
+train_df = input_df %&amp;gt;% 
+  filter(draft_year &amp;lt; 2013)
+
+test_df = input_df %&amp;gt;% 
+  filter(draft_year &amp;gt;= 2013) %&amp;gt;% 
+  mutate(retired = ifelse(status == 0 &amp;amp; yrs_in_nfl &amp;lt;= time_horizon, 0, 1))
+
+rf_fit = ranger(Surv(yrs_in_nfl, status) ~ pick_nbr + position, 
+                data = train_df,
+                seed = 1234,
+                importance = &amp;#39;permutation&amp;#39;,
+                verbose = TRUE,
+                min.node.size = 30
+                )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ve fit our model. Let’s predict the survival rates for the 325 players in our test set and then build an ROC curve to assess our model’s performance at the 5-year time horizon.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# make predictions against the test set
+surv_pred = predict(rf_fit, test_df)
+
+# extract the survival probabilities at the 5 year horizon
+surv_prob = surv_pred$survival[,which(surv_pred$unique.death.times == time_horizon)]
+
+# compare the predicted probabilities against the actual outcomes
+roc_results = smooth(roc(response=test_df$retired, 
+                         predictor= surv_prob)
+                     )
+auc = round(roc_results$auc, 2)
+
+data.frame(Sensitivity = roc_results$sensitivities,
+           Specificity = roc_results$specificities) %&amp;gt;% 
+  ggplot(aes(x = 1 - Specificity, y = Sensitivity)) + 
+  geom_point(size = 2) + 
+  geom_line(size = 2) + 
+  geom_abline(intercept = 0, slope = 1, size = 2, color = &amp;#39;red&amp;#39;) + 
+  xlab(&amp;#39;False Positive Rate (1 - Specificity)&amp;#39;) + 
+  ylab(&amp;#39;True Positive Rate (Sensitivity)&amp;#39;) + 
+  annotate(&amp;#39;text&amp;#39;,
+           x = 0.1, 
+           y = 0.9,
+           size = 8,
+           label = glue::glue(&amp;#39;AUC = {auc}&amp;#39;)
+           ) + 
+  theme_bw() + 
+  my_plot_theme() &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/surviving_the_nfl_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Our AUC isn’t too shabby at 0.71, and we can predict survival at better than chance levels. Assuming this is an acceptable level of performance, we are now ready to roll out our model to all new players. Let’s say it’s the day after the 2018 draft and you are representing the following rookies:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Quarterback drafted 5th&lt;/li&gt;
+&lt;li&gt;Running back drafted 25th&lt;/li&gt;
+&lt;li&gt;Wide Receiver drafted 200th&lt;/li&gt;
+&lt;li&gt;Quarterback drafted 240th&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We’ll re-fit our model using the entire dataset prior to 2018, make survival predictions for each player, and then plot the probabilities across a 5-year time span.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;new_players = data.frame(position = c(&amp;#39;QB&amp;#39;, &amp;#39;RB&amp;#39;, &amp;#39;WR&amp;#39;, &amp;#39;QB&amp;#39;),
+                         pick_nbr = c(5, 50, 200, 240)
+                         )
+                         
+rf_future = ranger(Surv(yrs_in_nfl, status) ~ pick_nbr + position, 
+                data = input_df,
+                seed = 1234,
+                importance = &amp;#39;permutation&amp;#39;,
+                mtry = 2,
+                verbose = TRUE,
+                min.node.size = 30
+                )
+
+predicted_surv = predict(rf_future, data = new_players)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;predicted_surv$survival %&amp;gt;% 
+  data.frame() %&amp;gt;% 
+  mutate(player = paste(new_players$position, 
+                        new_players$pick_nbr)) %&amp;gt;% 
+  melt(id = &amp;#39;player&amp;#39;) %&amp;gt;% 
+  mutate(variable = as.numeric(variable)) %&amp;gt;% 
+  rename(year = variable,
+         surv_prob = value) %&amp;gt;% 
+  filter(year &amp;lt;= 5) %&amp;gt;% 
+  ggplot(aes(x = year, y = surv_prob, color = player)) + 
+  geom_point(size = 2) + 
+  geom_line() + 
+  scale_x_continuous(breaks = 1:5) + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme_bw() + 
+  my_plot_theme() + 
+  ylab(&amp;quot;Survival Probability&amp;quot;) + 
+  xlab(&amp;quot;Time in Years&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/surviving_the_nfl_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Neato! Look at all those cool lines, unless you are the QB drafted with pick 240. That guy is more likely to be working at a desk job (which are great, too) after one year than playing in the NFL. QB 5, in contrast, can finally splurge on that Jet Ski, because there is a good chance he’ll still be around after five years, collecting that sweet NFL-QB salary.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://media.giphy.com/media/aiE3JQU3vLqTK/giphy.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;That’s it! Hopefully you enjoyed this post. Feel free to reach out with questions or comments!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;appendix&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Appendix&lt;/h3&gt;
+&lt;p&gt;Below is the code used to scrape the draft and career length data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url_prefix_pg1 = &amp;#39;https://www.pro-football-reference.com/play-index/draft-finder.cgi?request=1&amp;amp;year_min=1936&amp;amp;year_max=2018&amp;amp;type=&amp;amp;round_min=1&amp;amp;round_max=30&amp;amp;slot_min=1&amp;amp;slot_max=500&amp;amp;league_id=&amp;amp;team_id=&amp;amp;pos[]=&amp;#39;
+
+url_suffix_pg1 = &amp;#39;&amp;amp;college_id=all&amp;amp;conference=any&amp;amp;show=all&amp;#39;
+
+url_prefix_pg2 = &amp;#39;https://www.pro-football-reference.com/play-index/draft-finder.cgi?request=1&amp;amp;year_min=1936&amp;amp;year_max=2018&amp;amp;type=&amp;amp;round_min=1&amp;amp;round_max=30&amp;amp;slot_min=1&amp;amp;slot_max=500&amp;amp;league_id=&amp;amp;team_id=&amp;amp;pos%5B%5D=&amp;#39;
+
+url_suffix_pg2 = &amp;#39;&amp;amp;college_id=all&amp;amp;conference=any&amp;amp;show=all&amp;amp;offset=300&amp;#39;
+
+positions = c(&amp;#39;RB&amp;#39;, &amp;#39;WR&amp;#39;, &amp;#39;QB&amp;#39;)
+
+urls_pg1 = paste0(url_prefix_pg1, positions, url_suffix_pg1)
+urls_pg2 = paste0(url_prefix_pg2, positions, url_suffix_pg2)
+urls = c(urls_pg1, urls_pg2)
+
+scrape_tbl = function(url, table_xpath){
+  html_table = url %&amp;gt;% 
+    xml2::read_html() %&amp;gt;% 
+    rvest::html_nodes(xpath = table_xpath) %&amp;gt;% 
+    rvest::html_table(header = TRUE) %&amp;gt;% 
+    .[[1]] %&amp;gt;% 
+    data.frame()
+  return(html_table)
+}
+
+table_xpath = &amp;#39;//*[@id=&amp;quot;results&amp;quot;]&amp;#39;
+draft_table = data.frame(NULL)
+for(url in urls){
+  tmp_table = scrape_tbl(url, table_xpath)
+  names(tmp_table) = unname(tmp_table[1,])
+  tmp_table = tmp_table[2:nrow(tmp_table),]
+  draft_table = bind_rows(draft_table,
+                          tmp_table)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>College Rankings and Pay</title>
       <link>/post/college_rankings_salary.html</link>
       <pubDate>Tue, 11 Sep 2018 21:13:14 -0500</pubDate>
@@ -656,16 +1614,16 @@ col_df = data.frame(col_table[[1]])[,c(1, 3)] %&amp;gt;%
 
 print(head(col_df, 10))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##                      state col_index
-## 1                   Hawaii     186.3
-## 2  District of    Columbia     161.8
-## 3               California     141.0
-## 4                 New York     133.9
-## 5                   Alaska     130.9
-## 6                 Maryland     130.4
-## 7                   Oregon     130.0
-## 8            Massachusetts     127.6
-## 9              Connecticut     127.1
-## 10            Rhode Island     122.2&lt;/code&gt;&lt;/pre&gt;
+## 1                   Hawaii     188.9
+## 2  District of    Columbia     161.0
+## 3               California     137.2
+## 4                 New York     134.0
+## 5              Connecticut     133.0
+## 6                   Alaska     130.5
+## 7                   Oregon     129.4
+## 8                 Maryland     129.3
+## 9            Massachusetts     129.2
+## 10              New Jersey     122.3&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Having lived on the West Coast for the past three years, these numbers check out! The next step is to confirm that we can join our Cost of Living data with college salaries. A simple &lt;code&gt;left join&lt;/code&gt; will identify any inconsistencies between our key (state) that are we using to merge our datasets.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;college_salary_df %&amp;gt;% 
   select(state) %&amp;gt;% 
@@ -754,7 +1712,7 @@ Harvard University
 140700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -780,7 +1738,7 @@ Stanford University
 140400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -806,7 +1764,7 @@ Yale University
 132100
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.1
+133.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -832,7 +1790,7 @@ Princeton University
 147800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-118.4
+122.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -858,7 +1816,7 @@ Massachusetts Institute of Technology
 147000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -884,7 +1842,7 @@ California Institute of Technology
 142500
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -910,7 +1868,7 @@ University of Pennsylvania
 134800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -936,7 +1894,7 @@ Duke University
 134400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-93.9
+94.5
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -962,7 +1920,7 @@ Brown University
 132000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-122.2
+120.8
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -988,7 +1946,7 @@ Pomona College
 114100
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1014,7 +1972,7 @@ Claremont McKenna College
 130800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1040,7 +1998,7 @@ Dartmouth College
 140300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-112.0
+106.6
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1066,7 +2024,7 @@ Williams College
 138400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1092,7 +2050,7 @@ Columbia University in the City of New York
 124700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1118,7 +2076,7 @@ Cornell University
 123900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1144,7 +2102,7 @@ University of Chicago
 117000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-96.7
+95.7
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1170,7 +2128,7 @@ Amherst College
 122800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1196,7 +2154,7 @@ Harvey Mudd College
 155800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1222,7 +2180,7 @@ Swarthmore College
 126200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1248,7 +2206,7 @@ United States Naval Academy
 143800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-130.4
+129.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1274,7 +2232,7 @@ Georgetown University
 129500
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-161.8
+161.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1300,7 +2258,7 @@ Rice University
 130200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-91.3
+91.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1326,7 +2284,7 @@ Bowdoin College
 115500
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-116.3
+115.9
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1352,7 +2310,7 @@ United States Military Academy
 144300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1378,7 +2336,7 @@ Haverford College
 119500
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1404,7 +2362,7 @@ University of Notre Dame
 127900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-91.5
+90.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1456,7 +2414,7 @@ Northwestern University
 113300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-96.7
+95.7
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1482,7 +2440,7 @@ University of California-Berkeley
 130100
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1508,7 +2466,7 @@ Johns Hopkins University
 112200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-130.4
+129.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1534,7 +2492,7 @@ Washington and Lee University
 131700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-102.1
+101.1
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1560,7 +2518,7 @@ Tufts University
 120200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1586,7 +2544,7 @@ Wesleyan University
 117700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.1
+133.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1612,7 +2570,7 @@ Davidson College
 111400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-93.9
+94.5
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1638,7 +2596,7 @@ Bates College
 125000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-116.3
+115.9
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1664,7 +2622,7 @@ Washington University in St Louis
 113400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-88.9
+88.6
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1690,7 +2648,7 @@ Carleton College
 113800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-100.2
+103.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1716,7 +2674,7 @@ University of Michigan-Ann Arbor
 104600
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-88.7
+90.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1742,7 +2700,7 @@ Middlebury College
 113200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-117.4
+117.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1768,7 +2726,7 @@ University of Virginia-Main Campus
 118400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-102.1
+101.1
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1794,7 +2752,7 @@ United States Air Force Academy
 138300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-103.9
+107.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1820,7 +2778,7 @@ Colgate University
 137700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1846,7 +2804,7 @@ Scripps College
 96700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1872,7 +2830,7 @@ University of Southern California
 119300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1898,7 +2856,7 @@ Carnegie Mellon University
 126400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1924,7 +2882,7 @@ Wellesley College
 100900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1950,7 +2908,7 @@ University of California-Los Angeles
 114800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1976,7 +2934,7 @@ Boston College
 115300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2002,7 +2960,7 @@ Vassar College
 98900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2028,7 +2986,7 @@ United States Merchant Marine Academy
 135900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2054,7 +3012,7 @@ New York University
 117000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2080,7 +3038,7 @@ Oberlin College
 107600
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-92.7
+93.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2106,7 +3064,7 @@ Barnard College
 103700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2132,7 +3090,7 @@ Bucknell University
 124700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2158,7 +3116,7 @@ Lafayette College
 123800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2184,7 +3142,7 @@ Grinnell College
 96200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-91.9
+91.5
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2210,7 +3168,7 @@ College of William and Mary
 111900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-102.1
+101.1
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2236,7 +3194,7 @@ Pitzer College
 91100
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2262,7 +3220,7 @@ Wake Forest University
 118400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-93.9
+94.5
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2288,7 +3246,7 @@ Colby College
 104200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-116.3
+115.9
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2314,7 +3272,7 @@ Cooper Union for the Advancement of Science and Art
 124200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2340,7 +3298,7 @@ Kenyon College
 110400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-92.7
+93.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2366,7 +3324,7 @@ Santa Clara University
 134500
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2392,7 +3350,7 @@ Hamilton College
 107000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2418,7 +3376,7 @@ Emory University
 109800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-90.8
+91.6
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2444,7 +3402,7 @@ Lehigh University
 133900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2470,7 +3428,7 @@ University of North Carolina at Chapel Hill
 96000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-93.9
+94.5
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2496,7 +3454,7 @@ University of Illinois at Urbana-Champaign
 109600
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-96.7
+95.7
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2522,7 +3480,7 @@ Reed College
 103900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-130.0
+129.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2548,7 +3506,7 @@ Smith College
 98400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2574,7 +3532,7 @@ University of Maryland-College Park
 107100
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-130.4
+129.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2600,7 +3558,7 @@ Villanova University
 114700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2626,7 +3584,7 @@ Babson College
 141700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2652,7 +3610,7 @@ Yeshiva University
 122300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2678,7 +3636,7 @@ Colorado College
 97000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-103.9
+107.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2704,7 +3662,7 @@ Occidental College
 107700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2730,7 +3688,7 @@ Whitman College
 107700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-108.3
+109.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2756,7 +3714,7 @@ University of Washington-Seattle Campus
 108800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-108.3
+109.3
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2782,7 +3740,7 @@ University of Florida
 97800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-98.9
+99.1
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2808,7 +3766,7 @@ Georgia Institute of Technology-Main Campus
 128700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-90.8
+91.6
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2834,7 +3792,7 @@ University of Richmond
 106600
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-102.1
+101.1
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2860,7 +3818,7 @@ University of California-Santa Barbara
 118800
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2886,7 +3844,7 @@ Trinity College
 108700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.1
+133.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2912,7 +3870,7 @@ University of Rochester
 107400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2938,7 +3896,7 @@ Boston University
 113500
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2964,7 +3922,7 @@ University of Wisconsin-Madison
 98400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-96.3
+96.8
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2990,7 +3948,7 @@ George Washington University
 115900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-161.8
+161.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3016,7 +3974,7 @@ College of the Holy Cross
 119700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3042,7 +4000,7 @@ Trinity University
 101600
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-91.3
+91.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3068,7 +4026,7 @@ The University of Texas at Austin
 107400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-91.3
+91.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3094,7 +4052,7 @@ Franklin and Marshall College
 112400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3120,7 +4078,7 @@ University of California-San Diego
 124900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-141.0
+137.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3146,7 +4104,7 @@ Skidmore College
 97300
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-133.9
+134.0
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3172,7 +4130,7 @@ Bryn Mawr College
 89900
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-101.2
+98.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3198,7 +4156,7 @@ Furman University
 104000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-98.3
+97.8
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3224,7 +4182,7 @@ University of Miami
 92400
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-98.9
+99.1
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3250,7 +4208,7 @@ Southern Methodist University
 108500
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-91.3
+91.4
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3276,7 +4234,7 @@ Brandeis University
 114200
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-127.6
+129.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3302,7 +4260,7 @@ Macalester College
 97700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-100.2
+103.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3328,7 +4286,7 @@ St Olaf College
 98700
 &lt;/td&gt;
 &lt;td style=&#34;text-align:center;&#34;&gt;
-100.2
+103.2
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -14337,817 +15295,6 @@ print(paste0(&amp;quot;PERCENT OF STOCKS CORRECTLY CLASSIFIED: &amp;quot;,classi
 &lt;/ul&gt;
 &lt;p&gt;Indeed, that last point is crucial. There are some things in life that are really hard to predict, as the number of factors that influence the thing we are trying to predict are too great. This is one advantage of using a non-parametric approach, in that you don’t have to quantify each of the factors with a parameter – you just let the data decide. However, the assumption that past patterns and relationships will persist in the future still holds. In our case, if the patterns that precede a positive trend in the past are different than those in the future, then you can’t use historical data (like we did here) as a basis for predictions. This assumption is hotly contested in the world of economics when it comes to predicting stocks. Some believe there are cyclical patterns that precede a downward or upward trend in price, while others believe that the stock market is simply a random walk – it cannot be predicted. Any forward-looking knowledge about where a stock might go is already baked into its current price. I don’t have the answer; if I did, I’d start a hedge fund, make lots of money, then buy my own soft-serve ice cream machine. I’m pretty sure that’s what we’d all do.&lt;/p&gt;
 &lt;p&gt;Although the method outlined here didn’t perform well in predicting stocks, similar methods have shown promise detecting trends in other areas, such as social media (see &lt;a href=&#34;https://snikolov.wordpress.com/2012/11/14/early-detection-of-twitter-trends/&#34;&gt;here&lt;/a&gt;). I hope you enjoyed reading this post. If you have any suggestions for alternate approaches to trend detection, I’d love to hear!&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Is that Home Price Negotiable?</title>
-      <link>/post/is_that_home_price_negotiable.html</link>
-      <pubDate>Sun, 14 May 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/post/is_that_home_price_negotiable.html</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;prediction_interval_images/big_house.png&#34; width=&#34;800px&#34; height=&#34;800px&#34; /&gt;&lt;/p&gt;
-&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;Buying a home is a big decision, and negotiating the final sales price is a central part of that decision. If your offer is too low, it might be ignored. If it is too high, you end up spending more than required. Obviously, both these scenarios should be avoided, so how do you know if there is room to negotiate? One way is to not only estimate the expected price of a potential home relative to the asking price but also to quantify the certainty surrounding that estimate. Popular real-estate websites, such as &lt;a href=&#34;www.redfin.com&#34;&gt;Redfin&lt;/a&gt; or &lt;a href=&#34;www.zillow.com&#34;&gt;Zillow&lt;/a&gt;, provide the first part of this equation but do not provide any indication as to the certainty surrounding their estimate of a home’s value. A negotiable price would have the following two characteristics:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;An estimated value below the asking price&lt;/li&gt;
-&lt;li&gt;A high level of confidence in the accuracy of the estimated value&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;In this post, I’ll cover how to generate insights on both fronts using the Boston Housing Dataset. However, before diving into the code, let’s briefly review some key concepts.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;confidence-prediction-intervals&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Confidence &amp;amp; Prediction Intervals&lt;/h3&gt;
-&lt;p&gt;These two terms are often used interchangeably but they are quite different. In this case, we want to estimate a home’s sales price as a function of how many rooms are in the house. Confidence intervals capture uncertainty around a parameter estimate (e.g., the average increase in price for each additional room). If we were to repeatedly take samples of houses, measure their sales price and number of rooms, and calculate a different regression equation for each sample, then 95% of the confidence intervals generated from each regression should contain the true parameter (i.e., the increase in a home’s value resulting from each additional room).&lt;/p&gt;
-&lt;p&gt;Prediction intervals take the uncertainty of parameter estimates into account as well. But they also consider the uncertainty around trying to predict the value of an unseen, single observation (variability of individual observations around the parameter). Therefore, prediction intervals are always wider than confidence intervals – because we are considering more sources of uncertainty. When purchasing a home, we aren’t particularly interested in the average price of all homes with, say, eight rooms. What we want to know is the price for that eight-room, English Tudor Revival home with the old Oak tree in the front yard and 1980s style Jacuzzi in the backyard that’s for sale up the street. To answer that question, you’ll need to use a prediction interval.&lt;/p&gt;
-&lt;p&gt;With these differences in mind, let’s see how prediction intervals are used in practice. Imagine you are buying a home. You have actual historical sales data associated with various features of a home, such as the number rooms or commute time to major employment centers. You have the same data for homes you want to purchase, but instead of a sales price, you have an asking price. To recreate this situation, we’ll do a 70-30 split to create our training and test sets, respectively, using the Boston Housing dataset. We’ll implement cross-validation on the training set to get an idea of how well our prediction interval methodology will perform on new, unseen data. Finally, we’ll identify all the homes where an offer below the listing price has a high chance of being accepted. Let’s get started and pull all the data we’ll need into R.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;libs = c(&amp;#39;randomForest&amp;#39;, &amp;#39;dplyr&amp;#39;, &amp;#39;data.table&amp;#39;, 
-         &amp;#39;knitr&amp;#39;, &amp;#39;ggplot2&amp;#39;, &amp;#39;kableExtra&amp;#39;,
-         &amp;#39;car&amp;#39;, &amp;#39;forcats&amp;#39;, &amp;#39;lazyeval&amp;#39;, 
-         &amp;#39;broom&amp;#39;, &amp;#39;VSURF&amp;#39;,&amp;#39;quantregForest&amp;#39;
-         )
-
-lapply(libs, require, character.only = TRUE)
-
-housing_data = fread(&amp;quot;https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data&amp;quot;,
-                      data.table = FALSE)
-
-names(housing_data) = c(&amp;#39;crim&amp;#39;, &amp;#39;zn&amp;#39;, &amp;#39;indus&amp;#39;,
-                       &amp;#39;chas&amp;#39;, &amp;#39;nox&amp;#39;, &amp;#39;rm&amp;#39;, &amp;#39;age&amp;#39;,
-                       &amp;#39;dis&amp;#39;, &amp;#39;rad&amp;#39;, &amp;#39;tax&amp;#39;, &amp;#39;ptratio&amp;#39;,
-                       &amp;#39;b&amp;#39;, &amp;#39;lstat&amp;#39;, &amp;#39;sales_price&amp;#39;)
-# covert outcome variable to 100K increments
-housing_data$sales_price = housing_data$sales_price * 10e3
-set.seed(123)
-pct_train = 0.70
-
-train_indices = sample.int(n = nrow(housing_data), 
-                           size = floor(pct_train * nrow(housing_data)), 
-                           replace = FALSE)
-
-train_df = housing_data[train_indices,]
-test_df = housing_data[-train_indices,] %&amp;gt;% 
-          dplyr::rename(asking_price = sales_price)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;As always, it’s a good idea to check out a few rows in the data.&lt;/p&gt;
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:410px; overflow-x: scroll; width:720px; &#34;&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:left;&#34;&gt;
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-crim
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-zn
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-indus
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-chas
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-nox
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-rm
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-age
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-dis
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-rad
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-tax
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-ptratio
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-b
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-lstat
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-sales_price
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-146
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2.37934
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-19.58
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.871
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.130
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-100.0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1.4191
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-403
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-14.7
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-172.91
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-27.80
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-138000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-399
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-38.35180
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-18.10
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.693
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5.453
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-100.0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1.4896
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-24
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-666
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-20.2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-396.90
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-30.59
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-50000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-207
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.22969
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-10.59
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.489
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.326
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-52.5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4.3549
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-277
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-18.6
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-394.87
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-10.97
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-244000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-445
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-12.80230
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-18.10
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.740
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5.854
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-96.6
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1.8956
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-24
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-666
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-20.2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-240.52
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-23.79
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-108000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-473
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.56868
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-18.10
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.580
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.437
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-75.0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2.8965
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-24
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-666
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-20.2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-393.37
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-14.36
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-232000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-23
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1.23247
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-8.14
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.538
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.142
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-91.7
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.9769
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-307
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-21.0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-396.90
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-18.72
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-152000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-265
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.55007
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-20
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.97
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.647
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-7.206
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-91.6
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1.9301
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-264
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-13.0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-387.89
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-8.10
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-365000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-446
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-10.67180
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-18.10
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.740
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.459
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-94.8
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1.9879
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-24
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-666
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-20.2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-43.06
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-23.98
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-118000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-275
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.05644
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-40
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.41
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.447
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.758
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-32.9
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4.0776
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-254
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-17.6
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-396.90
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.53
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-324000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-227
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.38214
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-6.20
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.504
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-8.040
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-86.5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.2157
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-8
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-307
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-17.4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-387.38
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.13
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-376000
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;Great success! Each of the fields represents some attribute of the home For example, &lt;code&gt;rm&lt;/code&gt; is the number of rooms in the house, and &lt;code&gt;crim&lt;/code&gt; is the per capita crime rate per town (see &lt;a href=&#34;https://www.cs.toronto.edu/~delve/data/boston/bostonDetail.html&#34;&gt;here&lt;/a&gt; for more detail). We are now ready to build a model, and the first step is to understand which features are essential to our prediction accuracy. We’ll leverage the &lt;code&gt;VSURF&lt;/code&gt; package, or &lt;em&gt;Variable Selection Using Random Forest&lt;/em&gt;, to do variable selection, ensuring that only features that matter enter into the model. This is achieved in a stepwise fashion, where the Out of Bag (OOB) errors are compared between models that include/exclude one variable. If a big reduction in the average OOB error occurs when a variable is included, then we assume that the variable is important.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
-vsurf_fit = VSURF(x = train_df[,1:13],
-            y = train_df[,14],
-            parallel = TRUE,
-            ncores = 8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The following four variables contributed significantly to the selling price of a home in Boston:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;lstat - % lower status of the population&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;rm - number of rooms&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;nox - nitric oxides concentration (not sure if this is good or bad)&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;dis - weighted distance to five Boston employment centers&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Let’s reduce our training set to only include these four features.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train_df = train_df[c(names(train_df)[vsurf_fit$varselect.pred],
-                       &amp;#39;sales_price&amp;#39;)]
-x_var = setdiff(names(train_df), &amp;#39;sales_price&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now that we have our new, slim data set, we’ll move on to the modeling part. In this case, we’ll use a technique called &lt;code&gt;Quantile Regression&lt;/code&gt; or QR. For those unfamiliar, QR works by differentially weighting errors during the model fitting process. It captures the relationship between our inputs and a specific quantile (i.e., percentile) of our output. For example, if the goal is to understand the relationship between X and Y at the 90th percentile of Y, 10% of the errors should be positive and 90% negative to minimize our loss function (e.g., MAE, MSE). This is especially useful for creating prediction intervals, while also providing a point estimate, in this case, the median (i.e., the 50th percentile). Additionally, it is agnostic to the statistical method being used; multiple regression is the most common form of quantile regression, but GBM, Random Forest, which is what will be used here, and even Neural Networks can be used to do QR.&lt;/p&gt;
-&lt;p&gt;With that in mind, let’s move on to the actual modeling part. First, we’ll determine how well we can explain a home’s sale price via the &lt;code&gt;Mean Absolute Error&lt;/code&gt; (MAE). Second, we’ll validate our prediction intervals. An 80% prediction interval will be used, so at least 80% of observations should fall within the bounds of an interval – a metric referred to as &lt;code&gt;coverage&lt;/code&gt; or &lt;code&gt;tolerance&lt;/code&gt;. We’ll test both metrics via 5-fold cross-validation.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
-# add row index
-train_df$row_index = 1:nrow(train_df)
-# shuffle rows to randomized input order
-train_df = train_df[sample(nrow(train_df)),]
-# specify N folds
-n_fold = 5
-start_index = 1
-end_index = floor(nrow(train_df)/n_fold)
-increment = end_index
-cv_df = data.frame(NULL)
-for(i in 1:n_fold){
-  temp_train_df = train_df %&amp;gt;% 
-                  filter(!(row_index %in% start_index:end_index)) %&amp;gt;% 
-                  select(-row_index)
-  
-  temp_validation_df = train_df %&amp;gt;% 
-                  filter(row_index %in% start_index:end_index) %&amp;gt;% 
-                  select(-row_index)
-  
-  cv_pred = tidy(
-                  predict(quantregForest(x = temp_train_df[,1:(dim(temp_train_df)[2] - 1)],
-                                         y = temp_train_df[,dim(temp_train_df)[2]],
-                                         ntree = 500
-                                        ),
-                          temp_validation_df,
-                          what = c(0.1, 0.5, 0.9)
-                          )
-                  ) %&amp;gt;% 
-             mutate(sales_price = temp_validation_df$sales_price) %&amp;gt;% 
-             rename(lwr = quantile..0.1,
-                    upr = quantile..0.9,
-                    predicted_price = quantile..0.5
-                    ) %&amp;gt;% 
-             mutate(residual = sales_price - predicted_price,
-                    coverage = ifelse(sales_price &amp;gt; lwr &amp;amp; sales_price &amp;lt; upr, 1, 0)
-                    )
-  cv_df = bind_rows(cv_df,
-                    data.frame(mean_abs_err = mean(abs(cv_pred$residual)),
-                               coverage = sum(cv_pred$coverage)/nrow(cv_pred) * 100,
-                               fold = i
-                              )
-                    )
-  start_index = end_index
-  end_index = end_index + increment
-  if(end_index &amp;gt; nrow(train_df)){
-    break
-  }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:310px; overflow-x: scroll; width:720px; &#34;&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-mean_abs_err
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-coverage
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-fold
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-21192.86
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-87.14286
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-28345.07
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-84.50704
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-25563.38
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-83.09859
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-23119.72
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-90.14085
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-25654.93
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-81.69014
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;Overall the model and prediction intervals performed well, at least well enough to the point where I’d feel comfortable negotiating based on the output. Let’s put our new-found knowledge to work! First, to make this example more realistic, we’ll apply a few constraints. For example, I want a house with at least six rooms, within an average distance of four miles to all major working areas (because sitting in traffic is no fun), and I don’t want to spend any more than 300K. Let’s filter the test data set to only include homes that meet these criteria.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rm_threshold = 6
-dis_threshold = 4
-price_threshold = 300000
-test_df = test_df %&amp;gt;% 
-          select(c(x_var, &amp;#39;asking_price&amp;#39;)) %&amp;gt;% 
-          filter(rm &amp;gt;= rm_threshold &amp;amp; 
-                 dis &amp;lt;= dis_threshold &amp;amp;
-                 asking_price &amp;lt;= price_threshold 
-                   )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;A total of 48 homes remain. Of these homes, which could we negotiate the sale price? Let’s examine the output from our final model and visualize where the opportunities exist.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;qrf_fit = quantregForest(x=train_df[,1:4], 
-                         y = train_df[,5], 
-                         ntree = 1000)
-
-qrf_quantile = predict(qrf_fit, 
-                        test_df, 
-                        what=c(0.1, 0.5, 0.9)) %&amp;gt;% 
-                data.frame() %&amp;gt;% 
-                rename(predicted_price = quantile..0.5,
-                       lwr = quantile..0.1,
-                       upr = quantile..0.9) %&amp;gt;% 
-                mutate(asking_price = test_df$asking_price) %&amp;gt;% 
-                mutate(coverage = ifelse(asking_price &amp;lt;= upr &amp;amp; asking_price &amp;gt;= lwr, 
-                                         1, 
-                                         0),
-                       `PI Range` = upr - lwr,
-                       residual = asking_price - predicted_price
-                       ) %&amp;gt;% 
-                mutate(Opportunity = ifelse(residual &amp;lt; 0, 
-                                            &amp;quot;underpriced&amp;quot;, 
-                                            &amp;quot;overpriced&amp;quot;)) %&amp;gt;% 
-                filter(`PI Range` &amp;lt;= 90000)
-
-
-qrf_plot_input = qrf_quantile %&amp;gt;% 
-  mutate(asking_price = asking_price/1e3,
-         predicted_price = predicted_price/1e3,
-         `PI Range` = `PI Range`/1e3,
-         lwr = lwr/1e3,
-         upr = upr/1e3
-         )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# custom plotting theme
-my_plot_theme = function(){
-    font_family = &amp;quot;Helvetica&amp;quot;
-    font_face = &amp;quot;bold&amp;quot;
-    return(theme(
-    axis.text.x = element_text(size = 18, face = font_face, family = font_family),
-    axis.text.y = element_text(size = 18, face = font_face, family = font_family),
-    axis.title.x = element_text(size = 20, face = font_face, family = font_family),
-    axis.title.y = element_text(size = 20, face = font_face, family = font_family),
-    strip.text.y = element_text(size = 18, face = font_face, family = font_family),
-    plot.title = element_text(size = 18, face = font_face, family = font_family),
-    legend.position = &amp;quot;top&amp;quot;,
-    legend.title = element_text(size = 16,
-    face = font_face,
-    family = font_family),
-    legend.text = element_text(size = 14,
-    face = font_face,
-    family = font_family)
-))
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(qrf_plot_input, aes(x = asking_price, 
-                          y = predicted_price, 
-                          color = Opportunity)) + 
-  theme_bw() + 
-  geom_point(aes(size = `PI Range`)) + 
-  geom_errorbar(aes(ymin = lwr, ymax = upr)) + 
-  geom_abline(intercept = 0, slope = 1, 
-              color = &amp;quot;black&amp;quot;, size = 2, 
-              linetype = &amp;quot;solid&amp;quot;,
-              alpha = 0.5
-              ) + 
-  xlab(&amp;quot;Asking Price (K)&amp;quot;) + ylab(&amp;quot;Predicted Price (K)&amp;quot;) + 
-  my_plot_theme() +  
-  xlim(0, price_threshold/1e3 + 30) + ylim(0, price_threshold/1e3 + 30) + 
-  annotate(&amp;quot;segment&amp;quot;, 
-           x = 260, 
-           xend = 285, 
-           y = 200, 
-           yend = 228, 
-           colour = &amp;quot;black&amp;quot;, 
-           size = 2, 
-           arrow = arrow(),
-           alpha = 0.6
-           )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/is_that_home_price_negotiable_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Each point represents a home. All points below the diagonal line are overpriced homes (i.e., the asking price is above the predicted price), while those above the diagonal line are underpriced. Each of the points is sized according to the width of its prediction interval, such that smaller points have narrower intervals. The arrow identifies a potential home that we should feel comfortable negotiating on price because it not only is overpriced but also has a relatively narrow prediction interval. When both features are present, making an offer for less than the asking price should result in an acceptance more frequently than the points above of the line or those with wider prediction intervals. This is information we can use to decide when to make a purchase, continue negotiating, or simply walk away from the house.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;concluding-remarks&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Concluding Remarks&lt;/h3&gt;
-&lt;p&gt;This post outlined a framework for identifying opportunities where an offer lower than the asking price would likely be accepted when purchasing a home. However, this framework could be used in any decision-making context where uncertainty is a major factor in choosing a course of action. For example, imagine we were predicting demand for a new product instead of home prices. If our demand forecast was much larger than production numbers, and the accompanying prediction interval was small, then we could recommend an increase in production numbers to avoid lost sales. I’d love to hear about frameworks/techniques that you use to deal with these types of issues, so please feel free to chime in below!&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/surviving_the_nfl.html</loc>
+      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/college_rankings_salary.html</loc>
       <lastmod>2018-09-11T21:13:14-05:00</lastmod>
     </url>
@@ -158,16 +167,6 @@
     
     <url>
     
-      <loc>/tags/arima.html</loc>
-      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/arima.html</loc>
       <lastmod>2017-08-16T21:13:14-05:00</lastmod>
       <priority>0</priority>
@@ -178,8 +177,8 @@
     
     <url>
     
-      <loc>/tags/beta-distribution.html</loc>
-      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
+      <loc>/tags/arima.html</loc>
+      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -198,8 +197,8 @@
     
     <url>
     
-      <loc>/tags/career.html</loc>
-      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <loc>/tags/beta-distribution.html</loc>
+      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -209,6 +208,16 @@
     <url>
     
       <loc>/categories/career.html</loc>
+      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/career.html</loc>
       <lastmod>2018-09-11T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
@@ -228,16 +237,6 @@
     
     <url>
     
-      <loc>/tags/causal-impact.html</loc>
-      <lastmod>2017-08-05T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/causal-impact.html</loc>
       <lastmod>2017-08-05T21:13:14-05:00</lastmod>
       <priority>0</priority>
@@ -248,8 +247,8 @@
     
     <url>
     
-      <loc>/tags/classification.html</loc>
-      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
+      <loc>/tags/causal-impact.html</loc>
+      <lastmod>2017-08-05T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -268,8 +267,8 @@
     
     <url>
     
-      <loc>/tags/college-rankings.html</loc>
-      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <loc>/tags/classification.html</loc>
+      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -288,8 +287,8 @@
     
     <url>
     
-      <loc>/tags/computer-vision.html</loc>
-      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+      <loc>/tags/college-rankings.html</loc>
+      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -308,8 +307,8 @@
     
     <url>
     
-      <loc>/tags/counterfactual-prediction.html</loc>
-      <lastmod>2017-08-05T21:13:14-05:00</lastmod>
+      <loc>/tags/computer-vision.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -328,8 +327,8 @@
     
     <url>
     
-      <loc>/tags/dynamic-time-warping.html</loc>
-      <lastmod>2017-06-24T21:13:14-05:00</lastmod>
+      <loc>/tags/counterfactual-prediction.html</loc>
+      <lastmod>2017-08-05T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -348,8 +347,8 @@
     
     <url>
     
-      <loc>/tags/exception-handling.html</loc>
-      <lastmod>2017-07-23T21:13:14-05:00</lastmod>
+      <loc>/tags/dynamic-time-warping.html</loc>
+      <lastmod>2017-06-24T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -368,8 +367,8 @@
     
     <url>
     
-      <loc>/tags/experimentation.html</loc>
-      <lastmod>2017-08-05T21:13:14-05:00</lastmod>
+      <loc>/tags/exception-handling.html</loc>
+      <lastmod>2017-07-23T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -388,8 +387,8 @@
     
     <url>
     
-      <loc>/tags/fantasy-football.html</loc>
-      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
+      <loc>/tags/experimentation.html</loc>
+      <lastmod>2017-08-05T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -408,8 +407,8 @@
     
     <url>
     
-      <loc>/tags/feature-selection.html</loc>
-      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
+      <loc>/tags/fantasy-football.html</loc>
+      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -428,8 +427,8 @@
     
     <url>
     
-      <loc>/tags/forecasting.html</loc>
-      <lastmod>2018-01-04T21:13:14-05:00</lastmod>
+      <loc>/tags/feature-selection.html</loc>
+      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -448,8 +447,8 @@
     
     <url>
     
-      <loc>/tags/h2o.html</loc>
-      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
+      <loc>/tags/forecasting.html</loc>
+      <lastmod>2018-01-04T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -468,8 +467,8 @@
     
     <url>
     
-      <loc>/tags/image-classification.html</loc>
-      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
+      <loc>/tags/h2o.html</loc>
+      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -488,7 +487,7 @@
     
     <url>
     
-      <loc>/tags/keras.html</loc>
+      <loc>/tags/image-classification.html</loc>
       <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
@@ -508,8 +507,8 @@
     
     <url>
     
-      <loc>/tags/market-matching.html</loc>
-      <lastmod>2017-06-24T21:13:14-05:00</lastmod>
+      <loc>/tags/keras.html</loc>
+      <lastmod>2018-01-10T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -528,8 +527,8 @@
     
     <url>
     
-      <loc>/tags/mixed-effect-modeling.html</loc>
-      <lastmod>2017-07-28T21:13:14-05:00</lastmod>
+      <loc>/tags/market-matching.html</loc>
+      <lastmod>2017-06-24T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -548,7 +547,7 @@
     
     <url>
     
-      <loc>/tags/monte-carlo-simulation.html</loc>
+      <loc>/tags/mixed-effect-modeling.html</loc>
       <lastmod>2017-07-28T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
@@ -568,8 +567,28 @@
     
     <url>
     
-      <loc>/tags/neural-networks.html</loc>
-      <lastmod>2018-01-04T21:13:14-05:00</lastmod>
+      <loc>/tags/monte-carlo-simulation.html</loc>
+      <lastmod>2017-07-28T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/nfl.html</loc>
+      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/nfl.html</loc>
+      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -588,8 +607,8 @@
     
     <url>
     
-      <loc>/tags/outlier-detection.html</loc>
-      <lastmod>2017-07-28T21:13:14-05:00</lastmod>
+      <loc>/tags/neural-networks.html</loc>
+      <lastmod>2018-01-04T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -608,8 +627,8 @@
     
     <url>
     
-      <loc>/tags/parallel-processing.html</loc>
-      <lastmod>2017-09-01T21:13:14-05:00</lastmod>
+      <loc>/tags/outlier-detection.html</loc>
+      <lastmod>2017-07-28T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -628,7 +647,7 @@
     
     <url>
     
-      <loc>/tags/power.html</loc>
+      <loc>/tags/parallel-processing.html</loc>
       <lastmod>2017-09-01T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
@@ -648,8 +667,8 @@
     
     <url>
     
-      <loc>/tags/prediction-interval.html</loc>
-      <lastmod>2017-05-14T21:13:14-05:00</lastmod>
+      <loc>/tags/power.html</loc>
+      <lastmod>2017-09-01T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -668,7 +687,8 @@
     
     <url>
     
-      <loc>/publication_types.html</loc>
+      <loc>/tags/prediction-interval.html</loc>
+      <lastmod>2017-05-14T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -677,8 +697,7 @@
     
     <url>
     
-      <loc>/tags/python.html</loc>
-      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <loc>/publication_types.html</loc>
       <priority>0</priority>
     </url>
     
@@ -697,8 +716,8 @@
     
     <url>
     
-      <loc>/tags/quantile-regression.html</loc>
-      <lastmod>2017-05-14T21:13:14-05:00</lastmod>
+      <loc>/tags/python.html</loc>
+      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -717,8 +736,8 @@
     
     <url>
     
-      <loc>/tags/r.html</loc>
-      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <loc>/tags/quantile-regression.html</loc>
+      <lastmod>2017-05-14T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -728,7 +747,7 @@
     <url>
     
       <loc>/categories/r.html</loc>
-      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -737,8 +756,8 @@
     
     <url>
     
-      <loc>/tags/reticulate.html</loc>
-      <lastmod>2018-06-01T21:13:14-05:00</lastmod>
+      <loc>/tags/r.html</loc>
+      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -757,7 +776,7 @@
     
     <url>
     
-      <loc>/tags/route-optimization.html</loc>
+      <loc>/tags/reticulate.html</loc>
       <lastmod>2018-06-01T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
@@ -777,8 +796,8 @@
     
     <url>
     
-      <loc>/tags/spark.html</loc>
-      <lastmod>2017-09-01T21:13:14-05:00</lastmod>
+      <loc>/tags/route-optimization.html</loc>
+      <lastmod>2018-06-01T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -797,8 +816,8 @@
     
     <url>
     
-      <loc>/tags/sports-betting.html</loc>
-      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
+      <loc>/tags/spark.html</loc>
+      <lastmod>2017-09-01T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -809,6 +828,36 @@
     
       <loc>/categories/sports-betting.html</loc>
       <lastmod>2017-08-16T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/sports-betting.html</loc>
+      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/survival-analysis.html</loc>
+      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/survival-analysis.html</loc>
+      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -837,16 +886,6 @@
     
     <url>
     
-      <loc>/tags/time-series.html</loc>
-      <lastmod>2017-07-28T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/time-series.html</loc>
       <lastmod>2017-07-28T21:13:14-05:00</lastmod>
       <priority>0</priority>
@@ -857,8 +896,8 @@
     
     <url>
     
-      <loc>/tags/traveling-salesman-problem.html</loc>
-      <lastmod>2018-06-01T21:13:14-05:00</lastmod>
+      <loc>/tags/time-series.html</loc>
+      <lastmod>2017-07-28T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -877,8 +916,8 @@
     
     <url>
     
-      <loc>/tags/web-scraping.html</loc>
-      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
+      <loc>/tags/traveling-salesman-problem.html</loc>
+      <lastmod>2018-06-01T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -897,8 +936,8 @@
     
     <url>
     
-      <loc>/tags/wine.html</loc>
-      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
+      <loc>/tags/web-scraping.html</loc>
+      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -908,6 +947,16 @@
     <url>
     
       <loc>/categories/wine.html</loc>
+      <lastmod>2017-08-14T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/wine.html</loc>
       <lastmod>2017-08-14T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
