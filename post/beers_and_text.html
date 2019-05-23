@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/beers_and_text.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/beers_and_text.html">
+  <meta property="og:title" content="Text Mining for the Perfect Beer | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2019-05-20T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2019-05-20T21:13:14-05:00">
+  
+
+  
+
+  <title>Text Mining for the Perfect Beer | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Text Mining for the Perfect Beer</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-05-20 21:13:14 -0500 -0500" itemprop="datePublished">
+      May 20, 2019
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    19 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/beers_and_text.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/text-analytics">Text Analytics</a
+    >, 
+    
+    <a href="/categories/web-scraping">Web Scraping</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/python">Python</a
+    >, 
+    
+    <a href="/categories/beer">Beer</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Text%20Mining%20for%20the%20Perfect%20Beer&amp;url=%2fpost%2fbeers_and_text.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fbeers_and_text.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fbeers_and_text.html&amp;title=Text%20Mining%20for%20the%20Perfect%20Beer"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fbeers_and_text.html&amp;title=Text%20Mining%20for%20the%20Perfect%20Beer"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Text%20Mining%20for%20the%20Perfect%20Beer&amp;body=%2fpost%2fbeers_and_text.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p><img src="beers_and_text_images/header_img.jpg" width="800px" height="200px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>Product reviews are a great source of information to learn more about what influences consumer satisfaction. However, transforming unstructured text into a format amenable for machine learning can be a daunting task. In this post, we’ll outline an end-to-end workflow that can be leveraged to extract meaning from text. While the focus is on one my favorite topics – <strong>beer</strong> – the approach described herein generalizes to any text-based analysis and will cover the following:</p>
+<p>🍺 How to web scrape reviews with Python’s <code>BeautifulSoup</code> package<br />
+🍺 How to extract and process text via R’s <code>tidytext</code> package<br />
+🍺 How to build an interpretable Lasso Regression model with the <code>glmnet</code> package</p>
+<p>Let’s get started!</p>
+</div>
+<div id="reverse-engineering-the-imperial-pale-ale" class="section level3">
+<h3>Reverse Engineering the Imperial Pale Ale</h3>
+<p>Imagine you run a brewery and are tasked with making a new Imperial Pale Ale (IPA). What flavors would you want to highlight? Would it be high or low in alcohol (ABV)? Would it have a dry or sweet finish? The potential combination of strengths, flavors, aromas, finishes, and all other sensory notes that unite to create a great beer are endless. Instead of trying to guess a starting point, you look to a reliable source for all things beer: <em>beeradvocate.com</em>, a website that has millions of reviews on every style of beer imaginable. The objective is to understand what separates an average IPA from a great IPA. For example, does a 7.5% ABV IPA with hints of lemon, mango, and bready malts receive higher ratings (on average) than a 5.5% ABV session IPA with lots of carbonation, orange peel, and floral notes?</p>
+<p>To answer this question, we’ll use the Python script below (see <a href="#appendix">appendix</a>) to extract ~21,500 reviews from Beeradvocate. Luckily, all of the hard work is already done and the resulting data can be downloaded directly from 🎄 <a href="https://github.com/thecodeforest/beers_and_text_data">the codeforest github repo</a> 🎄. The two files we’ll be working with are <em>beer_info.csv</em>, which contains the beer id, brewery name, beer name, and ABV for each beer, and (2) <em>beer_reviews.csv</em>, which contains the beer id, review, and overall beer rating. We’ll start by loeading both files directly into R.</p>
+<pre class="r"><code>library(pacman)
+pacman::p_load(
+  &quot;tidyverse&quot;, &quot;tidytext&quot;, &quot;janitor&quot;,
+  &quot;glmnet&quot;, &quot;doMC&quot;, &quot;broom&quot;, 
+  &quot;rsample&quot;,&quot;artyfarty&quot;,
+  &quot;kableExtra&quot;
+)
+
+repo &lt;- &quot;https://raw.githubusercontent.com/thecodeforest/beers_and_text_data/master/&quot;
+
+# visualization themes
+source(file.path(repo, &quot;beers_and_text_theme.R&quot;))
+theme_set(theme_bw())
+colors &lt;- artyfarty::pal(&quot;five38&quot;)
+
+# load from github &amp; join datasets
+beer_reviews &lt;- read_csv(file.path(repo, &quot;beer_reviews.csv&quot;))
+beer_info &lt;- read_csv(file.path(repo, &quot;beer_info.csv&quot;))
+
+beers_df &lt;- inner_join(beer_reviews, beer_info) %&gt;% 
+  select(beer_id, review_id, brewer:abv, review, rating)</code></pre>
+<p>Let’s get to know our data by examining a random sample of reviews.</p>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+beer_id
+</th>
+<th style="text-align:center;">
+review_id
+</th>
+<th style="text-align:center;">
+brewer
+</th>
+<th style="text-align:center;">
+beer_name
+</th>
+<th style="text-align:center;">
+abv
+</th>
+<th style="text-align:center;">
+review
+</th>
+<th style="text-align:center;">
+rating
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+364
+</td>
+<td style="text-align:center;">
+5715
+</td>
+<td style="text-align:center;">
+Devils Backbone Brewing Company
+</td>
+<td style="text-align:center;">
+Eight Point IPA
+</td>
+<td style="text-align:center;">
+6.2
+</td>
+<td style="text-align:center;">
+Liked it better on draft then bottle
+</td>
+<td style="text-align:center;">
+3.75
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+313
+</td>
+<td style="text-align:center;">
+8010
+</td>
+<td style="text-align:center;">
+Revolution Brewing
+</td>
+<td style="text-align:center;">
+MosaicHero India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+Enjoyed on tap at the Kedzie taproom. Pours a lovely clear amber with a foamy white head. The aroma is fresh and pronounced: citrus, floral, herbal and a bit of caramel sweetness. So tasty. Lots of citrus notes with herbal and pine pith in the background. A slight onion/several note all backed up by the sweet malt. Mouthfeel is outstanding-medium, soft and full. Excellent beer.
+</td>
+<td style="text-align:center;">
+4.25
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+206
+</td>
+<td style="text-align:center;">
+12329
+</td>
+<td style="text-align:center;">
+Night Shift Brewing
+</td>
+<td style="text-align:center;">
+Santilli
+</td>
+<td style="text-align:center;">
+6.0
+</td>
+<td style="text-align:center;">
+Golden with a slight haze and big towering white head that lasts and leaves big peaks in the glass, lacing is ok. Aroma lends to the heavy handed hop profile, fruity and dank. Notes of herbs, light pine resin, citrus rind, and light underripe pineapple. Crisp, lighter medium body gives good bite on the initial sip then finishes clean and dry. A top tier straightforward IPA.
+</td>
+<td style="text-align:center;">
+3.25
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+47
+</td>
+<td style="text-align:center;">
+19546
+</td>
+<td style="text-align:center;">
+Keegan Ales
+</td>
+<td style="text-align:center;">
+Hurricane Kitty
+</td>
+<td style="text-align:center;">
+5.5
+</td>
+<td style="text-align:center;">
+Hazy copper color, cream color thin head, delicate lacing on the glass. Interesting IPA, not dramatically bitter, but mostly unremarkable. Green hop aroma. Malt hits first, then the bitterness. It does get better as it warms up a little and releases some the the carbonation. Probably wouldn’t drink several of these in a row, but one is a nice change. Alas…we purchased it on our trip to New York and probably won’t be back soon…so this is it for a while.
+</td>
+<td style="text-align:center;">
+3.50
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+403
+</td>
+<td style="text-align:center;">
+4341
+</td>
+<td style="text-align:center;">
+Laurelwood Public House &amp;amp; Brewery
+</td>
+<td style="text-align:center;">
+Workhorse IPA
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+Dam nice IPA. Well balanced with the right hops and malt
+</td>
+<td style="text-align:center;">
+4.00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>And then let’s take a higher level view using the <code>skimr</code> package:</p>
+<pre class="r"><code>skimr::skim(beers_df)</code></pre>
+<pre><code>## Skim summary statistics
+##  n obs: 21524 
+##  n variables: 7 
+## 
+## ── Variable type:character ────────────────────────────────────────────────────────────────────────────────────────────────
+##   variable missing complete     n min  max empty n_unique
+##  beer_name       0    21524 21524   3   65     0      490
+##     brewer       0    21524 21524   7   59     0      308
+##     review       0    21524 21524   1 2470     0    21436
+## 
+## ── Variable type:integer ──────────────────────────────────────────────────────────────────────────────────────────────────
+##  variable missing complete     n   mean     sd p0 p25 p50 p75 p100
+##   beer_id       0    21524 21524 246.52 145.15  1 118 241 371  500
+##      hist
+##  ▇▇▇▇▆▇▇▇
+## 
+## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
+##   variable missing complete     n     mean      sd  p0     p25     p50
+##        abv       0    21524 21524     6.57    0.8  2.7    6.2      6.8
+##     rating       0    21524 21524     3.78    0.67 1      3.5      4  
+##  review_id       0    21524 21524 10762.5  6213.59 1   5381.75 10762.5
+##       p75    p100     hist
+##      7        9.1 ▁▁▁▁▅▇▁▁
+##      4.25     5   ▁▁▁▂▅▇▅▂
+##  16143.25 21524   ▇▇▇▇▇▇▇▇</code></pre>
+<p>We have about 21.5K reviews from 308 brewers across 490 beers and no missing values. While we also have info on our continuous variables (Rating &amp; ABV) in this readout, let’s plot each below to get a better idea of their shape and relationship.</p>
+<pre class="r"><code>beers_df %&gt;%
+  group_by(rating) %&gt;%
+  summarise(n = n()) %&gt;%
+  ungroup() %&gt;%
+  ggplot(aes(rating, n)) +
+  geom_col(width = 0.25, color = &quot;black&quot;, fill = colors[1]) +
+  theme_bw() +
+  my_plot_theme() +
+  labs(
+    y = &#39;Count&#39;,
+    x = &#39;Rating&#39;,
+    title = &#39;Drinking Beer is a Favorable Experience&#39;,
+    subtitle = &#39;Over 50% of ratings are a 4 or above&#39;
+  )</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-5-1.png" width="1152" /></p>
+<p>We have a reasonably well-behaved distribution of ratings, albeit a long tail for lower ratings. It’s interesting to note that over 50% of ratings are 4 or greater. This suggests that beer is a lot like pizza: There is good pizza and better pizza, but rarely do we encounter bad pizza!</p>
+<p>Next, let’s consider how ABV relates to ratings by creating ‘bins’ of ABV and then comparing across the bins with a boxplot.</p>
+<pre class="r"><code>beers_df %&gt;%
+  mutate(
+    abv_bin = case_when(
+      abv &lt; 5 ~ &quot;&lt; 5%&quot;,
+      between(abv, 5, 5.9) ~ &quot;5 - 5.9%&quot;,
+      between(abv, 6, 6.9) ~ &quot;6 - 6.9%&quot;,
+      TRUE ~ &quot;&gt; 7%&quot;
+    ),
+    abv_bin = factor(abv_bin, levels = c(
+      &quot;&lt; 5%&quot;,
+      &quot;5 - 5.9%&quot;,
+      &quot;6 - 6.9%&quot;,
+      &quot;&gt; 7%&quot;
+    ))
+  ) %&gt;%
+  ggplot(aes(x = abv_bin, y = rating, color = abv_bin)) +
+  geom_boxplot(size = 2) +
+  my_plot_theme() +
+  theme(legend.position = &quot;none&quot;) +
+  geom_jitter(position = position_jitter(0.2), alpha = 0.05) +
+  labs(
+    x = &quot;ABV&quot;,
+    y = &quot;Rating&quot;,
+    title = &#39;IPA Ratings by ABV&#39;,
+    subtitle = &#39;Higher ABV IPAs tend to be rated more favorable&#39;
+  ) +
+  scale_color_manual(values = colors)</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-6-1.png" width="1152" /></p>
+<p>Higher ABV IPAs receive more favorable ratings than those with lower ABVs. Makes sense!</p>
+<p>Now that we’re warmed up and familiar with the data, let’s move on to the main part of the post. We’ll start by going over some basic data cleaning steps and then build our ML model.</p>
+</div>
+<div id="text-cleaning-formatting" class="section level3">
+<h3>Text Cleaning &amp; Formatting</h3>
+<p>As mentioned above, text data requires a bit more prep-work relative to numeric data. We’ll begin by splitting each review into a series of bigrams (2-word phrases), and remove common ‘stopwords’ (e.g., words like ‘the’, ‘and’, ‘or’) and punctuation. While you have many options (unigrams, bigrams, trigrams, etc.), I like bigrams because they strike the right bias-variance balance and are reasonably interpretable.</p>
+<pre class="r"><code>review_tokens &lt;- beers_df %&gt;%
+  unnest_tokens(bigram, review, token = &quot;ngrams&quot;, n = 2) %&gt;% 
+  mutate(word1 = map_chr(str_split(bigram, &quot; &quot;), function(x) x[1])) %&gt;%
+  mutate(word2 = map_chr(str_split(bigram, &quot; &quot;), function(x) x[2])) %&gt;% 
+  filter(!word1 %in% stop_words$word) %&gt;%
+  filter(!word2 %in% stop_words$word)</code></pre>
+<p>Let’s pause for a second to consider the structure of our text data and consider a sample review.</p>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+beer_id
+</th>
+<th style="text-align:center;">
+review_id
+</th>
+<th style="text-align:center;">
+brewer
+</th>
+<th style="text-align:center;">
+beer_name
+</th>
+<th style="text-align:center;">
+abv
+</th>
+<th style="text-align:center;">
+review
+</th>
+<th style="text-align:center;">
+rating
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+12 oz. bottle. I bought a 6 pack of Hop Shovel, found one was a Racer 5. Pours clear dark gold with a small white head. Aroma of sweet malt, citrus. Taste is bitter hops, backed with a little malt sweetness. A decent IPA but doesn’t stand out when there are so many great ones.
+</td>
+<td style="text-align:center;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Below is what results from our initial cleaning step.</p>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+beer_id
+</th>
+<th style="text-align:center;">
+review_id
+</th>
+<th style="text-align:center;">
+brewer
+</th>
+<th style="text-align:center;">
+beer_name
+</th>
+<th style="text-align:center;">
+abv
+</th>
+<th style="text-align:center;">
+rating
+</th>
+<th style="text-align:center;">
+bigram
+</th>
+<th style="text-align:center;">
+word1
+</th>
+<th style="text-align:center;">
+word2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+12 oz
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+oz
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+oz bottle
+</td>
+<td style="text-align:center;">
+oz
+</td>
+<td style="text-align:center;">
+bottle
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+6 pack
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+pack
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+hop shovel
+</td>
+<td style="text-align:center;">
+hop
+</td>
+<td style="text-align:center;">
+shovel
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+shovel found
+</td>
+<td style="text-align:center;">
+shovel
+</td>
+<td style="text-align:center;">
+found
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+racer 5
+</td>
+<td style="text-align:center;">
+racer
+</td>
+<td style="text-align:center;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+5 pours
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+pours
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+dark gold
+</td>
+<td style="text-align:center;">
+dark
+</td>
+<td style="text-align:center;">
+gold
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+white head
+</td>
+<td style="text-align:center;">
+white
+</td>
+<td style="text-align:center;">
+head
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+head aroma
+</td>
+<td style="text-align:center;">
+head
+</td>
+<td style="text-align:center;">
+aroma
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+sweet malt
+</td>
+<td style="text-align:center;">
+sweet
+</td>
+<td style="text-align:center;">
+malt
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+malt citrus
+</td>
+<td style="text-align:center;">
+malt
+</td>
+<td style="text-align:center;">
+citrus
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+citrus taste
+</td>
+<td style="text-align:center;">
+citrus
+</td>
+<td style="text-align:center;">
+taste
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+bitter hops
+</td>
+<td style="text-align:center;">
+bitter
+</td>
+<td style="text-align:center;">
+hops
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+malt sweetness
+</td>
+<td style="text-align:center;">
+malt
+</td>
+<td style="text-align:center;">
+sweetness
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+decent ipa
+</td>
+<td style="text-align:center;">
+decent
+</td>
+<td style="text-align:center;">
+ipa
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We’ll next remove <em>sentiment words</em> (e.g., ‘bad’, ‘good’, ‘sad’, ‘awesome’). You might wonder: Wouldn’t we want to keep these words, as they would improve the predictive power of our model? Indeed, sentiment is typically a strong predictor of ratings – and the current case is no different. For example, the plot below shows the relationship between a review’s valence (e.g., does it contain mostly positive or negative words?) and it’s rating.</p>
+<pre class="r"><code>sentiment_by_rating &lt;- review_tokens %&gt;%
+  left_join(sentiments %&gt;%
+    filter(lexicon == &quot;AFINN&quot;) %&gt;%
+    select(word, score) %&gt;%
+    rename(
+      word1 = word,
+      score1 = score
+    )) %&gt;%
+  left_join(sentiments %&gt;%
+    filter(lexicon == &quot;AFINN&quot;) %&gt;%
+    select(word, score) %&gt;%
+    rename(
+      word2 = word,
+      score2 = score
+    )) %&gt;%
+  mutate(
+    score1 = ifelse(is.na(score1), 0, score1),
+    score2 = ifelse(is.na(score2), 0, score2),
+    bigram_score = score1 + score2
+  ) %&gt;%
+  group_by(review_id, rating) %&gt;%
+  summarise(
+    sent_score = sum(bigram_score),
+    n_bigrams = n()
+  ) %&gt;%
+  ungroup() %&gt;%
+  mutate(sent_score_norm = sent_score / n_bigrams) # normalize by length of review</code></pre>
+<pre class="r"><code>sentiment_by_rating %&gt;%
+  ggplot(aes(sent_score_norm, rating)) +
+  geom_point() +
+  geom_jitter(position = position_jitter(5), alpha = 0.1) +
+  stat_smooth(method = &quot;lm&quot;, se = FALSE, size = 2) +
+  my_plot_theme() +
+  xlim(-5, 5) +
+  labs(
+    x = &quot;Sentiment Score&quot;,
+    y = &quot;Rating&quot;
+  )</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-11-1.png" width="1152" /></p>
+<p>Reviews with higher sentiment scores (i.e., those with more positive words) are associated with higher ratings. However, we don’t want the final model to hone in on phrases like ‘terrible beer’ or ‘awesome flavor’. We want instead to focus only on neutral words that describe the beer. This is why we’ll filter out valenced words from our dataset. The next cleaning step will also remove numbers and convert each word to its stem (e.g., ‘hopped’, ‘hops’, ‘hop’ all become ‘hop’).</p>
+<pre class="r"><code>sentiment_stop &lt;- sentiments %&gt;%
+  filter(lexicon == &quot;bing&quot;) %&gt;%
+  pull(word)
+
+review_tokens &lt;- review_tokens %&gt;%
+  filter(! word1 %in% sentiment_stop) %&gt;%
+  filter(! word2 %in% sentiment_stop) %&gt;%
+  filter(! is.na(word1)) %&gt;%
+  filter(! is.na(word2)) %&gt;%
+  filter(is.na(as.numeric(word1))) %&gt;%
+  filter(is.na(as.numeric(word2))) %&gt;%
+  mutate(
+    word1 = tm::stemDocument(word1),
+    word2 = tm::stemDocument(word2)
+  ) %&gt;%
+  mutate(bigram = paste(word1, word2))</code></pre>
+<p>We’ll complete two additional steps when considering which reviews are leveraged in the final training set: (1) remove all bigrams that appear in 15 or fewer reviews, and (2) exclude all reviews that have less than 4 tokens (words). The objective is to avoid rare bigrams and focus on reviews that contain meaningful content (i.e., ‘this beer rocked’, ‘i like beer’, or ‘beer good’ all convey meaning but don’t tell us much about the reasoning behind a rating!). These thresholds can be thought of as ‘tuning parameters’ and are often experimented with to find the best combination.</p>
+<pre class="r"><code>bigram_occurence_threshold &lt;- 15
+review_length_threshold &lt;- 4
+
+review_tokens &lt;- review_tokens %&gt;%
+  anti_join(review_tokens %&gt;%
+    count(bigram) %&gt;%
+    filter(n &lt;= bigram_occurence_threshold) %&gt;%
+    select(bigram)) %&gt;%
+  anti_join(review_tokens %&gt;%
+    group_by(review_id) %&gt;%
+    summarise(n_words = n()) %&gt;%
+    ungroup() %&gt;%
+    filter(n_words &lt; review_length_threshold - 1) %&gt;% # subtract 1 because of bigram
+    select(review_id))</code></pre>
+Whew! That was a lot but we’re finally ready to do some modeling. Let’s take a quick peek at the sample review we’ve been using thus far before moving on.
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:200px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+beer_id
+</th>
+<th style="text-align:center;">
+review_id
+</th>
+<th style="text-align:center;">
+brewer
+</th>
+<th style="text-align:center;">
+beer_name
+</th>
+<th style="text-align:center;">
+abv
+</th>
+<th style="text-align:center;">
+rating
+</th>
+<th style="text-align:center;">
+bigram
+</th>
+<th style="text-align:center;">
+word1
+</th>
+<th style="text-align:center;">
+word2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+oz bottl
+</td>
+<td style="text-align:center;">
+oz
+</td>
+<td style="text-align:center;">
+bottl
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+white head
+</td>
+<td style="text-align:center;">
+white
+</td>
+<td style="text-align:center;">
+head
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+head aroma
+</td>
+<td style="text-align:center;">
+head
+</td>
+<td style="text-align:center;">
+aroma
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+malt citrus
+</td>
+<td style="text-align:center;">
+malt
+</td>
+<td style="text-align:center;">
+citrus
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+77
+</td>
+<td style="text-align:center;">
+17869
+</td>
+<td style="text-align:center;">
+Bear Republic Brewing Co.
+</td>
+<td style="text-align:center;">
+Racer 5 India Pale Ale
+</td>
+<td style="text-align:center;">
+7.5
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+citrus tast
+</td>
+<td style="text-align:center;">
+citrus
+</td>
+<td style="text-align:center;">
+tast
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="text-and-machine-learning" class="section level3">
+<h3>Text and Machine Learning</h3>
+<p>In keeping with all blog posts about machine learning, we’ll start off by splitting our clean data into train and test.</p>
+<pre class="r"><code>set.seed(234)
+
+beers_split &lt;- beer_reviews %&gt;%
+  select(review_id) %&gt;%
+  initial_split(prop = 4/5)
+  
+train_index &lt;- training(beers_split)
+test_index &lt;- testing(beers_split)</code></pre>
+<p>This is where we transform our ‘long’ dataset into a ‘wide’ dataset via the <code>cast_sparse</code> function. Each row will contain a unique review. All text features will either be 1 or 0 indicating if the bigram is present (1) or absent (0) in the review. Representing our data in this format is called a ‘bag-of words’ model (BOW for short) and is one of the simplest ways to format text data.</p>
+<pre class="r"><code>beer_bigrams &lt;- review_tokens %&gt;%
+  select(review_id, bigram, rating) %&gt;%
+  cast_sparse(review_id, bigram) %&gt;%
+  as.matrix() %&gt;%
+  as_tibble() %&gt;%
+  tibble::rownames_to_column() %&gt;%
+  rename(review_id = rowname) %&gt;%
+  clean_names() %&gt;%
+  mutate(review_id = as.numeric(review_id)) %&gt;%
+  inner_join(beers_df %&gt;% select(review_id, abv, rating))
+
+print(dim(beer_bigrams %&gt;% select(-review_id, -abv, -rating)))</code></pre>
+<pre><code>## [1] 14148  1327</code></pre>
+<p>Our training dataset has ~14K reviews with 1327 bigrams. One thing to note about the <code>cast_sparse</code> function is that it creates a data structure specifically designed to handle data with lots of zeros. We are converting back to a more common R data structure – the <code>tibble</code> – for the sake of readability. However, if our data was very large, as is often the case with text data, this would be a bad idea, as sparse matrices are designed to be memory-efficient.</p>
+<p>While we could go on a long exploratory data excursion, let’s keep it simple and examine which bigrams commonly occur as a way to validate our data.</p>
+<pre class="r"><code>set.seed(123)
+
+beer_bigrams %&gt;%
+  skimr::skim(.) %&gt;%
+  filter(stat == &quot;mean&quot;) %&gt;%
+  filter(between(value, 0.02, 0.05)) %&gt;% 
+  sample_n(20) %&gt;% 
+  mutate(bigram = str_to_title(str_replace(variable, &quot;_&quot;, &quot; &quot;))) %&gt;%
+  ggplot(aes(x = reorder(bigram, value), y = value)) +
+  geom_bar(stat = &quot;identity&quot;, fill = colors[1]) +
+  coord_flip() +
+  scale_y_continuous(labels = scales::percent) +
+  my_plot_theme() + 
+  labs(
+    x = &quot;&quot;,
+    y = &quot;% of Reviews Containing Bigram&quot;,
+    title = &#39;Frequently Occuring Bigrams&#39;
+  )</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-17-1.png" width="1152" /></p>
+<p>Looks good! Bigram frequency is a good place to start, but it doesn’t tell us if the presence of a particular bigram drives a beer’s rating. To answer that question, we’ll fit a regression model with Lasso regularization. I don’t want to dive too deep into the details of the model, but it’s main advantages are (1) automatic feature selection based on which bigrams are important, and (2) ease-of-interpretation, given that the outputs are just linear regression coefficients.</p>
+<pre class="r"><code>set.seed(2)
+
+beers_train = inner_join(beer_bigrams, train_index)
+
+registerDoMC(cores = 8) # this will speed up cross validation
+
+x &lt;- data.matrix(beers_train %&gt;% select(-review_id, -rating))
+y &lt;- beers_train$rating
+
+cv_lasso &lt;- cv.glmnet(
+  x = x,
+  y = y,
+  nfolds = 5,
+  parallel = TRUE,
+  family = &quot;gaussian&quot;
+)
+
+plot(cv_lasso)</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-18-1.png" width="1152" /></p>
+<p>The plot above indicates that a model with ~50 features has the lowest Mean-Squared Error based on the results of cross-validating on our training set (note we could potentially use a simpler model with 6 features, as it’s error was within 1 standard error of the best model).</p>
+<p>The next step gets to the crux of this post, which is to understand the features that drive ratings. Below we’ll plot the top/bottom 7 coefficients that increase/decrease ratings the most.</p>
+<pre class="r"><code>coefs &lt;- cv_lasso$glmnet.fit %&gt;%
+  tidy() %&gt;%
+  filter(lambda == cv_lasso$lambda.min) %&gt;%
+  arrange(desc(abs(estimate)))
+
+coefs %&gt;%
+  filter(lambda == cv_lasso$lambda.min) %&gt;%
+  filter(term != &quot;(Intercept)&quot;) %&gt;%
+  mutate(term = str_to_title(str_replace(term, &quot;_&quot;, &quot; &quot;))) %&gt;%
+  group_by(estimate &gt; 0) %&gt;%
+  top_n(7, abs(estimate)) %&gt;%
+  ungroup() %&gt;%
+  ggplot(aes(fct_reorder(term, estimate), estimate, fill = estimate &gt; 0)) +
+  geom_col(alpha = 0.8, show.legend = FALSE) +
+  coord_flip() + 
+  scale_fill_manual(values = colors) + 
+  my_plot_theme()  + 
+  labs(
+    x = NULL,
+    y = &#39;Estimate&#39;,
+    title = &quot;Coefficients that Increase or Decrease Beer Ratings&quot;,
+    subtitle = &quot;West Coast IPAs with tropical fruit flavors, lot&#39;s of hops and a high ABV are rated more favorably&quot;
+  )</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-19-1.png" width="1152" /></p>
+<p>The key theme here is that big, fruity IPAs tend to increase ratings, while light, low ABV, session IPAs tend to decrease ratings.</p>
+<p>We finally have some results, but how much faith can be placed in the model? Let’s check by evaluating against our test data. We’ll predict the ratings of each beer and then compare to the actual ratings. We’ll also create a ‘prediction baseline’ or ‘naive model’ to compare our ML model against. The baseline simply predicts that all ratings in the test set are equal to the average of all ratings in the training set. In short, are we just modeling a bunch of noise?</p>
+<pre class="r"><code>beers_test &lt;- inner_join(beer_bigrams, test_index)
+
+predicted_ratings &lt;- as.vector(predict(cv_lasso,
+  beers_test %&gt;%
+    select(-review_id, -rating) %&gt;%
+    data.matrix(),
+  s = &quot;lambda.min&quot;
+))
+
+pred_perf &lt;- beers_test %&gt;%
+  select(review_id, rating) %&gt;%
+  mutate(pred_rating = predicted_ratings) %&gt;%
+  mutate(pred_rating = case_when(
+    pred_rating &gt; 5 ~ 5,
+    pred_rating &lt; 1 ~ 1,
+    TRUE ~ pred_rating
+  )) %&gt;%
+  mutate(pred_baseline = mean(beers_train$rating))</code></pre>
+<p>We’ll compare our models via the Mean Absolute Error (MAE) and Mean Absolute Percent Error (MAPE).</p>
+<pre class="r"><code>pred_perf %&gt;%
+  select(-review_id) %&gt;%
+  mutate(
+    mape_lasso = yardstick::mape_vec(rating, pred_rating),
+    mae_lasso = yardstick::mae_vec(rating, pred_rating),
+    mape_naive = yardstick::mape_vec(rating, pred_baseline),
+    mae_naive = yardstick::mae_vec(rating, pred_baseline)
+  ) %&gt;%
+  select(mape_lasso:mae_naive) %&gt;%
+  distinct() %&gt;%
+  gather() %&gt;%
+  mutate(
+    metric = str_to_title(map_chr(str_split(key, &quot;_&quot;), function(x) x[[1]])),
+    model = str_to_title(map_chr(str_split(key, &quot;_&quot;), function(x) x[[2]]))
+  ) %&gt;%
+  ggplot(aes(model, y = value, fill = model, label = round(value, 2))) +
+  geom_bar(stat = &quot;identity&quot;) +
+  facet_grid(metric ~ ., scales = &quot;free&quot;) +
+  geom_label(label.size = 1, size = 6, color = &quot;white&quot;) + 
+  my_plot_theme() +
+  theme(legend.position = &#39;none&#39;) + 
+  scale_fill_manual(values = colors) + 
+  labs(x = &#39;Model&#39;,
+       y = &#39;Value&#39;,
+       title = &#39;Predicting Beer Ratings is Not Easy&#39;
+       )</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-21-1.png" width="1152" /></p>
+<p>The ML model is <strong>technically</strong> better than just guessing but not by much. Let’s run a formal test to compare the average of our errors between both methods.</p>
+<pre class="r"><code>residuals &lt;- pred_perf %&gt;%
+  mutate(
+    lasso_residual = rating - pred_rating,
+    naive_residual = rating - pred_baseline
+  )
+
+print(t.test(
+  abs(residuals$lasso_residual),
+  abs(residuals$naive_residual)
+))</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  abs(residuals$lasso_residual) and abs(residuals$naive_residual)
+## t = -2.7612, df = 5756, p-value = 0.005777
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.054274139 -0.009205376
+## sample estimates:
+## mean of x mean of y 
+## 0.4977533 0.5294931</code></pre>
+<p>If you like p-values, this might make you feel better. At this point, we would typically circle back and try a number of fixes to improve the performance of the model (e.g., collect more data, try 1-gram, 3-grams, non-linear models, etc.). However, this post is already running a bit long so we’ll push on with the current model.</p>
+<p>Lastly, let’s look at the errors. Where is the model going wrong?</p>
+<pre class="r"><code>residuals %&gt;% 
+ggplot(aes(x = lasso_residual)) +
+  geom_histogram(fill = colors[1], color = &#39;black&#39;, bins = 15) +
+  my_plot_theme() + 
+  labs(x = &#39;Residual&#39;,
+       y = &#39;Count&#39;
+       )</code></pre>
+<p><img src="/post/beers_and_text_files/figure-html/unnamed-chunk-23-1.png" width="1152" /></p>
+<p>The residuals are reasonably well behaved, but it does tend to overpredict low ratings (e.g., 1 or 2). This isn’t surprising, considering that ratings in this region are pretty rare in our data. Indeed, typically we would dive into the observations with the largest residuals to see what our model might be missing, and then encode the missing information as a feature(s) to reduce the overall error rate.</p>
+</div>
+<div id="concluding-remarks" class="section level3">
+<h3>Concluding Remarks</h3>
+<p>The workflow outlined here can be used for any task involving text, and hopefully, the value of using a tidy approach to text analysis is apparent. While the end results are less-than-encouraging, the feature engineering and data cleaning steps discussed in this post represent only one approach. As with all data science tasks, the real value comes from experimenting and trying many different approaches. Additionally, a less-than-stellar outcome from the first pass of modeling with real-world data is pretty typical, in that the hours of work, sweat, and a noisy computer fan often produce results that might be only <em>slightly</em> better than chance.</p>
+<p>Feel free to drop some suggestions in the comment section below. Prost!</p>
+</div>
+<div id="appendix" class="section level3">
+<h3>Appendix</h3>
+<pre class="python"><code>import logging
+from datetime import datetime
+import os
+import time
+from contextlib import contextmanager
+import urllib3
+from bs4 import BeautifulSoup
+import warnings
+import re
+from itertools import chain
+from string import punctuation
+import pandas as pd
+warnings.filterwarnings(&#39;ignore&#39;)
+HTTP = urllib3.PoolManager()
+###
+###
+def create_dir(dir_name):
+    try:
+        if not os.path.exists(dir_name):
+            os.makedirs(dir_name)
+    except OSError:
+        print(&quot;Cannot Create Directory: {}&quot;.format(dir_name))
+###
+###
+def collect_id(id_url, n_beers):
+    pg_range = [str(x) for x in range(0, n_beers, 50)]
+    pg_urls = [&#39;&#39;.join(x) for x in zip([id_url] * len(pg_range), pg_range)]
+    id_list = []
+    for url in pg_urls:
+        response = BeautifulSoup(HTTP.request(&#39;GET&#39;, id_url).data, &#39;lxml&#39;)
+        for i in str(response.find(&#39;table&#39;)).split(&#39;href=&#39;):
+            beer_id = i.split(&#39;/&#39;)[3:5]
+            if sum([int(x.isdigit()) for x in beer_id]) == 2:
+                id_list.append(beer_id)  
+    return [&#39;/&#39;.join(x) + &#39;/&#39; for x in id_list]
+###
+###
+def create_urls(beer_ids, n_reviews):
+    profile_url_prefix = &#39;https://www.beeradvocate.com/beer/profile/&#39;
+    profile_url_suffix = &#39;?view=beer&amp;sort=&amp;start=&#39;
+    review_range = [str(x) for x in range(0, n_reviews, 50)]
+    profile_url_p1 = [&#39;&#39;.join(x) for x in zip([profile_url_prefix] * len(beer_ids), beer_ids)]
+    complete_profile_url = []
+    for url in profile_url_p1:
+        complete_profile_url.append(
+            [&#39;&#39;.join(x) for x in zip([url] * len(review_range),
+                                     [profile_url_suffix] * len(review_range),
+                                     review_range
+                                     )]
+                                    )
+    return list(chain(*complete_profile_url))
+###
+###
+def collect_info(response, indiv_url, info_dir):
+    beer_id = &#39;-&#39;.join(indiv_url.split(&#39;/&#39;)[5:7])
+    fname = info_dir + beer_id + &#39;-info.csv&#39;
+    try:
+        name, brewer = str(response.find(&#39;title&#39;)).replace(&#39;title&#39;, &#39;&#39;).split(&#39; | &#39;)[:2]
+        name = &#39;&#39;.join([x for x in name if x not in punctuation])
+        abv = (re.search(r&#39;Alcohol by volume(.*)&#39;, str(response.find(&quot;div&quot;, {&quot;id&quot;: &quot;info_box&quot;}))) 
+           .group(1)
+           .split(&#39; &#39;)[-1]
+              )
+        page_info_df = pd.DataFrame([beer_id, brewer, name, abv]).T
+        page_info_df.columns = [&#39;beer_id&#39;, &#39;brewer&#39;, &#39;beer_name&#39;, &#39;abv&#39;]
+        page_info_df.to_csv(fname, index = False)
+    except Exception as e:
+        logging.debug(&#39;Unable to collect data for {}&#39;.format(indiv_url))
+        logging.debug(e)
+###
+###
+def collect_reviews(response, indiv_url, review_dir, review_index):
+    beer_id = &#39;-&#39;.join(indiv_url.split(&#39;/&#39;)[5:7])
+    fname = review_dir + beer_id + &#39;-review-&#39; + str(review_index) + &#39;.csv&#39;
+    reviews = [str(x) for x in list(response.find_all(&#39;div&#39;, {&#39;class&#39;: &#39;user-comment&#39;}))]
+    page_reviews = []
+    for index, review in enumerate(reviews):
+        review_ind = [1 if len(x) &gt; 0 else 0 for x in review.split(&#39;&lt;br/&gt;&#39;)]
+        space_index = [index for index, x in enumerate(review_ind) if x == 0]
+        if space_index[:2] == [2, 4]:
+            review_txt = &#39; &#39;.join(review.split(&#39;&lt;br/&gt;&#39;)[2:4])
+            review_rating = re.search(r&#39;\\| overall: (.*)&lt;/span&gt;&#39;, review)
+            page_reviews.append([beer_id,
+                             review_txt, 
+                             review_rating.group(1).split(&#39;&lt;&#39;)[0]
+                            ]
+                           )
+    if len(page_reviews) &gt; 0:
+        page_reviews_df = pd.DataFrame(page_reviews)
+        page_reviews_df.columns = [&#39;beer_id&#39;, &#39;review&#39;, &#39;rating&#39;]
+        page_reviews_df.to_csv(fname, index = False)
+        logging.debug(&#39;collected {} reviews for beer {}&#39;.format(page_reviews_df.shape[0], beer_id))
+###
+###
+def main():
+    beer_id = &#39;116&#39;
+    info_dir = &#39;beer_info/&#39;
+    review_dir = &#39;beer_reviews/&#39;
+    log_dir = &#39;beer_log/&#39;
+    create_dir(info_dir)
+    create_dir(review_dir)
+    create_dir(log_dir)
+    n_beers = 500
+    n_reviews = 500
+    pause_time = 3
+    # configure logging
+    logging.basicConfig(filename=log_dir + &#39;BA.log&#39;,
+                        level=logging.DEBUG,
+                        format = &#39;%(asctime)s - %(message)s&#39;
+                       )
+    id_url = &#39;https://www.beeradvocate.com/beer/styles/{}/?sort=revsD&amp;start=&#39;.format(beer_id)
+    # collect ids for each beer
+    beer_ids = collect_id(id_url, n_beers)
+    # create urls for each page
+    profile_urls = create_urls(beer_ids, n_beers)
+    for review_index, indiv_url in enumerate(profile_urls):
+        response_i = BeautifulSoup(HTTP.request(&#39;GET&#39;, indiv_url).data, &#39;lxml&#39;)
+        if indiv_url[-1] == &#39;0&#39;:
+            print(&#39;Collecting Data for {}&#39;.format(indiv_url))
+            collect_info(response_i, indiv_url, info_dir)
+        collect_reviews(response_i, indiv_url, review_dir, review_index)
+        time.sleep(pause_time) 
+###
+###
+if  __name__ ==  &quot;__main__&quot;:
+    main() </code></pre>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/text-analytics">Text Analytics</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/web-scraping">Web Scraping</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/python">Python</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/beer">Beer</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/college_rankings_salary.html">College Rankings and Pay</a></li>
+    
+    <li><a href="/post/optimal_bar_crawl.html">The Optimal Portland Pub Crawl</a></li>
+    
+    <li><a href="/post/computer_vision_with_r.html">Computer Vision with R &amp; Keras</a></li>
+    
+    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

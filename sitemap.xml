@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/beers_and_text.html</loc>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/surviving_the_nfl.html</loc>
       <lastmod>2018-12-12T21:13:14-05:00</lastmod>
     </url>
@@ -179,6 +188,26 @@
     
       <loc>/categories/arima.html</loc>
       <lastmod>2017-08-16T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/beer.html</loc>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/beer.html</loc>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -707,7 +736,7 @@
     <url>
     
       <loc>/tags/python.html</loc>
-      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -717,7 +746,7 @@
     <url>
     
       <loc>/categories/python.html</loc>
-      <lastmod>2018-09-11T21:13:14-05:00</lastmod>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -747,7 +776,7 @@
     <url>
     
       <loc>/tags/r.html</loc>
-      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -757,7 +786,7 @@
     <url>
     
       <loc>/categories/r.html</loc>
-      <lastmod>2018-12-12T21:13:14-05:00</lastmod>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -876,6 +905,26 @@
     
     <url>
     
+      <loc>/tags/text-analytics.html</loc>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/text-analytics.html</loc>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/</loc>
       <lastmod>2017-10-15T00:00:00-07:00</lastmod>
       <priority>0</priority>
@@ -927,7 +976,7 @@
     <url>
     
       <loc>/tags/web-scraping.html</loc>
-      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -937,7 +986,7 @@
     <url>
     
       <loc>/categories/web-scraping.html</loc>
-      <lastmod>2017-08-16T21:13:14-05:00</lastmod>
+      <lastmod>2019-05-20T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     

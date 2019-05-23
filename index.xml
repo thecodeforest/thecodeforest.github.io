@@ -11,6 +11,1405 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Text Mining for the Perfect Beer</title>
+      <link>/post/beers_and_text.html</link>
+      <pubDate>Mon, 20 May 2019 21:13:14 -0500</pubDate>
+      
+      <guid>/post/beers_and_text.html</guid>
+      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;&lt;img src=&#34;beers_and_text_images/header_img.jpg&#34; width=&#34;800px&#34; height=&#34;200px&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Product reviews are a great source of information to learn more about what influences consumer satisfaction. However, transforming unstructured text into a format amenable for machine learning can be a daunting task. In this post, we’ll outline an end-to-end workflow that can be leveraged to extract meaning from text. While the focus is on one my favorite topics – &lt;strong&gt;beer&lt;/strong&gt; – the approach described herein generalizes to any text-based analysis and will cover the following:&lt;/p&gt;
+&lt;p&gt;🍺 How to web scrape reviews with Python’s &lt;code&gt;BeautifulSoup&lt;/code&gt; package&lt;br /&gt;
+🍺 How to extract and process text via R’s &lt;code&gt;tidytext&lt;/code&gt; package&lt;br /&gt;
+🍺 How to build an interpretable Lasso Regression model with the &lt;code&gt;glmnet&lt;/code&gt; package&lt;/p&gt;
+&lt;p&gt;Let’s get started!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;reverse-engineering-the-imperial-pale-ale&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Reverse Engineering the Imperial Pale Ale&lt;/h3&gt;
+&lt;p&gt;Imagine you run a brewery and are tasked with making a new Imperial Pale Ale (IPA). What flavors would you want to highlight? Would it be high or low in alcohol (ABV)? Would it have a dry or sweet finish? The potential combination of strengths, flavors, aromas, finishes, and all other sensory notes that unite to create a great beer are endless. Instead of trying to guess a starting point, you look to a reliable source for all things beer: &lt;em&gt;beeradvocate.com&lt;/em&gt;, a website that has millions of reviews on every style of beer imaginable. The objective is to understand what separates an average IPA from a great IPA. For example, does a 7.5% ABV IPA with hints of lemon, mango, and bready malts receive higher ratings (on average) than a 5.5% ABV session IPA with lots of carbonation, orange peel, and floral notes?&lt;/p&gt;
+&lt;p&gt;To answer this question, we’ll use the Python script below (see &lt;a href=&#34;#appendix&#34;&gt;appendix&lt;/a&gt;) to extract ~21,500 reviews from Beeradvocate. Luckily, all of the hard work is already done and the resulting data can be downloaded directly from 🎄 &lt;a href=&#34;https://github.com/thecodeforest/beers_and_text_data&#34;&gt;the codeforest github repo&lt;/a&gt; 🎄. The two files we’ll be working with are &lt;em&gt;beer_info.csv&lt;/em&gt;, which contains the beer id, brewery name, beer name, and ABV for each beer, and (2) &lt;em&gt;beer_reviews.csv&lt;/em&gt;, which contains the beer id, review, and overall beer rating. We’ll start by loeading both files directly into R.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(pacman)
+pacman::p_load(
+  &amp;quot;tidyverse&amp;quot;, &amp;quot;tidytext&amp;quot;, &amp;quot;janitor&amp;quot;,
+  &amp;quot;glmnet&amp;quot;, &amp;quot;doMC&amp;quot;, &amp;quot;broom&amp;quot;, 
+  &amp;quot;rsample&amp;quot;,&amp;quot;artyfarty&amp;quot;,
+  &amp;quot;kableExtra&amp;quot;
+)
+
+repo &amp;lt;- &amp;quot;https://raw.githubusercontent.com/thecodeforest/beers_and_text_data/master/&amp;quot;
+
+# visualization themes
+source(file.path(repo, &amp;quot;beers_and_text_theme.R&amp;quot;))
+theme_set(theme_bw())
+colors &amp;lt;- artyfarty::pal(&amp;quot;five38&amp;quot;)
+
+# load from github &amp;amp; join datasets
+beer_reviews &amp;lt;- read_csv(file.path(repo, &amp;quot;beer_reviews.csv&amp;quot;))
+beer_info &amp;lt;- read_csv(file.path(repo, &amp;quot;beer_info.csv&amp;quot;))
+
+beers_df &amp;lt;- inner_join(beer_reviews, beer_info) %&amp;gt;% 
+  select(beer_id, review_id, brewer:abv, review, rating)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s get to know our data by examining a random sample of reviews.&lt;/p&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+review_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+brewer
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+abv
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+review
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+rating
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+364
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5715
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Devils Backbone Brewing Company
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Eight Point IPA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6.2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Liked it better on draft then bottle
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.75
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+313
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8010
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Revolution Brewing
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+MosaicHero India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Enjoyed on tap at the Kedzie taproom. Pours a lovely clear amber with a foamy white head. The aroma is fresh and pronounced: citrus, floral, herbal and a bit of caramel sweetness. So tasty. Lots of citrus notes with herbal and pine pith in the background. A slight onion/several note all backed up by the sweet malt. Mouthfeel is outstanding-medium, soft and full. Excellent beer.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4.25
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+206
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12329
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Night Shift Brewing
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Santilli
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6.0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Golden with a slight haze and big towering white head that lasts and leaves big peaks in the glass, lacing is ok. Aroma lends to the heavy handed hop profile, fruity and dank. Notes of herbs, light pine resin, citrus rind, and light underripe pineapple. Crisp, lighter medium body gives good bite on the initial sip then finishes clean and dry. A top tier straightforward IPA.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.25
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+47
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+19546
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Keegan Ales
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Hurricane Kitty
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Hazy copper color, cream color thin head, delicate lacing on the glass. Interesting IPA, not dramatically bitter, but mostly unremarkable. Green hop aroma. Malt hits first, then the bitterness. It does get better as it warms up a little and releases some the the carbonation. Probably wouldn’t drink several of these in a row, but one is a nice change. Alas…we purchased it on our trip to New York and probably won’t be back soon…so this is it for a while.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3.50
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+403
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4341
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Laurelwood Public House &amp;amp;amp; Brewery
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Workhorse IPA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Dam nice IPA. Well balanced with the right hops and malt
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4.00
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;And then let’s take a higher level view using the &lt;code&gt;skimr&lt;/code&gt; package:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;skimr::skim(beers_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Skim summary statistics
+##  n obs: 21524 
+##  n variables: 7 
+## 
+## ── Variable type:character ────────────────────────────────────────────────────────────────────────────────────────────────
+##   variable missing complete     n min  max empty n_unique
+##  beer_name       0    21524 21524   3   65     0      490
+##     brewer       0    21524 21524   7   59     0      308
+##     review       0    21524 21524   1 2470     0    21436
+## 
+## ── Variable type:integer ──────────────────────────────────────────────────────────────────────────────────────────────────
+##  variable missing complete     n   mean     sd p0 p25 p50 p75 p100
+##   beer_id       0    21524 21524 246.52 145.15  1 118 241 371  500
+##      hist
+##  ▇▇▇▇▆▇▇▇
+## 
+## ── Variable type:numeric ──────────────────────────────────────────────────────────────────────────────────────────────────
+##   variable missing complete     n     mean      sd  p0     p25     p50
+##        abv       0    21524 21524     6.57    0.8  2.7    6.2      6.8
+##     rating       0    21524 21524     3.78    0.67 1      3.5      4  
+##  review_id       0    21524 21524 10762.5  6213.59 1   5381.75 10762.5
+##       p75    p100     hist
+##      7        9.1 ▁▁▁▁▅▇▁▁
+##      4.25     5   ▁▁▁▂▅▇▅▂
+##  16143.25 21524   ▇▇▇▇▇▇▇▇&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We have about 21.5K reviews from 308 brewers across 490 beers and no missing values. While we also have info on our continuous variables (Rating &amp;amp; ABV) in this readout, let’s plot each below to get a better idea of their shape and relationship.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;beers_df %&amp;gt;%
+  group_by(rating) %&amp;gt;%
+  summarise(n = n()) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  ggplot(aes(rating, n)) +
+  geom_col(width = 0.25, color = &amp;quot;black&amp;quot;, fill = colors[1]) +
+  theme_bw() +
+  my_plot_theme() +
+  labs(
+    y = &amp;#39;Count&amp;#39;,
+    x = &amp;#39;Rating&amp;#39;,
+    title = &amp;#39;Drinking Beer is a Favorable Experience&amp;#39;,
+    subtitle = &amp;#39;Over 50% of ratings are a 4 or above&amp;#39;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We have a reasonably well-behaved distribution of ratings, albeit a long tail for lower ratings. It’s interesting to note that over 50% of ratings are 4 or greater. This suggests that beer is a lot like pizza: There is good pizza and better pizza, but rarely do we encounter bad pizza!&lt;/p&gt;
+&lt;p&gt;Next, let’s consider how ABV relates to ratings by creating ‘bins’ of ABV and then comparing across the bins with a boxplot.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;beers_df %&amp;gt;%
+  mutate(
+    abv_bin = case_when(
+      abv &amp;lt; 5 ~ &amp;quot;&amp;lt; 5%&amp;quot;,
+      between(abv, 5, 5.9) ~ &amp;quot;5 - 5.9%&amp;quot;,
+      between(abv, 6, 6.9) ~ &amp;quot;6 - 6.9%&amp;quot;,
+      TRUE ~ &amp;quot;&amp;gt; 7%&amp;quot;
+    ),
+    abv_bin = factor(abv_bin, levels = c(
+      &amp;quot;&amp;lt; 5%&amp;quot;,
+      &amp;quot;5 - 5.9%&amp;quot;,
+      &amp;quot;6 - 6.9%&amp;quot;,
+      &amp;quot;&amp;gt; 7%&amp;quot;
+    ))
+  ) %&amp;gt;%
+  ggplot(aes(x = abv_bin, y = rating, color = abv_bin)) +
+  geom_boxplot(size = 2) +
+  my_plot_theme() +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  geom_jitter(position = position_jitter(0.2), alpha = 0.05) +
+  labs(
+    x = &amp;quot;ABV&amp;quot;,
+    y = &amp;quot;Rating&amp;quot;,
+    title = &amp;#39;IPA Ratings by ABV&amp;#39;,
+    subtitle = &amp;#39;Higher ABV IPAs tend to be rated more favorable&amp;#39;
+  ) +
+  scale_color_manual(values = colors)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Higher ABV IPAs receive more favorable ratings than those with lower ABVs. Makes sense!&lt;/p&gt;
+&lt;p&gt;Now that we’re warmed up and familiar with the data, let’s move on to the main part of the post. We’ll start by going over some basic data cleaning steps and then build our ML model.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;text-cleaning-formatting&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Text Cleaning &amp;amp; Formatting&lt;/h3&gt;
+&lt;p&gt;As mentioned above, text data requires a bit more prep-work relative to numeric data. We’ll begin by splitting each review into a series of bigrams (2-word phrases), and remove common ‘stopwords’ (e.g., words like ‘the’, ‘and’, ‘or’) and punctuation. While you have many options (unigrams, bigrams, trigrams, etc.), I like bigrams because they strike the right bias-variance balance and are reasonably interpretable.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;review_tokens &amp;lt;- beers_df %&amp;gt;%
+  unnest_tokens(bigram, review, token = &amp;quot;ngrams&amp;quot;, n = 2) %&amp;gt;% 
+  mutate(word1 = map_chr(str_split(bigram, &amp;quot; &amp;quot;), function(x) x[1])) %&amp;gt;%
+  mutate(word2 = map_chr(str_split(bigram, &amp;quot; &amp;quot;), function(x) x[2])) %&amp;gt;% 
+  filter(!word1 %in% stop_words$word) %&amp;gt;%
+  filter(!word2 %in% stop_words$word)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s pause for a second to consider the structure of our text data and consider a sample review.&lt;/p&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+review_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+brewer
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+abv
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+review
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+rating
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12 oz. bottle. I bought a 6 pack of Hop Shovel, found one was a Racer 5. Pours clear dark gold with a small white head. Aroma of sweet malt, citrus. Taste is bitter hops, backed with a little malt sweetness. A decent IPA but doesn’t stand out when there are so many great ones.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Below is what results from our initial cleaning step.&lt;/p&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:300px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+review_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+brewer
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+abv
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+rating
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+bigram
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+word1
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+word2
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12 oz
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+oz
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+oz bottle
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+oz
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+bottle
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6 pack
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+pack
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+hop shovel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+hop
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+shovel
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+shovel found
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+shovel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+found
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+racer 5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+racer
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5 pours
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+pours
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+dark gold
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+dark
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+gold
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+white head
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+white
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+head
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+head aroma
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+head
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+aroma
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+sweet malt
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+sweet
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+malt
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+malt citrus
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+malt
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+citrus
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+citrus taste
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+citrus
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+taste
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+bitter hops
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+bitter
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+hops
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+malt sweetness
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+malt
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+sweetness
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+decent ipa
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+decent
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+ipa
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;We’ll next remove &lt;em&gt;sentiment words&lt;/em&gt; (e.g., ‘bad’, ‘good’, ‘sad’, ‘awesome’). You might wonder: Wouldn’t we want to keep these words, as they would improve the predictive power of our model? Indeed, sentiment is typically a strong predictor of ratings – and the current case is no different. For example, the plot below shows the relationship between a review’s valence (e.g., does it contain mostly positive or negative words?) and it’s rating.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sentiment_by_rating &amp;lt;- review_tokens %&amp;gt;%
+  left_join(sentiments %&amp;gt;%
+    filter(lexicon == &amp;quot;AFINN&amp;quot;) %&amp;gt;%
+    select(word, score) %&amp;gt;%
+    rename(
+      word1 = word,
+      score1 = score
+    )) %&amp;gt;%
+  left_join(sentiments %&amp;gt;%
+    filter(lexicon == &amp;quot;AFINN&amp;quot;) %&amp;gt;%
+    select(word, score) %&amp;gt;%
+    rename(
+      word2 = word,
+      score2 = score
+    )) %&amp;gt;%
+  mutate(
+    score1 = ifelse(is.na(score1), 0, score1),
+    score2 = ifelse(is.na(score2), 0, score2),
+    bigram_score = score1 + score2
+  ) %&amp;gt;%
+  group_by(review_id, rating) %&amp;gt;%
+  summarise(
+    sent_score = sum(bigram_score),
+    n_bigrams = n()
+  ) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  mutate(sent_score_norm = sent_score / n_bigrams) # normalize by length of review&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sentiment_by_rating %&amp;gt;%
+  ggplot(aes(sent_score_norm, rating)) +
+  geom_point() +
+  geom_jitter(position = position_jitter(5), alpha = 0.1) +
+  stat_smooth(method = &amp;quot;lm&amp;quot;, se = FALSE, size = 2) +
+  my_plot_theme() +
+  xlim(-5, 5) +
+  labs(
+    x = &amp;quot;Sentiment Score&amp;quot;,
+    y = &amp;quot;Rating&amp;quot;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Reviews with higher sentiment scores (i.e., those with more positive words) are associated with higher ratings. However, we don’t want the final model to hone in on phrases like ‘terrible beer’ or ‘awesome flavor’. We want instead to focus only on neutral words that describe the beer. This is why we’ll filter out valenced words from our dataset. The next cleaning step will also remove numbers and convert each word to its stem (e.g., ‘hopped’, ‘hops’, ‘hop’ all become ‘hop’).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sentiment_stop &amp;lt;- sentiments %&amp;gt;%
+  filter(lexicon == &amp;quot;bing&amp;quot;) %&amp;gt;%
+  pull(word)
+
+review_tokens &amp;lt;- review_tokens %&amp;gt;%
+  filter(! word1 %in% sentiment_stop) %&amp;gt;%
+  filter(! word2 %in% sentiment_stop) %&amp;gt;%
+  filter(! is.na(word1)) %&amp;gt;%
+  filter(! is.na(word2)) %&amp;gt;%
+  filter(is.na(as.numeric(word1))) %&amp;gt;%
+  filter(is.na(as.numeric(word2))) %&amp;gt;%
+  mutate(
+    word1 = tm::stemDocument(word1),
+    word2 = tm::stemDocument(word2)
+  ) %&amp;gt;%
+  mutate(bigram = paste(word1, word2))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ll complete two additional steps when considering which reviews are leveraged in the final training set: (1) remove all bigrams that appear in 15 or fewer reviews, and (2) exclude all reviews that have less than 4 tokens (words). The objective is to avoid rare bigrams and focus on reviews that contain meaningful content (i.e., ‘this beer rocked’, ‘i like beer’, or ‘beer good’ all convey meaning but don’t tell us much about the reasoning behind a rating!). These thresholds can be thought of as ‘tuning parameters’ and are often experimented with to find the best combination.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bigram_occurence_threshold &amp;lt;- 15
+review_length_threshold &amp;lt;- 4
+
+review_tokens &amp;lt;- review_tokens %&amp;gt;%
+  anti_join(review_tokens %&amp;gt;%
+    count(bigram) %&amp;gt;%
+    filter(n &amp;lt;= bigram_occurence_threshold) %&amp;gt;%
+    select(bigram)) %&amp;gt;%
+  anti_join(review_tokens %&amp;gt;%
+    group_by(review_id) %&amp;gt;%
+    summarise(n_words = n()) %&amp;gt;%
+    ungroup() %&amp;gt;%
+    filter(n_words &amp;lt; review_length_threshold - 1) %&amp;gt;% # subtract 1 because of bigram
+    select(review_id))&lt;/code&gt;&lt;/pre&gt;
+Whew! That was a lot but we’re finally ready to do some modeling. Let’s take a quick peek at the sample review we’ve been using thus far before moving on.
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:200px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+review_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+brewer
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+beer_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+abv
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+rating
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+bigram
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+word1
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+word2
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+oz bottl
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+oz
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+bottl
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+white head
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+white
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+head
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+head aroma
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+head
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+aroma
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+malt citrus
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+malt
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+citrus
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+77
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Bear Republic Brewing Co.
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Racer 5 India Pale Ale
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7.5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+citrus tast
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+citrus
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+tast
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;text-and-machine-learning&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Text and Machine Learning&lt;/h3&gt;
+&lt;p&gt;In keeping with all blog posts about machine learning, we’ll start off by splitting our clean data into train and test.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(234)
+
+beers_split &amp;lt;- beer_reviews %&amp;gt;%
+  select(review_id) %&amp;gt;%
+  initial_split(prop = 4/5)
+  
+train_index &amp;lt;- training(beers_split)
+test_index &amp;lt;- testing(beers_split)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is where we transform our ‘long’ dataset into a ‘wide’ dataset via the &lt;code&gt;cast_sparse&lt;/code&gt; function. Each row will contain a unique review. All text features will either be 1 or 0 indicating if the bigram is present (1) or absent (0) in the review. Representing our data in this format is called a ‘bag-of words’ model (BOW for short) and is one of the simplest ways to format text data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;beer_bigrams &amp;lt;- review_tokens %&amp;gt;%
+  select(review_id, bigram, rating) %&amp;gt;%
+  cast_sparse(review_id, bigram) %&amp;gt;%
+  as.matrix() %&amp;gt;%
+  as_tibble() %&amp;gt;%
+  tibble::rownames_to_column() %&amp;gt;%
+  rename(review_id = rowname) %&amp;gt;%
+  clean_names() %&amp;gt;%
+  mutate(review_id = as.numeric(review_id)) %&amp;gt;%
+  inner_join(beers_df %&amp;gt;% select(review_id, abv, rating))
+
+print(dim(beer_bigrams %&amp;gt;% select(-review_id, -abv, -rating)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 14148  1327&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our training dataset has ~14K reviews with 1327 bigrams. One thing to note about the &lt;code&gt;cast_sparse&lt;/code&gt; function is that it creates a data structure specifically designed to handle data with lots of zeros. We are converting back to a more common R data structure – the &lt;code&gt;tibble&lt;/code&gt; – for the sake of readability. However, if our data was very large, as is often the case with text data, this would be a bad idea, as sparse matrices are designed to be memory-efficient.&lt;/p&gt;
+&lt;p&gt;While we could go on a long exploratory data excursion, let’s keep it simple and examine which bigrams commonly occur as a way to validate our data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+
+beer_bigrams %&amp;gt;%
+  skimr::skim(.) %&amp;gt;%
+  filter(stat == &amp;quot;mean&amp;quot;) %&amp;gt;%
+  filter(between(value, 0.02, 0.05)) %&amp;gt;% 
+  sample_n(20) %&amp;gt;% 
+  mutate(bigram = str_to_title(str_replace(variable, &amp;quot;_&amp;quot;, &amp;quot; &amp;quot;))) %&amp;gt;%
+  ggplot(aes(x = reorder(bigram, value), y = value)) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;, fill = colors[1]) +
+  coord_flip() +
+  scale_y_continuous(labels = scales::percent) +
+  my_plot_theme() + 
+  labs(
+    x = &amp;quot;&amp;quot;,
+    y = &amp;quot;% of Reviews Containing Bigram&amp;quot;,
+    title = &amp;#39;Frequently Occuring Bigrams&amp;#39;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Looks good! Bigram frequency is a good place to start, but it doesn’t tell us if the presence of a particular bigram drives a beer’s rating. To answer that question, we’ll fit a regression model with Lasso regularization. I don’t want to dive too deep into the details of the model, but it’s main advantages are (1) automatic feature selection based on which bigrams are important, and (2) ease-of-interpretation, given that the outputs are just linear regression coefficients.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(2)
+
+beers_train = inner_join(beer_bigrams, train_index)
+
+registerDoMC(cores = 8) # this will speed up cross validation
+
+x &amp;lt;- data.matrix(beers_train %&amp;gt;% select(-review_id, -rating))
+y &amp;lt;- beers_train$rating
+
+cv_lasso &amp;lt;- cv.glmnet(
+  x = x,
+  y = y,
+  nfolds = 5,
+  parallel = TRUE,
+  family = &amp;quot;gaussian&amp;quot;
+)
+
+plot(cv_lasso)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The plot above indicates that a model with ~50 features has the lowest Mean-Squared Error based on the results of cross-validating on our training set (note we could potentially use a simpler model with 6 features, as it’s error was within 1 standard error of the best model).&lt;/p&gt;
+&lt;p&gt;The next step gets to the crux of this post, which is to understand the features that drive ratings. Below we’ll plot the top/bottom 7 coefficients that increase/decrease ratings the most.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;coefs &amp;lt;- cv_lasso$glmnet.fit %&amp;gt;%
+  tidy() %&amp;gt;%
+  filter(lambda == cv_lasso$lambda.min) %&amp;gt;%
+  arrange(desc(abs(estimate)))
+
+coefs %&amp;gt;%
+  filter(lambda == cv_lasso$lambda.min) %&amp;gt;%
+  filter(term != &amp;quot;(Intercept)&amp;quot;) %&amp;gt;%
+  mutate(term = str_to_title(str_replace(term, &amp;quot;_&amp;quot;, &amp;quot; &amp;quot;))) %&amp;gt;%
+  group_by(estimate &amp;gt; 0) %&amp;gt;%
+  top_n(7, abs(estimate)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  ggplot(aes(fct_reorder(term, estimate), estimate, fill = estimate &amp;gt; 0)) +
+  geom_col(alpha = 0.8, show.legend = FALSE) +
+  coord_flip() + 
+  scale_fill_manual(values = colors) + 
+  my_plot_theme()  + 
+  labs(
+    x = NULL,
+    y = &amp;#39;Estimate&amp;#39;,
+    title = &amp;quot;Coefficients that Increase or Decrease Beer Ratings&amp;quot;,
+    subtitle = &amp;quot;West Coast IPAs with tropical fruit flavors, lot&amp;#39;s of hops and a high ABV are rated more favorably&amp;quot;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The key theme here is that big, fruity IPAs tend to increase ratings, while light, low ABV, session IPAs tend to decrease ratings.&lt;/p&gt;
+&lt;p&gt;We finally have some results, but how much faith can be placed in the model? Let’s check by evaluating against our test data. We’ll predict the ratings of each beer and then compare to the actual ratings. We’ll also create a ‘prediction baseline’ or ‘naive model’ to compare our ML model against. The baseline simply predicts that all ratings in the test set are equal to the average of all ratings in the training set. In short, are we just modeling a bunch of noise?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;beers_test &amp;lt;- inner_join(beer_bigrams, test_index)
+
+predicted_ratings &amp;lt;- as.vector(predict(cv_lasso,
+  beers_test %&amp;gt;%
+    select(-review_id, -rating) %&amp;gt;%
+    data.matrix(),
+  s = &amp;quot;lambda.min&amp;quot;
+))
+
+pred_perf &amp;lt;- beers_test %&amp;gt;%
+  select(review_id, rating) %&amp;gt;%
+  mutate(pred_rating = predicted_ratings) %&amp;gt;%
+  mutate(pred_rating = case_when(
+    pred_rating &amp;gt; 5 ~ 5,
+    pred_rating &amp;lt; 1 ~ 1,
+    TRUE ~ pred_rating
+  )) %&amp;gt;%
+  mutate(pred_baseline = mean(beers_train$rating))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ll compare our models via the Mean Absolute Error (MAE) and Mean Absolute Percent Error (MAPE).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pred_perf %&amp;gt;%
+  select(-review_id) %&amp;gt;%
+  mutate(
+    mape_lasso = yardstick::mape_vec(rating, pred_rating),
+    mae_lasso = yardstick::mae_vec(rating, pred_rating),
+    mape_naive = yardstick::mape_vec(rating, pred_baseline),
+    mae_naive = yardstick::mae_vec(rating, pred_baseline)
+  ) %&amp;gt;%
+  select(mape_lasso:mae_naive) %&amp;gt;%
+  distinct() %&amp;gt;%
+  gather() %&amp;gt;%
+  mutate(
+    metric = str_to_title(map_chr(str_split(key, &amp;quot;_&amp;quot;), function(x) x[[1]])),
+    model = str_to_title(map_chr(str_split(key, &amp;quot;_&amp;quot;), function(x) x[[2]]))
+  ) %&amp;gt;%
+  ggplot(aes(model, y = value, fill = model, label = round(value, 2))) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;) +
+  facet_grid(metric ~ ., scales = &amp;quot;free&amp;quot;) +
+  geom_label(label.size = 1, size = 6, color = &amp;quot;white&amp;quot;) + 
+  my_plot_theme() +
+  theme(legend.position = &amp;#39;none&amp;#39;) + 
+  scale_fill_manual(values = colors) + 
+  labs(x = &amp;#39;Model&amp;#39;,
+       y = &amp;#39;Value&amp;#39;,
+       title = &amp;#39;Predicting Beer Ratings is Not Easy&amp;#39;
+       )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-21-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The ML model is &lt;strong&gt;technically&lt;/strong&gt; better than just guessing but not by much. Let’s run a formal test to compare the average of our errors between both methods.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;residuals &amp;lt;- pred_perf %&amp;gt;%
+  mutate(
+    lasso_residual = rating - pred_rating,
+    naive_residual = rating - pred_baseline
+  )
+
+print(t.test(
+  abs(residuals$lasso_residual),
+  abs(residuals$naive_residual)
+))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Welch Two Sample t-test
+## 
+## data:  abs(residuals$lasso_residual) and abs(residuals$naive_residual)
+## t = -2.7612, df = 5756, p-value = 0.005777
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.054274139 -0.009205376
+## sample estimates:
+## mean of x mean of y 
+## 0.4977533 0.5294931&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you like p-values, this might make you feel better. At this point, we would typically circle back and try a number of fixes to improve the performance of the model (e.g., collect more data, try 1-gram, 3-grams, non-linear models, etc.). However, this post is already running a bit long so we’ll push on with the current model.&lt;/p&gt;
+&lt;p&gt;Lastly, let’s look at the errors. Where is the model going wrong?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;residuals %&amp;gt;% 
+ggplot(aes(x = lasso_residual)) +
+  geom_histogram(fill = colors[1], color = &amp;#39;black&amp;#39;, bins = 15) +
+  my_plot_theme() + 
+  labs(x = &amp;#39;Residual&amp;#39;,
+       y = &amp;#39;Count&amp;#39;
+       )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/beers_and_text_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The residuals are reasonably well behaved, but it does tend to overpredict low ratings (e.g., 1 or 2). This isn’t surprising, considering that ratings in this region are pretty rare in our data. Indeed, typically we would dive into the observations with the largest residuals to see what our model might be missing, and then encode the missing information as a feature(s) to reduce the overall error rate.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;concluding-remarks&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Concluding Remarks&lt;/h3&gt;
+&lt;p&gt;The workflow outlined here can be used for any task involving text, and hopefully, the value of using a tidy approach to text analysis is apparent. While the end results are less-than-encouraging, the feature engineering and data cleaning steps discussed in this post represent only one approach. As with all data science tasks, the real value comes from experimenting and trying many different approaches. Additionally, a less-than-stellar outcome from the first pass of modeling with real-world data is pretty typical, in that the hours of work, sweat, and a noisy computer fan often produce results that might be only &lt;em&gt;slightly&lt;/em&gt; better than chance.&lt;/p&gt;
+&lt;p&gt;Feel free to drop some suggestions in the comment section below. Prost!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;appendix&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Appendix&lt;/h3&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import logging
+from datetime import datetime
+import os
+import time
+from contextlib import contextmanager
+import urllib3
+from bs4 import BeautifulSoup
+import warnings
+import re
+from itertools import chain
+from string import punctuation
+import pandas as pd
+warnings.filterwarnings(&amp;#39;ignore&amp;#39;)
+HTTP = urllib3.PoolManager()
+###
+###
+def create_dir(dir_name):
+    try:
+        if not os.path.exists(dir_name):
+            os.makedirs(dir_name)
+    except OSError:
+        print(&amp;quot;Cannot Create Directory: {}&amp;quot;.format(dir_name))
+###
+###
+def collect_id(id_url, n_beers):
+    pg_range = [str(x) for x in range(0, n_beers, 50)]
+    pg_urls = [&amp;#39;&amp;#39;.join(x) for x in zip([id_url] * len(pg_range), pg_range)]
+    id_list = []
+    for url in pg_urls:
+        response = BeautifulSoup(HTTP.request(&amp;#39;GET&amp;#39;, id_url).data, &amp;#39;lxml&amp;#39;)
+        for i in str(response.find(&amp;#39;table&amp;#39;)).split(&amp;#39;href=&amp;#39;):
+            beer_id = i.split(&amp;#39;/&amp;#39;)[3:5]
+            if sum([int(x.isdigit()) for x in beer_id]) == 2:
+                id_list.append(beer_id)  
+    return [&amp;#39;/&amp;#39;.join(x) + &amp;#39;/&amp;#39; for x in id_list]
+###
+###
+def create_urls(beer_ids, n_reviews):
+    profile_url_prefix = &amp;#39;https://www.beeradvocate.com/beer/profile/&amp;#39;
+    profile_url_suffix = &amp;#39;?view=beer&amp;amp;sort=&amp;amp;start=&amp;#39;
+    review_range = [str(x) for x in range(0, n_reviews, 50)]
+    profile_url_p1 = [&amp;#39;&amp;#39;.join(x) for x in zip([profile_url_prefix] * len(beer_ids), beer_ids)]
+    complete_profile_url = []
+    for url in profile_url_p1:
+        complete_profile_url.append(
+            [&amp;#39;&amp;#39;.join(x) for x in zip([url] * len(review_range),
+                                     [profile_url_suffix] * len(review_range),
+                                     review_range
+                                     )]
+                                    )
+    return list(chain(*complete_profile_url))
+###
+###
+def collect_info(response, indiv_url, info_dir):
+    beer_id = &amp;#39;-&amp;#39;.join(indiv_url.split(&amp;#39;/&amp;#39;)[5:7])
+    fname = info_dir + beer_id + &amp;#39;-info.csv&amp;#39;
+    try:
+        name, brewer = str(response.find(&amp;#39;title&amp;#39;)).replace(&amp;#39;title&amp;#39;, &amp;#39;&amp;#39;).split(&amp;#39; | &amp;#39;)[:2]
+        name = &amp;#39;&amp;#39;.join([x for x in name if x not in punctuation])
+        abv = (re.search(r&amp;#39;Alcohol by volume(.*)&amp;#39;, str(response.find(&amp;quot;div&amp;quot;, {&amp;quot;id&amp;quot;: &amp;quot;info_box&amp;quot;}))) 
+           .group(1)
+           .split(&amp;#39; &amp;#39;)[-1]
+              )
+        page_info_df = pd.DataFrame([beer_id, brewer, name, abv]).T
+        page_info_df.columns = [&amp;#39;beer_id&amp;#39;, &amp;#39;brewer&amp;#39;, &amp;#39;beer_name&amp;#39;, &amp;#39;abv&amp;#39;]
+        page_info_df.to_csv(fname, index = False)
+    except Exception as e:
+        logging.debug(&amp;#39;Unable to collect data for {}&amp;#39;.format(indiv_url))
+        logging.debug(e)
+###
+###
+def collect_reviews(response, indiv_url, review_dir, review_index):
+    beer_id = &amp;#39;-&amp;#39;.join(indiv_url.split(&amp;#39;/&amp;#39;)[5:7])
+    fname = review_dir + beer_id + &amp;#39;-review-&amp;#39; + str(review_index) + &amp;#39;.csv&amp;#39;
+    reviews = [str(x) for x in list(response.find_all(&amp;#39;div&amp;#39;, {&amp;#39;class&amp;#39;: &amp;#39;user-comment&amp;#39;}))]
+    page_reviews = []
+    for index, review in enumerate(reviews):
+        review_ind = [1 if len(x) &amp;gt; 0 else 0 for x in review.split(&amp;#39;&amp;lt;br/&amp;gt;&amp;#39;)]
+        space_index = [index for index, x in enumerate(review_ind) if x == 0]
+        if space_index[:2] == [2, 4]:
+            review_txt = &amp;#39; &amp;#39;.join(review.split(&amp;#39;&amp;lt;br/&amp;gt;&amp;#39;)[2:4])
+            review_rating = re.search(r&amp;#39;\\| overall: (.*)&amp;lt;/span&amp;gt;&amp;#39;, review)
+            page_reviews.append([beer_id,
+                             review_txt, 
+                             review_rating.group(1).split(&amp;#39;&amp;lt;&amp;#39;)[0]
+                            ]
+                           )
+    if len(page_reviews) &amp;gt; 0:
+        page_reviews_df = pd.DataFrame(page_reviews)
+        page_reviews_df.columns = [&amp;#39;beer_id&amp;#39;, &amp;#39;review&amp;#39;, &amp;#39;rating&amp;#39;]
+        page_reviews_df.to_csv(fname, index = False)
+        logging.debug(&amp;#39;collected {} reviews for beer {}&amp;#39;.format(page_reviews_df.shape[0], beer_id))
+###
+###
+def main():
+    beer_id = &amp;#39;116&amp;#39;
+    info_dir = &amp;#39;beer_info/&amp;#39;
+    review_dir = &amp;#39;beer_reviews/&amp;#39;
+    log_dir = &amp;#39;beer_log/&amp;#39;
+    create_dir(info_dir)
+    create_dir(review_dir)
+    create_dir(log_dir)
+    n_beers = 500
+    n_reviews = 500
+    pause_time = 3
+    # configure logging
+    logging.basicConfig(filename=log_dir + &amp;#39;BA.log&amp;#39;,
+                        level=logging.DEBUG,
+                        format = &amp;#39;%(asctime)s - %(message)s&amp;#39;
+                       )
+    id_url = &amp;#39;https://www.beeradvocate.com/beer/styles/{}/?sort=revsD&amp;amp;start=&amp;#39;.format(beer_id)
+    # collect ids for each beer
+    beer_ids = collect_id(id_url, n_beers)
+    # create urls for each page
+    profile_urls = create_urls(beer_ids, n_beers)
+    for review_index, indiv_url in enumerate(profile_urls):
+        response_i = BeautifulSoup(HTTP.request(&amp;#39;GET&amp;#39;, indiv_url).data, &amp;#39;lxml&amp;#39;)
+        if indiv_url[-1] == &amp;#39;0&amp;#39;:
+            print(&amp;#39;Collecting Data for {}&amp;#39;.format(indiv_url))
+            collect_info(response_i, indiv_url, info_dir)
+        collect_reviews(response_i, indiv_url, review_dir, review_index)
+        time.sleep(pause_time) 
+###
+###
+if  __name__ ==  &amp;quot;__main__&amp;quot;:
+    main() &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Surviving the NFL</title>
       <link>/post/surviving_the_nfl.html</link>
       <pubDate>Wed, 12 Dec 2018 21:13:14 -0500</pubDate>
@@ -14028,1273 +15427,6 @@ extract_element = function(strings, split_character, element_index){
 print(unname(sapply(strings, extract_element_tc, &amp;quot; &amp;quot;, 5)))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## [1] &amp;quot;NO STRING HERE&amp;quot; &amp;quot;fine&amp;quot;           &amp;quot;denied&amp;quot;         &amp;quot;shaped&amp;quot; &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Boom. No errors this time. R is different in that tryCatch will have separate functions, referred to as handlers, that get called depending on the condition that occurs. In this case, we have 2 conditions– our desired condition, and the error condition. There are additional conditions that can be handled (see &lt;a href=&#34;http://adv-r.had.co.nz/Exceptions-Debugging.html&#34;&gt;here&lt;/a&gt; for more detail). For example, you can also include a handler for &lt;code&gt;warnings&lt;/code&gt; as well, which can be extremely helpful for finding exceptions that don’t break your code but instead give you undesired results.&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Early Trend Detection</title>
-      <link>/post/early_trend_detection.html</link>
-      <pubDate>Sat, 24 Jun 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/post/early_trend_detection.html</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;early_trend_detection_images/stock_exchange.jpg&#34; width=&#34;800px&#34; height=&#34;800px&#34; /&gt;&lt;/p&gt;
-&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;Trend detection is way to anticipate where something will go in the future. The logic underlying the inference is simple: Are there patterns of activity that precede an upward or downward trend? For example, a fashion trend might start in a big city like New York, London, or Paris. The emergence of the trend might then occur at a later date in smaller nearby cities. Thus, if you were charged with anticipating future demand for the trending product, you could use the early signal from the big cities to anticipate demand in the smaller cities. This information could inform everything from design to demand planning (i.e., getting the right amount of product in the right place). This is often referred to as a &lt;strong&gt;leading indicator&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;For this approach to be effective, there has to be a “common way” in which a something trends. Maybe it’s a gradual increase over the first five days, followed by a rapid increase over the next 10 days. Or maybe you just need the first three days to make an accurate prediction of a positive trend when the change in demand is very rapid. There are many ways in which something can trend, but the pattern of demand, tweets, views, purchases, likes, etc. for a positive trend has to be different from a negative or flat trend.&lt;/p&gt;
-&lt;p&gt;This post outlines one approach to separate the signatures associated with different types of trends. We’ll use stock data from Fortune 500 companies as our analytical dataset to predict if a stock’s price will trend positively based on its closing price over the first 30 days in Jan/Feb of 2015? Before jumping into the example, though, I’ll briefly introduce the technique with a smaller dataset.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;non-parametric-trend-detection&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Non-Parametric Trend Detection&lt;/h3&gt;
-&lt;p&gt;We’ll use a K-Nearest-Neighbor (KNN) approach for classifying where a stock’s price trend in the future (i.e., up or flat/down). KNN is non-parametric, which means we don’t make any assumptions about our data. There is also no ‘model’; we simply let the data make the classification or prediction. Without generalizing too much, I’ve liked KNN when my feature set is small and consists mostly of continuous variables. It is easy to explain and surprisingly effective relative to more complicated, parametric models. All we have to do is find the right “K”, which is the number of neighbors we use to make our prediction/classification. “K” is determined through cross-validation, where we try several values and see which gives the best results.&lt;/p&gt;
-&lt;p&gt;So how do we determine our neighbors? There are many distance metrics used to define “similarity”, the most common being Euclidean Distance. However, the main drawback to this approach is that it cannot account for forward or backward shifts between series, which is an issue when dealing with sequential data. Thus we’ll use &lt;strong&gt;Dynamic Time Warping&lt;/strong&gt;, which can account for temporary shifts, leads, or lags.&lt;/p&gt;
-&lt;p&gt;We’ll use 10 fictitious stocks in our initial example. Five will trend positively after their first 50 days while the remaining five will trend negatively over the same time period. These stocks will serve as our “training set”. We’ll then take a new stock for which we only have the first 50 days and classify it as either a “positive” or “negative” trending stock. This prediction is where we think the stock will go relative to its position at day 50.&lt;/p&gt;
-&lt;p&gt;Let’s first generate the initial 50 days for our 10 stocks.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;libs = c(&amp;#39;BatchGetSymbols&amp;#39;, &amp;#39;rvest&amp;#39;, &amp;#39;Kendall&amp;#39;, 
-         &amp;#39;dplyr&amp;#39;,&amp;#39;openair&amp;#39;, &amp;#39;broom&amp;#39;,
-         &amp;#39;MarketMatching&amp;#39;, &amp;#39;ggplot2&amp;#39;, &amp;#39;knitr&amp;#39;,
-         &amp;#39;ggforce&amp;#39;, &amp;#39;rvest&amp;#39;, &amp;#39;xml2&amp;#39;,
-         &amp;#39;janitor&amp;#39;
-         )
-lapply(libs, require, character.only = TRUE)
-set.seed(123)
-pre_date_range = seq.Date(as.Date(&amp;quot;2016-01-01&amp;quot;), 
-                          by = &amp;quot;day&amp;quot;, 
-                          length = 100) 
-pre_period = 50
-trend_patterns = data.frame()
-for(i in 1:5){
-  # generate pattern for stocks that trend negatively from days 51-100
-  neg_trend_pre = cos(seq(0, 10, 0.1))[1:pre_period] + rnorm(pre_period, 0, 0.7)
-  trend_patterns = bind_rows(trend_patterns,
-                         data.frame(date = pre_date_range[1:pre_period],
-                                    value = neg_trend_pre,
-                                    class = paste0(&amp;#39;negative_&amp;#39;, i)))
-  
-  # generate pattern for stocks that trend positively from days 51-100
-  pos_trend_pre = cos(seq(0, 10, 0.1))[(pre_period + 1):100] + rnorm(pre_period, 0, 0.7)
-  trend_patterns = bind_rows(trend_patterns,
-                        data.frame(date = pre_date_range[1:pre_period],
-                                          value = pos_trend_pre,
-                                          class = paste0(&amp;quot;positive_&amp;quot;, i)))
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now let’s add in our positive and negative trends.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;generate_trend = function(trend_length, increment, sd, base_value){
-    trend_vector = c()
-    for(j in 1:trend_length){
-        trend_vector = c(trend_vector, rnorm(1, 
-                                             base_value, 
-                                             sd = sd))
-        base_value = base_value + increment
-    }
-    return(trend_vector)
-}
-
-increment = 0.03
-standard_dev = 0.08
-trend_patterns_future = data.frame(NULL)
-for(temp_trend in unique(trend_patterns$class)){
-    temp_ts = trend_patterns %&amp;gt;% 
-              filter(class == temp_trend)
-    # extend date 50 days forward
-    future_dates = pre_date_range[51:length(pre_date_range)]
-    base_value = temp_ts$value[length(temp_ts$value)]
-    future_trend = generate_trend(length(future_dates), 
-                                  increment, 
-                                  standard_dev, 
-                                  base_value)
-    if(strsplit(temp_trend, &amp;quot;_&amp;quot;)[[1]][1] == &amp;#39;negative&amp;#39;){
-        future_trend = future_trend * -1
-        }
-    trend_patterns_future = bind_rows(trend_patterns_future,
-                                      data.frame(date = future_dates,
-                                                 value = future_trend,
-                                                 class = temp_trend)
-                                  )
-}
-
-trend_patterns_ex = bind_rows(trend_patterns, 
-                              trend_patterns_future) %&amp;gt;% 
-                              arrange(class, date)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And finally, we’ll set up our plotting function and plot the five positive and five negative trends. Additionally, we’ll look at the first 50 days to see if there is a pattern associated with positive/negative trends. The gray shaded area indicates the point at which we make our prediction regarding where we think the stock will go.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_plot_theme = function(){
-    font_family = &amp;quot;Helvetica&amp;quot;
-    font_face = &amp;quot;bold&amp;quot;
-    return(theme(
-    axis.text.x = element_text(size = 18, face = font_face, family = font_family),
-    axis.text.y = element_text(size = 18, face = font_face, family = font_family),
-    axis.title.x = element_text(size = 20, face = font_face, family = font_family),
-    axis.title.y = element_text(size = 20, face = font_face, family = font_family),
-    strip.text.y = element_text(size = 18, face = font_face, family = font_family),
-    plot.title = element_text(size = 18, face = font_face, family = font_family),
-    legend.position = &amp;quot;top&amp;quot;,
-    legend.title = element_text(size = 16,
-    face = font_face,
-    family = font_family),
-    legend.text = element_text(size = 14,
-    face = font_face,
-    family = font_family)
-))
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plotting colors
-plot_colors = c(&amp;quot;#33FFFB&amp;quot;,&amp;quot;#33D6FF&amp;quot;,
-                &amp;quot;#33BDFF&amp;quot;,&amp;quot;#3388FF&amp;quot;,
-                &amp;quot;#33EAFF&amp;quot;,&amp;quot;#FF3371&amp;quot;,
-               &amp;quot;#FF335C&amp;quot;,&amp;quot;#FF334C&amp;quot;,
-               &amp;quot;#FF4833&amp;quot;,&amp;quot;#FF5833&amp;quot;)
-
-ggplot(trend_patterns_ex, aes(x = date, y = value, color = class)) + 
-    geom_point(alpha = 0.2) + stat_smooth(se = FALSE) + 
-    scale_color_manual(values = plot_colors) + 
-    theme_bw() + 
-    my_plot_theme() + 
-    ylab(&amp;quot;Stock Price&amp;quot;) + xlab(&amp;quot;Date&amp;quot;) + 
-    facet_zoom(x = date %in% pre_date_range[1:pre_period])&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/early_trend_detection_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;In this case, stocks that initially go up, drift down, then flatten out all trend positively. In contrast, stocks that decline and then increase from days 30-50 trend downward from days 51-100. Thus, there is a common pattern that precedes a sustained increase or decrease in price. Based on this information, let’s introduce our new stock – the “target trend” – that we only have pricing information for days 1-50.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sample_trend_pre = bind_rows(data.frame(date = pre_date_range[1:pre_period],
-                                        value = cos(seq(0, 10, 0.1))[(pre_period + 1):100] + rnorm(pre_period, 0, 0.7),
-                                        class = &amp;quot;target_trend&amp;quot;),
-                             data.frame(date = rep(NA, pre_period),
-                                        value = rep(NA, pre_period),
-                                        class = &amp;quot;target_trend&amp;quot;)
-                             )
-trend_patterns_ex = bind_rows(sample_trend_pre, 
-                              trend_patterns_ex)             &lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(trend_patterns_ex, aes(x = date, y = value, color = class)) + 
-    geom_point(alpha = 0.1) + geom_line(stat = &amp;quot;smooth&amp;quot;,
-                                        method = &amp;quot;gam&amp;quot;,
-                                        formula = y ~ s(x),
-                                        size = 2,
-                                        alpha = 0.2
-                                        ) + 
-    scale_color_manual(values = c(&amp;quot;black&amp;quot;, plot_colors)) + 
-    theme_bw() + 
-    my_plot_theme() + 
-    stat_smooth(data = sample_trend_pre, 
-                aes(x = date, y = value), 
-                color = &amp;quot;black&amp;quot;,
-                se = FALSE, 
-                size = 3, 
-                lty = 4) + 
-    theme(legend.position = &amp;quot;none&amp;quot;) + 
-    ylab(&amp;quot;Stock Price&amp;quot;) + 
-    facet_zoom(x = date %in% pre_date_range[1:pre_period])&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/early_trend_detection_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Let’s filter our dataset to days 1-50 and see how many of the nearest neighbors for our target trend are positive/negative. In this case &lt;em&gt;K&lt;/em&gt; is set to 5.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trend_patterns_test_time = trend_patterns_ex %&amp;gt;% 
-                           filter(date &amp;lt;= as.Date(&amp;quot;2016-02-19&amp;quot;)) %&amp;gt;% 
-                           mutate(class = as.character(class))
-
-trend_pattern_matches = best_matches(data = trend_patterns_test_time,
-                                     id_variable = &amp;quot;class&amp;quot;,
-                                     date_variable = &amp;quot;date&amp;quot;,
-                                     matching_variable = &amp;quot;value&amp;quot;,
-                                     parallel = TRUE,
-                                     warping_limit = 3,
-                                     matches = 5,
-                                     start_match_period = min(trend_patterns_test_time$date),
-                                     end_match_period = max(trend_patterns_test_time$date)
-)
-
-best_matches = trend_pattern_matches$BestMatches %&amp;gt;% 
-               filter(class == &amp;#39;target_trend&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:270px; overflow-x: scroll; width:720px; &#34;&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-class
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-BestControl
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-RelativeDistance
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-Correlation
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-Length
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-rank
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-MatchingStartDate
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-MatchingEndDate
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-target_trend
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive_2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.234196
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.6145986
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-50
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-01-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-02-19
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-target_trend
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive_4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.375498
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.5205792
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-50
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-01-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-02-19
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-target_trend
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive_3
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.394093
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.5089169
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-50
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-01-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-02-19
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-target_trend
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive_1
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.408172
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.5831835
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-50
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-01-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-02-19
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-target_trend
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive_5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3.453815
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.4916183
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-50
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-01-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2016-02-19
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;Let’s focus on the &lt;strong&gt;BestControl&lt;/strong&gt; field. All five of the most similar time-series to our target time-series have a positive label. Thus we would predict that our target time-series will trend positively from days 51-100, based on its pattern from days 1-50. If all five of our best matches were stocks that negatively trended, then we would make the opposite prediction. I told you this method is simple (and effective)! However, let’s see if how we feel the same way after working with real-world stock data, introduced in the next section.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;predicting-stocks&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Predicting Stocks&lt;/h3&gt;
-&lt;p&gt;We are trying to answer the following question:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Is there a pattern of daily closing prices that comes before a ~90-day increase in the price of a stock?&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For example, maybe a small increase in the first 60 days is often followed by a big 60-day upward climb. Or maybe stocks that gradually dip for a period of 60 days are more likely to rebound over the subsequent 60 days. In essence, are there a collection of 60-day patterns that come before an upward trend in a stock’s price? Trying to formalize such patterns with a set of parameters is difficult, given the variety of patterns that could be associated with a positive trend. This is why we are using the approach outlined above and letting the data decide.&lt;/p&gt;
-&lt;p&gt;We’ll begin by scraping the names of all Fortune 500 companies from Wikipedia, and then pull the actual closing prices for each company via the &lt;code&gt;BatchGetSymbols&lt;/code&gt; package. This will take a few minutes.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url = &amp;quot;https://en.wikipedia.org/wiki/List_of_S%26P_500_companies&amp;quot;
-
-# collect fortunue 500 stock symbols
-stock_names = url %&amp;gt;%
-       read_html() %&amp;gt;%
-       html_nodes(xpath=&amp;#39;//*[@id=&amp;quot;mw-content-text&amp;quot;]/div/table[1]&amp;#39;) %&amp;gt;%
-       html_table() %&amp;gt;% 
-       pull(Ticker.symbol)
-
-train_period_begin = as.Date(&amp;quot;2015-01-01&amp;quot;)
-train_period_end = max(seq(train_period_begin, by = &amp;quot;day&amp;quot;, length.out = 200))
-# collect actual closing prices for stocks
-stock_price = BatchGetSymbols(tickers = stock_names,
-                              first.date = train_period_begin,
-                              last.date = train_period_end
-                              )$df.tickers %&amp;gt;% 
-              clean_names() %&amp;gt;% 
-              select(ref_date, ticker, price_close)&lt;/code&gt;&lt;/pre&gt;
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:720px; &#34;&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-ticker
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-ref_date
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-price_close
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-164.06
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-05
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-160.36
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-06
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-158.65
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-07
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-159.80
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-08
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-163.63
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-09
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-161.62
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-12
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-160.74
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-13
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-160.62
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-14
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-159.84
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MMM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-15
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-159.66
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;Data looks ready to go! Let’s select the stocks that will comprise our training/test sets. We’ll do a 90⁄10 split. Note that the test stocks will be used a little later.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
-n_days_train = 60
-n_day_outcome = 60
-pct_stocks_in_test = 0.1
-# select stocks that will be in the training and test sets
-test_stocks = sample(stock_names, 
-                     size = floor(length(unique(stock_price$ticker)) * pct_stocks_in_test), 
-                     replace = FALSE)
-
-train_stocks = setdiff(stock_price$ticker, test_stocks)
-# select first 30 days of 2015 as feature set
-input_dates = unique(stock_price$ref_date)[1:n_days_train]
-# select next 90 days as trend outcome 
-trend_dates = setdiff(unique(stock_price$ref_date), input_dates)[1:n_day_outcome]
-stocks_train = stock_price %&amp;gt;% 
-               filter(ticker %in% train_stocks) %&amp;gt;% 
-               mutate(label = ifelse(ref_date %in% input_dates, 
-                                     &amp;quot;input_dates&amp;quot;,
-                                     &amp;quot;trend_dates&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now that we have our data and it’s all cleaned up, let’s discuss how we’ll determine the labels for our “positive” and “flat|negative” time series.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;defining-a-trend&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Defining a Trend&lt;/h3&gt;
-&lt;p&gt;We could plot out every time series and label them by hand but &lt;a href=&#34;https://www.youtube.com/watch?v=zGxwbhkDjZM&#34;&gt;ain’t nobody got time for that&lt;/a&gt;. Instead, we’ll use two automated approaches:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Linear Regression (LR)&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Mann-Kendall test (MK)&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Labels will be generated based on the trend observed from days 60-120 and will be either &lt;strong&gt;positive&lt;/strong&gt;, &lt;strong&gt;negative&lt;/strong&gt;, or &lt;strong&gt;neutral&lt;/strong&gt;. We are interested in whether the coefficient for this index is significant as well as its overall direction. For example, if a stock exhibits a significant positive trend, then it will be labeled positive; if a stock exhibits random variation, then it will be labeled neutral. LR takes the average slope, while the MK approach takes the median slope. Note that we might be violating the assumption that our data points are uncorrelated with one another. There are ways around this (e.g., block bootstrapping), but for the sake of simplicity, we’ll assume an absence of serial correlation. Let’s run both tests and gather the results.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# use mann-kendall to determine class 
-mk_class = stocks_train %&amp;gt;% 
-              filter(label == &amp;quot;trend_dates&amp;quot;) %&amp;gt;% 
-              group_by(ticker) %&amp;gt;% 
-              do(trend_data = MannKendall(ts(.$price_close))) %&amp;gt;% 
-              data.frame()
-
-mk_class$tau = unlist(lapply(mk_class$trend_data,
-                                function(x) x[[1]][1]))
-mk_class$p_value = unlist(lapply(mk_class$trend_data,
-                                    function(x) x[[2]][1]))
-
-ELSE = TRUE
-mk_class = mk_class %&amp;gt;%
-           select(ticker, tau, p_value) %&amp;gt;% 
-           mutate(trend_class_mk = case_when(tau &amp;gt; 0 &amp;amp; p_value &amp;lt; 0.01 ~ &amp;quot;positive&amp;quot;,
-                                   tau &amp;lt; 0 &amp;amp; p_value &amp;lt; 0.01 ~ &amp;quot;negative&amp;quot;,
-                                   ELSE ~ &amp;quot;neutral&amp;quot;
-                                    )) %&amp;gt;% 
-           select(ticker, trend_class_mk)
-
-# use linear regression to determine class
-lm_class = stocks_train %&amp;gt;%
-  filter(label == &amp;quot;trend_dates&amp;quot;) %&amp;gt;% 
-  group_by(ticker) %&amp;gt;%
-  mutate(day_index = row_number()) %&amp;gt;%
-  do(tidy(lm(price_close ~ day_index, data = .))) %&amp;gt;% 
-  filter(term == &amp;#39;day_index&amp;#39;) %&amp;gt;%
-  mutate(trend_class_lm = case_when(p.value &amp;lt; 0.01 &amp;amp; estimate &amp;gt; 0 ~ &amp;quot;positive&amp;quot;,
-                                    p.value &amp;lt; 0.01 &amp;amp; estimate &amp;lt; 0 ~ &amp;quot;negative&amp;quot;,
-                                    ELSE ~ &amp;quot;neutral&amp;quot;
-                                    )) %&amp;gt;% 
-  select(ticker, trend_class_lm)
-
-trend_class = inner_join(mk_class,
-                         lm_class,
-                         on = &amp;quot;ticker&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:720px; &#34;&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-ticker
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-trend_class_mk
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-trend_class_lm
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-A
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AAL
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AAP
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AAPL
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-neutral
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-neutral
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-ABBV
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-ABC
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-ABT
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-ACN
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-ADBE
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-ADI
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-neutral
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-neutral
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;The two methods produced the same classification for most of the stocks. However, let’s examine a few cases where they differ.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stocks_train %&amp;gt;% 
-filter(ticker == &amp;#39;ADI&amp;#39; &amp;amp; label == &amp;#39;trend_dates&amp;#39;) %&amp;gt;% 
-mutate(ref_date = as.Date(ref_date)) %&amp;gt;% 
-ggplot(aes(x = ref_date, y = price_close)) + 
-      geom_point(size = 2, color = &amp;quot;black&amp;quot;) + 
-      geom_line(size = 2, color = &amp;quot;black&amp;quot;) + 
-      theme_bw() + 
-      my_plot_theme() + 
-      ylab(&amp;quot;Closing Price&amp;quot;) + 
-      xlab(&amp;quot;Date&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/early_trend_detection_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The price for this stock goes up but then trends downward. The LR indicates a positive trend while the MK test indicates a neutral trend. The LR is taking the average, and the average is positive overall, given that the stock showed big gains in June and July. In contrast, the MK tests whether there is a monotonically increasing or decreasing trend over time. It is considering the ratio of positive and negative differences across time. Since we went up and then back down, there will be a similar number of positive/negative differences, hence the neutral classification.&lt;/p&gt;
-&lt;p&gt;Let’s consider a separate example.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stocks_train %&amp;gt;% 
-filter(ticker == &amp;#39;NI&amp;#39; &amp;amp; label == &amp;#39;trend_dates&amp;#39;) %&amp;gt;% 
-mutate(ref_date = as.Date(ref_date)) %&amp;gt;% 
-ggplot(aes(x = ref_date, y = price_close)) + 
-      geom_point(size = 2, color = &amp;quot;black&amp;quot;) + 
-      geom_line(size = 2, color = &amp;quot;black&amp;quot;) + 
-      theme_bw() + 
-      my_plot_theme() + 
-      ylab(&amp;quot;Closing Price&amp;quot;) + 
-      xlab(&amp;quot;Date&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/early_trend_detection_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This time series produced the exact oppositive pattern: The MK test classified the trend as neutral, while the LR produced a negative classification. The stock trended slightly upward for most of the time-period and then crashed the last few days in July. Those final few points have a lot of leverage on the coefficient in the linear model, while the MK test is relatively unaffected. In this case, I’d say it’s a negatively trending stock, but arguments for either classification could be made.&lt;/p&gt;
-&lt;p&gt;Stocks such as these are why we are evaluating two separate viewpoints. We want to ensure that the trend is somewhat definitive. If there is disagreement amongst the methods, we are going to assign a stock the “neutral” label. In a more formal analytical setting, we would spend more time testing whether this labeling approach is valid. However, for the sake of illustration, we’re going to use a simple, heuristic-based approach, such that any classification disagreements amongst the two methods will result in a neutral classification. Let’s update all of the instances where a disagreement occurred, and then filter out all of the neutral cases.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trend_class = trend_class %&amp;gt;% 
-              mutate(trend_class = ifelse(trend_class_mk != trend_class_lm, 
-                                         &amp;quot;neutral&amp;quot;,
-                                         trend_class_mk)) %&amp;gt;% 
-              select(ticker, trend_class) %&amp;gt;% 
-              filter(trend_class != &amp;quot;neutral&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Finally, let’s examine the distribution of our classes.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(table(trend_class$trend_class))
-print(&amp;quot;----------------------------------&amp;quot;)
-print(paste0(&amp;quot;PERCENT OF STOCKS POSITIVE: &amp;quot;,
-      round(table(trend_class$trend_class)[[2]]/nrow(trend_class) * 100, 0),
-      &amp;quot;%&amp;quot;)
-      )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 
-## negative positive 
-##      195      150 
-## [1] &amp;quot;----------------------------------&amp;quot;
-## [1] &amp;quot;PERCENT OF STOCKS POSITIVE: 43%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There are more time series in negative class relative to the positive class. This isn’t a huge imbalance, but it might skew our classifications toward the negative class, as there are simply more series to match on. Let’s downsample our negative stocks so we have an equal number of positive and negative classes in the training set.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
-trend_class = trend_class %&amp;gt;% 
-              filter(trend_class == &amp;quot;negative&amp;quot;) %&amp;gt;% 
-              sample_n(trend_class %&amp;gt;% 
-                       filter(trend_class == &amp;quot;positive&amp;quot;) %&amp;gt;% 
-                       nrow()
-                         ) %&amp;gt;% 
-              bind_rows(trend_class %&amp;gt;% 
-                        filter(trend_class == &amp;quot;positive&amp;quot;))
-                       
-print(table(trend_class$trend_class))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## negative positive 
-##      152      152&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(&amp;quot;----------------------------------&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;----------------------------------&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(paste0(&amp;quot;PERCENT OF STOCKS POSITIVE: &amp;quot;,round(table(trend_class$trend_class)[[2]]/nrow(trend_class) * 100, 0), &amp;quot;%&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;PERCENT OF STOCKS POSITIVE: 50%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## 
-## negative positive 
-##     150      150 
-## [1] &amp;quot;----------------------------------&amp;quot;
-## [1] &amp;quot;PERCENT OF STOCKS POSITIVE: 50%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Perfect. Now we have even numbers and are ready to test out the trend detector.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;trend-detection-performance&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Trend Detection Performance&lt;/h3&gt;
-&lt;p&gt;Now that we’ve assigned a label to each of the stocks in our training set, we’ll download the closing prices for the test stocks, which are from the following year during the same time period (i.e., Jan/Feb 2016).&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;test_period_begin = as.Date(&amp;quot;2016-01-01&amp;quot;)
-test_period_end = max(seq(test_period_begin, 
-                          by = &amp;quot;day&amp;quot;, 
-                          length.out = 200))
-
-stocks_test = BatchGetSymbols(tickers = test_stocks,
-                              first.date = test_period_begin,
-                              last.date = test_period_end)$df.tickers %&amp;gt;% 
-                   clean_names() %&amp;gt;% 
-                   select(ref_date, ticker, price_close)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Running BatchGetSymbols for:
-##    tickers = DLPH, REGN, FTV, TWX, VRSN, AGN, JBHT, TJX, KMI, HRS, VZ, HAL, NEM, LH, AIV, TXT, CMS, ALGN, DPS, URI, SYF, NWSA, MET, WMT, MSFT, NI, IQV, LEG, CSX, BDX, UA, SRCL, MYL, PPL, AMG, HBI, PCAR, CERN, DVN, CMG, BK, FAST, FB, EW, VIAB, BHGE, CVX, GE, KO
-##    Downloading data for benchmark ticker
-## Downloading Data for DLPH from yahoo (1|49) - Nice!
-## Downloading Data for REGN from yahoo (2|49) - Got it!
-## Downloading Data for FTV from yahoo (3|49) - OK!
-## Downloading Data for TWX from yahoo (4|49) - Nice!
-## Downloading Data for VRSN from yahoo (5|49) - Good job!
-## Downloading Data for AGN from yahoo (6|49) - Got it!
-## Downloading Data for JBHT from yahoo (7|49) - Good stuff!
-## Downloading Data for TJX from yahoo (8|49) - Got it!
-## Downloading Data for KMI from yahoo (9|49) - Good stuff!
-## Downloading Data for HRS from yahoo (10|49) - Nice!
-## Downloading Data for VZ from yahoo (11|49) - Good job!
-## Downloading Data for HAL from yahoo (12|49) - Nice!
-## Downloading Data for NEM from yahoo (13|49) - Nice!
-## Downloading Data for LH from yahoo (14|49) - Good stuff!
-## Downloading Data for AIV from yahoo (15|49) - Well done!
-## Downloading Data for TXT from yahoo (16|49) - Got it!
-## Downloading Data for CMS from yahoo (17|49) - Nice!
-## Downloading Data for ALGN from yahoo (18|49) - Got it!
-## Downloading Data for DPS from yahoo (19|49) - Good job!
-## Downloading Data for URI from yahoo (20|49) - Got it!
-## Downloading Data for SYF from yahoo (21|49) - Boa!
-## Downloading Data for NWSA from yahoo (22|49) - Well done!
-## Downloading Data for MET from yahoo (23|49) - Good job!
-## Downloading Data for WMT from yahoo (24|49) - Good job!
-## Downloading Data for MSFT from yahoo (25|49) - Nice!
-## Downloading Data for NI from yahoo (26|49) - Good stuff!
-## Downloading Data for IQV from yahoo (27|49) - Boa!
-## Downloading Data for LEG from yahoo (28|49) - Good job!
-## Downloading Data for CSX from yahoo (29|49) - Well done!
-## Downloading Data for BDX from yahoo (30|49) - Nice!
-## Downloading Data for UA from yahoo (31|49) - Good job!
-## Downloading Data for SRCL from yahoo (32|49) - Got it!
-## Downloading Data for MYL from yahoo (33|49) - Good job!
-## Downloading Data for PPL from yahoo (34|49) - Good stuff!
-## Downloading Data for AMG from yahoo (35|49) - Got it!
-## Downloading Data for HBI from yahoo (36|49) - Good stuff!
-## Downloading Data for PCAR from yahoo (37|49) - Boa!
-## Downloading Data for CERN from yahoo (38|49) - Boa!
-## Downloading Data for DVN from yahoo (39|49) - Got it!
-## Downloading Data for CMG from yahoo (40|49) - Nice!
-## Downloading Data for BK from yahoo (41|49) - Boa!
-## Downloading Data for FAST from yahoo (42|49) - Good job!
-## Downloading Data for FB from yahoo (43|49) - Boa!
-## Downloading Data for EW from yahoo (44|49) - Good stuff!
-## Downloading Data for VIAB from yahoo (45|49) - Nice!
-## Downloading Data for BHGE from yahoo (46|49) - Good job!
-## Downloading Data for CVX from yahoo (47|49) - Got it!
-## Downloading Data for GE from yahoo (48|49) - Good job!
-## Downloading Data for KO from yahoo (49|49) - Got it!&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now let’s union our test and training datasets together. We’ll also change the time-stamps in our testing data set, despite the fact that our training data is from 2015 and our testing data is from 2016.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stocks_train_match = stocks_train %&amp;gt;% 
-  inner_join(trend_class) %&amp;gt;% 
-  filter(ref_date %in% input_dates)
-
-stocks_test_match = stocks_test %&amp;gt;% 
-  filter(ref_date %in% unique(stocks_test$ref_date)[1:n_days_train]) %&amp;gt;% 
-  mutate(ref_date = rep(unique(stocks_train_match$ref_date), 
-                        length(unique(stocks_test$ticker)))) %&amp;gt;% 
-  mutate(label = &amp;#39;test_dates&amp;#39;,
-         trend_class = &amp;#39;unknown&amp;#39;
-         )
-
-matching_df = bind_rows(stocks_train_match,
-                        stocks_test_match
-                        ) %&amp;gt;% 
-              mutate(ref_date = as.Date(ref_date))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We are going to initially set K to 10. The reason why we’re using such a high number is that some of the test stocks will match with other test stocks. Obviously, these won’t have labels, so we only want to consider matches with training stocks. This section will take a few minutes to run.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;max_matches = 10
-best_match_df = best_matches(data = matching_df,
-                             id_variable = &amp;quot;ticker&amp;quot;,
-                             date_variable = &amp;quot;ref_date&amp;quot;,
-                             matching_variable = &amp;quot;price_close&amp;quot;,
-                             parallel = TRUE,
-                             warping_limit = 3,
-                             matches = max_matches,
-                             start_match_period = min(matching_df$ref_date),
-                             end_match_period = max(matching_df$ref_date))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next, we’ll remove any matches that appeared in the test set and filter only to those stocks we are trying to predict.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_matches = 5
-test_matches = best_match_df$BestMatches %&amp;gt;% 
-               filter(ticker %in% stocks_test$ticker) %&amp;gt;% 
-               filter(!(BestControl %in% stocks_test$ticker)) %&amp;gt;% 
-               group_by(ticker) %&amp;gt;% 
-               top_n(-n_matches, rank) %&amp;gt;% 
-               dplyr::rename(test_stock = ticker,
-                             ticker = BestControl) %&amp;gt;% 
-               left_join(trend_class) %&amp;gt;% 
-               data.frame()&lt;/code&gt;&lt;/pre&gt;
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:720px; &#34;&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-test_stock
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-ticker
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-RelativeDistance
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-Correlation
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-Length
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-rank
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-MatchingStartDate
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-MatchingEndDate
-&lt;/th&gt;
-&lt;th style=&#34;text-align:center;&#34;&gt;
-trend_class
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AGN
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-SHW
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.0602364
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
--0.4176124
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-1
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AGN
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-MTD
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.1413700
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
--0.5561973
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AGN
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-V
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.2732732
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.3993992
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AGN
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-PPG
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.3660257
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.0625775
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AGN
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-EQIX
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.3835526
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
--0.2642403
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AIV
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-BBT
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.0584007
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.1862317
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AIV
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-NWL
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.0619271
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
--0.1978514
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-3
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-positive
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AIV
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-BBY
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.0732311
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.2444824
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-4
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AIV
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-SYY
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.0737522
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
--0.3448536
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-5
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-AIV
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-IRM
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-0.0765316
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
--0.1706778
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-60
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-7
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-01-02
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-2015-03-30
-&lt;/td&gt;
-&lt;td style=&#34;text-align:center;&#34;&gt;
-negative
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;This readout has the same interpretation as the initial example. The stocks in our &lt;code&gt;ticker&lt;/code&gt; column are in the test set, while those in the &lt;code&gt;BestControl&lt;/code&gt; column are in our training set. Given that we are interested in whether a stock is going to trend upward or downward (i.e., is this a stock we should buy/sell?), the focus on is on &lt;strong&gt;accuracy &lt;/strong&gt; – or how many stocks we classify correctly. We’ll use four matches as our cutoff; that is, if at least four of the five matches in our training dataset belong to the same class, then we’ll predict that class. All others with less than four matches won’t be considered in the accuracy calculation.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_matches = 4
-predicted_class = test_matches %&amp;gt;% 
-                  mutate(trend_class = ifelse(trend_class == &amp;#39;positive&amp;#39;, 1, 0)) %&amp;gt;% 
-                  group_by(test_stock) %&amp;gt;% 
-                  summarise(total_pos_class = sum(trend_class)) %&amp;gt;% 
-                  mutate(class_pred = case_when(total_pos_class &amp;gt;= 4 ~ &amp;#39;positive&amp;#39;,
-                                                total_pos_class &amp;lt;= 1 ~ &amp;#39;negative&amp;#39;,
-                                                ELSE ~ &amp;#39;neutral&amp;#39;
-                                                )) %&amp;gt;% 
-                  filter(class_pred != &amp;#39;neutral&amp;#39;) %&amp;gt;% 
-                  data.frame()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;After eliminating all of the “neutral” classifications, there are 20 stocks remaining. Out of these, what percentage were correctly classified as positive or negative?&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;test_dates = unique(stocks_test$ref_date)[n_days_train:(n_days_train + n_day_outcome - 1)]
-trend_class_test = stocks_test %&amp;gt;% 
-                   filter(ref_date %in% test_dates) %&amp;gt;% 
-                   filter(ticker %in% predicted_class$test_stock)
-# use mann-kendall to determine class 
-mk_class = trend_class_test %&amp;gt;% 
-  group_by(ticker) %&amp;gt;% 
-  do(trend_data = MannKendall(ts(.$price_close))) %&amp;gt;% 
-  data.frame()
-
-mk_class$tau = unlist(lapply(mk_class$trend_data,
-                             function(x) x[[1]][1]))
-mk_class$p_value = unlist(lapply(mk_class$trend_data,
-                                 function(x) x[[2]][1]))
-
-mk_class = mk_class %&amp;gt;%
-  select(ticker, tau, p_value) %&amp;gt;% 
-  mutate(trend_class_mk = case_when(tau &amp;gt; 0 &amp;amp; p_value &amp;lt; 0.01 ~ &amp;quot;positive&amp;quot;,
-                                    tau &amp;lt; 0 &amp;amp; p_value &amp;lt; 0.01 ~ &amp;quot;negative&amp;quot;,
-                                    ELSE ~ &amp;quot;neutral&amp;quot;
-  )) %&amp;gt;% 
-  select(ticker, trend_class_mk)
-
-# use linear regression to determine class
-lm_class = trend_class_test %&amp;gt;%
-  group_by(ticker) %&amp;gt;%
-  mutate(day_index = row_number()) %&amp;gt;%
-  do(tidy(lm(price_close ~ day_index, data = .))) %&amp;gt;% 
-  filter(term == &amp;#39;day_index&amp;#39;) %&amp;gt;%
-  mutate(trend_class_lm = case_when(p.value &amp;lt; 0.01 &amp;amp; estimate &amp;gt; 0 ~ &amp;quot;positive&amp;quot;,
-                                    p.value &amp;lt; 0.01 &amp;amp; estimate &amp;lt; 0 ~ &amp;quot;negative&amp;quot;,
-                                    ELSE ~ &amp;quot;neutral&amp;quot;
-  )) %&amp;gt;% 
-  select(ticker, trend_class_lm)
-
-trend_class_actual = inner_join(mk_class,
-                                lm_class,
-                                on = &amp;quot;ticker&amp;quot;) %&amp;gt;% 
-                     filter(trend_class_mk == trend_class_lm) %&amp;gt;% 
-                     inner_join(predicted_class %&amp;gt;% 
-                                select(-total_pos_class) %&amp;gt;% 
-                                dplyr::rename(ticker = test_stock))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Joining, by = &amp;quot;ticker&amp;quot;
-## Joining, by = &amp;quot;ticker&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s have a look at the accuracy of our predictions.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;classification_accuracy = trend_class_actual %&amp;gt;% 
-                          filter(trend_class_mk == class_pred &amp;amp; 
-                                 trend_class_lm == class_pred) %&amp;gt;% 
-                          nrow()/nrow(trend_class_actual) * 100
-
-print(paste0(&amp;quot;PERCENT OF STOCKS CORRECTLY CLASSIFIED: &amp;quot;,classification_accuracy, &amp;quot;%&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;PERCENT OF STOCKS CORRECTLY CLASSIFIED: 25%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;An accuracy rate of 30% is no better than chance if we assume an equivalent distribution of positive, negative, and flat trends. However, this approach for evaluating performance doesn’t account for how much of an increase/decrease occurred It also doesn’t provide any insight into the overall percentage of stocks that trended upward or downward. Indeed, many stocks trended positively during this time period, so the overall classification accuracy wasn’t so hot. We would’ve missed out on a lot of stocks that did quite well, and here are a few reasons why:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;A time-period of 60 days was too short&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;The dynamics that lead to trends in our training set were different than those in our test set&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;The assumptions used to classify different stocks weren’t valid&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;K was too high/low&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;This approach just doesn’t work with stock data&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Indeed, that last point is crucial. There are some things in life that are really hard to predict, as the number of factors that influence the thing we are trying to predict are too great. This is one advantage of using a non-parametric approach, in that you don’t have to quantify each of the factors with a parameter – you just let the data decide. However, the assumption that past patterns and relationships will persist in the future still holds. In our case, if the patterns that precede a positive trend in the past are different than those in the future, then you can’t use historical data (like we did here) as a basis for predictions. This assumption is hotly contested in the world of economics when it comes to predicting stocks. Some believe there are cyclical patterns that precede a downward or upward trend in price, while others believe that the stock market is simply a random walk – it cannot be predicted. Any forward-looking knowledge about where a stock might go is already baked into its current price. I don’t have the answer; if I did, I’d start a hedge fund, make lots of money, then buy my own soft-serve ice cream machine. I’m pretty sure that’s what we’d all do.&lt;/p&gt;
-&lt;p&gt;Although the method outlined here didn’t perform well in predicting stocks, similar methods have shown promise detecting trends in other areas, such as social media (see &lt;a href=&#34;https://snikolov.wordpress.com/2012/11/14/early-detection-of-twitter-trends/&#34;&gt;here&lt;/a&gt;). I hope you enjoyed reading this post. If you have any suggestions for alternate approaches to trend detection, I’d love to hear!&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
