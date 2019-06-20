@@ -11,6 +11,1326 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>The State of Names in America</title>
+      <link>/post/state_of_names.html</link>
+      <pubDate>Wed, 12 Jun 2019 21:13:14 -0500</pubDate>
+      
+      <guid>/post/state_of_names.html</guid>
+      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;&lt;img src=&#34;state_of_names_images/header_img.jpg&#34; width=&#34;800px&#34; height=&#34;200px&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Phil Karlton, a famous Netscape Developer (i.e., OG Google Chrome) once said, ‘There are two hard things in computer science: cache invalidation and naming things’. I haven’t done much cache invalidation, but I have named a few things – and naming a person is by far the hardest of them all! Indeed, having waited two days after my own son’s birth to finally settle on a name, I wondered to what extent other new parents encountered the same struggles. Are there shortcuts or heuristics that others use to simplify the decision-making process, specifically cues from their immediate surroundings to help guide their choices when choosing a baby name? This question motivated me to look into the nuances of naming conventions over the past century in America.&lt;br /&gt;
+Accordingly, in this post, we’ll investigate the influence of one’s state of residence on the frequency with which certain names occur. We’ll also explore possible reasons for why some states have more variety in their names than others. Finally, we’ll finish up in my home state of Oregon to identify the trendiest names over the past 20 years and predict whether those names will remain trendy in the future. From a technical standpoint, we’ll cover some central, bread-and-butter topics in data science, including trend detection, false discovery rates, web scraping, time-series forecasting, and geovisualization. Let’s get started!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;people-born-in-oregon-are-named-after-trees&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;People Born in Oregon are Named after Trees&lt;/h3&gt;
+&lt;p&gt;We’ll begin by downloading more than 110 years of US name data from 🌲 &lt;a href=&#34;https://github.com/thecodeforest&#34;&gt;the codeforest github repo&lt;/a&gt; 🌳. Our dataset is published yearly by the &lt;a href=&#34;https://www.ssa.gov/OACT/babynames/limits.html&#34;&gt;Social Security Administration&lt;/a&gt;, and it contains a count of all names that occur more than five times by year within each US state. Let’s get started by loading relevant libraries and pulling our data into R.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Core Packages
+library(tidyverse)
+library(purrr)
+library(skimr)
+library(janitor)
+library(drlib)
+library(broom)
+library(openintro)
+library(sweep)
+
+# Webscraping Packages
+library(rvest)
+
+# Forecasting Packages
+library(forecast)
+library(timetk)
+
+# Visualization Packages
+library(ggplot2)
+library(ggmap)
+library(ggthemes)
+library(ggrepel)
+library(artyfarty)
+library(kableExtra)
+
+# Trend Detection Packages
+library(trend)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Path to codeforest repo
+repo &amp;lt;- &amp;quot;https://raw.githubusercontent.com/thecodeforest/names_data/master&amp;quot;
+
+# Set visualization themes
+theme_set(theme_bw())
+source(file.path(repo,&amp;#39;viz_theme&amp;#39;,&amp;#39;names_post_theme.R&amp;#39;))
+
+# Collect file paths from Github
+file_names &amp;lt;- read_html(&amp;quot;https://github.com/thecodeforest/names_data&amp;quot;) %&amp;gt;%
+  html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;%
+  html_table(fill = TRUE) %&amp;gt;%
+  data.frame() %&amp;gt;%
+  clean_names() %&amp;gt;%
+  filter(str_ends(name, &amp;#39;.TXT&amp;#39;))
+
+# Append data from each state into single table
+names_raw &amp;lt;- file.path(repo, file_names$name) %&amp;gt;%
+   purrr:::map(read_csv, col_names = FALSE) %&amp;gt;%
+   reduce(rbind)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s have a quick peek at our data.&lt;/p&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+X1
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+X2
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+X3
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+X4
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+X5
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Mary
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+14
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Annie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Anna
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Margaret
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Helen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Elsie
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Lucy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1910
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Dorothy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1911
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Mary
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+AK
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+FALSE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1911
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Margaret
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;A little cleaning is in order. We’ll name our fields, create a gender feature, and remove spurious names.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names(names_raw) &amp;lt;- c(&amp;quot;state&amp;quot;, &amp;quot;gender&amp;quot;, &amp;quot;year&amp;quot;, &amp;quot;name&amp;quot;, &amp;quot;frequency&amp;quot;)
+
+names_processed &amp;lt;- names_raw %&amp;gt;% 
+  mutate(gender = ifelse(is.na(gender), &amp;quot;Male&amp;quot;, &amp;quot;Female&amp;quot;)) %&amp;gt;%
+  filter(!str_to_lower(name) %in% c(&amp;quot;unknown&amp;quot;, &amp;quot;noname&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;male&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s do some quick exploratory data analysis before addressing our original questions. Any time we are working with categorical variables (e.g., name, state, gender, etc.), I like to start by counting and visualizing their distributions. Below we’ll create two separate data views for quality assurance purposes: (1) The most popular names since 1910, and (2) the total number of births (based on name counts) across time. The goal is to ensure the data aligns with our expectations (e.g., the most popular boy names over the past 100 years are not ‘Florp’ or ‘Spaghetti Joe’).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# calculate the top 20 most popular names
+name_popularity &amp;lt;- names_processed %&amp;gt;% 
+  group_by(name, gender) %&amp;gt;% 
+  summarise(total = sum(frequency)) %&amp;gt;% 
+  group_by(gender) %&amp;gt;% 
+  top_n(20, total) %&amp;gt;% 
+  ungroup() %&amp;gt;% 
+  mutate(name = reorder_within(name, total, gender))
+
+name_popularity %&amp;gt;% 
+  ggplot(aes(name, total, fill = gender)) + 
+  geom_col(alpha = 0.8, color = &amp;#39;black&amp;#39;) + 
+  coord_flip() + 
+  scale_x_reordered() +
+  facet_wrap(~ gender, scales = &amp;#39;free&amp;#39;, ncol = 1) + 
+  scale_y_continuous(labels = scales::comma_format()) + 
+  scale_fill_manual(values = pal(&amp;quot;monokai&amp;quot;)) +
+  my_plot_theme() + 
+  labs(x = NULL,
+       y = &amp;#39;Total Names&amp;#39;,
+       title = &amp;#39;US Top 20 names by gender since 1910&amp;#39;
+       ) + 
+  theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/state_of_names_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;These frequencies seem reasonable! Next, let’s examine how the total count of names has changed across time between 1910 and 2018 to determine if there are any missing or incomplete years.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names_processed %&amp;gt;% 
+  mutate(year = as.Date(paste(as.character(year), &amp;#39;01&amp;#39;, &amp;#39;01&amp;#39;, sep = &amp;#39;-&amp;#39;))) %&amp;gt;% 
+  group_by(year) %&amp;gt;% 
+  summarise(total = sum(frequency)) %&amp;gt;% 
+  ggplot(aes(year, total)) + 
+  geom_line(size = 2) + 
+  scale_y_continuous(labels = scales::comma_format()) + 
+  scale_x_date(date_breaks = &amp;quot;10 year&amp;quot;, date_labels = &amp;#39;%Y&amp;#39;) + 
+  my_plot_theme() + 
+  labs(x = &amp;#39;Year&amp;#39;,
+       y = &amp;#39;Total Births&amp;#39;,
+       title = &amp;#39;Total US Births by Year&amp;#39;,
+       subtitle = &amp;#39;Total based only on names appearing &amp;gt; 5 times per state per year&amp;#39;
+       ) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/state_of_names_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The overall trend here also checks out as well, with the baby-boom occurring between 1946 to 1964 and a steady decline in births rates since the early 1990s.&lt;/p&gt;
+&lt;p&gt;Now that we’ve done some quick validation, let’s tackle our first question: Which names over-index within each state? To address this question, we’ll compare the proportion of names occupied by a single name within a state relative to how frequently the name occurs across all 50 states. We’ll also focus only on the past 10 years to capture recent name trends. Note that the technique implemented below was adapted from the excellent Tidy Tuesday Screen cast series found &lt;a href=&#34;https://www.youtube.com/watch?v=EF4A4OtQprg&amp;amp;t=1071s&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# count of names by state since 2008
+name_state_counts &amp;lt;- names_processed %&amp;gt;%
+  filter(year &amp;gt;= 2008) %&amp;gt;%
+  group_by(name, state) %&amp;gt;%
+  summarise(n = sum(frequency)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  complete(state, name, fill = list(n = 0))
+
+# total births in US
+total_names &amp;lt;- sum(name_state_counts$n)
+
+# name count across all states
+name_counts &amp;lt;- name_state_counts %&amp;gt;%
+  group_by(name) %&amp;gt;%
+  summarise(name_total = sum(n))
+
+# birth count by state
+state_counts &amp;lt;- name_state_counts %&amp;gt;%
+  group_by(state) %&amp;gt;%
+  summarise(state_total = sum(n))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we’ll create a ratio that summarizes how much more likely a name is to appear within a state relative to the US as a whole. We’ll put some filters on as well to prevent rare names from overwhelming our analysis.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Minimum occurrences within a state
+cnt_in_state &amp;lt;- 100
+
+# Minimum occurrences across all US
+cnt_in_US &amp;lt;- 200
+
+# Calculate name ratio within state relative to within US
+all_name_counts &amp;lt;- name_state_counts %&amp;gt;%
+  inner_join(name_counts) %&amp;gt;%
+  inner_join(state_counts) %&amp;gt;%
+  mutate(state_name_full = openintro::abbr2state(state)) %&amp;gt;%
+  filter(
+    n &amp;gt;= cnt_in_state,
+    name_total &amp;gt;= cnt_in_US
+  ) %&amp;gt;%
+  mutate(
+    percent_of_state = n / state_total,
+    percent_of_names = name_total / total_names
+  ) %&amp;gt;%
+  mutate(overrepresented_ratio = percent_of_state / percent_of_names) %&amp;gt;%
+  arrange(desc(overrepresented_ratio))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below we’ll plot the top 10 names by state from a geographically representative sample.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;top_n_names &amp;lt;- 10
+
+all_name_counts %&amp;gt;%
+  group_by(state_name_full) %&amp;gt;%
+  top_n(top_n_names, overrepresented_ratio) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  filter(state_name_full %in%
+    c(
+      &amp;quot;Alabama&amp;quot;, &amp;quot;New Jersey&amp;quot;, &amp;quot;Arkansas&amp;quot;,
+      &amp;quot;Oregon&amp;quot;, &amp;quot;Colorado&amp;quot;, &amp;quot;New Mexico&amp;quot;,
+      &amp;quot;West Virginia&amp;quot;, &amp;quot;Hawaii&amp;quot;
+    )) %&amp;gt;%
+  mutate(name = reorder_within(name, overrepresented_ratio, state_name_full)) %&amp;gt;%
+  ggplot(aes(name, overrepresented_ratio, fill = state_name_full)) +
+  geom_col(color = &amp;quot;black&amp;quot;, alpha = 0.8) +
+  coord_flip() +
+  scale_x_reordered() +
+  facet_wrap(~state_name_full, scales = &amp;quot;free&amp;quot;, ncol = 2) +
+  scale_fill_manual(values = pal(&amp;quot;monokai&amp;quot;)) +
+  my_plot_theme() + 
+  labs(
+    x = NULL,
+    y = &amp;quot;Overrepresentation Ratio&amp;quot;
+  ) +
+  theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/state_of_names_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;There’s a lot to unpack here, but that fact that ‘Crimson’ over-indexes in Alabama tells me we’re on to something. Let’s briefly summarise our findings for each state separately:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Alabama&lt;/strong&gt; - Roll Tide.&lt;br /&gt;
+&lt;strong&gt;Arkansas&lt;/strong&gt; - Future country music stars.&lt;br /&gt;
+&lt;strong&gt;Colorado&lt;/strong&gt; - Mountain towns (Aspen, Breckenridge) and famous skiers (Bode Miller)&lt;br /&gt;
+&lt;strong&gt;Hawaii&lt;/strong&gt; - Native Hawaiian names. Note the large magnitude of this ratio, indicating that these names are found exclusively in Hawaii.&lt;br /&gt;
+&lt;strong&gt;New Jersey&lt;/strong&gt; - Large Jewish population.&lt;br /&gt;
+&lt;strong&gt;New Mexico&lt;/strong&gt; - Large Hispanic population.&lt;br /&gt;
+&lt;strong&gt;Oregon&lt;/strong&gt; - Nature.&lt;br /&gt;
+&lt;strong&gt;West Virginia&lt;/strong&gt; - Preferred gun brands (Remington, Kolton).&lt;/p&gt;
+&lt;p&gt;It’s interesting to see how cultures unique to each state come through in people’s names. Are you a big fan of the University of Alabama’s Football team? Name your kid Crimson. Are you a firearm’s enthusiast? Remington has a nice ring to it. Do you enjoy long hikes in the woods? Forrest is a great name. This finding indicates that (unsurprisingly) geography plays a significant role in determining naming conventions within a state, and that people leverage the cultural norms from within their state when deciding on a name.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;diversity-of-names&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Diversity of Names&lt;/h3&gt;
+&lt;p&gt;In the previous section, we established that one’s state of birth influences naming conventions (still trying to figure out if this is a good or bad thing…). Let’s continue with this theme and initially consider how ‘Name Diversity’ varies between states, which we’ll define by comparing the proportion of all names represented by the top 100 most popular names in each state. For example, the figure below shows the cumulative percentage of all names captured by the top 10 names in Oregon relative to Vermont.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names_diversity_sample &amp;lt;- name_state_counts %&amp;gt;% 
+  filter(state %in% c(&amp;#39;OR&amp;#39;, &amp;#39;VT&amp;#39;)) %&amp;gt;% 
+  group_by(state) %&amp;gt;% 
+  arrange(desc(n)) %&amp;gt;%
+  mutate(total = sum(n),
+         cumulative_sum = cumsum(n),
+         pct_of_names = cumulative_sum / total,
+         total_names = 1:n()
+         ) %&amp;gt;% 
+  slice(1:10) %&amp;gt;% 
+  ungroup()&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:400px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+state
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+total
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+cumulative_sum
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+pct_of_names
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+total_names
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Emma
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2549
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2549
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0069623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Olivia
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2452
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5001
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0136597
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Sophia
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2210
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7211
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0196961
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Liam
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2155
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+9366
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0255822
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Benjamin
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1999
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+11365
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0310422
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+William
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1986
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+13351
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0364668
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Logan
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1978
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+15329
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0418695
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Noah
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1947
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+17276
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0471875
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Alexander
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1944
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+19220
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0524973
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+OR
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Henry
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1895
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+366114
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+21115
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0576733
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Emma
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+378
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+378
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0115869
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Liam
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+374
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+752
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0230512
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Owen
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+372
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1124
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0344542
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Mason
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+357
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0453974
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Olivia
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+354
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1835
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0562487
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Noah
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+332
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2167
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0664255
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Sophia
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+331
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2498
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0765717
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+William
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+323
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2821
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0864727
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Wyatt
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+320
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3141
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0962818
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+VT
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Ava
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+317
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+32623
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3458
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.1059988
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;When comparing the &lt;code&gt;pct_of_names&lt;/code&gt;between states, we see that approximately 5% of all names are represented by the top 10 in Oregon while 10% of all names are represented in Vermont. This means that fewer names occupy a greater proportion of names in Vermont relative to Oregon. Therefore, Vermont has less Name Diversity than Oregon. What does this relationship look like when expanding our search to the top 100 names across all lower 48 states?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;top_n_names &amp;lt;- 100
+
+# Create Name Diversity metric
+names_diversity_lower_48 &amp;lt;- name_state_counts %&amp;gt;%
+  group_by(state) %&amp;gt;%
+  arrange(state, desc(n)) %&amp;gt;%
+  mutate(
+    name_index = row_number(),
+    cumulative_sum = cumsum(n),
+    pct_of_names = cumulative_sum / sum(n)
+  ) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  filter(name_index == top_n_names) %&amp;gt;%
+  select(state, pct_of_names) %&amp;gt;%
+  mutate(state_name_full = openintro::abbr2state(state))
+
+# Join % of names accounted for by top 100 to map data
+us_map &amp;lt;- map_data(&amp;quot;state&amp;quot;) %&amp;gt;%
+  as_tibble() %&amp;gt;%
+  mutate(state_name_full = str_to_title(region)) %&amp;gt;%
+  inner_join(names_diversity_lower_48, by = &amp;quot;state_name_full&amp;quot;)
+
+# Plot relationship by state
+us_map %&amp;gt;%
+  ggplot(aes(long, lat)) +
+  geom_polygon(aes(group = group, fill = pct_of_names), color = &amp;quot;white&amp;quot;) +
+  theme_map() +
+  coord_map() +
+  my_plot_theme() + 
+  scale_fill_viridis_c(labels = scales::percent) +
+  labs(fill = &amp;quot;Percent of names in Top 100&amp;quot;,
+       title = &amp;#39;Name Diversity by State&amp;#39;,
+       subtitle = &amp;#39;Higher percentages indicate less diversity in names&amp;#39;
+       ) + 
+  theme(legend.text=element_text(size=14),
+        legend.title = element_blank(),
+        legend.position = &amp;#39;top&amp;#39;
+        )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/state_of_names_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;West Coast and Southeastern states tend to have greater name diversity (i.e., a lower % of names are represented in the top 100) while the North East has less diversity. This begs the question: What type of diversity correlates with our Name Diversity index? A &lt;a href=&#34;https://wallethub.com/edu/most-least-diverse-states-in-america/38262/&#34;&gt;recent study&lt;/a&gt; ranked states along six dimensions of diversity, such as Cultural, Economic, Household, Religious and Political. Let’s bring these rankings in and join them with our newly created diversity index.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url &amp;lt;- &amp;quot;https://wallethub.com/edu/most-least-diverse-states-in-america/38262/&amp;quot;
+
+diversity_rank &amp;lt;- read_html(url) %&amp;gt;%
+  html_nodes(&amp;quot;table&amp;quot;) %&amp;gt;%
+  .[1] %&amp;gt;%
+  html_table(fill = TRUE) %&amp;gt;%
+  data.frame() %&amp;gt;%
+  clean_names()
+
+names(diversity_rank) &amp;lt;- purrr::map_chr(names(diversity_rank), 
+                                        function(x) str_replace(x, &amp;quot;x_&amp;quot;, &amp;quot;&amp;quot;)
+                                        )
+
+diversity_tidy &amp;lt;- diversity_rank %&amp;gt;%
+  select(state, ends_with(&amp;quot;_rank&amp;quot;)) %&amp;gt;%
+  gather(diversity_metric, rank, -state) %&amp;gt;%
+  mutate(diversity_metric = str_to_title(str_replace(
+                                         str_replace(diversity_metric,&amp;quot;_rank&amp;quot;,&amp;quot;&amp;quot;) 
+                                                                     ,&amp;quot;_&amp;quot;, &amp;quot; &amp;quot;
+                                                    )
+                                         )
+         ) %&amp;gt;%
+  inner_join(names_diversity_lower_48, by = c(&amp;quot;state&amp;quot; = &amp;quot;state_name_full&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ll plot the relationship between Name Diversity and the six aforementioned dimensions.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;diversity_tidy %&amp;gt;%
+  ggplot(aes(rank, pct_of_names, label = state)) +
+  geom_point() +
+  stat_smooth() +
+  facet_wrap(~diversity_metric, scales = &amp;quot;free&amp;quot;, ncol = 2) +
+  scale_y_percent() + 
+  my_plot_theme() + 
+  labs(
+    x = &amp;quot;State Rank (1 = Most Diverse, 50 = Least Diverse)&amp;quot;,
+    y = &amp;quot;Percent of names in Top 100&amp;quot;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/state_of_names_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;There might be a positive relationship between Cultural and Household diversity relative to Name Diversity, such that states with lower Cultural Diversity also have lower Name Diversity. Some formal hypothesis testing can be useful when we don’t have a strong prior hypothesis. However, we’ll need to be careful when considering the strength of evidence, given that we are testing six separate hypotheses. To do so, we’ll adjust each p-value based on the &lt;em&gt;FDR&lt;/em&gt; or False Discovery Rate. Additionally, we’ll use Spearman’s correlation coefficient in lieu of the more popular Pearson’s because we have no reason to believe that our relationships are linear. We can relax this assumption and simply state that the relationship is monotonically increasing/decreasing.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cor_tidy &amp;lt;- diversity_tidy %&amp;gt;%
+  select(-state.y, -state) %&amp;gt;%
+  nest(-diversity_metric) %&amp;gt;%
+  mutate(
+    test = purrr::map(data, ~ cor.test(.x$rank, .x$pct_of_names, method = &amp;quot;spearman&amp;quot;)),
+    tidied = purrr::map(test, tidy)
+  ) %&amp;gt;%
+  unnest(tidied, .drop = TRUE) %&amp;gt;%
+  clean_names() %&amp;gt;%
+  mutate(corrected_p_value = p.adjust(p_value, method = &amp;quot;fdr&amp;quot;)) %&amp;gt;%
+  arrange(corrected_p_value) %&amp;gt;% 
+  select(diversity_metric, estimate, p_value, corrected_p_value)&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+diversity_metric
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+estimate
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+p_value
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+corrected_p_value
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Cultural Diversity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.4031212
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0039494
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0236961
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Household Diversity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.3328771
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0181736
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.0545207
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Religious Diversity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.2055271
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.1521794
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.2282690
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Political Diversity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.2179155
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.1284464
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.2282690
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Socioeconomic Diversity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.1078031
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.4549937
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.5459924
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Economic Diversity
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+-0.0403842
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.7801327
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0.7801327
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;After adjusting for multiple hypothesis tests, the only statistically significant relationship emerges from Cultural Diversity. This intuitively makes sense, as states with a greater blend of cultures will likely bring their own unique naming traditions. Let’s see how all of the states stack up against one another on this metric.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;diversity_tidy %&amp;gt;%
+  filter(diversity_metric == &amp;quot;Cultural Diversity&amp;quot;) %&amp;gt;%
+  ggplot(aes(rank, pct_of_names, label = state)) +
+  geom_smooth(span = 3, alpha = 0.5) +
+  geom_point() +
+  geom_label_repel() +
+  scale_y_percent() +
+  my_plot_theme() + 
+  labs(
+    x = &amp;quot;Cultural Diversity (1 = Most Diverse, 50 = Least Diverse)&amp;quot;,
+    y = &amp;quot;Name Diversity (Lower = More diverse)&amp;quot;,
+    title = &amp;#39;States with Higher Cultural Diversity have a Greater Variety of Names&amp;#39; 
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/state_of_names_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that cultural diversity relates to the breadth of names represented in each state, a relationship that is particularly pronounced amongst states with lower Cultural Diversity. Thus, if you live in a state with low Cultural Diversity and give your child a popular name, there’s a good chance they’ll be referred to as “Oliver #2”, “Emma C”, or “Other James” during grade school.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;trendy-names&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Trendy Names&lt;/h3&gt;
+&lt;p&gt;In this section, we’ll focus on my current state of residence – Oregon – and explore which names have trended the most over the past two decades and where we expect the popularity of these names to go over the next decade. Let’s start with a little data cleaning.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# only consider names that appear at least 300 times
+frequency_limit &amp;lt;- 300
+
+start_year &amp;lt;- 2000
+
+# arrange each name by year and count number of occurrences
+oregon_names &amp;lt;- names_processed %&amp;gt;%
+  as_tibble() %&amp;gt;%
+  filter(
+    state == &amp;quot;OR&amp;quot;,
+    year &amp;gt;= start_year
+  ) %&amp;gt;%
+  group_by(year, name) %&amp;gt;%
+  summarise(frequency = sum(frequency)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  complete(year, name, fill = list(frequency = 0)) %&amp;gt;%
+  group_by(name) %&amp;gt;%
+  mutate(total_freq = sum(frequency)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  filter(total_freq &amp;gt;= frequency_limit) %&amp;gt;%
+  select(-total_freq) %&amp;gt;%
+  group_by(name) %&amp;gt;%
+  arrange(name, year)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below we’re going to use a simple (yet powerful) approach for trend detection via the &lt;code&gt;mk.test&lt;/code&gt; (Mann-Kendall Test) function, which determines if a series follows a monotonic trend. Below we’ll apply this test to each name, order by the size of the resulting test statistic, and then select the top 25 largest test statistics. This will provide us with the ‘trendiest’ names since 2000.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Identify trendiest names based on top 25 largest test statistics
+trendy_names &amp;lt;- oregon_names %&amp;gt;%
+  nest(-name) %&amp;gt;%
+  mutate(
+    model = purrr::map(data, ~ mk.test(.$frequency)),
+    tidied = purrr::map(model, tidy)
+  ) %&amp;gt;%
+  unnest(tidied, .drop = TRUE) %&amp;gt;%
+  arrange(desc(statistic)) %&amp;gt;%
+  clean_names() %&amp;gt;%
+  select(name:p_value) %&amp;gt;%
+  head(25)&lt;/code&gt;&lt;/pre&gt;
+Let’s take a quick glance at some of the resulting names.
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+statistic
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+p_value
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Oliver
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.776155
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0e+00
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Hazel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.534499
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0e+00
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Luna
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.520964
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0e+00
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Hudson
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.473403
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0e+00
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Leo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.464442
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0e+00
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Nora
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.457749
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+0e+00
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Mila
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.450403
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1e-07
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Harper
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.416584
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1e-07
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Penelope
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.416584
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1e-07
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+Sawyer
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+5.394385
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1e-07
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;A quick cross-reference with some popular naming sites indicates that these names are popular both in Oregon as well as the remainder of the US. Let’s make some predictions (because you can’t have a blog post on data without trying to predict something!) for the next 10 years. As a technical aside, if your job consists of making many forecasts across different categories, the workflow below is a big time-saver and improves the readability of your source code.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Set forecasting horizon
+time_horizon &amp;lt;- 10
+
+# Create a separate forecast for each name based on 18 years of history
+name_forecast &amp;lt;- oregon_names %&amp;gt;%
+  filter(name %in% trendy_names$name) %&amp;gt;%
+  mutate(year = as.Date(&amp;quot;0001-01-1&amp;quot;) + years(year - 1)) %&amp;gt;%
+  nest(-name) %&amp;gt;%
+  mutate(
+    ts = purrr::map(data, tk_ts, start = start_year, freq = 1),
+    model = purrr::map(ts, ets),
+    fcast = purrr::map(model, forecast, h = time_horizon)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s visualize both the historical time series as well as our 10-year ahead forecast.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;name_forecast %&amp;gt;%
+  unnest(purrr::map(fcast, sw_sweep)) %&amp;gt;%
+  clean_names() %&amp;gt;%
+  mutate(lo_80 = ifelse(lo_80 &amp;lt; 0, 0, lo_80)) %&amp;gt;%
+  ggplot(aes(index, frequency, color = key)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = lo_80, ymax = hi_80), alpha = .5) +
+  facet_wrap(~name, scales = &amp;quot;free_y&amp;quot;) +
+  expand_limits(0) +
+  scale_color_manual(values = pal(&amp;quot;monokai&amp;quot;)[c(1, 3)]) +
+  my_plot_theme() + 
+  labs(
+    x = &amp;quot;Year&amp;quot;,
+    y = &amp;quot;Total Names&amp;quot;,
+    title = &amp;quot;Trendiest Name in Oregon over the Past 20 Years&amp;quot;,
+    subtitle = &amp;quot;Forecast for 10 Year Period. Shaded region represents 80% prediction interval.&amp;quot;
+  ) + 
+  theme(legend.position = &amp;#39;none&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/state_of_names_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;There’s about to be a lot more Luna’s, Mila’s, Oliver’s, Asher’s and Jameson’s in Oregon over the next decade, whereas the popularity of Harper and Penelope are either flat or heading downward. This could be helpful depending on if you wanted your child to be cool and trendy from day-1 😄. However, the intervals on the majority of these forecasts are fairly wide, indicating that naming trends are not an easy thing to predict!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;parting-thoughts&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Parting Thoughts&lt;/h3&gt;
+&lt;p&gt;While this post only scratches the surface in terms of understanding how names come-to-be in America, it reveals the extent to which parents rely on cues from their surroundings and cognitive shortcuts when naming their children. Whether it’s a favorite football team, a family name that’s been passed down through generations, a ski town with great powder, or that cool tree in the backyard, our immediate environments play a central role in the naming process. It also highlights the pivotal role that cultural diversity plays in determining the breadth of names by geographical location, as well as how unpredictable naming trends can be into the near future.&lt;/p&gt;
+&lt;p&gt;Hopefully you enjoyed the post and, if faced with naming a child any time soon, can leverage some of the techniques outlined here to come up with an awesome name!&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Text Mining for the Perfect Beer</title>
       <link>/post/beers_and_text.html</link>
       <pubDate>Mon, 20 May 2019 21:13:14 -0500</pubDate>
@@ -15341,92 +16661,6 @@ SD
 &lt;/table&gt;
 &lt;p&gt;The IQR and None approaches provided 100% coverage, while the SD method missed one month, yielding a coverage rate of ~92%.&lt;/p&gt;
 &lt;p&gt;Taken together, the IQR method provided the most accurate forecasts and prediction intervals. While this is only one example, it is interesting to note that using the SD method actually reduced our forecasting accuracy and coverage rate below what would’ve happened had we not taken any steps to remedy our outliers prior to fitting a model. This really illustrates the value of using a robust method for anomaly detection.&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Exception Handling with Ron Burgundy</title>
-      <link>/post/error_handling_markdown.html</link>
-      <pubDate>Sun, 23 Jul 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/post/error_handling_markdown.html</guid>
-      <description>&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;Exception handling is a critical component of any data science workflow. You write code. It breaks. You create exceptions. Repeat. From my experience, a point of confusion for new R users is how to handle exceptions, which I believe is more intuitive in Python (at least initially). This post provides a practical overview of how to handle exceptions in R by first illustrating the concept in Python.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;exception-handling-in-python&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Exception Handling in Python&lt;/h3&gt;
-&lt;p&gt;I’ve listed some of my favorite Ron Burgundy vocal warm-up phrases below. As a side note, all are excellent for preparing your speaking voice before a big speech.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;error_handling_images/burgundy_1.jpg&#34; width=&#34;500px&#34; height=&#34;500px&#34; /&gt;&lt;img src=&#34;/Users/mlebo1/Desktop/site/content/post/error_handling_images/burgundy_2.jpg&#34; width=&#34;500px&#34; height=&#34;500px&#34; /&gt;&lt;img src=&#34;error_handling_images/burgundy_3.jpg&#34; width=&#34;500px&#34; height=&#34;500px&#34; /&gt;&lt;img src=&#34;error_handling_images/burgundy_4.jpg&#34; width=&#34;500px&#34; height=&#34;500px&#34; /&gt;&lt;img src=&#34;error_handling_images/burgundy_5.jpg&#34; width=&#34;500px&#34; height=&#34;500px&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Let’s convert these into a list.&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;strings = [&amp;quot;how now brown cow&amp;quot;, 
-          &amp;quot;a tarantula enjoys a fine piece of chewing gum&amp;quot;, 
-          &amp;quot;the human torch was denied a bank loan&amp;quot;,
-          &amp;quot;the arsonist has oddly shaped feet&amp;quot;]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Our goal is to extract the 5th element from each phrase. We’ll use a &lt;code&gt;list comprehension&lt;/code&gt;, which maps or applies a function to each element in a list. The &lt;code&gt;extract_element&lt;/code&gt; function below takes 3 arguments:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;strings - the string we want to split&lt;/li&gt;
-&lt;li&gt;split_character - the character we want to split our strings on (in this case a space “ “)&lt;/li&gt;
-&lt;li&gt;element_index - the index of the element we want to extract after splitting the string&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def extract_element(strings, split_character, element_index):
-  return(strings.split(split_character)[element_index])&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here’s what we’ll get if we want only the first word:&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print([extract_element(x, &amp;quot; &amp;quot;, 0) for x in strings])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;## [&amp;#39;how&amp;#39;, &amp;#39;a&amp;#39;, &amp;#39;the&amp;#39;, &amp;#39;the&amp;#39;]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Great! Let’s extract the fifth word.&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print([extract_element(x, &amp;quot; &amp;quot;, 4) for x in strings])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;## IndexError: list index out of range&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Uh oh. This error message indicates that we tried an index value that was out of range, which makes sense: “how now brown cow” only has 4 words. In order to address this issue, let’s add two keywords to our function – &lt;code&gt;try&lt;/code&gt; and &lt;code&gt;except&lt;/code&gt;. Just like it sounds, the function will first try to execute the top code block. If an exception occurs, the function will pass control to the bottom code block. Let’s update the above function with our new, exception-handling logic and try again.&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def extract_element_tc(strings, split_character, element_index):
-    try:
-        return(strings.split(split_character)[element_index])
-    except IndexError:
-        return(&amp;quot;NO STRING HERE&amp;quot;)
-        
-print([extract_element_tc(x, &amp;quot; &amp;quot;, 4) for x in strings])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;## [&amp;#39;NO STRING HERE&amp;#39;, &amp;#39;fine&amp;#39;, &amp;#39;denied&amp;#39;, &amp;#39;shaped&amp;#39;]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This time it worked without an issue. We simply said,“if there isn’t an element at this index, give me back a ‘NO STRING HERE’ label”. Now let’s achieve the same result in R.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;exception-handling-in-r&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Exception Handling in R&lt;/h3&gt;
-&lt;p&gt;As I mentioned in the intro, dealing with exceptions in R can be a bit tricky at first. Let’s set up the previous task in R.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(purrr)
-
-strings = c(&amp;quot;how now brown cow&amp;quot;, 
-          &amp;quot;a tarantula enjoys a fine piece of chewing gum&amp;quot;, 
-          &amp;quot;the human torch was denied a bank loan&amp;quot;,
-          &amp;quot;the arsonist has oddly shaped feet&amp;quot;)
-
-extract_element = function(strings, split_character, element_index){
-  string_out = purrr::map_chr(strsplit(strings, split_character),
-                              element_index
-                              )
-  return(string_out)
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We’ll approach this via the &lt;code&gt;sapply&lt;/code&gt; function, which maps or applies a function to each element of a list or vector. We’ll also wrap the output of &lt;code&gt;sapply&lt;/code&gt; with the &lt;code&gt;unname&lt;/code&gt; function, which converts our list into a vector by removing the labels associated with each parsed string.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(unname(sapply(strings, extract_element, &amp;quot; &amp;quot;, 1)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;how&amp;quot; &amp;quot;a&amp;quot;   &amp;quot;the&amp;quot; &amp;quot;the&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I think we know what happens next…&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(unname(sapply(strings, extract_element, &amp;quot; &amp;quot;, 5)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Error: Result 1 is not a length 1 atomic vector &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Ok. So how do we replicate the &lt;code&gt;try-except&lt;/code&gt; control flow in R? Via the &lt;code&gt;tryCatch&lt;/code&gt; function. Let’s examine the complete function – &lt;code&gt;extract_element_tc&lt;/code&gt; – in order to deal with the problem stated above.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;extract_element_tc = function(strings_vector, split_character, element_index){
-  string_out = tryCatch({
-    return(purrr::map_chr(strsplit(strings_vector, split_character), 
-                          element_index
-                          )
-          )
-  },
-  error = function(cond){
-    return(&amp;quot;NO STRING HERE&amp;quot;)
-  })
-}
-
-print(unname(sapply(strings, extract_element_tc, &amp;quot; &amp;quot;, 5)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## [1] &amp;quot;NO STRING HERE&amp;quot; &amp;quot;fine&amp;quot;           &amp;quot;denied&amp;quot;         &amp;quot;shaped&amp;quot; &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Boom. No errors this time. R is different in that tryCatch will have separate functions, referred to as handlers, that get called depending on the condition that occurs. In this case, we have 2 conditions– our desired condition, and the error condition. There are additional conditions that can be handled (see &lt;a href=&#34;http://adv-r.had.co.nz/Exceptions-Debugging.html&#34;&gt;here&lt;/a&gt; for more detail). For example, you can also include a handler for &lt;code&gt;warnings&lt;/code&gt; as well, which can be extremely helpful for finding exceptions that don’t break your code but instead give you undesired results.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
