@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/tidy_time_series_forecasting.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/tidy_time_series_forecasting.html">
+  <meta property="og:title" content="Tidy Time Series Forecasting | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2019-07-19T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2019-07-19T21:13:14-05:00">
+  
+
+  
+
+  <title>Tidy Time Series Forecasting | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Tidy Time Series Forecasting</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-07-19 21:13:14 -0500 -0500" itemprop="datePublished">
+      Jul 19, 2019
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    15 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/tidy_time_series_forecasting.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/tidyverse">Tidyverse</a
+    >, 
+    
+    <a href="/categories/time-series">Time Series</a
+    >, 
+    
+    <a href="/categories/forecasting">Forecasting</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Tidy%20Time%20Series%20Forecasting&amp;url=%2fpost%2ftidy_time_series_forecasting.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftidy_time_series_forecasting.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftidy_time_series_forecasting.html&amp;title=Tidy%20Time%20Series%20Forecasting"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftidy_time_series_forecasting.html&amp;title=Tidy%20Time%20Series%20Forecasting"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Tidy%20Time%20Series%20Forecasting&amp;body=%2fpost%2ftidy_time_series_forecasting.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p><img src="tidy_time_series_forecasting_images/post_plot.png" width="800px" height="200px" /></p>
+<div id="a-simple-forecasting-scenario" class="section level3">
+<h3>A Simple Forecasting Scenario</h3>
+<p>Imagine the following scenario: You’ve been asked to generate a 12-month ahead forecast to facilitate the planning of resources (e.g., labor, production capacity, marketing budget, etc.) based on the total number of units your company sells each month. The current forecasting process leverages a basic moving average to anticipate monthly sales. You believe there is more signal in the historical sales patterns that the current approach is not using and would like to prove out a new approach. You’re also interested in quantifying the lift or value-add of overhauling the existing forecasting process. Accordingly, before implementing an improved version of the existing process, you must first address the following:</p>
+<ol style="list-style-type: decimal">
+<li><p>Identify the method (or methods) that achieve the best forecasting performance.</p></li>
+<li><p>Quantify the performance boost of the new method relative to the existing method, a process often referred to as “backtesting”.</p></li>
+</ol>
+<p>We’ll cover each step by using a simple example. Let’s get started by loading the data from the 🎋 <a href="https://github.com/thecodeforest">the codeforest repo</a> 🎄 as well as few helper functions to make our analysis easier.</p>
+<pre class="r"><code># Core package
+library(tidyverse)
+library(rlang)
+library(janitor)
+
+# Date manipulation
+library(lubridate)
+
+# Bootstrapping and time series cross validation
+library(rsample)
+
+# Forecasting 
+library(forecast)
+library(prophet)
+library(tidyquant)
+library(timetk)    
+library(sweep)
+
+# Holiday dates
+library(timeDate)
+
+# Parallel computation
+library(furrr)
+
+# Calculating standard error
+library(plotrix)
+
+# Table formatting for Markdown
+library(kableExtra)
+
+# Visualization of seperate time series components
+library(ggforce)
+
+# Global plot theme
+theme_set(theme_bw())</code></pre>
+<pre class="r"><code># Code Forest repo
+repo &lt;- &#39;https://raw.githubusercontent.com/thecodeforest/time-series-cv-post/master/&#39;
+
+# Helper functions for manipulating forecasting results
+source(file.path(repo, &#39;/helper-functions/tsCVHelpers.R&#39;))
+
+# Helper function for visualization
+source(file.path(repo, &#39;/helper-functions/vizTheme.R&#39;))
+
+# Monthly sales data
+sales_df &lt;- read_csv(file.path(repo, &#39;data/beverage_sales.csv&#39;)) </code></pre>
+A glance at the data is in order.
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+date
+</th>
+<th style="text-align:center;">
+sales
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1992-01-01
+</td>
+<td style="text-align:center;">
+3459
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-02-01
+</td>
+<td style="text-align:center;">
+3458
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-03-01
+</td>
+<td style="text-align:center;">
+4002
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-04-01
+</td>
+<td style="text-align:center;">
+4564
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-05-01
+</td>
+<td style="text-align:center;">
+4221
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-06-01
+</td>
+<td style="text-align:center;">
+4529
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-07-01
+</td>
+<td style="text-align:center;">
+4466
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-08-01
+</td>
+<td style="text-align:center;">
+4137
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-09-01
+</td>
+<td style="text-align:center;">
+4126
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+1992-10-01
+</td>
+<td style="text-align:center;">
+4259
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Next, we’ll visualize the training and validation sections of our data. The first 22 years will serve as our training portion, and then we’ll hold out the remaining 4 years to test against.</p>
+<pre class="r"><code># Number of years in dataset
+n_yrs &lt;- unique(year(sales_df$date))
+
+sales_df %&gt;%
+  mutate(part = ifelse(year(date) &lt;= n_yrs[22],&quot;Train&quot;,&quot;Valid&quot;)) %&gt;%
+  ggplot(aes(date, sales, color = part)) +
+  geom_point(alpha = 0.2) +
+  geom_line() +
+  my_plot_theme() +
+  scale_y_continuous(labels = scales::comma_format()) +
+  labs(
+    x = &quot;Date (Month)&quot;,
+    y = &quot;Units Sold&quot;,
+    title = str_glue(&quot;Unit Sales Across {length(n_yrs)} Years&quot;)
+  )</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-5-1.png" width="1152" /></p>
+<p>One thing we notice is that the variance of our time series is not stationary (i.e., the month-over-month variation is not constant across time). A log transformation of monthly sales is one way to address this issue.</p>
+<pre class="r"><code>sales_df$sales &lt;- log(sales_df$sales)</code></pre>
+<p>Below we’ll leverage the <code>rolling_origin</code> function from the <code>rsample</code> package to create the training/validation splits in our data. This will enable us to test out different forecasting approaches and quantify lift.</p>
+<pre class="r"><code>train_valid &lt;- rolling_origin(
+  sales_df,
+  initial = 12 * 22, # 22 years of history
+  assess = 12, # assess 12 month ahead forecast
+  cumulative = TRUE #continue to build training set across time
+) %&gt;%
+  mutate(
+    train = map(splits, training), # split training
+    valid = map(splits, testing) # split validation
+  )</code></pre>
+<p>Let’s print out the <code>train_valid</code> object to see what’s going on.</p>
+<pre><code>## # Rolling origin forecast resampling 
+## # A tibble: 34 x 4
+##    splits           id      train              valid            
+##  * &lt;list&gt;           &lt;chr&gt;   &lt;list&gt;             &lt;list&gt;           
+##  1 &lt;split [264/12]&gt; Slice01 &lt;tibble [264 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  2 &lt;split [265/12]&gt; Slice02 &lt;tibble [265 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  3 &lt;split [266/12]&gt; Slice03 &lt;tibble [266 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  4 &lt;split [267/12]&gt; Slice04 &lt;tibble [267 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  5 &lt;split [268/12]&gt; Slice05 &lt;tibble [268 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  6 &lt;split [269/12]&gt; Slice06 &lt;tibble [269 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  7 &lt;split [270/12]&gt; Slice07 &lt;tibble [270 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  8 &lt;split [271/12]&gt; Slice08 &lt;tibble [271 × 2]&gt; &lt;tibble [12 × 2]&gt;
+##  9 &lt;split [272/12]&gt; Slice09 &lt;tibble [272 × 2]&gt; &lt;tibble [12 × 2]&gt;
+## 10 &lt;split [273/12]&gt; Slice10 &lt;tibble [273 × 2]&gt; &lt;tibble [12 × 2]&gt;
+## # … with 24 more rows</code></pre>
+<p>The resulting <code>tibble</code> is 34 rows, indicating that we’ll fit 34 separate models to generate 34 separate forecasts, each with 1 additional month of history to train on. The visual below illustrates the ‘rolling origin’ concept.</p>
+<p><img src="tidy_time_series_forecasting_images/cv_timeseries_img.gif" width="800px" height="200px" /></p>
+<p>Now that we understand how the backtesting will occur, let’s move on to the model-fitting and forecasting bit. Below we’ll test out four approaches: A “naive” method, which represents the current moving-average approach, as well as ETS and ARIMA, two methods that can use more signal in the data to create (hopefully) a better forecast. Lastly, we’ll create a simple ensemble where we average the predictions of ETS and ARIMA. We’ll lean heavily on the <code>map</code> function from the <code>purrr</code> package to keep this series of operations clean and compact.</p>
+<pre class="r"><code># Use 7 of 8 cores for parallel processing when fitting arima models
+plan(multiprocess, workers = availableCores() - 1)
+
+fcast_results &lt;- train_valid %&gt;%
+  mutate(
+    ts_obj = map(train, function(x) tk_ts(x, freq = 12)), # convert to ts
+    fit_naive = map(ts_obj, ma, order = 12), # fit moving average
+    fit_ets = map(ts_obj, ets), # fit ets
+    fit_arima = future_map(ts_obj, auto.arima), # fit arima in parallel
+    pred_naive = map(fit_naive, forecast, h = 12), # 12 month naive forecast
+    pred_ets = map(fit_ets, forecast, h = 12), # 12 month ets forecast
+    pred_arima = map(fit_arima, forecast, h = 12) # 12 month arima forecast
+  )</code></pre>
+<p>Below we’ll <code>unnest</code> our data and put it into a format where we can compare across our models. Additionally, we’ll generate our ensemble forecast by averaging the the ETS and ARIMA predictions. Combining predictions from different models is a simple way to improve predictive power in certain cases.</p>
+<pre class="r"><code>actuals &lt;- format_actuals(fcast_results, sales)
+naive_fcast &lt;- format_fcast(fcast_results, pred_naive, &quot;naive&quot;, value)
+ets_fcast &lt;- format_fcast(fcast_results, pred_ets, &quot;ets&quot;, sales)
+arima_fcast &lt;- format_fcast(fcast_results, pred_arima, &quot;arima&quot;, sales)
+ens_fcast &lt;- ensemble_fcast(ets_fcast, arima_fcast)</code></pre>
+<p>Let’s combine the results into a single <code>tibble</code>, convert the actual and forecasted values back to their original units, and calculate the error for each approach.</p>
+<pre class="r"><code>results_tidy &lt;- bind_rows(
+  inner_join(naive_fcast, actuals),
+  inner_join(ets_fcast, actuals),
+  inner_join(arima_fcast, actuals),
+  inner_join(ens_fcast, actuals)
+) %&gt;%
+  select(id, index, date, method, actual, everything()) %&gt;%
+  mutate(
+    actual = exp(actual),
+    pred = exp(pred),
+    lo_80 = exp(lo_80),
+    hi_80 = exp(hi_80),
+    abs_error = abs(actual - pred)
+  )</code></pre>
+<p>Results are in, so let’s answer our first question: Which method performed best during backtesting? We’ll quantify forecasting accuracy with the Mean Absolute Error (MAE).</p>
+<pre class="r"><code>results_tidy %&gt;%
+  group_by(method) %&gt;%
+  summarise(
+    mae = mean(abs_error),
+    se = std.error(abs_error)
+  ) %&gt;%
+  ungroup() %&gt;%
+  ggplot(aes(method, mae, color = method)) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = mae - se, ymax = mae + se)) +
+  coord_flip() +
+  theme(legend.position = &quot;none&quot;) +
+  labs(
+    x = &quot;Forecasting Method&quot;,
+    y = &quot;Mean Absolute Error (+- 1 Standard Error)&quot;,
+    title = &quot;Cross Validation Forecasting Performance&quot;
+  ) +
+  my_plot_theme() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-13-1.png" width="1152" /></p>
+<p>As a rule of thumb, I like to go with the simplest model that is +-1 Standard Error away from the best model. In this case, the ARIMA model both performed better than the Ensemble and is simpler to implement, so that’s the approach we’d choose going forward.</p>
+<p>Let’s also extract a few cross-validation slices and compare the forecasted values to the actuals to quickly spot check our model.</p>
+<pre class="r"><code>results_tidy %&gt;% 
+  filter(method == &#39;arima&#39;,
+         id %in% unique(results_tidy$id)[1:4]
+         ) %&gt;% 
+  select(id, index, actual, pred) %&gt;% 
+  gather(key, value, -index, -id) %&gt;% 
+  mutate(key = str_to_title(key)) %&gt;% 
+  ggplot(aes(index, value, color = key)) + 
+  geom_point(size = 2, alpha = 0.8) +
+  facet_wrap(id ~ .) + 
+  scale_x_continuous(breaks = 1:12) + 
+  scale_y_continuous(labels = scales::comma_format()) +
+  labs(x = &quot;Forecasting Horizon (Months Ahead)&quot;,
+       y = &#39;Value&#39;
+       ) + 
+  my_plot_theme()</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-14-1.png" width="1152" /></p>
+<p>Looks good! While this is a helpful global view, we also want to know how our forecasting performance changes as the forecasting horizon (or the number of periods ahead) increases. Let’s also consider how the MAE varies across the 12 months.</p>
+<pre class="r"><code>results_tidy %&gt;%
+  filter(method == &quot;arima&quot;) %&gt;%
+  mutate(index = as.factor(index)) %&gt;%
+  ggplot(aes(index, abs_error, group = index, color = index)) +
+  geom_boxplot() +
+  labs(
+    x = &quot;Forecasting Horizon (Months Ahead)&quot;,
+    y = &quot;Absolute Error&quot;
+  ) +
+  my_plot_theme() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-15-1.png" width="1152" /></p>
+<p>Lastly, we’ll address the issue of “coverage”, which measures how well our prediction intervals (PIs) capture the uncertainty in our forecasts. Given that we are using an 80% PI, then approximately 80% of the time the actual amount should fall within the interval. We can verify this below with a simple plot.</p>
+<pre class="r"><code>results_tidy %&gt;%
+  filter(method == &quot;arima&quot;) %&gt;%
+  mutate(coverage = ifelse(actual &gt;= lo_80 &amp; actual &lt;= hi_80, 1, 0)) %&gt;%
+  group_by(index) %&gt;%
+  summarise(prop_coverage = mean(coverage)) %&gt;%
+  ggplot(aes(index, prop_coverage)) +
+  geom_bar(stat = &quot;identity&quot;, color = &quot;black&quot;) +
+  geom_hline(yintercept = 0.8, lty = 2, size = 3, alpha = 0.5, color = &quot;red&quot;) +
+  scale_x_continuous(breaks = 1:12) +
+  scale_y_continuous(labels = scales::percent) + 
+  labs(
+    x = &quot;Forecasting Horizon (Months Ahead)&quot;,
+    y = &quot;Coverage&quot;
+  ) +
+  my_plot_theme()</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-16-1.png" width="1152" /></p>
+<p>The coverage rate is right where it should be around 80% across all periods, indicating that our prediction intervals are capturing an appropriate amount of uncertainty surrounding our forecast.</p>
+<p>So far we’ve identified our forecasting method, measured how accuracy changes over time and assessed our prediction intervals. Lastly, let’s quantify the value-add of using our new method relative to the existing, naive approach. The average error for ARIMA is around 400 units while the naive method is around 1100 units. If we were to shift our planning process to the new method, we could anticipate a 64% reduction in forecasting error across our 12-month time span. Depending on your business, this could translate into big cost-savings/incremental revenue opportunities stemming from an improved ability to plan product inventory, labor, or manufacturing/processing capacity!</p>
+</div>
+<div id="a-more-realistic-forecasting-scenario" class="section level3">
+<h3>A More Realistic Forecasting Scenario</h3>
+<p>While the previous example illustrated a basic forecasting task, it left out a few design patterns that often emerge in real-world forecasting scenarios. In particular, many decisions are made at a lower granularity than the month (e.g., day, week). Second, leveraging data other than the time series itself (e.g,. external regressors) can greatly improve forecasting accuracy. These inputs might include promotions or holidays that change year-over-year and impact our business, such as Easter, Cyber-Monday, or the Superbowl. Accordingly, we’ll leverage the previously outlined techniques in addition to the <code>prophet</code> package to create more granular forecasts with external regressors. We’ll use a new data set to make these concepts more concrete.</p>
+<pre class="r"><code>store_sales &lt;- read_csv(file.path(repo, &quot;data/store_sales.csv&quot;))</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; ">
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+date
+</th>
+<th style="text-align:center;">
+sales
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2013-01-01
+</td>
+<td style="text-align:center;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-02
+</td>
+<td style="text-align:center;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-03
+</td>
+<td style="text-align:center;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-04
+</td>
+<td style="text-align:center;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-05
+</td>
+<td style="text-align:center;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-06
+</td>
+<td style="text-align:center;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-07
+</td>
+<td style="text-align:center;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-08
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-09
+</td>
+<td style="text-align:center;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013-01-10
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The format of our data is similar to the previous example except observations occur at the daily level instead of the monthly level. Additionally, we’ll simulate some variability associated with 100 ‘promotional events’ and several major US Holidays. Let’s assume promotional events and holidays lead to an average increase in demand by 45 units and 25 units, respectively. Note that to leverage this information in a forecasting context, we’ll need the dates of promotional events and holidays in the past AND the future. Below we’ll include these shifts in our time series and then visualize the results.</p>
+<pre class="r"><code># Set seed for reproducibility
+set.seed(2018)
+
+# Sample 100 days to serve as &#39;promotional events&#39;
+promos &lt;- sample(unique(store_sales$date), size = 100)
+
+# Extract dates of major US holidays
+holidays &lt;- 
+  holidayNYSE(year = c(year(min(store_sales$date)):year(max(store_sales$date)))) %&gt;%
+  ymd()
+
+# Add &#39;sales&#39; to simulate effect of promotion on demand
+# Rename date and sales fields to be compatible with Prophet API
+sales_xreg &lt;- store_sales %&gt;%
+  mutate(
+    sales = as.numeric(sales),
+    sales = case_when(
+      date %in% promos ~ sales + rnorm(1, 45, 5),
+      date %in% holidays ~ sales + rnorm(1, 25, 5),
+      TRUE ~ sales
+    ),
+    sales = round(sales)
+  ) %&gt;%
+  rename(
+    ds = date,
+    y = sales
+  )</code></pre>
+<p>Next, we’ll create a <code>tibble</code> that contains all holiday and promotional events, which are often referred to as ‘external regressors’ when working with time series data.</p>
+<pre class="r"><code># Field names must match below for Prophet API
+xreg_df &lt;- tibble(
+  ds = c(promos, holidays),
+  holiday = c(
+    rep(&quot;Promo&quot;, length(promos)),
+    rep(&quot;USHoliday&quot;, length(holidays))
+  )
+)</code></pre>
+<p>Let’s visualize the resulting data.</p>
+<pre class="r"><code>left_join(sales_xreg, xreg_df) %&gt;% 
+  replace_na(list(holiday =  &quot;No event&quot;)) %&gt;% 
+  ggplot(aes(ds, y, color = holiday, group = 1)) + 
+  geom_point(alpha = 0.5) + 
+  labs(x = &#39;Date (Day)&#39;,
+       y = &#39;Units Sold&#39;
+       ) + 
+  my_plot_theme()</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-21-1.png" width="1152" /></p>
+<p>Great! We can see the simulated effects resulting from our promotional events and holidays. Now we need to ensure that <code>xreg_df</code> is available for each slice of our data when running cross-validation. We’ll achieve this in two parts. First, similar to the previous example, we’ll split our data and assess our model with a 90-day-ahead forecast. Here, we’re assuming the planning cycle that our forecast informs occurs at a quarterly level (i.e., 90-day periods).</p>
+<pre class="r"><code>train_valid &lt;- rolling_origin(
+  sales_xreg,
+  initial = floor(4.5 * 365), # 4.5 years of training
+  assess = 90, # assess based on 90-day ahead forecasts
+  cumulative = TRUE # continue to build training set across time
+) %&gt;%
+  mutate(
+    train = map(splits, training), # split training
+    valid = map(splits, testing) # split validation
+  )
+
+print(train_valid)</code></pre>
+<pre><code>## # Rolling origin forecast resampling 
+## # A tibble: 95 x 4
+##    splits            id      train                valid            
+##  * &lt;list&gt;            &lt;chr&gt;   &lt;list&gt;               &lt;list&gt;           
+##  1 &lt;split [1.6K/90]&gt; Slice01 &lt;tibble [1,642 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  2 &lt;split [1.6K/90]&gt; Slice02 &lt;tibble [1,643 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  3 &lt;split [1.6K/90]&gt; Slice03 &lt;tibble [1,644 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  4 &lt;split [1.6K/90]&gt; Slice04 &lt;tibble [1,645 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  5 &lt;split [1.6K/90]&gt; Slice05 &lt;tibble [1,646 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  6 &lt;split [1.6K/90]&gt; Slice06 &lt;tibble [1,647 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  7 &lt;split [1.6K/90]&gt; Slice07 &lt;tibble [1,648 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  8 &lt;split [1.6K/90]&gt; Slice08 &lt;tibble [1,649 × 2]&gt; &lt;tibble [90 × 2]&gt;
+##  9 &lt;split [1.6K/90]&gt; Slice09 &lt;tibble [1,650 × 2]&gt; &lt;tibble [90 × 2]&gt;
+## 10 &lt;split [1.7K/90]&gt; Slice10 &lt;tibble [1,651 × 2]&gt; &lt;tibble [90 × 2]&gt;
+## # … with 85 more rows</code></pre>
+<p>There are 95 rows in total when considering the dimensions of <code>train_valid</code>, each row containing a separate training and validation data slice. Each row also requires <code>xreg_df</code>, which contains the dates of prior and future promotions and holidays. The cool thing is that despite the fact we have all of this data nested within a single <code>tibble</code>, we can still treat it like a regular <code>tibble</code> and use all of the normal <code>dplyr</code> verbs. Accordingly, we’ll replicate <code>xreg_df</code> 95 times and then join by the ID variable for each data slice.</p>
+<pre class="r"><code># Replicate and &#39;nest&#39; each resulting copy of xreg_df 
+split_ids &lt;- 
+  map_dfr(1:nrow(train_valid), function(x) xreg_df) %&gt;%
+  mutate(id = rep(train_valid$id, each = nrow(xreg_df))) %&gt;%
+  group_by(id) %&gt;%
+  nest() %&gt;%
+  rename(xreg = data)
+
+# Join by the id column
+train_valid_xreg &lt;- inner_join(train_valid, split_ids)
+
+print(train_valid_xreg)</code></pre>
+<pre><code>## # Rolling origin forecast resampling 
+## # A tibble: 95 x 5
+##    splits          id      train             valid          xreg           
+##    &lt;list&gt;          &lt;chr&gt;   &lt;list&gt;            &lt;list&gt;         &lt;list&gt;         
+##  1 &lt;split [1.6K/9… Slice01 &lt;tibble [1,642 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  2 &lt;split [1.6K/9… Slice02 &lt;tibble [1,643 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  3 &lt;split [1.6K/9… Slice03 &lt;tibble [1,644 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  4 &lt;split [1.6K/9… Slice04 &lt;tibble [1,645 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  5 &lt;split [1.6K/9… Slice05 &lt;tibble [1,646 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  6 &lt;split [1.6K/9… Slice06 &lt;tibble [1,647 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  7 &lt;split [1.6K/9… Slice07 &lt;tibble [1,648 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  8 &lt;split [1.6K/9… Slice08 &lt;tibble [1,649 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+##  9 &lt;split [1.6K/9… Slice09 &lt;tibble [1,650 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+## 10 &lt;split [1.7K/9… Slice10 &lt;tibble [1,651 ×… &lt;tibble [90 ×… &lt;tibble [145 ×…
+## # … with 85 more rows</code></pre>
+<p>Now we can do some forecasting! Below we’ll generate 95 models and forecasts using the <code>prophet</code> package. We’ll also introduce the <code>map2</code> function, which enables us to map functions that take two arguments. The step below will take a few minutes to complete.</p>
+<pre class="r"><code>fcast_results &lt;- 
+  train_valid_xreg %&gt;%
+  mutate(prophet_fit = map2(
+    train,
+    xreg,
+    function(x, y)
+      prophet(
+        df = x,
+        holidays = y,
+        growth = &quot;linear&quot;,
+        yearly.seasonality = &quot;auto&quot;,
+        weekly.seasonality = &quot;auto&quot;
+      )
+       ),
+    pred_prophet = map2(prophet_fit, valid, predict)
+    )</code></pre>
+<p><code>Prophet</code> offers some pretty cool built-in visualization features. Let’s have a look under the hood of one of our forecasts to see how the model is mapping the relationship between our features and output.</p>
+<pre class="r"><code>prophet_plot_components(
+  fcast_results$prophet_fit[[1]],
+  fcast_results$pred_prophet[[1]]
+  )</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-25-1.png" width="1152" /></p>
+<p>In the holiday’s tab, there are big spikes for our promotions and smaller ones for holidays over the 90-day validation period. We also see how sales change by weekday and time of year. This sort of exploratory data analysis is a great way to confirm that the model is behaving in accordance with your expectations.</p>
+<p>Here’s another way we can visualize the results by extracting the actual and predicted values while also including the training (historical) values as well.</p>
+<pre class="r"><code>cv_slice = 1
+
+slice_training &lt;-
+  fcast_results$train[[cv_slice]] %&gt;%
+  mutate(key = &quot;Training&quot;) %&gt;%
+  rename(value = y)
+
+slice_validation &lt;-
+  fcast_results$pred_prophet[[cv_slice]] %&gt;%
+  transmute(
+    ds = ymd(ds),
+    predicted = yhat,
+    actual = fcast_results$valid[[cv_slice]]$y
+  ) %&gt;%
+  gather(key, value, -ds) %&gt;%
+  mutate(key = str_to_title(key))</code></pre>
+<pre class="r"><code>bind_rows(
+  slice_training,
+  slice_validation
+) %&gt;%
+  ggplot(aes(ds, value, color = key)) +
+  geom_point(size = 2) +
+  geom_line(alpha = 0.3) +
+  my_plot_theme() +
+  facet_zoom(x = ds %in% tail(slice_validation$ds, 90)) +
+  labs(
+    x = &quot;Date (Day)&quot;,
+    y = &quot;Units&quot;,
+    color = &quot;Part&quot;
+  )</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-27-1.png" width="1152" /></p>
+<p>Finally, let’s assess the accuracy of our 90-day-ahead forecasts. There are a lot more steps we’d typically implement to check the health of our forecasts, but we’ll keep it simple and examine the error distribution of forecasts across time.</p>
+<pre class="r"><code>results_tidy &lt;- fcast_results %&gt;%
+  select(id, pred_prophet) %&gt;%
+  unnest() %&gt;%
+  mutate(ds = ymd(ds)) %&gt;%
+  inner_join(sales_xreg) %&gt;%
+  select(id, ds, yhat, y) %&gt;%
+  mutate(error = y - yhat) %&gt;% 
+  group_by(id) %&gt;% 
+  mutate(index = row_number()) %&gt;% 
+  ungroup()</code></pre>
+<pre class="r"><code>results_tidy %&gt;% 
+  group_by(index) %&gt;% 
+  summarise(q50 = median(error),
+            q05 = quantile(error, .05),
+            q95 = quantile(error, .95)
+            )  %&gt;% 
+  ggplot(aes(index, q50)) + 
+  geom_point(size = 2, color = &#39;red&#39;) + 
+  geom_errorbar(aes(ymin = q05, ymax = q95), alpha  = 0.5) + 
+  labs(x = &#39;Forecasting Horizon (Days)&#39;,
+       y = &#39;Error (Bars represent 5th/95th percentiles)&#39;
+       ) +
+  my_plot_theme() + 
+  scale_y_continuous(breaks = seq(-10, 10, by = 2.5))</code></pre>
+<p><img src="/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-29-1.png" width="1152" />
+These results are encouranging. Errors fall between +-7 units at a day level and the 50th percentile remains close to zero across time. The forecasts do show some bias, such that we have long-runs where we are either over or under forecasting. Addressing bias is beyond the scope of this post but would typically involve re-specifying the existing model or adding in additional parameters to capture the source of bias. However, the accuracy is respectable and would be great starting point to implement some day-level forecasts.</p>
+</div>
+<div id="concluding-remarks" class="section level3">
+<h3>Concluding Remarks</h3>
+<p>Hopefully, you enjoyed this post! If you found it useful, let me know below in the comments!</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/tidyverse">Tidyverse</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/time-series">Time Series</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/forecasting">Forecasting</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/time_series_outlier_detection.html">Time Series Outlier Detection</a></li>
+    
+    <li><a href="/post/state_of_names.html">The State of Names in America</a></li>
+    
+    <li><a href="/post/time_series_forecasting_with_neural_networks.html">Time Series Forecasting with Neural Networks</a></li>
+    
+    <li><a href="/post/forecasting_with_tom_brady.html">Forecasting with Tom Brady</a></li>
+    
+    <li><a href="/post/counterfactual_prediction.html">Establishing Causality with Counterfactual Prediction</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

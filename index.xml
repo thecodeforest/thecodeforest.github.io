@@ -11,6 +11,617 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Tidy Time Series Forecasting</title>
+      <link>/post/tidy_time_series_forecasting.html</link>
+      <pubDate>Fri, 19 Jul 2019 21:13:14 -0500</pubDate>
+      
+      <guid>/post/tidy_time_series_forecasting.html</guid>
+      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;&lt;img src=&#34;tidy_time_series_forecasting_images/post_plot.png&#34; width=&#34;800px&#34; height=&#34;200px&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;a-simple-forecasting-scenario&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A Simple Forecasting Scenario&lt;/h3&gt;
+&lt;p&gt;Imagine the following scenario: You’ve been asked to generate a 12-month ahead forecast to facilitate the planning of resources (e.g., labor, production capacity, marketing budget, etc.) based on the total number of units your company sells each month. The current forecasting process leverages a basic moving average to anticipate monthly sales. You believe there is more signal in the historical sales patterns that the current approach is not using and would like to prove out a new approach. You’re also interested in quantifying the lift or value-add of overhauling the existing forecasting process. Accordingly, before implementing an improved version of the existing process, you must first address the following:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;p&gt;Identify the method (or methods) that achieve the best forecasting performance.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Quantify the performance boost of the new method relative to the existing method, a process often referred to as “backtesting”.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We’ll cover each step by using a simple example. Let’s get started by loading the data from the 🎋 &lt;a href=&#34;https://github.com/thecodeforest&#34;&gt;the codeforest repo&lt;/a&gt; 🎄 as well as few helper functions to make our analysis easier.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Core package
+library(tidyverse)
+library(rlang)
+library(janitor)
+
+# Date manipulation
+library(lubridate)
+
+# Bootstrapping and time series cross validation
+library(rsample)
+
+# Forecasting 
+library(forecast)
+library(prophet)
+library(tidyquant)
+library(timetk)    
+library(sweep)
+
+# Holiday dates
+library(timeDate)
+
+# Parallel computation
+library(furrr)
+
+# Calculating standard error
+library(plotrix)
+
+# Table formatting for Markdown
+library(kableExtra)
+
+# Visualization of seperate time series components
+library(ggforce)
+
+# Global plot theme
+theme_set(theme_bw())&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Code Forest repo
+repo &amp;lt;- &amp;#39;https://raw.githubusercontent.com/thecodeforest/time-series-cv-post/master/&amp;#39;
+
+# Helper functions for manipulating forecasting results
+source(file.path(repo, &amp;#39;/helper-functions/tsCVHelpers.R&amp;#39;))
+
+# Helper function for visualization
+source(file.path(repo, &amp;#39;/helper-functions/vizTheme.R&amp;#39;))
+
+# Monthly sales data
+sales_df &amp;lt;- read_csv(file.path(repo, &amp;#39;data/beverage_sales.csv&amp;#39;)) &lt;/code&gt;&lt;/pre&gt;
+A glance at the data is in order.
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+date
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+sales
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-01-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3459
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-02-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+3458
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-03-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4002
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-04-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4564
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-05-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4221
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-06-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4529
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-07-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4466
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-08-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4137
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-09-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4126
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+1992-10-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+4259
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Next, we’ll visualize the training and validation sections of our data. The first 22 years will serve as our training portion, and then we’ll hold out the remaining 4 years to test against.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Number of years in dataset
+n_yrs &amp;lt;- unique(year(sales_df$date))
+
+sales_df %&amp;gt;%
+  mutate(part = ifelse(year(date) &amp;lt;= n_yrs[22],&amp;quot;Train&amp;quot;,&amp;quot;Valid&amp;quot;)) %&amp;gt;%
+  ggplot(aes(date, sales, color = part)) +
+  geom_point(alpha = 0.2) +
+  geom_line() +
+  my_plot_theme() +
+  scale_y_continuous(labels = scales::comma_format()) +
+  labs(
+    x = &amp;quot;Date (Month)&amp;quot;,
+    y = &amp;quot;Units Sold&amp;quot;,
+    title = str_glue(&amp;quot;Unit Sales Across {length(n_yrs)} Years&amp;quot;)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;One thing we notice is that the variance of our time series is not stationary (i.e., the month-over-month variation is not constant across time). A log transformation of monthly sales is one way to address this issue.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sales_df$sales &amp;lt;- log(sales_df$sales)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below we’ll leverage the &lt;code&gt;rolling_origin&lt;/code&gt; function from the &lt;code&gt;rsample&lt;/code&gt; package to create the training/validation splits in our data. This will enable us to test out different forecasting approaches and quantify lift.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train_valid &amp;lt;- rolling_origin(
+  sales_df,
+  initial = 12 * 22, # 22 years of history
+  assess = 12, # assess 12 month ahead forecast
+  cumulative = TRUE #continue to build training set across time
+) %&amp;gt;%
+  mutate(
+    train = map(splits, training), # split training
+    valid = map(splits, testing) # split validation
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s print out the &lt;code&gt;train_valid&lt;/code&gt; object to see what’s going on.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## # Rolling origin forecast resampling 
+## # A tibble: 34 x 4
+##    splits           id      train              valid            
+##  * &amp;lt;list&amp;gt;           &amp;lt;chr&amp;gt;   &amp;lt;list&amp;gt;             &amp;lt;list&amp;gt;           
+##  1 &amp;lt;split [264/12]&amp;gt; Slice01 &amp;lt;tibble [264 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  2 &amp;lt;split [265/12]&amp;gt; Slice02 &amp;lt;tibble [265 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  3 &amp;lt;split [266/12]&amp;gt; Slice03 &amp;lt;tibble [266 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  4 &amp;lt;split [267/12]&amp;gt; Slice04 &amp;lt;tibble [267 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  5 &amp;lt;split [268/12]&amp;gt; Slice05 &amp;lt;tibble [268 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  6 &amp;lt;split [269/12]&amp;gt; Slice06 &amp;lt;tibble [269 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  7 &amp;lt;split [270/12]&amp;gt; Slice07 &amp;lt;tibble [270 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  8 &amp;lt;split [271/12]&amp;gt; Slice08 &amp;lt;tibble [271 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+##  9 &amp;lt;split [272/12]&amp;gt; Slice09 &amp;lt;tibble [272 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+## 10 &amp;lt;split [273/12]&amp;gt; Slice10 &amp;lt;tibble [273 × 2]&amp;gt; &amp;lt;tibble [12 × 2]&amp;gt;
+## # … with 24 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The resulting &lt;code&gt;tibble&lt;/code&gt; is 34 rows, indicating that we’ll fit 34 separate models to generate 34 separate forecasts, each with 1 additional month of history to train on. The visual below illustrates the ‘rolling origin’ concept.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;tidy_time_series_forecasting_images/cv_timeseries_img.gif&#34; width=&#34;800px&#34; height=&#34;200px&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now that we understand how the backtesting will occur, let’s move on to the model-fitting and forecasting bit. Below we’ll test out four approaches: A “naive” method, which represents the current moving-average approach, as well as ETS and ARIMA, two methods that can use more signal in the data to create (hopefully) a better forecast. Lastly, we’ll create a simple ensemble where we average the predictions of ETS and ARIMA. We’ll lean heavily on the &lt;code&gt;map&lt;/code&gt; function from the &lt;code&gt;purrr&lt;/code&gt; package to keep this series of operations clean and compact.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Use 7 of 8 cores for parallel processing when fitting arima models
+plan(multiprocess, workers = availableCores() - 1)
+
+fcast_results &amp;lt;- train_valid %&amp;gt;%
+  mutate(
+    ts_obj = map(train, function(x) tk_ts(x, freq = 12)), # convert to ts
+    fit_naive = map(ts_obj, ma, order = 12), # fit moving average
+    fit_ets = map(ts_obj, ets), # fit ets
+    fit_arima = future_map(ts_obj, auto.arima), # fit arima in parallel
+    pred_naive = map(fit_naive, forecast, h = 12), # 12 month naive forecast
+    pred_ets = map(fit_ets, forecast, h = 12), # 12 month ets forecast
+    pred_arima = map(fit_arima, forecast, h = 12) # 12 month arima forecast
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below we’ll &lt;code&gt;unnest&lt;/code&gt; our data and put it into a format where we can compare across our models. Additionally, we’ll generate our ensemble forecast by averaging the the ETS and ARIMA predictions. Combining predictions from different models is a simple way to improve predictive power in certain cases.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;actuals &amp;lt;- format_actuals(fcast_results, sales)
+naive_fcast &amp;lt;- format_fcast(fcast_results, pred_naive, &amp;quot;naive&amp;quot;, value)
+ets_fcast &amp;lt;- format_fcast(fcast_results, pred_ets, &amp;quot;ets&amp;quot;, sales)
+arima_fcast &amp;lt;- format_fcast(fcast_results, pred_arima, &amp;quot;arima&amp;quot;, sales)
+ens_fcast &amp;lt;- ensemble_fcast(ets_fcast, arima_fcast)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s combine the results into a single &lt;code&gt;tibble&lt;/code&gt;, convert the actual and forecasted values back to their original units, and calculate the error for each approach.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_tidy &amp;lt;- bind_rows(
+  inner_join(naive_fcast, actuals),
+  inner_join(ets_fcast, actuals),
+  inner_join(arima_fcast, actuals),
+  inner_join(ens_fcast, actuals)
+) %&amp;gt;%
+  select(id, index, date, method, actual, everything()) %&amp;gt;%
+  mutate(
+    actual = exp(actual),
+    pred = exp(pred),
+    lo_80 = exp(lo_80),
+    hi_80 = exp(hi_80),
+    abs_error = abs(actual - pred)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Results are in, so let’s answer our first question: Which method performed best during backtesting? We’ll quantify forecasting accuracy with the Mean Absolute Error (MAE).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_tidy %&amp;gt;%
+  group_by(method) %&amp;gt;%
+  summarise(
+    mae = mean(abs_error),
+    se = std.error(abs_error)
+  ) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  ggplot(aes(method, mae, color = method)) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = mae - se, ymax = mae + se)) +
+  coord_flip() +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  labs(
+    x = &amp;quot;Forecasting Method&amp;quot;,
+    y = &amp;quot;Mean Absolute Error (+- 1 Standard Error)&amp;quot;,
+    title = &amp;quot;Cross Validation Forecasting Performance&amp;quot;
+  ) +
+  my_plot_theme() +
+  theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;As a rule of thumb, I like to go with the simplest model that is +-1 Standard Error away from the best model. In this case, the ARIMA model both performed better than the Ensemble and is simpler to implement, so that’s the approach we’d choose going forward.&lt;/p&gt;
+&lt;p&gt;Let’s also extract a few cross-validation slices and compare the forecasted values to the actuals to quickly spot check our model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_tidy %&amp;gt;% 
+  filter(method == &amp;#39;arima&amp;#39;,
+         id %in% unique(results_tidy$id)[1:4]
+         ) %&amp;gt;% 
+  select(id, index, actual, pred) %&amp;gt;% 
+  gather(key, value, -index, -id) %&amp;gt;% 
+  mutate(key = str_to_title(key)) %&amp;gt;% 
+  ggplot(aes(index, value, color = key)) + 
+  geom_point(size = 2, alpha = 0.8) +
+  facet_wrap(id ~ .) + 
+  scale_x_continuous(breaks = 1:12) + 
+  scale_y_continuous(labels = scales::comma_format()) +
+  labs(x = &amp;quot;Forecasting Horizon (Months Ahead)&amp;quot;,
+       y = &amp;#39;Value&amp;#39;
+       ) + 
+  my_plot_theme()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Looks good! While this is a helpful global view, we also want to know how our forecasting performance changes as the forecasting horizon (or the number of periods ahead) increases. Let’s also consider how the MAE varies across the 12 months.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_tidy %&amp;gt;%
+  filter(method == &amp;quot;arima&amp;quot;) %&amp;gt;%
+  mutate(index = as.factor(index)) %&amp;gt;%
+  ggplot(aes(index, abs_error, group = index, color = index)) +
+  geom_boxplot() +
+  labs(
+    x = &amp;quot;Forecasting Horizon (Months Ahead)&amp;quot;,
+    y = &amp;quot;Absolute Error&amp;quot;
+  ) +
+  my_plot_theme() +
+  theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Lastly, we’ll address the issue of “coverage”, which measures how well our prediction intervals (PIs) capture the uncertainty in our forecasts. Given that we are using an 80% PI, then approximately 80% of the time the actual amount should fall within the interval. We can verify this below with a simple plot.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_tidy %&amp;gt;%
+  filter(method == &amp;quot;arima&amp;quot;) %&amp;gt;%
+  mutate(coverage = ifelse(actual &amp;gt;= lo_80 &amp;amp; actual &amp;lt;= hi_80, 1, 0)) %&amp;gt;%
+  group_by(index) %&amp;gt;%
+  summarise(prop_coverage = mean(coverage)) %&amp;gt;%
+  ggplot(aes(index, prop_coverage)) +
+  geom_bar(stat = &amp;quot;identity&amp;quot;, color = &amp;quot;black&amp;quot;) +
+  geom_hline(yintercept = 0.8, lty = 2, size = 3, alpha = 0.5, color = &amp;quot;red&amp;quot;) +
+  scale_x_continuous(breaks = 1:12) +
+  scale_y_continuous(labels = scales::percent) + 
+  labs(
+    x = &amp;quot;Forecasting Horizon (Months Ahead)&amp;quot;,
+    y = &amp;quot;Coverage&amp;quot;
+  ) +
+  my_plot_theme()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The coverage rate is right where it should be around 80% across all periods, indicating that our prediction intervals are capturing an appropriate amount of uncertainty surrounding our forecast.&lt;/p&gt;
+&lt;p&gt;So far we’ve identified our forecasting method, measured how accuracy changes over time and assessed our prediction intervals. Lastly, let’s quantify the value-add of using our new method relative to the existing, naive approach. The average error for ARIMA is around 400 units while the naive method is around 1100 units. If we were to shift our planning process to the new method, we could anticipate a 64% reduction in forecasting error across our 12-month time span. Depending on your business, this could translate into big cost-savings/incremental revenue opportunities stemming from an improved ability to plan product inventory, labor, or manufacturing/processing capacity!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-more-realistic-forecasting-scenario&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A More Realistic Forecasting Scenario&lt;/h3&gt;
+&lt;p&gt;While the previous example illustrated a basic forecasting task, it left out a few design patterns that often emerge in real-world forecasting scenarios. In particular, many decisions are made at a lower granularity than the month (e.g., day, week). Second, leveraging data other than the time series itself (e.g,. external regressors) can greatly improve forecasting accuracy. These inputs might include promotions or holidays that change year-over-year and impact our business, such as Easter, Cyber-Monday, or the Superbowl. Accordingly, we’ll leverage the previously outlined techniques in addition to the &lt;code&gt;prophet&lt;/code&gt; package to create more granular forecasts with external regressors. We’ll use a new data set to make these concepts more concrete.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;store_sales &amp;lt;- read_csv(file.path(repo, &amp;quot;data/store_sales.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; &#34;&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+date
+&lt;/th&gt;
+&lt;th style=&#34;text-align:center;&#34;&gt;
+sales
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-01
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+13
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-02
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+11
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-03
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+14
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-04
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+13
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-05
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-06
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-07
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-08
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-09
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+2013-01-10
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center;&#34;&gt;
+9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;The format of our data is similar to the previous example except observations occur at the daily level instead of the monthly level. Additionally, we’ll simulate some variability associated with 100 ‘promotional events’ and several major US Holidays. Let’s assume promotional events and holidays lead to an average increase in demand by 45 units and 25 units, respectively. Note that to leverage this information in a forecasting context, we’ll need the dates of promotional events and holidays in the past AND the future. Below we’ll include these shifts in our time series and then visualize the results.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Set seed for reproducibility
+set.seed(2018)
+
+# Sample 100 days to serve as &amp;#39;promotional events&amp;#39;
+promos &amp;lt;- sample(unique(store_sales$date), size = 100)
+
+# Extract dates of major US holidays
+holidays &amp;lt;- 
+  holidayNYSE(year = c(year(min(store_sales$date)):year(max(store_sales$date)))) %&amp;gt;%
+  ymd()
+
+# Add &amp;#39;sales&amp;#39; to simulate effect of promotion on demand
+# Rename date and sales fields to be compatible with Prophet API
+sales_xreg &amp;lt;- store_sales %&amp;gt;%
+  mutate(
+    sales = as.numeric(sales),
+    sales = case_when(
+      date %in% promos ~ sales + rnorm(1, 45, 5),
+      date %in% holidays ~ sales + rnorm(1, 25, 5),
+      TRUE ~ sales
+    ),
+    sales = round(sales)
+  ) %&amp;gt;%
+  rename(
+    ds = date,
+    y = sales
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we’ll create a &lt;code&gt;tibble&lt;/code&gt; that contains all holiday and promotional events, which are often referred to as ‘external regressors’ when working with time series data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Field names must match below for Prophet API
+xreg_df &amp;lt;- tibble(
+  ds = c(promos, holidays),
+  holiday = c(
+    rep(&amp;quot;Promo&amp;quot;, length(promos)),
+    rep(&amp;quot;USHoliday&amp;quot;, length(holidays))
+  )
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s visualize the resulting data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;left_join(sales_xreg, xreg_df) %&amp;gt;% 
+  replace_na(list(holiday =  &amp;quot;No event&amp;quot;)) %&amp;gt;% 
+  ggplot(aes(ds, y, color = holiday, group = 1)) + 
+  geom_point(alpha = 0.5) + 
+  labs(x = &amp;#39;Date (Day)&amp;#39;,
+       y = &amp;#39;Units Sold&amp;#39;
+       ) + 
+  my_plot_theme()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-21-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Great! We can see the simulated effects resulting from our promotional events and holidays. Now we need to ensure that &lt;code&gt;xreg_df&lt;/code&gt; is available for each slice of our data when running cross-validation. We’ll achieve this in two parts. First, similar to the previous example, we’ll split our data and assess our model with a 90-day-ahead forecast. Here, we’re assuming the planning cycle that our forecast informs occurs at a quarterly level (i.e., 90-day periods).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train_valid &amp;lt;- rolling_origin(
+  sales_xreg,
+  initial = floor(4.5 * 365), # 4.5 years of training
+  assess = 90, # assess based on 90-day ahead forecasts
+  cumulative = TRUE # continue to build training set across time
+) %&amp;gt;%
+  mutate(
+    train = map(splits, training), # split training
+    valid = map(splits, testing) # split validation
+  )
+
+print(train_valid)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # Rolling origin forecast resampling 
+## # A tibble: 95 x 4
+##    splits            id      train                valid            
+##  * &amp;lt;list&amp;gt;            &amp;lt;chr&amp;gt;   &amp;lt;list&amp;gt;               &amp;lt;list&amp;gt;           
+##  1 &amp;lt;split [1.6K/90]&amp;gt; Slice01 &amp;lt;tibble [1,642 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  2 &amp;lt;split [1.6K/90]&amp;gt; Slice02 &amp;lt;tibble [1,643 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  3 &amp;lt;split [1.6K/90]&amp;gt; Slice03 &amp;lt;tibble [1,644 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  4 &amp;lt;split [1.6K/90]&amp;gt; Slice04 &amp;lt;tibble [1,645 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  5 &amp;lt;split [1.6K/90]&amp;gt; Slice05 &amp;lt;tibble [1,646 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  6 &amp;lt;split [1.6K/90]&amp;gt; Slice06 &amp;lt;tibble [1,647 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  7 &amp;lt;split [1.6K/90]&amp;gt; Slice07 &amp;lt;tibble [1,648 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  8 &amp;lt;split [1.6K/90]&amp;gt; Slice08 &amp;lt;tibble [1,649 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+##  9 &amp;lt;split [1.6K/90]&amp;gt; Slice09 &amp;lt;tibble [1,650 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+## 10 &amp;lt;split [1.7K/90]&amp;gt; Slice10 &amp;lt;tibble [1,651 × 2]&amp;gt; &amp;lt;tibble [90 × 2]&amp;gt;
+## # … with 85 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are 95 rows in total when considering the dimensions of &lt;code&gt;train_valid&lt;/code&gt;, each row containing a separate training and validation data slice. Each row also requires &lt;code&gt;xreg_df&lt;/code&gt;, which contains the dates of prior and future promotions and holidays. The cool thing is that despite the fact we have all of this data nested within a single &lt;code&gt;tibble&lt;/code&gt;, we can still treat it like a regular &lt;code&gt;tibble&lt;/code&gt; and use all of the normal &lt;code&gt;dplyr&lt;/code&gt; verbs. Accordingly, we’ll replicate &lt;code&gt;xreg_df&lt;/code&gt; 95 times and then join by the ID variable for each data slice.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Replicate and &amp;#39;nest&amp;#39; each resulting copy of xreg_df 
+split_ids &amp;lt;- 
+  map_dfr(1:nrow(train_valid), function(x) xreg_df) %&amp;gt;%
+  mutate(id = rep(train_valid$id, each = nrow(xreg_df))) %&amp;gt;%
+  group_by(id) %&amp;gt;%
+  nest() %&amp;gt;%
+  rename(xreg = data)
+
+# Join by the id column
+train_valid_xreg &amp;lt;- inner_join(train_valid, split_ids)
+
+print(train_valid_xreg)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # Rolling origin forecast resampling 
+## # A tibble: 95 x 5
+##    splits          id      train             valid          xreg           
+##    &amp;lt;list&amp;gt;          &amp;lt;chr&amp;gt;   &amp;lt;list&amp;gt;            &amp;lt;list&amp;gt;         &amp;lt;list&amp;gt;         
+##  1 &amp;lt;split [1.6K/9… Slice01 &amp;lt;tibble [1,642 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  2 &amp;lt;split [1.6K/9… Slice02 &amp;lt;tibble [1,643 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  3 &amp;lt;split [1.6K/9… Slice03 &amp;lt;tibble [1,644 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  4 &amp;lt;split [1.6K/9… Slice04 &amp;lt;tibble [1,645 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  5 &amp;lt;split [1.6K/9… Slice05 &amp;lt;tibble [1,646 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  6 &amp;lt;split [1.6K/9… Slice06 &amp;lt;tibble [1,647 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  7 &amp;lt;split [1.6K/9… Slice07 &amp;lt;tibble [1,648 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  8 &amp;lt;split [1.6K/9… Slice08 &amp;lt;tibble [1,649 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+##  9 &amp;lt;split [1.6K/9… Slice09 &amp;lt;tibble [1,650 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+## 10 &amp;lt;split [1.7K/9… Slice10 &amp;lt;tibble [1,651 ×… &amp;lt;tibble [90 ×… &amp;lt;tibble [145 ×…
+## # … with 85 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we can do some forecasting! Below we’ll generate 95 models and forecasts using the &lt;code&gt;prophet&lt;/code&gt; package. We’ll also introduce the &lt;code&gt;map2&lt;/code&gt; function, which enables us to map functions that take two arguments. The step below will take a few minutes to complete.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fcast_results &amp;lt;- 
+  train_valid_xreg %&amp;gt;%
+  mutate(prophet_fit = map2(
+    train,
+    xreg,
+    function(x, y)
+      prophet(
+        df = x,
+        holidays = y,
+        growth = &amp;quot;linear&amp;quot;,
+        yearly.seasonality = &amp;quot;auto&amp;quot;,
+        weekly.seasonality = &amp;quot;auto&amp;quot;
+      )
+       ),
+    pred_prophet = map2(prophet_fit, valid, predict)
+    )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;Prophet&lt;/code&gt; offers some pretty cool built-in visualization features. Let’s have a look under the hood of one of our forecasts to see how the model is mapping the relationship between our features and output.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;prophet_plot_components(
+  fcast_results$prophet_fit[[1]],
+  fcast_results$pred_prophet[[1]]
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-25-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;In the holiday’s tab, there are big spikes for our promotions and smaller ones for holidays over the 90-day validation period. We also see how sales change by weekday and time of year. This sort of exploratory data analysis is a great way to confirm that the model is behaving in accordance with your expectations.&lt;/p&gt;
+&lt;p&gt;Here’s another way we can visualize the results by extracting the actual and predicted values while also including the training (historical) values as well.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cv_slice = 1
+
+slice_training &amp;lt;-
+  fcast_results$train[[cv_slice]] %&amp;gt;%
+  mutate(key = &amp;quot;Training&amp;quot;) %&amp;gt;%
+  rename(value = y)
+
+slice_validation &amp;lt;-
+  fcast_results$pred_prophet[[cv_slice]] %&amp;gt;%
+  transmute(
+    ds = ymd(ds),
+    predicted = yhat,
+    actual = fcast_results$valid[[cv_slice]]$y
+  ) %&amp;gt;%
+  gather(key, value, -ds) %&amp;gt;%
+  mutate(key = str_to_title(key))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bind_rows(
+  slice_training,
+  slice_validation
+) %&amp;gt;%
+  ggplot(aes(ds, value, color = key)) +
+  geom_point(size = 2) +
+  geom_line(alpha = 0.3) +
+  my_plot_theme() +
+  facet_zoom(x = ds %in% tail(slice_validation$ds, 90)) +
+  labs(
+    x = &amp;quot;Date (Day)&amp;quot;,
+    y = &amp;quot;Units&amp;quot;,
+    color = &amp;quot;Part&amp;quot;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-27-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Finally, let’s assess the accuracy of our 90-day-ahead forecasts. There are a lot more steps we’d typically implement to check the health of our forecasts, but we’ll keep it simple and examine the error distribution of forecasts across time.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_tidy &amp;lt;- fcast_results %&amp;gt;%
+  select(id, pred_prophet) %&amp;gt;%
+  unnest() %&amp;gt;%
+  mutate(ds = ymd(ds)) %&amp;gt;%
+  inner_join(sales_xreg) %&amp;gt;%
+  select(id, ds, yhat, y) %&amp;gt;%
+  mutate(error = y - yhat) %&amp;gt;% 
+  group_by(id) %&amp;gt;% 
+  mutate(index = row_number()) %&amp;gt;% 
+  ungroup()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results_tidy %&amp;gt;% 
+  group_by(index) %&amp;gt;% 
+  summarise(q50 = median(error),
+            q05 = quantile(error, .05),
+            q95 = quantile(error, .95)
+            )  %&amp;gt;% 
+  ggplot(aes(index, q50)) + 
+  geom_point(size = 2, color = &amp;#39;red&amp;#39;) + 
+  geom_errorbar(aes(ymin = q05, ymax = q95), alpha  = 0.5) + 
+  labs(x = &amp;#39;Forecasting Horizon (Days)&amp;#39;,
+       y = &amp;#39;Error (Bars represent 5th/95th percentiles)&amp;#39;
+       ) +
+  my_plot_theme() + 
+  scale_y_continuous(breaks = seq(-10, 10, by = 2.5))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/tidy_time_series_forecasting_files/figure-html/unnamed-chunk-29-1.png&#34; width=&#34;1152&#34; /&gt;
+These results are encouranging. Errors fall between +-7 units at a day level and the 50th percentile remains close to zero across time. The forecasts do show some bias, such that we have long-runs where we are either over or under forecasting. Addressing bias is beyond the scope of this post but would typically involve re-specifying the existing model or adding in additional parameters to capture the source of bias. However, the accuracy is respectable and would be great starting point to implement some day-level forecasts.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;concluding-remarks&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Concluding Remarks&lt;/h3&gt;
+&lt;p&gt;Hopefully, you enjoyed this post! If you found it useful, let me know below in the comments!&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>The State of Names in America</title>
       <link>/post/state_of_names.html</link>
       <pubDate>Wed, 12 Jun 2019 21:13:14 -0500</pubDate>
@@ -16369,298 +16980,6 @@ for(i in 1:nsim){
 print(paste0(&amp;quot;EXPECTED POWER IS: &amp;quot;, (nsim - sum(type_II_vec))/nsim * 100, &amp;quot;%&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## [1] &amp;quot;EXPECTED POWER IS: 99%&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Exactly what we expected. Of our 100 simulations, we commited a &lt;em&gt;type II error&lt;/em&gt; in only one instance, which matches closely with the 98% estimate provided from the &lt;code&gt;simr&lt;/code&gt; package. If we increased the number of simulations, the power estimates would converge to the same number. However, if you copied this code and ran it in R, you’ll notice that it ran slow. In a separate &lt;a href=&#34;https://thecodeforest.github.io/post/two_flavors_of_parallel_simulation.html&#34;&gt;post&lt;/a&gt;, I’ll show you how to speed up any simulation by executing the entire process in parallel to run more simulations and get better estimates! Stay tuned!&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Time Series Outlier Detection</title>
-      <link>/post/time_series_outlier_detection.html</link>
-      <pubDate>Fri, 28 Jul 2017 21:13:14 -0500</pubDate>
-      
-      <guid>/post/time_series_outlier_detection.html</guid>
-      <description>&lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;While there are several definitions for an outlier, I generally think of an outlier as the following: An unexpected event that is unlikely to happen again. For example, website traffic drops precipitously because of a server fire, or insurance claims spike because of an unprecedented, 500-year weather event. These events are occurrences that (we hope) do not occur a regular cadence. Yet if you were attempting to predict future website traffic or understand the seasonal patterns of insurance claims, the aforementioned events may greatly impact our forecasting accuracy. Thus there are two main reasons for conducting an outlier analysis prior to generating a forecast:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Outliers can bias forecasts&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Outliers can inflate estimated variance and produce prediction intervals that are too wide&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;This post discusses the use of seasonal-decomposition to isolate errors that cannot be explained as a function of trend or seasonality. We’ll also discuss two simple, commonly used approaches for identifying outliers, followed by a brief overview of how to replace outliers with more sensible values. Finally, we’ll test how including or excluding outliers affects the accuracy of our forecasts as well as the width of our prediction intervals. These questions will be explored within the context of monthly milk production from 1962-1975, where the value for each month represents the pounds of milk produced per cow (Riveting stuff, right?).&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;section&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;/h3&gt;
-&lt;p&gt;The data for this post is located &lt;a href=&#34;https://datamarket.com/data/set/22ox/monthly-milk-production-pounds-per-cow-jan-62-dec-75#!ds=22ox&amp;amp;display=line&#34;&gt;here&lt;/a&gt;. Let’s load up the required libraries, bring the data into R, do a bit of cleaning, and then have a quick look at the data.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;libs = c(&amp;#39;dplyr&amp;#39;, &amp;#39;artyfarty&amp;#39;, &amp;#39;ggplot2&amp;#39;,
-         &amp;#39;forecast&amp;#39;, &amp;#39;reshape&amp;#39;,&amp;#39;readr&amp;#39;,
-         &amp;#39;reshape&amp;#39;)
-lapply(libs, require, character.only = TRUE)
-working_directory = &amp;quot;path_to_file&amp;quot;
-file_name = &amp;quot;monthly-milk-production-pounds-p.csv&amp;quot;
-milk_df = read_csv(file.path(working_directory, file_name))
-names(milk_df) = c(&amp;#39;month&amp;#39;, &amp;#39;milk_production&amp;#39;)
-milk_df = milk_df %&amp;gt;% 
-          mutate(month = as.Date(paste(month, &amp;quot;01&amp;quot;, sep = &amp;quot;-&amp;quot;),
-                                 format = &amp;quot;%Y-%m-%d&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:left;&#34;&gt;
-month
-&lt;/th&gt;
-&lt;th style=&#34;text-align:right;&#34;&gt;
-milk_production
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-1962-01-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-589
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-1962-02-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-561
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-1962-03-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-640
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-1962-04-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-656
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-1962-05-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-727
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-1962-06-01
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-697
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;Now that we have our time series dataframe, let’s introduce six outliers into our time series. I picked these data points and their values at random.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;milk_df$milk_production[30] = milk_df$milk_production[30] + 70
-milk_df$milk_production[55] = milk_df$milk_production[55] - 60
-milk_df$milk_production[99] = milk_df$milk_production[99] - 220
-milk_df$milk_production[100] = milk_df$milk_production[100] + 100
-milk_df$milk_production[152] = milk_df$milk_production[152] + 40
-milk_df$milk_production[153] = milk_df$milk_production[153] - 70
-
-outlier_milk_df = milk_df[c(30, 55, 99, 100, 152, 153),]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s examine what our time series. The pink points are the outliers we just introduced.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(milk_df, aes(x = month, y = milk_production)) +
-    geom_point(size = 2, color = color_values[1]) + 
-    geom_line(size = 2, color = color_values[1]) +
-    theme_bw() + 
-    my_plot_theme() + 
-    theme(legend.title = element_blank()) + 
-    xlab(&amp;quot;Date&amp;quot;) + ylab(&amp;quot;Milk Production&amp;quot;) + 
-    geom_point(data = outlier_milk_df, colour = color_values[2], size = 8)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Let’s break our time series into three separate components: Seasonal, Trend, and Remainder. The &lt;code&gt;seasonal&lt;/code&gt; and &lt;code&gt;trend&lt;/code&gt; are structural parts of the time series that we can explain, while the &lt;code&gt;remainder&lt;/code&gt; is everything that’s left over that we cannot explain. We’ll focus on this portion of the time series when looking for anomalous data points.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;decomp_ts = stl(ts(milk_df$milk_production, frequency = 12), 
-                s.window = &amp;quot;periodic&amp;quot;,
-                robust = TRUE
-                )
-ts_decomposition = data.frame(decomp_ts$time.series) %&amp;gt;%
-                   melt() %&amp;gt;%
-                   mutate(month = rep(milk_df$month, 3)) %&amp;gt;%
-                   dplyr::rename(component = variable)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(ts_decomposition, aes(x = month, y = value, fill = component)) + 
-    geom_bar(stat = &amp;quot;identity&amp;quot;) + 
-    facet_grid(component~ ., scales = &amp;quot;free&amp;quot;) + 
-    theme_bw() + 
-    my_plot_theme() + 
-    scale_fill_manual(values = c(color_values[1:3])) +
-    theme(legend.title = element_blank()) +
-    ylab(&amp;quot;&amp;quot;) + xlab(&amp;quot;Date&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Based on this breakout, there is one clear anomaly (the -200 point). The other five aren’t as salient but we know they are there. Let’s try out our two approaches: The first is the +- 3 standard deviation rule. Any residual that is +- 3 SDs is considered an anomaly. If our residuals are normally distributed, then by chance alone 27 of every 10000 points should fall outside of these boundaries. Thus it is possible (but unlikely) when you detect a residual of this magnitude or greater. The second method leverages the Interquartile Range (or IQR). The IQR is the difference between the value at the 75th and 25th percentiles of your residuals. You then multiply the range by some constant (often 1.5). Any values outside of this range are considered an anomaly.&lt;/p&gt;
-&lt;p&gt;I don’t want to bury the lede here, so I’ll just come right out and say it: The +-3 SD rule is not the approach you want to use. In the real world, which can admittedly be a scary place, forecasting is done at scale. You’ll be generating lots and lots of forecasts, so many that you won’t be able to verify the assumptions or examine the residuals for each one (very scary). Thus it is imperative to use methods for outlier detection that are robust. What does this mean? In short, a measure that quantifies “outlierness” must be immune to the effects of outliers. Hang on…I’m confused. I’ll visualize what this means below.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;sd-approach&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;+- 3 SD Approach&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;remainder = ts_decomposition %&amp;gt;% 
-            filter(component == &amp;#39;remainder&amp;#39;)
-sd_remainder = sd(remainder$value) 
-anomaly_boundary = c(-sd_remainder * 3, 
-                      sd_remainder * 3)
-remainder_sd = remainder %&amp;gt;% 
-               mutate(is_anomaly = ifelse(value &amp;gt; anomaly_boundary[2] | 
-                             value &amp;lt; anomaly_boundary[1], &amp;quot;yes&amp;quot;, &amp;quot;no&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(remainder_sd, aes(x = value, fill = is_anomaly)) +  geom_histogram(aes(y=..density..),
-    bins = 30,
-    colour=&amp;quot;black&amp;quot;) +
-    theme_bw() + 
-    my_plot_theme() +
-    geom_vline(xintercept = anomaly_boundary[1], size = 2, linetype = &amp;quot;dotted&amp;quot;,
-    color = color_values[1]) + 
-    geom_vline(xintercept = anomaly_boundary[2], size = 2, linetype = &amp;quot;dotted&amp;quot;,
-    color = color_values[1]) + 
-    xlab(&amp;quot;Remainder&amp;quot;) + 
-    scale_fill_manual(values = c(color_values[1],color_values[2]))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This method identified four of the six outliers It missed the other two because the one really big outlier (-220) inflated our standard deviation, making the other two, smaller outliers undetectable. Let’s see how the IQR approach performed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;iqr-approach&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;IQR Approach&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;spread = 1.5
-pct_50 = unname(quantile(remainder$value, 0.5))
-iqr = diff(unname(quantile(remainder$value, c(0.25, 0.75))))
-lb = unname(quantile(remainder$value, 0.25)) - (spread * iqr)
-ub = unname(quantile(remainder$value, 0.75)) + (spread * iqr)
-remainder_iqr = remainder %&amp;gt;% 
-                mutate(is_anomaly = ifelse(value &amp;gt; ub | value &amp;lt; lb, &amp;quot;yes&amp;quot;, &amp;quot;no&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(remainder_iqr, aes(x = component, y = value)) + 
-    geom_boxplot() + 
-    geom_point(size = 4, aes(color = is_anomaly,
-    fill = is_anomaly)) +
-    theme_bw() + 
-    my_plot_theme() + 
-    xlab(&amp;quot;&amp;quot;) + ylab(&amp;quot;Remainder&amp;quot;) + 
-    theme(axis.text.x = element_blank()) + 
-    scale_color_manual(values = c(color_values[1],color_values[2]))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The IQR method detected all 6 of the synthetic outliers in addition to two non-outliers. However, does any of this matter? Data cleaning steps are a means to an end. We address outliers in our data so we (presumably) get better forecasts and more accurate prediction intervals. Let’s compare the forecasting accuracy between three methods:&lt;/p&gt;
-&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
-&lt;li&gt;&lt;strong&gt;Do Nothing (just leave outliers in there and make a forecast)&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;+- 3 SDs&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;+- 1.5 Interquartile Range&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Methods 2 and 3 use linear interpolation to replace the outliers. Let’s create our validation dataset below.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;anom_index_sd = which(match(remainder_sd$is_anomaly, &amp;quot;yes&amp;quot;) %in% c(1))
-anom_index_iqr = which(match(remainder_iqr$is_anomaly, &amp;quot;yes&amp;quot;) %in% c(1))
-sd_df = milk_df
-iqr_df = milk_df
-sd_df$milk_production[anom_index_sd] = NA
-iqr_df$milk_production[anom_index_iqr] = NA
-n_holdout = 12 # number of months in the validation set
-validation_set = milk_df$milk_production[(nrow(sd_df) - n_holdout + 1):nrow(sd_df)]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And then create three seperate forecasts via the &lt;code&gt;auto.arima&lt;/code&gt; function. The &lt;code&gt;na.interp&lt;/code&gt; function is used to replace the &lt;strong&gt;NA&lt;/strong&gt; values with an interpolated (i.e., non-anomalous) value.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sd_ts = na.interp(ts(sd_df$milk_production[1:(nrow(sd_df) - n_holdout)],
-                     frequency = 12))
-sd_forecast = forecast(auto.arima(sd_ts), h = n_holdout)
-iqr_ts = na.interp(ts(iqr_df$milk_production[1:(nrow(iqr_df) - n_holdout)],
-                      frequency = 12))
-iqr_forecast = forecast(auto.arima(iqr_ts), h = n_holdout)
-none_ts = ts(sd_df$milk_production[1:(nrow(sd_df) - n_holdout)],
-                      frequency = 12)
-none_forecast = forecast(auto.arima(none_ts), h = n_holdout)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;forecast_df = data.frame(anom_method = c(rep(&amp;quot;IQR&amp;quot;, n_holdout),
-                                         rep(&amp;quot;SD&amp;quot;, n_holdout),
-                                         rep(&amp;quot;None&amp;quot;, n_holdout)),
-                         forecasted_amt = c(iqr_forecast$mean,
-                                            sd_forecast$mean,
-                                            none_forecast$mean),
-                         actual_amt = rep(validation_set, 3)) %&amp;gt;% 
-              mutate(residual_squared = (actual_amt - forecasted_amt)^2) %&amp;gt;% 
-              group_by(anom_method) %&amp;gt;% 
-              summarise(mse = mean(residual_squared)) %&amp;gt;% 
-              mutate(anom_method = factor(anom_method)) %&amp;gt;% 
-              mutate(anom_method = fct_reorder(anom_method, 
-                                               mse, 
-                                               .desc = FALSE))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(forecast_df, aes(x = anom_method, y = round(mse, 0),
-    fill = anom_method, label = as.character(round(mse, 0)))) + 
-    geom_bar(stat = &amp;quot;identity&amp;quot;) + 
-    theme_bw() + 
-    my_plot_theme() + 
-    scale_fill_manual(values = color_values[1:length(unique(forecast_df$anom_method))]) + 
-    xlab(&amp;quot;Outlier Replacement Method&amp;quot;) + ylab(&amp;quot;Mean Square Error&amp;quot;) + 
-    theme(legend.position = &amp;quot;none&amp;quot;) + 
-    geom_label(label.size = 1, size = 10, color = &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Replacing the outliers via the IQR method produced the most accurate 12-month ahead forecast. Now let’s examine the prediction intervals of each method, specifically the range as well as the coverage rate.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pi_df = data.frame(anom_method = c(rep(&amp;quot;IQR&amp;quot;, n_holdout),
-                                   rep(&amp;quot;SD&amp;quot;, n_holdout),
-                                   rep(&amp;quot;None&amp;quot;, n_holdout)),
-                   upper_bound = c(iqr_forecast$upper[,2],
-                                   sd_forecast$upper[,2],
-                                   none_forecast$upper[,2]),
-                   lower_bound = c(iqr_forecast$lower[,2],
-                                   sd_forecast$lower[,2],
-                                   none_forecast$lower[,2]),
-                   actual_amt = rep(validation_set, 3)) %&amp;gt;% 
-        mutate(pi_range = upper_bound - lower_bound) %&amp;gt;% 
-        mutate(actual_in_pi_range = as.integer(actual_amt &amp;lt; upper_bound &amp;amp; actual_amt &amp;gt; lower_bound))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(pi_df, aes(x = anom_method, y = pi_range, color = anom_method)) + 
-    geom_boxplot() + 
-    theme_bw() + 
-    my_plot_theme() + 
-    scale_color_manual(values = c(color_values[1:3])) + 
-    xlab(&amp;quot;Outlier Replacement Method&amp;quot;) + ylab(&amp;quot;Prediction Interval Range&amp;quot;) + 
-    theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/time_series_outlier_detection_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The median PI range is the narrowest for the IQR and the widest when we don’t replace any of the outliers. Finally let’s consider the coverage rate, which is how often the actual value fell within the monthly prediction interval.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;coverage_df = pi_df %&amp;gt;% 
-              group_by(anom_method) %&amp;gt;% 
-              summarise(coverage_rate = round(sum(actual_in_pi_range)/12 * 100, 1))&lt;/code&gt;&lt;/pre&gt;
-&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:left;&#34;&gt;
-anom_method
-&lt;/th&gt;
-&lt;th style=&#34;text-align:right;&#34;&gt;
-coverage_rate
-&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-IQR
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-100.0
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-None
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-83.3
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left;&#34;&gt;
-SD
-&lt;/td&gt;
-&lt;td style=&#34;text-align:right;&#34;&gt;
-91.7
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;The IQR and None approaches provided 100% coverage, while the SD method missed one month, yielding a coverage rate of ~92%.&lt;/p&gt;
-&lt;p&gt;Taken together, the IQR method provided the most accurate forecasts and prediction intervals. While this is only one example, it is interesting to note that using the SD method actually reduced our forecasting accuracy and coverage rate below what would’ve happened had we not taken any steps to remedy our outliers prior to fitting a model. This really illustrates the value of using a robust method for anomaly detection.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
