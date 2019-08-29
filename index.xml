@@ -11,9 +11,9 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Choosing a Fantasy Football Kicker with Emperical Bayes Estimation</title>
+      <title>Choosing a Fantasy Football Kicker with Empirical Bayes Estimation</title>
       <link>/post/fantasy_football_kickers.html</link>
-      <pubDate>Mon, 26 Aug 2019 21:13:14 -0500</pubDate>
+      <pubDate>Thu, 29 Aug 2019 21:13:14 -0500</pubDate>
       
       <guid>/post/fantasy_football_kickers.html</guid>
       <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
@@ -22,13 +22,13 @@
 &lt;p&gt;&lt;img src=&#34;fantasy_football_kickers_images/kickerman.jpg&#34; width=&#34;1000px&#34; height=&#34;30px&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;overview&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;In less than two weeks, Fantasy Football will once again resume for the 2019 NFL season! While I’m looking forward to the impending draft, the start of the season brings back memories of a not-so-distant loss that left me one game shy of the championship. The loss stemmed from a missed field goal, leaving my team two points shy of victory. Of course, a myriad of factors beyond that missed field goal contributed to my fantasy demise, but those two points reinvigorated a question I’ve wondered about for the past few years: Why are kickers drafted in the last round?&lt;/p&gt;
+&lt;p&gt;In less than one week, Fantasy Football will once again resume for the 2019 NFL season! While I’m looking forward to the impending draft, the start of the season brings back memories of a not-so-distant loss that left me one game shy of the championship. The loss stemmed from a missed field goal, leaving my team two points shy of victory. Of course, a myriad of factors beyond that missed field goal contributed to my fantasy demise, but those two points reinvigorated a question I’ve wondered about for the past few years: Why are kickers drafted in the last round?&lt;/p&gt;
 &lt;p&gt;Prevailing wisdom suggests that your kicker doesn’t matter. Some Fantasy Football leagues don’t even have kickers on the roster, which I think does a disservice to a player who probably doesn’t get invited to the cool team parties yet can decide the fate of a season in a single moment (like mine). As long as they suit up to take the field, the rest is out of your control. However, is it a suboptimal strategy to relegate your choice of kicker to the final round of the draft? Let’s find out!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;getting-started&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Getting Started&lt;/h3&gt;
 &lt;p&gt;Before loading any data or discussing techniques, we’ll begin by defining our analytical objective. An easy way to get started is by posing a simple question: “How many more points can I expect over a 16-game regular season if I draft the best kicker relative to the worst kicker?” We’ll answer this question in two steps. First, we’ll estimate the &lt;em&gt;True&lt;/em&gt; field goal percentage for each kicker currently active in the NFL (as of 2016), which is analogous to a batting average in baseball or free-throw percentage in basketball. This parameter estimate will be used to compare the skill of one kicker to another. Second, we’ll translate our estimate into actual Fantasy Football points by simulating the outcomes 1000 football seasons for each kicker. Simulation enables us to quantify a realistic point differential between kickers, which is what we (the Fantasy Football team owners) will use to determine if we should try to select the best kicker by drafting in an earlier round.&lt;/p&gt;
-&lt;p&gt;With that question in mind, let’s load all pertinent libraries. The data can be downloaded directly from the 🎄 &lt;a href=&#34;https://github.com/thecodeforest&#34;&gt;the codeforest github repo&lt;/a&gt; 🎄.&lt;/p&gt;
+&lt;p&gt;With that question in mind, let’s load all pertinent libraries. The data can be downloaded directly from the 🎋 &lt;a href=&#34;https://github.com/thecodeforest&#34;&gt;the codeforest github repo&lt;/a&gt; 🌳.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Modeling 
 library(gamlss)
 
