@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/fantasy_football_kickers.html</loc>
+      <lastmod>2019-08-26T21:13:14-05:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/tidy_time_series_forecasting.html</loc>
       <lastmod>2019-07-19T21:13:14-05:00</lastmod>
     </url>
@@ -404,6 +413,26 @@
     
     <url>
     
+      <loc>/tags/emperical-bayes.html</loc>
+      <lastmod>2019-08-26T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/emperical-bayes.html</loc>
+      <lastmod>2019-08-26T21:13:14-05:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/exception-handling.html</loc>
       <lastmod>2017-07-23T21:13:14-05:00</lastmod>
       <priority>0</priority>
@@ -445,7 +474,7 @@
     <url>
     
       <loc>/tags/fantasy-football.html</loc>
-      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
+      <lastmod>2019-08-26T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -455,7 +484,7 @@
     <url>
     
       <loc>/categories/fantasy-football.html</loc>
-      <lastmod>2017-09-10T21:13:14-05:00</lastmod>
+      <lastmod>2019-08-26T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -834,7 +863,7 @@
     <url>
     
       <loc>/tags/r.html</loc>
-      <lastmod>2019-07-19T21:13:14-05:00</lastmod>
+      <lastmod>2019-08-26T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -844,7 +873,7 @@
     <url>
     
       <loc>/categories/r.html</loc>
-      <lastmod>2019-07-19T21:13:14-05:00</lastmod>
+      <lastmod>2019-08-26T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     

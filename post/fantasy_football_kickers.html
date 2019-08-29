@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.30.2" />
+  <meta name="author" content="Mark LeBoeuf">
+  <meta name="description" content="Data Scientist">
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+
+
+  
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-101855339-2', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="The Code Forest">
+  
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/fantasy_football_kickers.html">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="The Code Forest">
+  <meta property="og:url" content="/post/fantasy_football_kickers.html">
+  <meta property="og:title" content="Choosing a Fantasy Football Kicker with Emperical Bayes Estimation | The Code Forest">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2019-08-26T21:13:14-05:00">
+  
+  <meta property="article:modified_time" content="2019-08-26T21:13:14-05:00">
+  
+
+  
+
+  <title>Choosing a Fantasy Football Kicker with Emperical Bayes Estimation | The Code Forest</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">The Code Forest</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Choosing a Fantasy Football Kicker with Emperical Bayes Estimation</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-08-26 21:13:14 -0500 -0500" itemprop="datePublished">
+      Aug 26, 2019
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    16 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/fantasy_football_kickers.html#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/emperical-bayes">Emperical Bayes</a
+    >, 
+    
+    <a href="/categories/fantasy-football">Fantasy Football</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Choosing%20a%20Fantasy%20Football%20Kicker%20with%20Emperical%20Bayes%20Estimation&amp;url=%2fpost%2ffantasy_football_kickers.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ffantasy_football_kickers.html"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ffantasy_football_kickers.html&amp;title=Choosing%20a%20Fantasy%20Football%20Kicker%20with%20Emperical%20Bayes%20Estimation"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ffantasy_football_kickers.html&amp;title=Choosing%20a%20Fantasy%20Football%20Kicker%20with%20Emperical%20Bayes%20Estimation"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Choosing%20a%20Fantasy%20Football%20Kicker%20with%20Emperical%20Bayes%20Estimation&amp;body=%2fpost%2ffantasy_football_kickers.html">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p><img src="fantasy_football_kickers_images/kickerman.jpg" width="1000px" height="30px" /></p>
+<div id="overview" class="section level3">
+<h3>Overview</h3>
+<p>In less than two weeks, Fantasy Football will once again resume for the 2019 NFL season! While I’m looking forward to the impending draft, the start of the season brings back memories of a not-so-distant loss that left me one game shy of the championship. The loss stemmed from a missed field goal, leaving my team two points shy of victory. Of course, a myriad of factors beyond that missed field goal contributed to my fantasy demise, but those two points reinvigorated a question I’ve wondered about for the past few years: Why are kickers drafted in the last round?</p>
+<p>Prevailing wisdom suggests that your kicker doesn’t matter. Some Fantasy Football leagues don’t even have kickers on the roster, which I think does a disservice to a player who probably doesn’t get invited to the cool team parties yet can decide the fate of a season in a single moment (like mine). As long as they suit up to take the field, the rest is out of your control. However, is it a suboptimal strategy to relegate your choice of kicker to the final round of the draft? Let’s find out!</p>
+</div>
+<div id="getting-started" class="section level3">
+<h3>Getting Started</h3>
+<p>Before loading any data or discussing techniques, we’ll begin by defining our analytical objective. An easy way to get started is by posing a simple question: “How many more points can I expect over a 16-game regular season if I draft the best kicker relative to the worst kicker?” We’ll answer this question in two steps. First, we’ll estimate the <em>True</em> field goal percentage for each kicker currently active in the NFL (as of 2016), which is analogous to a batting average in baseball or free-throw percentage in basketball. This parameter estimate will be used to compare the skill of one kicker to another. Second, we’ll translate our estimate into actual Fantasy Football points by simulating the outcomes 1000 football seasons for each kicker. Simulation enables us to quantify a realistic point differential between kickers, which is what we (the Fantasy Football team owners) will use to determine if we should try to select the best kicker by drafting in an earlier round.</p>
+<p>With that question in mind, let’s load all pertinent libraries. The data can be downloaded directly from the 🎄 <a href="https://github.com/thecodeforest">the codeforest github repo</a> 🎄.</p>
+<pre class="r"><code># Modeling 
+library(gamlss)
+
+# Core packages
+library(tidyverse)
+
+# Visualization 
+library(ggplot2)
+library(scales)
+library(viridis)
+library(ggridges)
+
+# Global plot theme
+theme_set(theme_minimal())
+
+# Code Forest repo
+repo &lt;- &#39;https://raw.githubusercontent.com/thecodeforest/choosing_ff_kicker/master/&#39;
+
+# Helper function for visualization
+source(file.path(repo, &#39;/viz_theme/vizTheme.R&#39;))</code></pre>
+<p>There are several columns we won’t be using so we’ll select only the relevant ones.</p>
+<pre class="r"><code>stats_raw &lt;- read_csv(file.path(repo, &#39;data/Career_Stats_Field_Goal_Kickers.csv&#39;)) %&gt;% 
+  clean_names() %&gt;% 
+  select(player_id, 
+         name, 
+         year, 
+         games_played, 
+         contains(&#39;made&#39;), 
+         contains(&#39;attempted&#39;),
+         contains(&#39;percentage&#39;),
+         -contains(&#39;extra&#39;), 
+         -longest_fg_made
+         )
+
+glimpse(stats_raw)</code></pre>
+<pre><code>## Observations: 1,994
+## Variables: 19
+## $ player_id                  &lt;chr&gt; &quot;jeffhall/2500970&quot;, &quot;benagajanian/250…
+## $ name                       &lt;chr&gt; &quot;Hall, Jeff&quot;, &quot;Agajanian, Ben&quot;, &quot;Agaj…
+## $ year                       &lt;int&gt; 2000, 1964, 1962, 1961, 1961, 1960, 1…
+## $ games_played               &lt;int&gt; 3, 3, 6, 3, 3, 14, 12, 10, 12, 12, 10…
+## $ f_gs_made                  &lt;chr&gt; &quot;4&quot;, &quot;2&quot;, &quot;5&quot;, &quot;1&quot;, &quot;3&quot;, &quot;13&quot;, &quot;10&quot;, …
+## $ f_gs_made_20_29_yards      &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ f_gs_made_30_39_yards      &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ f_gs_made_40_49_yards      &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ f_gs_made_50_yards         &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ f_gs_attempted             &lt;chr&gt; &quot;5&quot;, &quot;4&quot;, &quot;14&quot;, &quot;2&quot;, &quot;9&quot;, &quot;24&quot;, &quot;18&quot;,…
+## $ f_gs_attempted_20_29_yards &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ f_gs_attempted_30_39_yards &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ f_gs_attempted_40_49_yards &lt;chr&gt; &quot;2&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ f_gs_attempted_50_yards    &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
+## $ fg_percentage              &lt;chr&gt; &quot;80.0&quot;, &quot;50.0&quot;, &quot;35.7&quot;, &quot;50.0&quot;, &quot;33.3…
+## $ fg_percentage_20_29_yards  &lt;chr&gt; &quot;100.0&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;…
+## $ fg_percentage_30_39_yards  &lt;chr&gt; &quot;100.0&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;…
+## $ fg_percentage_40_49_yards  &lt;chr&gt; &quot;50.0&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;,…
+## $ fg_percentage_50_yards     &lt;chr&gt; &quot;100.0&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;…</code></pre>
+Like most real-world datasets, this one is a bit messy (e.g., non-values are coded as “–”). I find it helps at the outset of data cleaning to envision what a perfect, pristine dataset should look like once data munging steps are complete. Below is an example of a basic starting point.
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:820px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+id
+</th>
+<th style="text-align:center;">
+n_success
+</th>
+<th style="text-align:center;">
+n_trials
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+30
+</td>
+<td style="text-align:center;">
+50
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+60
+</td>
+<td style="text-align:center;">
+200
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+24
+</td>
+<td style="text-align:center;">
+61
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>I used generic column names if you’re interested in adopting the techniques described herein to solve a separate problem. At a basic level, each row represents an individual observation, a count of the number of successes (i.e., count how many field goals are made), and finally the number of trials (i.e., count how many field goals are attempted). If you have this setup, the building blocks are in place to get started.</p>
+<p>However, before going any further, we need to ensure the relationships in the data align with our understanding of the world. One approach is to generate some simple hypotheses that you know to be true. For example, water is wet, the sky is blue, and, in our case, the field goal percentage should decrease as the distance to the goal increases. That is, field goals taken from 50+ yards should be made at a lower rate those taken from 30-35 yards. Let’s verify our hypothesis below.</p>
+<pre class="r"><code>make_by_dist &lt;-
+  stats_raw %&gt;%
+  select(starts_with(&quot;fg_percentage_&quot;)) %&gt;%
+  mutate_all(as.numeric) %&gt;%
+  gather(key = &quot;dist&quot;, value = &quot;fg_pct&quot;) %&gt;%
+  mutate(
+    dist = str_extract(dist,
+                       pattern = &quot;\\d{2}&quot;
+                       ),
+    dist = if_else(dist == &quot;50&quot;,
+                   paste0(dist, &quot;+&quot;),
+                   paste0(dist,&quot;-&quot;,as.numeric(dist) + 9)
+                   ),
+    fg_pct = fg_pct / 100
+  ) %&gt;%
+  na.omit()</code></pre>
+<pre class="r"><code>make_by_dist %&gt;% 
+  ggplot(aes(fg_pct, dist, fill = dist)) + 
+  geom_density_ridges(
+    aes(point_color = dist, 
+        point_fill = dist, 
+        point_shape = dist),
+        alpha = .2, 
+        point_alpha = 1, 
+        jittered_points = TRUE
+    ) + 
+  scale_point_color_hue(l = 40) +
+  scale_discrete_manual(aesthetics = &quot;point_shape&quot;, 
+                        values = c(21, 22, 23, 24)) + 
+  scale_x_continuous(labels = scales::percent,
+                     breaks = c(0,0.2, 0.4, 0.6, 0.8, 1)
+                     ) + 
+  scale_fill_viridis_d() + 
+  my_plot_theme() + 
+  labs(x = &#39;Field Goal Percentage&#39;,
+       y = &#39;Distance (Yards)&#39;
+       ) + 
+    theme(legend.position = &#39;none&#39;)</code></pre>
+<p><img src="/post/fantasy_football_kickers_files/figure-html/unnamed-chunk-7-1.png" width="1152" /></p>
+<p>Looks good! Each point represents the field goal percentage for a player-season-distance combination. As the distance increases, the make rate gradually shifts to left, which is exactly what we’d expect. We’ll do a bit more cleaning below before proceeding.</p>
+<pre class="r"><code>stats_processed &lt;- 
+  stats_raw %&gt;%
+  mutate(
+    name = str_remove(name, &quot;,&quot;),
+    first_name = map(name, function(x) str_split(x, &quot; &quot;)[[1]][2]),
+    last_name = map(name, function(x) str_split(x, &quot; &quot;)[[1]][1]),
+    player_id = str_extract(player_id, &quot;\\d+&quot;)
+  ) %&gt;%
+  unite(&quot;name&quot;, c(&quot;first_name&quot;, &quot;last_name&quot;), sep = &quot; &quot;) %&gt;%
+  mutate_at(vars(matches(&quot;attempted|made&quot;)), as.numeric) %&gt;% 
+  replace(., is.na(.), 0) %&gt;% 
+  select(player_id, name, year, games_played, contains(&quot;made&quot;), contains(&quot;attempted&quot;)) %&gt;%
+  rename(
+    fg_made = f_gs_made,
+    fg_attempted = f_gs_attempted
+  )</code></pre>
+<p>Let’s view the resulting data for one of the best kickers in modern NFL to familiarize ourselves with the format.</p>
+<pre class="r"><code>stats_processed %&gt;%
+  filter(name == &quot;Justin Tucker&quot;) %&gt;%
+  mutate(fg_pct = fg_made / fg_attempted) %&gt;% 
+  select(name, year, fg_made, fg_attempted)</code></pre>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:820px; ">
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+name
+</th>
+<th style="text-align:center;">
+year
+</th>
+<th style="text-align:center;">
+fg_made
+</th>
+<th style="text-align:center;">
+fg_attempted
+</th>
+<th style="text-align:center;">
+fg_pct
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Justin Tucker
+</td>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:center;">
+38
+</td>
+<td style="text-align:center;">
+39
+</td>
+<td style="text-align:center;">
+0.97
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Justin Tucker
+</td>
+<td style="text-align:center;">
+2015
+</td>
+<td style="text-align:center;">
+33
+</td>
+<td style="text-align:center;">
+40
+</td>
+<td style="text-align:center;">
+0.82
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Justin Tucker
+</td>
+<td style="text-align:center;">
+2014
+</td>
+<td style="text-align:center;">
+29
+</td>
+<td style="text-align:center;">
+34
+</td>
+<td style="text-align:center;">
+0.85
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Justin Tucker
+</td>
+<td style="text-align:center;">
+2013
+</td>
+<td style="text-align:center;">
+38
+</td>
+<td style="text-align:center;">
+41
+</td>
+<td style="text-align:center;">
+0.93
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Justin Tucker
+</td>
+<td style="text-align:center;">
+2012
+</td>
+<td style="text-align:center;">
+30
+</td>
+<td style="text-align:center;">
+33
+</td>
+<td style="text-align:center;">
+0.91
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Just like what we had above! Next, we’ll add a few filters to reduce some of the noise in our data. Any player who has less than 30 field goal attempts and/or has kicked field goals in only one season across their career will be excluded from the analysis. Additionally, we’ll ignore any players with a rookie year before the 1970s. The rationale here is that the NFL made several changes to the location and positioning of the goal during the early 70s, so we want to keep the dynamics of the kicking environment consistent for all players.</p>
+<pre class="r"><code>min_attempts &lt;- 30
+min_seasons &lt;- 2
+min_decade &lt;- 1970
+
+filter_df &lt;- 
+  stats_processed %&gt;% 
+  group_by(player_id) %&gt;% 
+  summarise(n_seasons = n(),
+            n_attempts = sum(fg_attempted),
+            rookie_decade = min(year) %/% 10 * 10
+            ) %&gt;% 
+  filter(n_seasons &gt;= min_seasons,
+         n_attempts &gt;= min_attempts,
+         rookie_decade &gt;= min_decade
+         ) %&gt;% 
+  select(player_id)
+
+stats_processed &lt;- inner_join(stats_processed, filter_df)</code></pre>
+<p>Next, we’ll add a few features before aggregating the kicking data from a season level to a career level for each player. I’ll cover the rationale of the features shortly in the estimation and inference section below.</p>
+<pre class="r"><code>df_time_stats &lt;- 
+  stats_processed %&gt;% 
+  group_by(player_id) %&gt;% 
+  summarise(
+    rookie_decade  = min(year) %/% 10 * 10,
+    last_yr_active = max(year)
+    ) %&gt;% 
+  ungroup() %&gt;% 
+  filter(rookie_decade &gt;= min_decade) %&gt;% 
+  mutate(status = ifelse(last_yr_active == 2016, &#39;active&#39;, &#39;inactive&#39;))
+
+stats_processed &lt;- inner_join(stats_processed,df_time_stats)</code></pre>
+<p>We have our time-based features and the last step is to calculate our three key metrics – successes, attempts, and our rate metric.</p>
+<pre class="r"><code>stats_agg &lt;- 
+  stats_processed %&gt;% 
+  group_by(player_id, name, rookie_decade, status) %&gt;% 
+  summarise(fg_made = sum(fg_made),
+            fg_attempted = sum(fg_attempted),
+            fg_pct = fg_made / fg_attempted
+            ) %&gt;%
+  ungroup()</code></pre>
+<p>Time to move on to the key focus of this post.</p>
+</div>
+<div id="estimation-and-inference" class="section level3">
+<h3>Estimation and Inference</h3>
+<p>Let’s now discuss the logic underlying our estimation method as well as the role of the additional features (Note that some of the code below was inspired by the excellent book <a href="http://varianceexplained.org/r/empirical-bayes-book/">Introduction to Empirical Bayes: Examples from Baseball Statistics</a> by David Robinson). To recap, we are estimating a proportion that captures the relationship between successes and attempts. We can model this outcome with the <code>beta distribution</code>, which is simply a distribution of probabilities ranging from 0 - 1. In our case, it represents the likelihood of a particular field goal percentage for each player, which will fall somewhere between 0.5 and 0.9 depending on the decade(s) the player was active (more on that in second).</p>
+<p>Below we’ll fit an <em>null model</em> with no additional parameters when estimating each player’s <code>beta</code> value. The absence of any inputs means that all players have the same <code>prior</code>, independent of what decade they played in, whether they’re still active, or how many chances they’ve had to kick a field goal. We’ll then take our prior and update it based on how much information we have about each player, namely the number of field goals they’ve taken and how often they’ve succeeded.</p>
+<pre class="r"><code>fit_null &lt;- gamlss(cbind(fg_made, fg_attempted - fg_made) ~ 1,
+  family = BB(mu.link = &quot;identity&quot;),
+  data = stats_agg
+)</code></pre>
+<pre><code>## GAMLSS-RS iteration 1: Global Deviance = 936.6917 
+## GAMLSS-RS iteration 2: Global Deviance = 836.9846 
+## GAMLSS-RS iteration 3: Global Deviance = 828.0258 
+## GAMLSS-RS iteration 4: Global Deviance = 827.9528 
+## GAMLSS-RS iteration 5: Global Deviance = 827.9526</code></pre>
+<pre class="r"><code>stats_agg_est &lt;- 
+  stats_agg %&gt;% 
+   mutate(
+    mu = fitted(fit_null, &quot;mu&quot;), 
+    sigma = fitted(fit_null, &quot;sigma&quot;), 
+    alpha0 = mu / sigma, 
+    beta0 = (1 - mu) / sigma,
+    alpha1 = alpha0 + fg_made,
+    beta1 = beta0 + fg_attempted - fg_made,
+    estimate = alpha1 / (alpha1 + beta1),
+    raw = fg_made / fg_attempted,
+    low = qbeta(.025, alpha1, beta1),
+    high = qbeta(.975, alpha1, beta1)
+  )</code></pre>
+<p>Let’s plot out the estimate for all active players.</p>
+<pre class="r"><code>stats_agg_est %&gt;%
+  mutate(name = paste0(name, &quot;: &quot;, fg_made, &quot;|&quot;, fg_attempted),
+         name = fct_reorder(name, estimate)
+         ) %&gt;%
+  filter(status == &quot;active&quot;) %&gt;%
+  ggplot(aes(name, estimate)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = low, ymax = high)) +
+  coord_flip() +
+  geom_point(aes(name, raw), color = &quot;red&quot;, size = 3, alpha = 0.6) +
+  scale_y_continuous(labels = scales::percent_format()) + 
+  my_plot_theme() + 
+  labs(x = NULL,
+       y = &#39;Field Goal Percentage&#39;,
+       title = &#39;Estimated field goal percentage amongst active NFL kickers&#39;,
+       subtitle = &#39;Black dot represents estimate while red dot is actual. Note the bias in our estimates.&#39;
+  )</code></pre>
+<p><img src="/post/fantasy_football_kickers_files/figure-html/unnamed-chunk-15-1.png" width="1152" /></p>
+<p>Let’s talk through this figure by comparing the field goal percentage estimates for Adam Vinatieri, who has made 530 of 629 fields goals throughout his career, to Chris Boswell, who has made 50 of 57 field goals. While Vinatieri has a lower actual make rate than Boswell (84.2% vs. 87.7%), we consider him to be a better field goal kicker. The seemingly incongruent finding is based on the fact that we have more evidence for Vinatieri (629 FG attempts vs. 57 FG attempts) than Boswell. It’s like saying, “Chris Boswell is good kicker, maybe better than Vinatieri, but we don’t have enough evidence (yet) to believe he is that much better than an average kicker, a number represented by our prior”. Indeed, if we also consider the width of the credible intervals surrounding these two players, Adam Vinatieri’s interval is considerably smaller than Chris Boswell’s interval.</p>
+<p>While this is a good way to gain an intuition for what’s happening under the hood, we see an immediate problem – all of our estimates are biased! The actual field goal percentage is above every single estimate. Luckily, there is a solution: we can create conditional estimates of our prior. One way to do this is to create features that explain variability between our players. For example, <a href="https://fivethirtyeight.com/features/kickers-are-forever/">field goal percentages have improved dramatically over the past 50 years</a>. Let’s consider our own data and map out this pattern from the 1970s to the 2010s.</p>
+<pre class="r"><code>stats_agg %&gt;%
+  mutate(rookie_decade = as.factor(rookie_decade)) %&gt;%
+  ggplot(aes(rookie_decade, fg_pct, color = rookie_decade)) +
+  geom_boxplot() +
+  geom_jitter() +
+  scale_y_continuous(labels = scales::percent_format()) +
+  my_plot_theme() +
+  scale_color_viridis_d() + 
+  theme(legend.position = &quot;none&quot;) +
+  labs(
+    x = &quot;Decade&quot;,
+    y = &quot;Field Goal Percentage&quot;,
+    title = &#39;Kicker performance has improved over time&#39;
+  )</code></pre>
+<p><img src="/post/fantasy_football_kickers_files/figure-html/unnamed-chunk-16-1.png" width="1152" />
+The best kicker in 1970s has a lower field goal percentage than the worst kicker in the 2010s. Including the decade of a kicker’s rookie season allows us to create a more informed prior. Thus, if we use the median field goal percentage of all kickers who debuted as rookies in 2010+, our best guess would be about 84%, whereas a kicker who debuted in the 1970s would be somewhere around 64%. This explains why the estimates from our null model were biased.</p>
+<p>The second factor to consider is the number of field goal attempts per player, because better players have more opportunities to kick field goals. This makes intuitive sense and is captured in the following plot.</p>
+<pre class="r"><code>stats_agg %&gt;%
+  ggplot(aes(log2(fg_attempted), fg_pct)) +
+  geom_point(size = 3) +
+  geom_smooth(span = 1) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  my_plot_theme() +
+  labs(
+    x = &quot;Log2(Total Attempts)&quot;,
+    y = &quot;Field Goal percentage&quot;,
+    title = &quot;Better kickers have more opportunities&quot;
+  )</code></pre>
+<p><img src="/post/fantasy_football_kickers_files/figure-html/unnamed-chunk-17-1.png" width="1152" /></p>
+<p>Below we’ll use the same model except this time we’ll account for the number of field goal attempts and a player’s rookie decade.</p>
+<pre class="r"><code>fit_complete &lt;- 
+  gamlss(cbind(fg_made, fg_attempted - fg_made) ~ log2(fg_attempted) + rookie_decade,
+  family = BB(mu.link = &quot;identity&quot;),
+  data = stats_agg
+)</code></pre>
+<pre><code>## GAMLSS-RS iteration 1: Global Deviance = 918.3071 
+## GAMLSS-RS iteration 2: Global Deviance = 714.8471 
+## GAMLSS-RS iteration 3: Global Deviance = 668.3708 
+## GAMLSS-RS iteration 4: Global Deviance = 668.1839 
+## GAMLSS-RS iteration 5: Global Deviance = 668.1838</code></pre>
+<p><img src="/post/fantasy_football_kickers_files/figure-html/unnamed-chunk-20-1.png" width="1152" />
+Much better! Our estimates do not exhibit the same degree of bias as before. Moreover, the width of our credible intervals shrank across all players. This makes sense, given that we can now condition our prior estimates on inputs that explain variability in the field goal percentage. While there are other factors that might improve our model (e.g., did a player’s team have their home games in a dome?), this is a good starting point for answering our original question.</p>
+</div>
+<div id="from-parameters-to-points" class="section level3">
+<h3>From Parameters to Points</h3>
+<p>We have a model that does a reasonable job of estimating a kicker’s field goal percentage. Now we need to translate that into an estimate of fantasy points. This will take a few steps, but I’ll outline each in turn. First, we need to estimate the average worth (in fantasy points) of each successful field goal. Typically, field goals less-than 40 yards are worth 3 points, 40 - 49 yards are worth 4 points, and 50 or more yards are worth 5 points. We’ll use the 2016 season to come up with a global average. While we could technically account for distances of each player (e.g., some kickers are excellent at a longer distances, others not so much), this approach will give us a “good-enough” answer. Second, we’ll estimate the average number of field goal attempts per season. This can vary widely from one season to the next for a given kicker, as it is contingent upon the offense getting within kicking range. Again, we’ll keep it simple and just average the number of attempts across all players from the 2016 season.</p>
+<pre class="r"><code># Average points per FG
+pts_per_fg &lt;- 
+  stats_processed %&gt;% 
+  filter(year == 2016) %&gt;% 
+  mutate(pt_3_fgs = (f_gs_made_20_29_yards + f_gs_made_30_39_yards) * 3,
+         pt_4_fgs = f_gs_made_40_49_yards * 4,
+         pt_5_fgs = f_gs_made_50_yards * 5,
+         tot_pts = pt_3_fgs + pt_4_fgs + pt_5_fgs
+  )
+
+pts_per_fg &lt;- round(sum(pts_per_fg$tot_pts) / sum(pts_per_fg$fg_made), 1)
+
+# Average number of attempts
+attempts_per_season &lt;- 
+  stats_processed %&gt;% 
+  filter(year == 2016) %&gt;% 
+  pull(fg_attempted) %&gt;% 
+  mean() %&gt;% 
+  round()</code></pre>
+<p>Here comes the fun part. Below we’ll simulate 1000 seasons for each player by randomly generating 1000 values of <code>beta</code>. This value is based on the posterior estimates, <code>alpha1</code> and <code>beta1</code>, produced by our model. The estimates will vary from one simulation to next, though most values will fall somewhere between 0.75 and 0.9. Better players like Justin Tucker will be near the high end of that range while player like Graham Gano will be near the lower end. We’ll then take each estimate and plug it into the <code>binomial distribution</code> below. Recall that the <code>binomial distribution</code> is defined by a single parameter, which represents the probability of success. This is exactly what our estimate of <code>beta</code> represents! Given that all active players had an average of 27 FG attempts in 2016, each of the 1000 simulations will consist of 27 trials (or <code>attempts_per_season</code>) each with a slightly different probability of success (how likely they are to make a field goal on a given attempt). We’ll lean on the <code>purrr</code> package to vectorize these operations.</p>
+<pre class="r"><code>set.seed(2018)
+n_seasons &lt;- 1000
+
+est_active &lt;- 
+  stats_agg_est %&gt;% 
+  filter(status == &#39;active&#39;)
+
+est_make_pct &lt;- map2(est_active %&gt;% pull(alpha1),
+                     est_active %&gt;% pull(beta1), 
+                     function(x, y) rbeta(n_seasons, x, y)
+                     )
+est_outcomes &lt;- map(est_make_pct, 
+                    function(x) rbinom(n = n_seasons, 
+                                       size = attempts_per_season,
+                                       prob = x
+                                       )
+                    )
+names(est_outcomes) &lt;- est_active$name</code></pre>
+<p>So much data! Below we’ll plot the distribution of total points accumulated for each player across the 1000 simulated seasons. We’ll create quantiles as a way to see how much overlap there is between players.</p>
+<pre class="r"><code>pt_simulation &lt;- 
+  est_outcomes %&gt;% 
+  tbl_df() %&gt;% 
+  gather() %&gt;% 
+  transmute(name = key,
+            season_pts = value * pts_per_fg
+            ) %&gt;% 
+  group_by(name) %&gt;% 
+  mutate(avg_pts = mean(season_pts)) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(name = fct_reorder(name, avg_pts))
+
+pt_simulation %&gt;% 
+  ggplot(aes(season_pts, y = name, fill = factor(..quantile..))) + 
+  stat_density_ridges(
+    geom = &quot;density_ridges_gradient&quot;,
+    calc_ecdf = TRUE,
+    quantiles = 4,
+    quantile_lines = TRUE,
+    bandwidth = 2
+  ) +
+  scale_fill_viridis(discrete = TRUE, name = &quot;Point Quartile&quot;, alpha = 0.5) +
+  my_plot_theme() + 
+  scale_x_continuous(breaks = pretty_breaks(n = 7)) + 
+  labs(x = &#39;Total Points Per Simulated Season&#39;,
+       y = NULL,
+       title = &quot;The best kicker is not much better than the worst kicker&quot;,
+       subtitle = &#39;Drafing any kicker is fine&#39;
+       ) + 
+  theme(legend.position = &#39;none&#39;)</code></pre>
+<p><img src="/post/fantasy_football_kickers_files/figure-html/unnamed-chunk-23-1.png" width="1152" /></p>
+<p>Wait! We went all this way for you to tell me that the status quo is probably right? Yes, I did. But we still haven’t quantified how much better or worse drafting the best or worst kicker is in terms of fantasy points. A simple way is to count the number of seasons where Justin Tucker (the best kicker) scored more points than Andrew Franks (the worst kicker).</p>
+<pre class="r"><code>jt_pts &lt;- 
+  pt_simulation %&gt;% 
+  filter(name == &#39;Justin Tucker&#39;) %&gt;% 
+  pull(season_pts) 
+
+af_pts &lt;- 
+pt_simulation %&gt;% 
+  filter(name == &#39;Andrew Franks&#39;) %&gt;% 
+  pull(season_pts)
+
+pct_greater &lt;- sum(jt_pts &gt; af_pts) / n_seasons
+print(str_glue(&#39;PCT greater: {pct_greater * 100}%&#39;))</code></pre>
+<pre><code>## PCT greater: 77.5%</code></pre>
+<p>Turns out that approximately 77 of every 100 seasons Justin Tucker outscores Andrew Franks. Let’s go one step further and quantify the actual difference.</p>
+<pre class="r"><code>ggplot(data.frame(pt_diff = jt_pts - af_pts), aes(pt_diff)) + 
+  geom_histogram(fill = &#39;gray&#39;, color = &#39;black&#39;, bins = 10) + 
+  scale_x_continuous(breaks = pretty_breaks(n = 15)) + 
+  labs(x = &#39;Point Difference over Entire Season&#39;) + 
+  theme_minimal() + 
+  geom_vline(xintercept = quantile(jt_pts - af_pts, .05), lty = 2) + 
+  geom_vline(xintercept = quantile(jt_pts - af_pts, .5), lty = 2, color = &#39;red&#39;, size = 2) + 
+  geom_vline(xintercept = quantile(jt_pts - af_pts, .95), lty = 2) + 
+  my_plot_theme() + 
+  labs(x = &#39;Point Difference&#39;,
+       y = &#39;Count&#39;,
+       title = &#39;The best kicker should score about 10 more points per season compared to the worst&#39;,
+       subtitle = &#39;Estimate based on 27 FG attempts per season with each FG worth 3.5 points&#39;
+       )</code></pre>
+<p><img src="/post/fantasy_football_kickers_files/figure-html/unnamed-chunk-25-1.png" width="1152" />
+If we spread this estimate out across 16 regular-season games, it comes out to less than a single point per game.</p>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>Needless to say, pick your kicker last in Fantasy Football! All kickers in modern-day NFL are really good, so save those late-round picks for positions other than a kicker. Cheers!</p>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/emperical-bayes">Emperical Bayes</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/fantasy-football">Fantasy Football</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/choosing_fantasy_qb.html">Choosing a Fantasy Football Quarterback</a></li>
+    
+    <li><a href="/post/combine_analysis.html">Combine Analysis</a></li>
+    
+    <li><a href="/post/tidy_time_series_forecasting.html">Tidy Time Series Forecasting</a></li>
+    
+    <li><a href="/post/state_of_names.html">The State of Names in America</a></li>
+    
+    <li><a href="/post/beers_and_text.html">Text Mining for the Perfect Beer</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "thecodeforest" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Mark LeBoeuf &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//thecodeforest.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
