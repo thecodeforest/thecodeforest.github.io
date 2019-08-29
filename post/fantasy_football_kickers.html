@@ -182,7 +182,7 @@
     <a href="/categories/r">R</a
     >, 
     
-    <a href="/categories/emperical-bayes">Emperical Bayes</a
+    <a href="/categories/empirical-bayes">Empirical Bayes</a
     >, 
     
     <a href="/categories/fantasy-football">Fantasy Football</a
@@ -252,7 +252,7 @@
 <div id="getting-started" class="section level3">
 <h3>Getting Started</h3>
 <p>Before loading any data or discussing techniques, we’ll begin by defining our analytical objective. An easy way to get started is by posing a simple question: “How many more points can I expect over a 16-game regular season if I draft the best kicker relative to the worst kicker?” We’ll answer this question in two steps. First, we’ll estimate the <em>True</em> field goal percentage for each kicker currently active in the NFL (as of 2016), which is analogous to a batting average in baseball or free-throw percentage in basketball. This parameter estimate will be used to compare the skill of one kicker to another. Second, we’ll translate our estimate into actual Fantasy Football points by simulating the outcomes 1000 football seasons for each kicker. Simulation enables us to quantify a realistic point differential between kickers, which is what we (the Fantasy Football team owners) will use to determine if we should try to select the best kicker by drafting in an earlier round.</p>
-<p>With that question in mind, let’s load all pertinent libraries. The data can be downloaded directly from the 🎋 <a href="https://github.com/thecodeforest">the codeforest github repo</a> 🌳.</p>
+<p>With that question in mind, let’s load all pertinent libraries. The data can be downloaded directly from the 🌴 <a href="https://github.com/thecodeforest">the codeforest github repo</a> 🌲.</p>
 <pre class="r"><code># Modeling 
 library(gamlss)
 
@@ -292,8 +292,8 @@ glimpse(stats_raw)</code></pre>
 ## Variables: 19
 ## $ player_id                  &lt;chr&gt; &quot;jeffhall/2500970&quot;, &quot;benagajanian/250…
 ## $ name                       &lt;chr&gt; &quot;Hall, Jeff&quot;, &quot;Agajanian, Ben&quot;, &quot;Agaj…
-## $ year                       &lt;int&gt; 2000, 1964, 1962, 1961, 1961, 1960, 1…
-## $ games_played               &lt;int&gt; 3, 3, 6, 3, 3, 14, 12, 10, 12, 12, 10…
+## $ year                       &lt;dbl&gt; 2000, 1964, 1962, 1961, 1961, 1960, 1…
+## $ games_played               &lt;dbl&gt; 3, 3, 6, 3, 3, 14, 12, 10, 12, 12, 10…
 ## $ f_gs_made                  &lt;chr&gt; &quot;4&quot;, &quot;2&quot;, &quot;5&quot;, &quot;1&quot;, &quot;3&quot;, &quot;13&quot;, &quot;10&quot;, …
 ## $ f_gs_made_20_29_yards      &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
 ## $ f_gs_made_30_39_yards      &lt;chr&gt; &quot;1&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;-…
@@ -310,7 +310,7 @@ glimpse(stats_raw)</code></pre>
 ## $ fg_percentage_40_49_yards  &lt;chr&gt; &quot;50.0&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;,…
 ## $ fg_percentage_50_yards     &lt;chr&gt; &quot;100.0&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;, &quot;--&quot;…</code></pre>
 Like most real-world datasets, this one is a bit messy (e.g., non-values are coded as “–”). I find it helps at the outset of data cleaning to envision what a perfect, pristine dataset should look like once data munging steps are complete. Below is an example of a basic starting point.
-<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:820px; ">
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; ">
 <table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -502,7 +502,7 @@ n_trials
   filter(name == &quot;Justin Tucker&quot;) %&gt;%
   mutate(fg_pct = fg_made / fg_attempted) %&gt;% 
   select(name, year, fg_made, fg_attempted)</code></pre>
-<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:820px; ">
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:720px; ">
 <table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -865,7 +865,7 @@ If we spread this estimate out across 16 regular-season games, it comes out to l
   
   <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
   
-  <a class="btn btn-primary btn-outline" href="/tags/emperical-bayes">Emperical Bayes</a>
+  <a class="btn btn-primary btn-outline" href="/tags/empirical-bayes">Empirical Bayes</a>
   
   <a class="btn btn-primary btn-outline" href="/tags/fantasy-football">Fantasy Football</a>
   

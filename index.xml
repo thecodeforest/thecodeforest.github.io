@@ -28,7 +28,7 @@
 &lt;div id=&#34;getting-started&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Getting Started&lt;/h3&gt;
 &lt;p&gt;Before loading any data or discussing techniques, we’ll begin by defining our analytical objective. An easy way to get started is by posing a simple question: “How many more points can I expect over a 16-game regular season if I draft the best kicker relative to the worst kicker?” We’ll answer this question in two steps. First, we’ll estimate the &lt;em&gt;True&lt;/em&gt; field goal percentage for each kicker currently active in the NFL (as of 2016), which is analogous to a batting average in baseball or free-throw percentage in basketball. This parameter estimate will be used to compare the skill of one kicker to another. Second, we’ll translate our estimate into actual Fantasy Football points by simulating the outcomes 1000 football seasons for each kicker. Simulation enables us to quantify a realistic point differential between kickers, which is what we (the Fantasy Football team owners) will use to determine if we should try to select the best kicker by drafting in an earlier round.&lt;/p&gt;
-&lt;p&gt;With that question in mind, let’s load all pertinent libraries. The data can be downloaded directly from the 🎋 &lt;a href=&#34;https://github.com/thecodeforest&#34;&gt;the codeforest github repo&lt;/a&gt; 🌳.&lt;/p&gt;
+&lt;p&gt;With that question in mind, let’s load all pertinent libraries. The data can be downloaded directly from the 🌴 &lt;a href=&#34;https://github.com/thecodeforest&#34;&gt;the codeforest github repo&lt;/a&gt; 🌲.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Modeling 
 library(gamlss)
 
@@ -68,8 +68,8 @@ glimpse(stats_raw)&lt;/code&gt;&lt;/pre&gt;
 ## Variables: 19
 ## $ player_id                  &amp;lt;chr&amp;gt; &amp;quot;jeffhall/2500970&amp;quot;, &amp;quot;benagajanian/250…
 ## $ name                       &amp;lt;chr&amp;gt; &amp;quot;Hall, Jeff&amp;quot;, &amp;quot;Agajanian, Ben&amp;quot;, &amp;quot;Agaj…
-## $ year                       &amp;lt;int&amp;gt; 2000, 1964, 1962, 1961, 1961, 1960, 1…
-## $ games_played               &amp;lt;int&amp;gt; 3, 3, 6, 3, 3, 14, 12, 10, 12, 12, 10…
+## $ year                       &amp;lt;dbl&amp;gt; 2000, 1964, 1962, 1961, 1961, 1960, 1…
+## $ games_played               &amp;lt;dbl&amp;gt; 3, 3, 6, 3, 3, 14, 12, 10, 12, 12, 10…
 ## $ f_gs_made                  &amp;lt;chr&amp;gt; &amp;quot;4&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;3&amp;quot;, &amp;quot;13&amp;quot;, &amp;quot;10&amp;quot;, …
 ## $ f_gs_made_20_29_yards      &amp;lt;chr&amp;gt; &amp;quot;1&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;-…
 ## $ f_gs_made_30_39_yards      &amp;lt;chr&amp;gt; &amp;quot;1&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;-…
@@ -86,7 +86,7 @@ glimpse(stats_raw)&lt;/code&gt;&lt;/pre&gt;
 ## $ fg_percentage_40_49_yards  &amp;lt;chr&amp;gt; &amp;quot;50.0&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;,…
 ## $ fg_percentage_50_yards     &amp;lt;chr&amp;gt; &amp;quot;100.0&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--&amp;quot;…&lt;/code&gt;&lt;/pre&gt;
 Like most real-world datasets, this one is a bit messy (e.g., non-values are coded as “–”). I find it helps at the outset of data cleaning to envision what a perfect, pristine dataset should look like once data munging steps are complete. Below is an example of a basic starting point.
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:820px; &#34;&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:160px; overflow-x: scroll; width:720px; &#34;&gt;
 &lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -278,7 +278,7 @@ n_trials
   filter(name == &amp;quot;Justin Tucker&amp;quot;) %&amp;gt;%
   mutate(fg_pct = fg_made / fg_attempted) %&amp;gt;% 
   select(name, year, fg_made, fg_attempted)&lt;/code&gt;&lt;/pre&gt;
-&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:820px; &#34;&gt;
+&lt;div style=&#34;border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:720px; &#34;&gt;
 &lt;table class=&#34;table table-striped table-hover&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
 &lt;thead&gt;
 &lt;tr&gt;
